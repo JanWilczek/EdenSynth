@@ -14,9 +14,9 @@ BEGIN
     BLOCK "040904E4"
     BEGIN
       VALUE "CompanyName",  "Jan Wilczek\0"
-      VALUE "FileDescription",  "EdenVST\0"
+      VALUE "FileDescription",  "EdenSynth\0"
       VALUE "FileVersion",  "1.0.0\0"
-      VALUE "ProductName",  "EdenVST\0"
+      VALUE "ProductName",  "EdenSynth\0"
       VALUE "ProductVersion",  "1.0.0\0"
     END
   END

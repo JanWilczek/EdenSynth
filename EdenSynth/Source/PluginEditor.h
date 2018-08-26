@@ -16,26 +16,20 @@
 //==============================================================================
 /**
 */
-class EdenVstAudioProcessorEditor  : public AudioProcessorEditor,
-									private Slider::Listener
+class EdenSynthAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
-    EdenVstAudioProcessorEditor (EdenVstAudioProcessor&);
-    ~EdenVstAudioProcessorEditor();
+    EdenSynthAudioProcessorEditor (EdenSynthAudioProcessor&);
+    ~EdenSynthAudioProcessorEditor();
 
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
 
 private:
-	void sliderValueChanged(Slider* slider) override;
-
-private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    EdenVstAudioProcessor& processor;
+    EdenSynthAudioProcessor& processor;
 
-	Slider midiVolume;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EdenVstAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EdenSynthAudioProcessorEditor)
 };

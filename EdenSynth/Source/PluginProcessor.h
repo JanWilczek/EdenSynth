@@ -11,16 +11,17 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "SynthAudioSource.h"
 
 //==============================================================================
 /**
 */
-class EdenVstAudioProcessor  : public AudioProcessor
+class EdenSynthAudioProcessor  : public AudioProcessor
 {
 public:
     //==============================================================================
-    EdenVstAudioProcessor();
-    ~EdenVstAudioProcessor();
+    EdenSynthAudioProcessor();
+    ~EdenSynthAudioProcessor();
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -55,10 +56,9 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-public:
-	float noteOnVel;
-
 private:
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EdenVstAudioProcessor)
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EdenSynthAudioProcessor)
+
+	SynthAudioSource synthAudioSource;
 };
