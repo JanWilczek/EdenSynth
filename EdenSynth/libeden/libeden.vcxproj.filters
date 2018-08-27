@@ -24,6 +24,15 @@
     <ClInclude Include="include\EdenSynthesiser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\AudioBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MidiBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MidiMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
