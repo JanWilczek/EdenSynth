@@ -13,30 +13,42 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\eden">
+      <UniqueIdentifier>{668e8753-a7a2-4551-b73f-dc141f4e7830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\eden_impl">
+      <UniqueIdentifier>{aeb6159e-0345-440d-8935-cd355bd97b15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\eden">
+      <UniqueIdentifier>{0d3d2ce2-9578-4c53-b08d-817a90265eb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\eden_impl">
+      <UniqueIdentifier>{c2571bf5-71b2-4ad2-bd67-9d4627e2d577}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\eden\AudioBuffer.h">
+      <Filter>Header Files\eden</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\eden\EdenSynthesiser.h">
+      <Filter>Header Files\eden</Filter>
     </ClInclude>
-    <ClInclude Include="include\EdenSynthesiser.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\eden\MidiBuffer.h">
+      <Filter>Header Files\eden</Filter>
     </ClInclude>
-    <ClInclude Include="include\AudioBuffer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\eden\MidiMessage.h">
+      <Filter>Header Files\eden</Filter>
     </ClInclude>
-    <ClInclude Include="include\MidiBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\MidiMessage.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h">
+      <Filter>Header Files\eden_impl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
+      <Filter>Source Files\eden_impl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden\EdenSynthesiser.cpp">
+      <Filter>Source Files\eden</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
