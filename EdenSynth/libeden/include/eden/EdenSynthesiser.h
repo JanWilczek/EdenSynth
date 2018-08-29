@@ -1,11 +1,11 @@
 #pragma once
 #include <memory>
+#include <eden_impl/EdenSynthesiserImpl.h>
 
 namespace eden
 {
 	class AudioBuffer;
 	class MidiBuffer;
-	class EdenSynthesiserImpl;
 
 	/// <summary>
 	/// Main Eden synthesiser class.

@@ -2,14 +2,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EdenSynth_VST3", "EdenSynth_VST3.vcxproj", "{2B842218-C511-53BD-D934-1F72ECA85FD9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EdenSynth_VST3", "Builds\VisualStudio2017\EdenSynth_VST3.vcxproj", "{2B842218-C511-53BD-D934-1F72ECA85FD9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{30685A2B-0033-AD13-8A58-0941A258FB22} = {30685A2B-0033-AD13-8A58-0941A258FB22}
+		{4E724EC2-6616-41E1-B478-F9F120E53FC1} = {4E724EC2-6616-41E1-B478-F9F120E53FC1}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EdenSynth_SharedCode", "EdenSynth_SharedCode.vcxproj", "{30685A2B-0033-AD13-8A58-0941A258FB22}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EdenSynth_SharedCode", "Builds\VisualStudio2017\EdenSynth_SharedCode.vcxproj", "{30685A2B-0033-AD13-8A58-0941A258FB22}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4E724EC2-6616-41E1-B478-F9F120E53FC1} = {4E724EC2-6616-41E1-B478-F9F120E53FC1}
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libeden", "..\..\libeden\libeden.vcxproj", "{4E724EC2-6616-41E1-B478-F9F120E53FC1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libeden", "libeden\libeden.vcxproj", "{4E724EC2-6616-41E1-B478-F9F120E53FC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
