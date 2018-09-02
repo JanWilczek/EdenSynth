@@ -2160,6 +2160,9 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\EdenAdapter.cpp">
+      <Filter>EdenSynth\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\PluginProcessor.h">
@@ -4176,6 +4179,9 @@
       <Filter>EdenSynth\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SynthAudioSource.h">
+      <Filter>EdenSynth\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EdenAdapter.h">
       <Filter>EdenSynth\Source</Filter>
     </ClInclude>
   </ItemGroup>

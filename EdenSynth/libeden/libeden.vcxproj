@@ -156,6 +156,7 @@
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\eden\AudioBuffer.cpp" />
     <ClCompile Include="source\eden\EdenSynthesiser.cpp" />
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp" />
   </ItemGroup>

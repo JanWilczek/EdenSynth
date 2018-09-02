@@ -14,5 +14,10 @@ namespace eden
 		EdenSynthesiserImpl();
 
 		void processInputBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer);
+		void setSampleRate(double sampleRate);
+		double sampleRate() const noexcept;
+
+	private:
+		double _sampleRate = 48000;
 	};
 }

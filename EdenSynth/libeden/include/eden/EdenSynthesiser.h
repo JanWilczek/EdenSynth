@@ -17,8 +17,8 @@ namespace eden
 		EdenSynthesiser();
 
 		void processInputBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer);
-		void setSampleRate(unsigned int sampleRate);
-		unsigned int sampleRate() const noexcept;
+		void setSampleRate(double sampleRate);
+		double sampleRate() const noexcept;
 
 	private:
 		std::unique_ptr<EdenSynthesiserImpl> _impl;

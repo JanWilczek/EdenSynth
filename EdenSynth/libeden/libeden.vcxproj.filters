@@ -50,5 +50,8 @@
     <ClCompile Include="source\eden\EdenSynthesiser.cpp">
       <Filter>Source Files\eden</Filter>
     </ClCompile>
+    <ClCompile Include="source\eden\AudioBuffer.cpp">
+      <Filter>Source Files\eden</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

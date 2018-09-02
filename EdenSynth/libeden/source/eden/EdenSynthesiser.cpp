@@ -12,4 +12,14 @@ namespace eden
 	{
 		_impl->processInputBlock(bufferToFill, midiBuffer);
 	}
+
+	void EdenSynthesiser::setSampleRate(double sampleRate)
+	{
+		_impl->setSampleRate(sampleRate);
+	}
+
+	double EdenSynthesiser::sampleRate() const noexcept
+	{
+		return _impl->sampleRate();
+	}
 }

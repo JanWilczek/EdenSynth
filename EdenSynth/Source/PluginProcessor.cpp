@@ -11,6 +11,9 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#include <eden/AudioBuffer.h>
+#include <eden/MidiBuffer.h>
+
 //==============================================================================
 EdenSynthAudioProcessor::EdenSynthAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -96,6 +99,7 @@ void EdenSynthAudioProcessor::changeProgramName (int index, const String& newNam
 void EdenSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
 	synthAudioSource.prepareToPlay(samplesPerBlock, sampleRate);
+	edenSynthesiser.setSampleRate(sampleRate);
 }
 
 void EdenSynthAudioProcessor::releaseResources()
@@ -149,6 +153,10 @@ void EdenSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuff
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
 	synthAudioSource.processBlock(buffer, midiMessages);
+	
+	eden::AudioBuffer edenAudioBuffer(buffer.getArrayOfWritePointers(), totalNumOutputChannels, buffer.getNumSamples());
+	eden::MidiBuffer edenMidiBuffer;
+	edenSynthesiser.processInputBlock(edenAudioBuffer, edenMidiBuffer);
 }
 
 //==============================================================================
