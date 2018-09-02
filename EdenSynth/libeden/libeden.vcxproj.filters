@@ -25,6 +25,12 @@
     <Filter Include="Source Files\eden_impl">
       <UniqueIdentifier>{c2571bf5-71b2-4ad2-bd67-9d4627e2d577}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\synth">
+      <UniqueIdentifier>{429e286b-2a92-4c84-b659-ebb8524d9436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\synth">
+      <UniqueIdentifier>{bb8cc5e7-805b-4a29-b0c3-f57468f0a7d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h">
@@ -42,6 +48,12 @@
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h">
       <Filter>Header Files\eden_impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\Synthesiser.h">
+      <Filter>Header Files\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\Voice.h">
+      <Filter>Header Files\synth</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -51,6 +63,15 @@
       <Filter>Source Files\eden</Filter>
     </ClCompile>
     <ClCompile Include="source\eden\AudioBuffer.cpp">
+      <Filter>Source Files\eden</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\Synthesiser.cpp">
+      <Filter>Source Files\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden\MidiBuffer.cpp">
+      <Filter>Source Files\eden</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden\MidiMessage.cpp">
       <Filter>Source Files\eden</Filter>
     </ClCompile>
   </ItemGroup>
