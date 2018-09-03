@@ -6,8 +6,9 @@ namespace eden
 		: _numChannels(numChannels)
 		, _numSamples(numSamples)
 		, _channels(new SampleType*[_numChannels])
+		, _ownsChannels(true)
 	{
-		for (int channel = 0; channel < _numChannels; ++channel)
+		for (unsigned channel = 0; channel < _numChannels; ++channel)
 		{
 			_channels[channel] = new SampleType[_numSamples];
 		}
@@ -16,9 +17,10 @@ namespace eden
 	AudioBuffer::AudioBuffer(SampleType** dataToUse, unsigned numChannelsToUse, unsigned numSamplesToUse)
 		: _numChannels(numChannelsToUse)
 		, _numSamples(numSamplesToUse)
+		, _ownsChannels(false)
 	{
 		_channels = static_cast<SampleType**>(_preallocatedChannelSpace);
-		for (int channel = 0; channel < _numChannels ; ++channel)
+		for (unsigned channel = 0; channel < _numChannels ; ++channel)
 		{
 			_channels[channel] = dataToUse[channel];
 		}
@@ -26,17 +28,20 @@ namespace eden
 
 	AudioBuffer::~AudioBuffer()
 	{
-		for (int channel = 0; channel < _numChannels; ++channel)
+		if (_ownsChannels)
 		{
-			delete _channels[channel];
+			for (unsigned channel = 0; channel < _numChannels; ++channel)
+			{
+				delete _channels[channel];
+			}
 		}
 	}
 
 	void AudioBuffer::clear()
 	{
-		for (int channel = 0; channel < _numChannels; ++channel)
+		for (unsigned channel = 0; channel < _numChannels; ++channel)
 		{
-			for (int sample = 0; sample < _numSamples; ++sample)
+			for (unsigned sample = 0; sample < _numSamples; ++sample)
 			{
 				_channels[channel][sample] = 0;
 			}

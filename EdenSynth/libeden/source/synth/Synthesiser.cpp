@@ -21,6 +21,7 @@ namespace eden::synth
 	{
 		auto midiIterator = midiBuffer.begin();
 
+		// This is an infinite loop, since samplesToNextMidiMessage is 0 after hitting key and waiting one iteration.
 		while (numSamples > 0)
 		{
 			// 1. Proceed with voice rendering if there are no midi events.
@@ -95,7 +96,7 @@ namespace eden::synth
 
 	void Synthesiser::renderVoices(AudioBuffer& outputBuffer, int startSample, int samplesToProcess)
 	{
-		for (auto& voice : _voices)
+		for (auto voice : _voices)
 		{
 			voice->renderBlock(outputBuffer, startSample, samplesToProcess);
 		}
@@ -103,17 +104,27 @@ namespace eden::synth
 
 	void Synthesiser::noteOn(const int midiChannel, const int midiNoteNumber, const float velocity)
 	{
+		// TODO: Check if already playing that note
+		auto voice = getFreeVoice();
+		if (voice)
+		{
+			voice->startNote(midiNoteNumber, velocity, 0);	// TODO: handle pitch wheel
+		}
 
 	}
 	
 	void Synthesiser::noteOff(const int midiChannel, const int midiNoteNumber, const float velocity)
 	{
-		
+		auto voice = getVoicePlayingNote(midiNoteNumber);
+		if (voice)
+		{
+			voice->stopNote(velocity, true);
+		}
 	}
 
 	void Synthesiser::addVoices(unsigned numVoicesToAdd)
 	{
-		for (int i = 0; i < numVoicesToAdd; ++i)
+		for (unsigned i = 0; i < numVoicesToAdd; ++i)
 		{
 			auto newVoice = std::make_shared<Voice>();
 			newVoice->setSampleRate(_sampleRate);
@@ -121,4 +132,27 @@ namespace eden::synth
 		}
 	}
 
+	std::shared_ptr<Voice> Synthesiser::getFreeVoice()
+	{
+		for (auto voice : _voices)
+		{
+			if (!voice->isPlaying())
+			{
+				return voice;
+			}
+		}
+		return nullptr;
+	}
+
+	std::shared_ptr<Voice> Synthesiser::getVoicePlayingNote(const int midiNoteNumber)
+	{
+		for (auto voice : _voices)
+		{
+			if (voice->isPlayingNote(midiNoteNumber))
+			{
+				return voice;
+			}
+		}
+		return nullptr;
+	}
 }

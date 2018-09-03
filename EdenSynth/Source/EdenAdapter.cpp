@@ -1,4 +1,5 @@
 #include "EdenAdapter.h"
+#include "eden/MidiBuffer.h"
 
 namespace eden_vst
 {
@@ -11,4 +12,27 @@ namespace eden_vst
 		 */
 	}
 
+	void EdenAdapter::convertToEdenMidi(const juce::MidiBuffer& juceMidiBuffer, eden::MidiBuffer& edenMidiBuffer)
+	{
+		int midiEventPos;
+		MidiMessage m;
+
+		juce::MidiBuffer::Iterator midiIterator(juceMidiBuffer);
+
+		while (midiIterator.getNextEvent(m, midiEventPos))
+		{
+			if (m.isNoteOn())
+			{
+				eden::MidiMessage edenMessage(m.getChannel(), eden::MidiMessage::MidiMessageType::NoteOn);
+				edenMessage.setVelocity(m.getFloatVelocity());
+				edenMidiBuffer.addEvent(std::move(edenMessage), midiEventPos);
+			}
+			else if (m.isNoteOff())
+			{
+				eden::MidiMessage edenMessage(m.getChannel(), eden::MidiMessage::MidiMessageType::NoteOff);
+				edenMessage.setVelocity(m.getFloatVelocity());
+				edenMidiBuffer.addEvent(std::move(edenMessage), midiEventPos);
+			}
+		}
+	}
 }

@@ -33,6 +33,8 @@ namespace eden::synth
 		void noteOn(const int midiChannel, const int midiNoteNumber, const float velocity);
 		void noteOff(const int midiChannel, const int midiNoteNumber, const float velocity);
 		void addVoices(unsigned numVoicesToAdd);
+		std::shared_ptr<Voice> getFreeVoice();
+		std::shared_ptr<Voice> getVoicePlayingNote(const int midiNoteNumber);
 
 		std::vector<std::shared_ptr<Voice>> _voices;
 		double _sampleRate = 48000.0;

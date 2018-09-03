@@ -11,6 +11,8 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#include "EdenAdapter.h"
+
 #include <eden/AudioBuffer.h>
 #include <eden/MidiBuffer.h>
 
@@ -152,11 +154,12 @@ void EdenSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuff
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-	synthAudioSource.processBlock(buffer, midiMessages);
+	//synthAudioSource.processBlock(buffer, midiMessages);
 	
-	//eden::AudioBuffer edenAudioBuffer(buffer.getArrayOfWritePointers(), totalNumOutputChannels, buffer.getNumSamples());
-	//eden::MidiBuffer edenMidiBuffer;
-	//edenSynthesiser.processInputBlock(edenAudioBuffer, edenMidiBuffer);
+	eden::AudioBuffer edenAudioBuffer(buffer.getArrayOfWritePointers(), totalNumOutputChannels, buffer.getNumSamples());
+	eden::MidiBuffer edenMidiBuffer;
+	eden_vst::EdenAdapter::convertToEdenMidi(midiMessages, edenMidiBuffer);
+	edenSynthesiser.processInputBlock(edenAudioBuffer, edenMidiBuffer);
 }
 
 //==============================================================================

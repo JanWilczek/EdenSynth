@@ -41,5 +41,6 @@ namespace eden
 		unsigned _numSamples = 512;
 		SampleType** _channels;
 		SampleType* _preallocatedChannelSpace[32];
+		bool _ownsChannels;
 	};
 }

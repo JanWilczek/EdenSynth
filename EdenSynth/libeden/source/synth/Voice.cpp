@@ -9,6 +9,7 @@ namespace eden::synth
 {
 	void Voice::startNote(int midiNoteNumber, float velocity, int currentPitchWheelPosition)
 	{
+		_currentNote = midiNoteNumber;
 		currentAngle = 0.0;
 		level = velocity * 0.15;
 		tailOff = 0.0;
@@ -64,6 +65,7 @@ namespace eden::synth
 			//clearCurrentNote();
 			angleDelta = 0.0f;
 		}
+		_currentNote = -1;
 	}
 
 	/*void pitchWheelMoved(int newPitchWheelValue)
@@ -75,6 +77,16 @@ namespace eden::synth
 	{
 
 	}*/
+
+	bool Voice::isPlaying() const noexcept
+	{
+		return _currentNote != -1;
+	}
+
+	bool Voice::isPlayingNote(const int midiNoteNumber) const noexcept
+	{
+		return _currentNote == midiNoteNumber;
+	}
 	
 	double Voice::getSampleRate() const noexcept
 	{
@@ -88,7 +100,7 @@ namespace eden::synth
 
 	void Voice::generateSample(AudioBuffer& outputBuffer, int& startSample)
 	{
-		auto currentSample = std::sin(currentAngle) * level;
+		auto currentSample = static_cast<AudioBuffer::SampleType>(std::sin(currentAngle) * level);
 
 		if (tailOff > 0.0)
 		{
