@@ -19,17 +19,22 @@ namespace eden::synth
 	class Synthesiser
 	{
 	public:
-		Synthesiser() = default;
+		Synthesiser();
 
 		void processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int numSamples);
 		void processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples);
+
+		double getSampleRate() const noexcept;
+		void setSampleRate(double newSampleRate);
 
 	private:
 		void handleMidiMessage(MidiMessage& midiMessage);
 		void renderVoices(AudioBuffer& outputBuffer, int startSample, int samplesToProcess);
 		void noteOn(const int midiChannel, const int midiNoteNumber, const float velocity);
 		void noteOff(const int midiChannel, const int midiNoteNumber, const float velocity);
+		void addVoices(unsigned numVoicesToAdd);
 
 		std::vector<std::shared_ptr<Voice>> _voices;
+		double _sampleRate = 48000.0;
 	};
 }

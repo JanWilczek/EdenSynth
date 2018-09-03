@@ -154,9 +154,9 @@ void EdenSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuff
     // interleaved by keeping the same state.
 	synthAudioSource.processBlock(buffer, midiMessages);
 	
-	eden::AudioBuffer edenAudioBuffer(buffer.getArrayOfWritePointers(), totalNumOutputChannels, buffer.getNumSamples());
-	eden::MidiBuffer edenMidiBuffer;
-	edenSynthesiser.processInputBlock(edenAudioBuffer, edenMidiBuffer);
+	//eden::AudioBuffer edenAudioBuffer(buffer.getArrayOfWritePointers(), totalNumOutputChannels, buffer.getNumSamples());
+	//eden::MidiBuffer edenMidiBuffer;
+	//edenSynthesiser.processInputBlock(edenAudioBuffer, edenMidiBuffer);
 }
 
 //==============================================================================

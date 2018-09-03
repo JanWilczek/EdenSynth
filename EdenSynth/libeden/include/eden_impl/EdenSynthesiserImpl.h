@@ -1,5 +1,7 @@
 #pragma once
 
+#include "synth/Synthesiser.h"
+
 namespace eden
 {
 	class AudioBuffer;
@@ -19,5 +21,6 @@ namespace eden
 
 	private:
 		double _sampleRate = 48000;
+		std::unique_ptr<synth::Synthesiser> _synthesiser;
 	};
 }

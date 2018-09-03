@@ -74,5 +74,8 @@
     <ClCompile Include="source\eden\MidiMessage.cpp">
       <Filter>Source Files\eden</Filter>
     </ClCompile>
+    <ClCompile Include="source\synth\Voice.cpp">
+      <Filter>Source Files\synth</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

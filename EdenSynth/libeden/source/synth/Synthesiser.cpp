@@ -7,6 +7,11 @@
 
 namespace eden::synth
 {
+	Synthesiser::Synthesiser()
+	{
+		addVoices(16);
+	}
+
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int numSamples)
 	{
 		processBlock(bufferToFill, midiBuffer, 0, numSamples);
@@ -14,7 +19,6 @@ namespace eden::synth
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples)
 	{
-		int samplesToProcess;
 		auto midiIterator = midiBuffer.begin();
 
 		while (numSamples > 0)
@@ -22,7 +26,7 @@ namespace eden::synth
 			// 1. Proceed with voice rendering if there are no midi events.
 			if (midiIterator == midiBuffer.end())
 			{
-				renderVoices(bufferToFill, startSample, samplesToProcess);
+				renderVoices(bufferToFill, startSample, numSamples);
 
 				return;
 			}
@@ -57,6 +61,20 @@ namespace eden::synth
 		midiBuffer.clear();
 	}
 
+	double Synthesiser::getSampleRate() const noexcept
+	{
+		return _sampleRate;
+	}
+
+	void Synthesiser::setSampleRate(double newSampleRate)
+	{
+		_sampleRate = newSampleRate;
+		for (auto voice : _voices)
+		{
+			voice->setSampleRate(newSampleRate);
+		}
+	}
+
 	void Synthesiser::handleMidiMessage(MidiMessage& midiMessage)
 	{
 		const int channel = midiMessage.getChannel();
@@ -65,10 +83,10 @@ namespace eden::synth
 		switch(messageType)
 		{
 		case MidiMessage::MidiMessageType::NoteOn:
-			noteOn(channel, midiMessage.getNoteNumber(), midiMessage.getFloatVelocity());
+			noteOn(channel, midiMessage.getNoteNumber(), midiMessage.getVelocity());
 			break;
 		case MidiMessage::MidiMessageType::NoteOff:
-			noteOff(channel, midiMessage.getNoteNumber(), midiMessage.getFloatVelocity());
+			noteOff(channel, midiMessage.getNoteNumber(), midiMessage.getVelocity());
 			break;
 		default:
 			break;
@@ -91,6 +109,16 @@ namespace eden::synth
 	void Synthesiser::noteOff(const int midiChannel, const int midiNoteNumber, const float velocity)
 	{
 		
+	}
+
+	void Synthesiser::addVoices(unsigned numVoicesToAdd)
+	{
+		for (int i = 0; i < numVoicesToAdd; ++i)
+		{
+			auto newVoice = std::make_shared<Voice>();
+			newVoice->setSampleRate(_sampleRate);
+			_voices.push_back(newVoice);
+		}
 	}
 
 }

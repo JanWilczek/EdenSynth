@@ -14,6 +14,8 @@ namespace eden
 			PitchBendChange
 		};
 
+		static double getMidiNoteInHertz(int midiNoteNumber, const double frequencyOfA = 440.0) noexcept;
+
 		MidiMessage() = default;
 
 		MidiMessage(int channel, MidiMessageType messageType);

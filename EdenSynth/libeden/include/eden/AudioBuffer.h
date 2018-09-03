@@ -17,7 +17,7 @@ namespace eden
 		/// </summary>
 		/// <param name="numChannels"></param>
 		/// <param name="length"></param>
-		AudioBuffer(unsigned numChannels = 2, unsigned numSamples = 512);
+		AudioBuffer(unsigned numChannels, unsigned numSamples);
 
 		/// <summary>
 		/// Creates an audio buffer using preallocated data.
@@ -32,11 +32,13 @@ namespace eden
 		unsigned getNumChannels() const noexcept;
 		unsigned getNumSamples() const noexcept;
 
+		void addSample(int destChannel, int destSample, SampleType valueToAdd);
+
 		void clear();
 
 	private:
-		unsigned _numChannels;
-		unsigned _numSamples;
+		unsigned _numChannels = 2;
+		unsigned _numSamples = 512;
 		SampleType** _channels;
 		SampleType* _preallocatedChannelSpace[32];
 	};
