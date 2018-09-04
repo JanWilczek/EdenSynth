@@ -21,7 +21,6 @@ namespace eden::synth
 	{
 		auto midiIterator = midiBuffer.begin();
 
-		// This is an infinite loop, since samplesToNextMidiMessage is 0 after hitting key and waiting one iteration.
 		while (numSamples > 0)
 		{
 			// 1. Proceed with voice rendering if there are no midi events.
@@ -44,14 +43,15 @@ namespace eden::synth
 				break;
 			}
 
-			// 3. Redner samples till the next midi message.
+			// 3. Render samples till the next midi message.
 			renderVoices(bufferToFill, startSample, samplesToNextMidiMessage);
 
 			handleMidiMessage(midiIterator->message);
 
-			// 4. Advance in buffer.
+			// 4. Advance in buffers.
 			startSample += samplesToNextMidiMessage;
 			numSamples -= samplesToNextMidiMessage;
+			++midiIterator;
 		}
 
 		while (midiIterator != midiBuffer.end())

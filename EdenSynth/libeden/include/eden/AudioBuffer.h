@@ -17,7 +17,7 @@ namespace eden
 		/// </summary>
 		/// <param name="numChannels"></param>
 		/// <param name="length"></param>
-		AudioBuffer(unsigned numChannels, unsigned numSamples);
+		AudioBuffer(int numChannels, unsigned numSamples);
 
 		/// <summary>
 		/// Creates an audio buffer using preallocated data.
@@ -25,11 +25,11 @@ namespace eden
 		/// <param name="dataToUse">preallocated data</param>
 		/// <param name="numChannelsToUse">number of channels to use</param>
 		/// <param name="numSamplesToUse">length of buffer to use</param>
-		AudioBuffer(SampleType** dataToUse, unsigned numChannelsToUse, unsigned numSamplesToUse);
+		AudioBuffer(SampleType** dataToUse, int numChannelsToUse, unsigned numSamplesToUse);
 		
 		~AudioBuffer();
 
-		unsigned getNumChannels() const noexcept;
+		int getNumChannels() const noexcept;
 		unsigned getNumSamples() const noexcept;
 
 		void addSample(int destChannel, int destSample, SampleType valueToAdd);
@@ -37,8 +37,8 @@ namespace eden
 		void clear();
 
 	private:
-		unsigned _numChannels = 2;
-		unsigned _numSamples = 512;
+		int _numChannels = 2;
+		unsigned _numSamples = 512;	// TODO: Reconsider - is it safe to have number of samples given as unsigned int?
 		SampleType** _channels;
 		SampleType* _preallocatedChannelSpace[32];
 		bool _ownsChannels;

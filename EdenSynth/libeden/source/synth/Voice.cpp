@@ -107,7 +107,7 @@ namespace eden::synth
 			currentSample *= tailOff;
 		}
 
-		for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
+		for (auto i = outputBuffer.getNumChannels() - 1; i >= 0; --i)
 		{
 			outputBuffer.addSample(i, startSample, currentSample);
 		}
