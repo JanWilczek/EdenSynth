@@ -37,6 +37,6 @@ namespace eden::synth
 		std::shared_ptr<Voice> getVoicePlayingNote(const int midiNoteNumber);
 
 		std::vector<std::shared_ptr<Voice>> _voices;
-		double _sampleRate = 48000.0;
+		double _sampleRate;
 	};
 }

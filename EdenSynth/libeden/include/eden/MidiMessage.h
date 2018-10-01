@@ -1,10 +1,20 @@
 #pragma once
+/// 
+/// \author Jan Wilczek
+/// \date 27.08.2018
+/// 
 
 namespace eden
 {
+	/// <summary>
+	/// Single MIDI message.
+	/// </summary>
 	class MidiMessage
 	{
 	public:
+		/// <summary>
+		/// Type of the message.
+		/// </summary>
 		enum class MidiMessageType
 		{
 			NoteOn,
@@ -14,10 +24,15 @@ namespace eden
 			PitchBendChange
 		};
 
+		/// <summary>
+		/// Converts MIDI note number to frequency expressed in Hz.
+		/// </summary>
+		/// <param name="midiNoteNumber"></param>
+		/// <param name="frequencyOfA"></param>
+		/// <returns>calculated frequency in Hz</returns>
 		static double getMidiNoteInHertz(int midiNoteNumber, const double frequencyOfA = 440.0) noexcept;
 
 		MidiMessage() = default;
-
 		MidiMessage(int channel, MidiMessageType messageType);
 
 		int getChannel() const noexcept;

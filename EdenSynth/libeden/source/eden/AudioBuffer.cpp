@@ -37,17 +37,6 @@ namespace eden
 		}
 	}
 
-	void AudioBuffer::clear()
-	{
-		for (int channel = 0; channel < _numChannels; ++channel)
-		{
-			for (unsigned sample = 0; sample < _numSamples; ++sample)
-			{
-				_channels[channel][sample] = 0;
-			}
-		}
-	}
-
 	int AudioBuffer::getNumChannels() const noexcept
 	{
 		return _numChannels;
@@ -61,5 +50,16 @@ namespace eden
 	void AudioBuffer::addSample(int destChannel, int destSample, SampleType valueToAdd)
 	{
 		_channels[destChannel][destSample] += valueToAdd;
+	}
+
+	void AudioBuffer::fill(SampleType value)
+	{
+		for (int channel = 0; channel < _numChannels; ++channel)
+		{
+			for (unsigned sample = 0; sample < _numSamples; ++sample)
+			{
+				_channels[channel][sample] = value;
+			}
+		}
 	}
 }

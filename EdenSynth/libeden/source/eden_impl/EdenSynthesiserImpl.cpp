@@ -5,7 +5,9 @@ namespace eden
 {
 	EdenSynthesiserImpl::EdenSynthesiserImpl()
 		: _synthesiser(new synth::Synthesiser())
-	{}
+	{
+		setSampleRate(_sampleRate);
+	}
 
 	void EdenSynthesiserImpl::processInputBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer)
 	{
