@@ -4,7 +4,7 @@
 namespace eden
 {
 	EdenSynthesiserImpl::EdenSynthesiserImpl()
-		: _synthesiser(new synth::Synthesiser())
+		: _synthesiser(std::make_unique<synth::Synthesiser>(_sampleRate))
 	{
 		setSampleRate(_sampleRate);
 	}

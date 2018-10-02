@@ -7,9 +7,11 @@
 
 namespace eden::synth
 {
-	Synthesiser::Synthesiser()
+	Synthesiser::Synthesiser(double sampleRate)
+		: _sampleRate(sampleRate)
 	{
-		addVoices(16);
+		constexpr unsigned VOICES_TO_ADD = 16;
+		addVoices(VOICES_TO_ADD);
 	}
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int numSamples)

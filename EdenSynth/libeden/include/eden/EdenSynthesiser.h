@@ -38,6 +38,9 @@ namespace eden
 		double sampleRate() const noexcept;
 
 	private:
+		/// <summary>
+		/// Internal implementation.
+		/// </summary>
 		std::unique_ptr<EdenSynthesiserImpl> _impl;
 	};
 }

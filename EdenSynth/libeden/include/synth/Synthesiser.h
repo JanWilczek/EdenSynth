@@ -1,4 +1,8 @@
 #pragma once
+/// 
+/// \author Jan Wilczek
+/// \date 02.09.2018
+/// 
 #include <vector>
 #include <memory>
 
@@ -19,9 +23,23 @@ namespace eden::synth
 	class Synthesiser
 	{
 	public:
-		Synthesiser();
+		explicit Synthesiser(double sampleRate);
 
+		/// <summary>
+		/// Fills the given audio buffer with samples in full based on internal state.
+		/// </summary>
+		/// <param name="bufferToFill"></param>
+		/// <param name="midiBuffer"></param>
+		/// <param name="numSamples"></param>
 		void processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int numSamples);
+
+		/// <summary>
+		/// Fills the given audio buffer with samples from <paramref="startSample"> (including) to <paramref="startSample"> + <paramref="numSamples"> (excluding).
+		/// </summary>
+		/// <param name="bufferToFill"></param>
+		/// <param name="midiBuffer"></param>
+		/// <param name="startSample"></param>
+		/// <param name="numSamples"></param>
 		void processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples);
 
 		double getSampleRate() const noexcept;
