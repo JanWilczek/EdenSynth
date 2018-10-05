@@ -7,17 +7,22 @@
 
 namespace eden::synth
 {
+	Voice::Voice(double sampleRate)
+		: _sampleRate(sampleRate)
+	{
+	}
+
 	void Voice::startNote(int midiNoteNumber, float velocity, int currentPitchWheelPosition)
 	{
 		_currentNote = midiNoteNumber;
 		currentAngle = 0.0;
-		level = velocity * 0.15;
+		level = static_cast<AudioBuffer::SampleType>(velocity * 0.15);
 		tailOff = 0.0;
 
 		const auto cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 		const auto cyclesPerSample = cyclesPerSecond / getSampleRate();
 
-		angleDelta = cyclesPerSample * 2.0 * 3.141;//juce::MathConstants<double>::pi;
+		angleDelta = static_cast<AudioBuffer::SampleType>(cyclesPerSample * 2.0 * 3.141);//juce::MathConstants<double>::pi;
 	}
 
 	void Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int numSamples)
@@ -30,13 +35,15 @@ namespace eden::synth
 				{
 					generateSample(outputBuffer, startSample);
 
-					tailOff *= 0.99;
+					tailOff *= static_cast<AudioBuffer::SampleType>(0.998);
 
 					if (tailOff <= 0.005f)
 					{
 						//clearCurrentNote();
-
+						currentAngle = 0.0;
 						angleDelta = 0.0f;
+						tailOff = 0.0f;
+						_currentNote = -1;
 						break;
 					}
 				}
@@ -64,8 +71,9 @@ namespace eden::synth
 		{
 			//clearCurrentNote();
 			angleDelta = 0.0f;
+			_currentNote = -1;
+			currentAngle = 0.0;
 		}
-		_currentNote = -1;
 	}
 
 	/*void pitchWheelMoved(int newPitchWheelValue)

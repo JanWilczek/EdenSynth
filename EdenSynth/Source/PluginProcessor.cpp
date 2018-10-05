@@ -100,13 +100,13 @@ void EdenSynthAudioProcessor::changeProgramName (int index, const String& newNam
 //==============================================================================
 void EdenSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-	synthAudioSource.prepareToPlay(samplesPerBlock, sampleRate);
+	//synthAudioSource.prepareToPlay(samplesPerBlock, sampleRate);
 	_edenSynthesiser.setSampleRate(sampleRate);
 }
 
 void EdenSynthAudioProcessor::releaseResources()
 {
-	synthAudioSource.releaseResources();
+	//synthAudioSource.releaseResources();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
