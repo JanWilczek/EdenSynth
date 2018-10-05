@@ -33,6 +33,9 @@ namespace eden
 		
 		~AudioBuffer();
 
+		/// <returns>pointer to inner data block</returns>
+		SampleType** getArrayOfWritePointers();
+
 		/// <summary>
 		/// Sets the number of used channels in the buffer. May need to allocate data.
 		/// </summary>

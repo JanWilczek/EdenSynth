@@ -32,9 +32,15 @@ namespace eden
 		{
 			for (int channel = 0; channel < _numChannels; ++channel)
 			{
-				delete _channels[channel];
+				delete[] _channels[channel];
 			}
+			delete[] _channels;
 		}
+	}
+
+	AudioBuffer::SampleType** AudioBuffer::getArrayOfWritePointers()
+	{
+		return _channels;
 	}
 
 	int AudioBuffer::getNumChannels() const noexcept
