@@ -31,6 +31,9 @@
     <Filter Include="Source Files\synth">
       <UniqueIdentifier>{bb8cc5e7-805b-4a29-b0c3-f57468f0a7d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\utility">
+      <UniqueIdentifier>{0df9fb59-6100-4c96-9c3b-7d94a23b0357}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h">
@@ -53,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="include\synth\Voice.h">
       <Filter>Header Files\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utility\MathConstants.h">
+      <Filter>Header Files\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

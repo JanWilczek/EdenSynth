@@ -88,4 +88,18 @@ namespace libeden_test
 			}
 		}
 	}
+
+	TEST(AudioBufferTest, AddSample)
+	{
+		eden::AudioBuffer testBuffer(1, 1024);
+
+		constexpr float FREQUENCY = 1000.f;
+		constexpr float SAMPLE_RATE = 48000.f;
+
+		for (auto i = 0u; i < testBuffer.getNumSamples(); ++i)
+		{
+			testBuffer.addSample(0, i, std::sin(2.f * FREQUENCY * eden::math_constants::PI * i / SAMPLE_RATE));
+		}
+	}
+
 }

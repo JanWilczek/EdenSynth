@@ -52,7 +52,7 @@ namespace eden
 		return _numSamples;
 	}
 
-	void AudioBuffer::addSample(int destChannel, int destSample, SampleType valueToAdd)
+	void AudioBuffer::addSample(int destChannel, unsigned destSample, SampleType valueToAdd)
 	{
 		_channels[destChannel][destSample] += valueToAdd;
 	}

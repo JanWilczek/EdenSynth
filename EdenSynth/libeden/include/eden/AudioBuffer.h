@@ -58,7 +58,7 @@ namespace eden
 		/// <param name="destChannel">channel of the sample</param>
 		/// <param name="destSample">index of the sample</param>
 		/// <param name="valueToAdd"></param>
-		void addSample(int destChannel, int destSample, SampleType valueToAdd);
+		void addSample(int destChannel, unsigned destSample, SampleType valueToAdd);
 
 		/// <summary>
 		/// Fills all currently used buffer with the given value.
