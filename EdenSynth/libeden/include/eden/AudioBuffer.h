@@ -33,7 +33,7 @@ namespace eden
 		
 		~AudioBuffer();
 
-		/// <returns>pointer to inner data block</returns>
+		/// <returns>array of pointers to inner data block, each element in array being a pointer to a channel</returns>
 		SampleType** getArrayOfWritePointers();
 
 		/// <summary>
@@ -70,7 +70,6 @@ namespace eden
 		int _numChannels = 2;
 		unsigned _numSamples = 512;	// TODO: Reconsider - is it safe to have number of samples given as unsigned int?
 		SampleType** _channels;
-		SampleType* _preallocatedChannelSpace[32];
 		bool _ownsChannels;
 	};
 }

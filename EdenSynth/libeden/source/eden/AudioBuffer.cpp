@@ -19,7 +19,6 @@ namespace eden
 		, _numSamples(numSamplesToUse)
 		, _ownsChannels(false)
 	{
-		_channels = static_cast<SampleType**>(_preallocatedChannelSpace);
 		for (int channel = 0; channel < _numChannels ; ++channel)
 		{
 			_channels[channel] = dataToUse[channel];
