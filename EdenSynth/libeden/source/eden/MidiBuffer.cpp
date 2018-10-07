@@ -4,7 +4,7 @@ namespace eden
 {
 	unsigned MidiBuffer::getNumEvents() const noexcept
 	{
-		return _messages.size();
+		return static_cast<unsigned>(_messages.size());
 	}
 
 	void MidiBuffer::addEvent(const MidiMessage& messageToAdd, int messageSamplePosition)
