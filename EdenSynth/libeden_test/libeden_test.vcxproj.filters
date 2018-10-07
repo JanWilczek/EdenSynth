@@ -9,6 +9,9 @@
     <ClCompile Include="synth_test\SynthesiserTest.cpp">
       <Filter>synth_test</Filter>
     </ClCompile>
+    <ClCompile Include="eden_test\MidiBufferTest.cpp">
+      <Filter>eden_test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

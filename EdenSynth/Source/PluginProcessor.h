@@ -11,7 +11,6 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "SynthAudioSource.h"
 #include "eden/EdenSynthesiser.h"
 
 //==============================================================================
@@ -61,6 +60,5 @@ private:
     //==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EdenSynthAudioProcessor)
 
-	//SynthAudioSource synthAudioSource;
 	eden::EdenSynthesiser _edenSynthesiser;
 };

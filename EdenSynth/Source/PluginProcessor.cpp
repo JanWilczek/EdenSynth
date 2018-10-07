@@ -100,13 +100,11 @@ void EdenSynthAudioProcessor::changeProgramName (int index, const String& newNam
 //==============================================================================
 void EdenSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-	//synthAudioSource.prepareToPlay(samplesPerBlock, sampleRate);
 	_edenSynthesiser.setSampleRate(sampleRate);
 }
 
 void EdenSynthAudioProcessor::releaseResources()
 {
-	//synthAudioSource.releaseResources();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -139,8 +137,6 @@ void EdenSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuff
 
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-	//synthAudioSource.processBlock(buffer, midiMessages);
-	
 	eden::AudioBuffer edenAudioBuffer(buffer.getArrayOfWritePointers(), totalNumOutputChannels, buffer.getNumSamples());
 	eden::MidiBuffer edenMidiBuffer;
 	eden_vst::EdenAdapter::convertToEdenMidi(midiMessages, edenMidiBuffer);
