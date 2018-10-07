@@ -1,4 +1,6 @@
 #pragma once
+#include <functional>
+
 /// 
 /// \author Jan Wilczek
 /// \date 27.08.2018
@@ -69,9 +71,15 @@ namespace eden
 		/// <param name="value"></param>
 		void fill(SampleType value);
 
+		/// <summary>
+		/// Performs given operation on each channel.
+		/// </summary>
+		/// <param name="callback">function to call on each channel (array of samples)</param>
+		void forEachChannel(std::function<void(SampleType*)> callback);
+
 	private:
 		int _numChannels = 2;
-		unsigned _numSamples = 512;	// TODO: Reconsider - is it safe to have number of samples given as unsigned int?
+		unsigned _numSamples = 512;
 		SampleType** _channels;
 		bool _ownsChannels;
 	};

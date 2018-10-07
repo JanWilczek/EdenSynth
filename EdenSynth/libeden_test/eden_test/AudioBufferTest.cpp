@@ -111,4 +111,36 @@ namespace libeden_test
 		}
 	}
 
+	TEST(AudioBufferTest, ForEachChannel)
+	{
+		eden::AudioBuffer testBuffer(3, 300);
+
+		ASSERT_EQ(testBuffer.getNumChannels(), 3);
+		ASSERT_EQ(testBuffer.getNumSamples(), 300);
+
+		testBuffer.forEachChannel(
+			[&](eden::AudioBuffer::SampleType* channel)
+		{
+			for (auto i = 0u; i < testBuffer.getNumSamples(); ++i)
+			{
+				if (i % 2 == 0)
+				{
+					channel[i] = 1;
+				}
+				else
+				{
+					channel[i] = -1;
+				}
+			}
+		});
+
+		for (auto channel = 0; channel < testBuffer.getNumChannels(); ++channel)
+		{
+			for (auto sample = 0u; sample < testBuffer.getNumSamples(); ++sample)
+			{
+				const auto expectedValue = static_cast<eden::AudioBuffer::SampleType>(sample % 2 == 0 ? 1 : -1);
+				EXPECT_FLOAT_EQ(testBuffer.getArrayOfReadPointers()[channel][sample], expectedValue);
+			}
+		}
+	}
 }

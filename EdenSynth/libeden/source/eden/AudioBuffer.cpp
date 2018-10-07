@@ -70,4 +70,13 @@ namespace eden
 			}
 		}
 	}
+
+	void AudioBuffer::forEachChannel(std::function<void(SampleType*)> callback)
+	{
+		for (auto channel = 0; channel < _numChannels; ++channel)
+		{
+			callback(getArrayOfWritePointers()[channel]);
+		}
+	}
+
 }
