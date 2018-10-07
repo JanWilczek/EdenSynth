@@ -17,12 +17,9 @@ namespace eden
 	AudioBuffer::AudioBuffer(SampleType** dataToUse, int numChannelsToUse, unsigned numSamplesToUse)
 		: _numChannels(numChannelsToUse)
 		, _numSamples(numSamplesToUse)
+		, _channels(dataToUse)
 		, _ownsChannels(false)
 	{
-		for (int channel = 0; channel < _numChannels ; ++channel)
-		{
-			_channels[channel] = dataToUse[channel];
-		}
 	}
 
 	AudioBuffer::~AudioBuffer()
@@ -37,10 +34,16 @@ namespace eden
 		}
 	}
 
-	AudioBuffer::SampleType** AudioBuffer::getArrayOfWritePointers()
+	AudioBuffer::SampleType** AudioBuffer::getArrayOfWritePointers() const noexcept
 	{
 		return _channels;
 	}
+
+	const AudioBuffer::SampleType** AudioBuffer::getArrayOfReadPointers() const noexcept
+	{
+		return const_cast<const AudioBuffer::SampleType**>(_channels);
+	}
+
 
 	int AudioBuffer::getNumChannels() const noexcept
 	{

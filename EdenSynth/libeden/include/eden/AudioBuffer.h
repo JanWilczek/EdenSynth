@@ -33,8 +33,11 @@ namespace eden
 		
 		~AudioBuffer();
 
-		/// <returns>array of pointers to inner data block, each element in array being a pointer to a channel</returns>
-		SampleType** getArrayOfWritePointers();
+		/// <returns>array of pointers to inner mutable data block, each element in array being a pointer to a channel</returns>
+		SampleType** getArrayOfWritePointers() const noexcept;
+
+		/// <returns>array of pointers to inner immutable data block, each element in array being a pointer to a channel</returns>
+		const SampleType** getArrayOfReadPointers() const noexcept;
 
 		/// <summary>
 		/// Sets the number of used channels in the buffer. May need to allocate data.
