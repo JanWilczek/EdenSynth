@@ -10,7 +10,6 @@ namespace eden
 	EdenSynthesiserImpl::EdenSynthesiserImpl()
 		: _synthesiser(std::make_unique<synth::Synthesiser>(_sampleRate))
 	{
-		setSampleRate(_sampleRate);
 	}
 
 	void EdenSynthesiserImpl::processInputBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer)
