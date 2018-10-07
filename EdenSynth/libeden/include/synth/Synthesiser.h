@@ -88,11 +88,11 @@ namespace eden::synth
 		void addVoices(unsigned numVoicesToAdd);
 
 		/// <returns>first free voice</returns>
-		Voice* getFreeVoice() const;
+		Voice* getFreeVoice();
 
 		/// <param name="midiNoteNumber"></param>
 		/// <returns>voice that is playing given note, nullptr if there is no such voice</returns>
-		Voice* getVoicePlayingNote(const int midiNoteNumber) const;
+		Voice* getVoicePlayingNote(const int midiNoteNumber);
 
 		/// <summary>
 		/// Container with voices.
