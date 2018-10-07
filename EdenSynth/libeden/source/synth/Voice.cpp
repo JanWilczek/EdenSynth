@@ -1,3 +1,7 @@
+/// 
+/// \author Jan Wilczek
+/// \date 03.09.2018
+/// 
 #include <cmath>
 
 #include "synth/Voice.h"

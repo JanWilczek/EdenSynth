@@ -1,3 +1,7 @@
+/// 
+/// \author Jan Wilczek
+/// \date 02.09.2018
+/// 
 #include "EdenAdapter.h"
 #include "eden/MidiBuffer.h"
 

@@ -1,3 +1,7 @@
+/// 
+/// \author Jan Wilczek
+/// \date 02.09.2018
+/// 
 #include "eden/AudioBuffer.h"
 
 namespace eden

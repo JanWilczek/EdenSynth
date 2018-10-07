@@ -1,9 +1,14 @@
+/// 
+/// \author Jan Wilczek
+/// \date 02.09.2018
+/// 
+#include <algorithm>
 #include "synth/Synthesiser.h"
 
 #include "eden/AudioBuffer.h"
 #include "eden/MidiBuffer.h"
 #include "eden/MidiMessage.h"
-#include <algorithm>
+#include "utility/EdenAssert.h"
 
 namespace eden::synth
 {
@@ -21,6 +26,8 @@ namespace eden::synth
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples)
 	{
+		bufferToFill.fill(0);
+
 		auto midiIterator = midiBuffer.begin();
 
 		while (numSamples > 0)
@@ -106,8 +113,12 @@ namespace eden::synth
 
 	void Synthesiser::noteOn(const int midiChannel, const int midiNoteNumber, const float velocity)
 	{
-		// TODO: Check if already playing that note
+		EDEN_ASSERT(!getVoicePlayingNote(midiNoteNumber));
+
 		auto voice = getFreeVoice();
+
+		EDEN_ASSERT(voice);
+
 		if (voice)
 		{
 			voice->startNote(midiNoteNumber, velocity, 0);	// TODO: handle pitch wheel
@@ -118,6 +129,9 @@ namespace eden::synth
 	void Synthesiser::noteOff(const int midiChannel, const int midiNoteNumber, const float velocity)
 	{
 		auto voice = getVoicePlayingNote(midiNoteNumber);
+
+		EDEN_ASSERT(voice);
+
 		if (voice)
 		{
 			voice->stopNote(velocity, true);
@@ -132,13 +146,13 @@ namespace eden::synth
 		}
 	}
 
-	Voice* Synthesiser::getFreeVoice()
+	Voice* Synthesiser::getFreeVoice() const
 	{
 		const auto result = std::find_if_not(_voices.begin(), _voices.end(), [](std::unique_ptr<Voice>& voice) { return voice->isPlaying(); });
 		return result != _voices.end() ? result->get() : nullptr;
 	}
 
-	Voice* Synthesiser::getVoicePlayingNote(const int midiNoteNumber)
+	Voice* Synthesiser::getVoicePlayingNote(const int midiNoteNumber) const
 	{
 		const auto result = std::find_if(_voices.begin(), _voices.end(), [&midiNoteNumber](std::unique_ptr<Voice>& voice) { return voice->isPlayingNote(midiNoteNumber); });
 		return result != _voices.end() ? result->get() : nullptr;

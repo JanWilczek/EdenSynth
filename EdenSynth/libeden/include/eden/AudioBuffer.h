@@ -1,10 +1,9 @@
 #pragma once
-#include <functional>
-
 /// 
 /// \author Jan Wilczek
 /// \date 27.08.2018
 /// 
+#include <functional>
 
 namespace eden
 {
