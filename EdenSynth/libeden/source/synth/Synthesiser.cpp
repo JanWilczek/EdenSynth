@@ -1,15 +1,22 @@
+/// 
+/// \author Jan Wilczek
+/// \date 02.09.2018
+/// 
+#include <algorithm>
 #include "synth/Synthesiser.h"
 
 #include "eden/AudioBuffer.h"
 #include "eden/MidiBuffer.h"
 #include "eden/MidiMessage.h"
-#include "synth/Voice.h"
+#include "utility/EdenAssert.h"
 
 namespace eden::synth
 {
-	Synthesiser::Synthesiser()
+	Synthesiser::Synthesiser(double sampleRate)
+		: _sampleRate(sampleRate)
 	{
-		addVoices(16);
+		constexpr unsigned VOICES_TO_ADD = 32;
+		addVoices(VOICES_TO_ADD);
 	}
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int numSamples)
@@ -19,6 +26,8 @@ namespace eden::synth
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples)
 	{
+		bufferToFill.fill(0);
+
 		auto midiIterator = midiBuffer.begin();
 
 		while (numSamples > 0)
@@ -70,7 +79,7 @@ namespace eden::synth
 	void Synthesiser::setSampleRate(double newSampleRate)
 	{
 		_sampleRate = newSampleRate;
-		for (auto voice : _voices)
+		for (auto& voice : _voices)
 		{
 			voice->setSampleRate(newSampleRate);
 		}
@@ -96,7 +105,7 @@ namespace eden::synth
 
 	void Synthesiser::renderVoices(AudioBuffer& outputBuffer, int startSample, int samplesToProcess)
 	{
-		for (auto voice : _voices)
+		for (auto& voice : _voices)
 		{
 			voice->renderBlock(outputBuffer, startSample, samplesToProcess);
 		}
@@ -104,8 +113,17 @@ namespace eden::synth
 
 	void Synthesiser::noteOn(const int midiChannel, const int midiNoteNumber, const float velocity)
 	{
-		// TODO: Check if already playing that note
+		// The note may already be playing.
+		if (getVoicePlayingNote(midiNoteNumber))
+		{
+			return;
+		}
+
 		auto voice = getFreeVoice();
+
+		// If there are too few voices - add more in constructor.
+		EDEN_ASSERT(voice != nullptr);
+
 		if (voice)
 		{
 			voice->startNote(midiNoteNumber, velocity, 0);	// TODO: handle pitch wheel
@@ -116,6 +134,7 @@ namespace eden::synth
 	void Synthesiser::noteOff(const int midiChannel, const int midiNoteNumber, const float velocity)
 	{
 		auto voice = getVoicePlayingNote(midiNoteNumber);
+
 		if (voice)
 		{
 			voice->stopNote(velocity, true);
@@ -126,33 +145,19 @@ namespace eden::synth
 	{
 		for (unsigned i = 0; i < numVoicesToAdd; ++i)
 		{
-			auto newVoice = std::make_shared<Voice>();
-			newVoice->setSampleRate(_sampleRate);
-			_voices.push_back(newVoice);
+			_voices.emplace_back(std::make_unique<Voice>(_sampleRate));
 		}
 	}
 
-	std::shared_ptr<Voice> Synthesiser::getFreeVoice()
+	Voice* Synthesiser::getFreeVoice()
 	{
-		for (auto voice : _voices)
-		{
-			if (!voice->isPlaying())
-			{
-				return voice;
-			}
-		}
-		return nullptr;
+		const auto result = std::find_if_not(_voices.begin(), _voices.end(), [](std::unique_ptr<Voice>& voice) { return voice->isPlaying(); });
+		return result != _voices.end() ? result->get() : nullptr;
 	}
 
-	std::shared_ptr<Voice> Synthesiser::getVoicePlayingNote(const int midiNoteNumber)
+	Voice* Synthesiser::getVoicePlayingNote(const int midiNoteNumber)
 	{
-		for (auto voice : _voices)
-		{
-			if (voice->isPlayingNote(midiNoteNumber))
-			{
-				return voice;
-			}
-		}
-		return nullptr;
+		const auto result = std::find_if(_voices.begin(), _voices.end(), [&midiNoteNumber](std::unique_ptr<Voice>& voice) { return voice->isPlayingNote(midiNoteNumber); });
+		return result != _voices.end() ? result->get() : nullptr;
 	}
 }

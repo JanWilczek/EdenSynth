@@ -1,11 +1,16 @@
+/// 
+/// \author Jan Wilczek
+/// \date 29.08.2018
+/// 
 #include "eden_impl/EdenSynthesiserImpl.h"
 #include "eden/AudioBuffer.h"
 
 namespace eden
 {
 	EdenSynthesiserImpl::EdenSynthesiserImpl()
-		: _synthesiser(new synth::Synthesiser())
-	{}
+		: _synthesiser(std::make_unique<synth::Synthesiser>(_sampleRate))
+	{
+	}
 
 	void EdenSynthesiserImpl::processInputBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer)
 	{

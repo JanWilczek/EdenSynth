@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="test.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="eden_test\AudioBufferTest.cpp">
+      <Filter>eden_test</Filter>
+    </ClCompile>
+    <ClCompile Include="synth_test\SynthesiserTest.cpp">
+      <Filter>synth_test</Filter>
+    </ClCompile>
+    <ClCompile Include="eden_test\MidiBufferTest.cpp">
+      <Filter>eden_test</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="eden_test">
+      <UniqueIdentifier>{ee86677a-e01c-4a87-9495-2e3544a02554}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="synth_test">
+      <UniqueIdentifier>{f1309d23-d074-4f33-93a8-0ebe84f85e0a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

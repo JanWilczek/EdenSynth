@@ -157,6 +157,8 @@
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
     <ClInclude Include="include\synth\Synthesiser.h" />
     <ClInclude Include="include\synth\Voice.h" />
+    <ClInclude Include="include\utility\EdenAssert.h" />
+    <ClInclude Include="include\utility\MathConstants.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden\AudioBuffer.cpp" />

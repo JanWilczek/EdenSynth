@@ -4172,15 +4172,6 @@
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h">
       <Filter>JUCE Library Code</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\SineWaveSound.h">
-      <Filter>EdenSynth\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\SineWaveVoice.h">
-      <Filter>EdenSynth\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\SynthAudioSource.h">
-      <Filter>EdenSynth\Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\EdenAdapter.h">
       <Filter>EdenSynth\Source</Filter>
     </ClInclude>

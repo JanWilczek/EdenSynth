@@ -1,3 +1,7 @@
+/// 
+/// \author Jan Wilczek
+/// \date 29.08.2018
+/// 
 #include "eden/EdenSynthesiser.h"
 #include "eden/AudioBuffer.h"
 #include "eden/MidiBuffer.h"

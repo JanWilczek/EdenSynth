@@ -1,4 +1,9 @@
 #pragma once
+/// 
+/// \author Jan Wilczek
+/// \date 27.08.2018
+/// 
+#include <functional>
 
 namespace eden
 {
@@ -16,7 +21,7 @@ namespace eden
 		/// Creates a new audio buffer allocating the given number of channels of given length.
 		/// </summary>
 		/// <param name="numChannels"></param>
-		/// <param name="length"></param>
+		/// <param name="numSamples"></param>
 		AudioBuffer(int numChannels, unsigned numSamples);
 
 		/// <summary>
@@ -29,18 +34,52 @@ namespace eden
 		
 		~AudioBuffer();
 
+		/// <returns>array of pointers to inner mutable data block, each element in array being a pointer to a channel</returns>
+		SampleType** getArrayOfWritePointers() const noexcept;
+
+		/// <returns>array of pointers to inner immutable data block, each element in array being a pointer to a channel</returns>
+		const SampleType** getArrayOfReadPointers() const noexcept;
+
+		/// <summary>
+		/// Sets the number of used channels in the buffer. May need to allocate data.
+		/// </summary>
+		//void setNumChannels(int numChannels);
+
+		/// <returns>currently used number of channels</returns>
 		int getNumChannels() const noexcept;
+
+		/// <summary>
+		/// Sets the length of the buffer. May need to allocate data.
+		/// </summary>
+		//void setNumSamples(unsigned length);
+
+		/// <returns>current length of the buffer</returns>
 		unsigned getNumSamples() const noexcept;
 
-		void addSample(int destChannel, int destSample, SampleType valueToAdd);
+		/// <summary>
+		/// Adds <paramref="valueToAdd"> at a specified position.
+		/// </summary>
+		/// <param name="destChannel">channel of the sample</param>
+		/// <param name="destSample">index of the sample</param>
+		/// <param name="valueToAdd"></param>
+		void addSample(int destChannel, unsigned destSample, SampleType valueToAdd);
 
-		void clear();
+		/// <summary>
+		/// Fills all currently used buffer with the given value.
+		/// </summary>
+		/// <param name="value"></param>
+		void fill(SampleType value);
+
+		/// <summary>
+		/// Performs given operation on each channel.
+		/// </summary>
+		/// <param name="callback">function to call on each channel (array of samples)</param>
+		void forEachChannel(std::function<void(SampleType*)> callback);
 
 	private:
 		int _numChannels = 2;
-		unsigned _numSamples = 512;	// TODO: Reconsider - is it safe to have number of samples given as unsigned int?
+		unsigned _numSamples = 512;
 		SampleType** _channels;
-		SampleType* _preallocatedChannelSpace[32];
 		bool _ownsChannels;
 	};
 }
