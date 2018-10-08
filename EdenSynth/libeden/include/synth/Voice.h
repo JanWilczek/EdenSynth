@@ -31,8 +31,7 @@ namespace eden::synth
 		/// Stops playing note. It should only be called if <c>startNote()</c> method has been invoked earlier.
 		/// </summary>
 		/// <param name="velocity"></param>
-		/// <param name="allowTailOff"></param>
-		void stopNote(float velocity, bool allowTailOff);
+		void stopNote(float velocity);
 
 		/// <summary>
 		/// Renders played note to the given audio buffer. 
@@ -44,6 +43,8 @@ namespace eden::synth
 		/// <param name="startSample">sample index in the buffer to start rendering from</param>
 		/// <param name="samplesToRender">number of samples to render</param>
 		void renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
+
+		void pitchWheelMoved(int newPitchWheelValue);
 
 		/// <returns>true if the voice is active (renders a note in <c>renderBlock()</c>, false otherwise</returns>
 		bool isPlaying() const noexcept;
@@ -68,12 +69,16 @@ namespace eden::synth
 		/// <param name="startSample">the index of sample to render, will be incremented by 1</param>
 		void generateSample(AudioBuffer& outputBuffer, int& startSample);
 
-	private:
+		void finalizeVoice();
+		void setPitch(double newPitch);
+
 		double _sampleRate;
-		AudioBuffer::SampleType currentAngle = 0.0;
-		AudioBuffer::SampleType angleDelta = 0.0;
-		AudioBuffer::SampleType level = 0.0;
-		AudioBuffer::SampleType tailOff = 0.0;
+		bool _isActive = false;
+		//AudioBuffer::SampleType currentAngle = 0.0;
+		//AudioBuffer::SampleType angleDelta = 0.0;
+		//AudioBuffer::SampleType level = 0.0;
+		//AudioBuffer::SampleType tailOff = 0.0;
+		
 		int _currentNote = -1;
 	};
 }

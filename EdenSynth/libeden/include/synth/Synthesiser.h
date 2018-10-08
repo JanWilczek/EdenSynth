@@ -71,7 +71,7 @@ namespace eden::synth
 		/// <param name="midiChannel"></param>
 		/// <param name="midiNoteNumber"></param>
 		/// <param name="velocity"></param>
-		void noteOn(const int midiChannel, const int midiNoteNumber, const float velocity);
+		void noteOn(const int midiChannel, const int midiNoteNumber, const float velocity, const int currentPitchWheelPosition);
 
 		/// <summary>
 		/// Handle note off event.

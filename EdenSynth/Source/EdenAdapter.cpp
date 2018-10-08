@@ -30,6 +30,7 @@ namespace eden_vst
 				eden::MidiMessage edenMessage(m.getChannel(), eden::MidiMessage::MidiMessageType::NoteOn);
 				edenMessage.setVelocity(m.getFloatVelocity());
 				edenMessage.setNoteNumber(m.getNoteNumber());
+				edenMessage.setPitchWheelPosition(m.getPitchWheelValue());
 				edenMidiBuffer.addEvent(std::move(edenMessage), midiEventPos);
 			}
 			else if (m.isNoteOff())

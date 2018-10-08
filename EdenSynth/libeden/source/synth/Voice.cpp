@@ -16,115 +16,159 @@ namespace eden::synth
 	{
 	}
 
+	//void Voice::startNote(int midiNoteNumber, float velocity, int currentPitchWheelPosition)
+	//{
+	//	_currentNote = midiNoteNumber;
+	//	currentAngle = 0.0;
+	//	level = static_cast<AudioBuffer::SampleType>(velocity * 0.15);
+	//	tailOff = 0.0;
+
+	//	const auto cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+	//	const auto cyclesPerSample = cyclesPerSecond / getSampleRate();
+
+	//	angleDelta = static_cast<AudioBuffer::SampleType>(cyclesPerSample * 2.0 * 3.141);//juce::MathConstants<double>::pi;
+	//}
+
 	void Voice::startNote(int midiNoteNumber, float velocity, int currentPitchWheelPosition)
 	{
+		_isActive = true;
+
 		_currentNote = midiNoteNumber;
-		currentAngle = 0.0;
-		level = static_cast<AudioBuffer::SampleType>(velocity * 0.15);
-		tailOff = 0.0;
 
-		const auto cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-		const auto cyclesPerSample = cyclesPerSecond / getSampleRate();
+		const auto pitch = _pitchHandler.getPitch(_currentNote, currentPitchWheelPosition);
+		setPitch(pitch);
 
-		angleDelta = static_cast<AudioBuffer::SampleType>(cyclesPerSample * 2.0 * 3.141);//juce::MathConstants<double>::pi;
+		_signalGenerator->setVelocity(velocity);
+
+		_envelopeGenerator->attack();
 	}
 
-	void Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int numSamples)
+	void Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender)
 	{
-		if (angleDelta != 0.0)
-		{
-			if (tailOff > 0.0)
-			{
-				while (--numSamples > 0)
-				{
-					generateSample(outputBuffer, startSample);
+		_signalGenerator->generateSignal(outputBuffer, startSample, samplesToRender);
 
-					tailOff *= static_cast<AudioBuffer::SampleType>(0.998);
+		_subtractiveModule->process(outputBuffer, startSample, samplesToRender);
 
-					if (tailOff <= 0.005f)
-					{
-						//clearCurrentNote();
-						currentAngle = 0.0;
-						angleDelta = 0.0f;
-						tailOff = 0.0f;
-						_currentNote = -1;
-						break;
-					}
-				}
-			}
-			else
-			{
-				while (--numSamples >= 0)
-				{
-					generateSample(outputBuffer, startSample);
-				}
-			}
-		}
+		_waveshapingModule->process(outputBuffer, startSample, samplesToRender);
+
+		_envelopeGenerator->applyEnvelope(outputBuffer, startSample, samplesToRender);
 	}
 
-	void Voice::stopNote(float, bool allowTailOff)
+	//void Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int numSamples)
+	//{
+	//	if (angleDelta != 0.0)
+	//	{
+	//		if (tailOff > 0.0)
+	//		{
+	//			while (--numSamples > 0)
+	//			{
+	//				generateSample(outputBuffer, startSample);
+
+	//				tailOff *= static_cast<AudioBuffer::SampleType>(0.998);
+
+	//				if (tailOff <= 0.005f)
+	//				{
+	//					//clearCurrentNote();
+	//					currentAngle = 0.0;
+	//					angleDelta = 0.0f;
+	//					tailOff = 0.0f;
+	//					_currentNote = -1;
+	//					break;
+	//				}
+	//			}
+	//		}
+	//		else
+	//		{
+	//			while (--numSamples >= 0)
+	//			{
+	//				generateSample(outputBuffer, startSample);
+	//			}
+	//		}
+	//	}
+	//}
+
+	void Voice::stopNote(float /* velocity */)
 	{
-		if (allowTailOff)
-		{
-			if (tailOff == 0.0)
-			{
-				tailOff = 1.0;
-			}
-		}
-		else
-		{
-			//clearCurrentNote();
-			angleDelta = 0.0f;
-			_currentNote = -1;
-			currentAngle = 0.0;
-		}
+		_envelopeGenerator->release();
 	}
 
-	/*void pitchWheelMoved(int newPitchWheelValue)
-	{
+	//void Voice::stopNote(float, bool allowTailOff)
+	//{
+	//	if (allowTailOff)
+	//	{
+	//		if (tailOff == 0.0)
+	//		{
+	//			tailOff = 1.0;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		//clearCurrentNote();
+	//		angleDelta = 0.0f;
+	//		_currentNote = -1;
+	//		currentAngle = 0.0;
+	//	}
+	//}
 
+	void Voice::pitchWheelMoved(int newPitchWheelValue)
+	{
+		const auto newPitch = _pitchHandler.getPitch(_currentNote, newPitchWheelValue);
+		setPitch(newPitch);
 	}
 
-	void controllerMoved(int controllerNumber, int newControllerValue) override
-	{
+	//void controllerMoved(int controllerNumber, int newControllerValue) override
+	//{
 
-	}*/
+	//}*/
 
 	bool Voice::isPlaying() const noexcept
 	{
-		return _currentNote != -1;
+		return _isActive;
 	}
 
 	bool Voice::isPlayingNote(const int midiNoteNumber) const noexcept
 	{
 		return _currentNote == midiNoteNumber;
 	}
-	
-	double Voice::getSampleRate() const noexcept
+
+	//double Voice::getSampleRate() const noexcept
+	//{
+	//	return _sampleRate;
+	//}
+
+	//void Voice::setSampleRate(double newSampleRate)
+	//{
+	//	_sampleRate = newSampleRate;
+	//}
+
+	//void Voice::generateSample(AudioBuffer& outputBuffer, int& startSample)
+	//{
+	//	auto currentSample = static_cast<AudioBuffer::SampleType>(std::sin(currentAngle) * level);
+
+	//	if (tailOff > 0.0)
+	//	{
+	//		currentSample *= tailOff;
+	//	}
+
+	//	for (auto i = outputBuffer.getNumChannels() - 1; i >= 0; --i)
+	//	{
+	//		outputBuffer.addSample(i, startSample, currentSample);
+	//	}
+
+	//	currentAngle += angleDelta;
+	//	++startSample;
+	//}
+
+	void Voice::finalizeVoice()
 	{
-		return _sampleRate;
+		_currentNote = -1;
+		_isActive = false;
 	}
 
-	void Voice::setSampleRate(double newSampleRate)
+	void Voice::setPitch(double newPitch)
 	{
-		_sampleRate = newSampleRate;
-	}
+		_signalGenerator->setPitch(pitch);
 
-	void Voice::generateSample(AudioBuffer& outputBuffer, int& startSample)
-	{
-		auto currentSample = static_cast<AudioBuffer::SampleType>(std::sin(currentAngle) * level);
-
-		if (tailOff > 0.0)
-		{
-			currentSample *= tailOff;
-		}
-
-		for (auto i = outputBuffer.getNumChannels() - 1; i >= 0; --i)
-		{
-			outputBuffer.addSample(i, startSample, currentSample);
-		}
-
-		currentAngle += angleDelta;
-		++startSample;
+		_subtractiveModule->setPitch(pitch);
 	}
 }

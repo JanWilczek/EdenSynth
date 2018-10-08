@@ -57,4 +57,14 @@ namespace eden
 	{
 		_velocity = velocity;
 	}
+
+	int MidiMessage::getPitchWheelPosition()
+	{
+		return _pitchWheelPosition;
+	}
+
+	void MidiMessage::setPitchWheelPosition(int position)
+	{
+		_pitchWheelPosition = position;
+	}
 }

@@ -77,10 +77,15 @@ namespace eden
 		/// <param name="velocity"></param>
 		void setVelocity(float velocity);
 
+		int getPitchWheelPosition();
+
+		void setPitchWheelPosition(int position);
+
 	private:
 		MidiMessageType _type;
 		int _channel = 0;
 		int _noteNumber = -1;
 		float _velocity = 0;
+		int _pitchWheelPosition = 0;
 	};
 }
