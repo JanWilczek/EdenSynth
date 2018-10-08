@@ -49,6 +49,18 @@
     <Filter Include="Header Files\synth\envelope">
       <UniqueIdentifier>{bb9673a0-3989-4063-be1f-81d05d9e5ce0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\synth\envelope">
+      <UniqueIdentifier>{57dcccc3-9044-4d1f-b010-beaeb7acea63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\synth\wavetable">
+      <UniqueIdentifier>{04763cc2-925a-47a0-baa6-88acb1072d08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\synth\subtractive">
+      <UniqueIdentifier>{7cd7abc1-bfd2-4088-bdd1-65d8b7164ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\synth\waveshaping">
+      <UniqueIdentifier>{bc528c21-2cd0-4513-a108-e97a0b35eb01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h">
@@ -115,6 +127,18 @@
     </ClCompile>
     <ClCompile Include="source\synth\Voice.cpp">
       <Filter>Source Files\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\EnvelopeGenerator.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp">
+      <Filter>Source Files\synth\subtractive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\waveshaping\WaveshapingModule.cpp">
+      <Filter>Source Files\synth\waveshaping</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp">
+      <Filter>Source Files\synth\wavetable</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

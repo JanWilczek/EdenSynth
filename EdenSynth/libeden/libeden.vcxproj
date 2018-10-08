@@ -171,8 +171,12 @@
     <ClCompile Include="source\eden\MidiBuffer.cpp" />
     <ClCompile Include="source\eden\MidiMessage.cpp" />
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp" />
+    <ClCompile Include="source\synth\envelope\EnvelopeGenerator.cpp" />
+    <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp" />
     <ClCompile Include="source\synth\Synthesiser.cpp" />
     <ClCompile Include="source\synth\Voice.cpp" />
+    <ClCompile Include="source\synth\waveshaping\WaveshapingModule.cpp" />
+    <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
