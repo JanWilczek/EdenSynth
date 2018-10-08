@@ -26,51 +26,43 @@ namespace eden::synth
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples)
 	{
+		// 1. Empty the buffer - it may contain garbage.
 		bufferToFill.fill(0);
-
+		
 		auto midiIterator = midiBuffer.begin();
 
 		while (numSamples > 0)
 		{
-			// 1. Proceed with voice rendering if there are no midi events.
-			if (midiIterator == midiBuffer.end())
+			// 2. Calculate the number of samples to render.
+			const auto samplesToNextMidiMessage = midiIterator != midiBuffer.end() ? midiIterator->sampleTimeStamp - startSample : numSamples;
+			const auto samplesToRender = std::min(numSamples, samplesToNextMidiMessage);
+
+			// 3. Render voices to the end or to the next MIDI message.
+			renderVoices(bufferToFill, startSample, samplesToRender);
+
+			// 4. Handle MIDI message if there is any.
+			if (midiIterator != midiBuffer.end())
 			{
-				renderVoices(bufferToFill, startSample, numSamples);
-
-				return;
-			}
-
-			const int samplesToNextMidiMessage = midiIterator->sampleTimeStamp - startSample;
-
-			// 2. When message happened outside the rendered block.
-			if (samplesToNextMidiMessage >= numSamples)
-			{
-				renderVoices(bufferToFill, startSample, numSamples);
-
 				handleMidiMessage(midiIterator->message);
-
-				break;
+				++midiIterator;
 			}
 
-			// 3. Render samples till the next midi message.
-			renderVoices(bufferToFill, startSample, samplesToNextMidiMessage);
-
-			handleMidiMessage(midiIterator->message);
-
-			// 4. Advance in buffers.
-			startSample += samplesToNextMidiMessage;
-			numSamples -= samplesToNextMidiMessage;
-			++midiIterator;
+			// 5. Advance in buffer.
+			startSample += samplesToRender;
+			numSamples -= samplesToRender;
 		}
 
+		// 6. Handle all remaining MIDI messages.
 		while (midiIterator != midiBuffer.end())
 		{
 			handleMidiMessage(midiIterator->message);
+			++midiIterator;
 		}
 
+		// 7. Clear the MIDI buffer, so that there is no MIDI output.
 		midiBuffer.clear();
 	}
-
+	
 	double Synthesiser::getSampleRate() const noexcept
 	{
 		return _sampleRate;
