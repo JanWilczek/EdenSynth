@@ -34,6 +34,21 @@
     <Filter Include="Header Files\utility">
       <UniqueIdentifier>{0df9fb59-6100-4c96-9c3b-7d94a23b0357}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\synth\waveshaping">
+      <UniqueIdentifier>{f4a71b0d-aae6-4168-8646-da9408dc46b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\synth\subtractive">
+      <UniqueIdentifier>{5d38e1d0-5981-4f10-8094-4a510d28d52d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\synth\wavetable">
+      <UniqueIdentifier>{01e8e6c2-bc3c-4041-bde4-b7f0e145e01c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\synth\interfaces">
+      <UniqueIdentifier>{faa5da54-b6a7-4b03-a8a2-7ad12156fe26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\synth\envelope">
+      <UniqueIdentifier>{bb9673a0-3989-4063-be1f-81d05d9e5ce0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h">
@@ -62,6 +77,18 @@
     </ClInclude>
     <ClInclude Include="include\utility\EdenAssert.h">
       <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\interfaces\IModule.h">
+      <Filter>Header Files\synth\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\subtractive\SubtractiveModule.h">
+      <Filter>Header Files\synth\subtractive</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\waveshaping\WaveshapingModule.h">
+      <Filter>Header Files\synth\waveshaping</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\EnvelopeGenerator.h">
+      <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

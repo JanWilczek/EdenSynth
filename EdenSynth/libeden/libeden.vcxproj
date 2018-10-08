@@ -155,8 +155,12 @@
     <ClInclude Include="include\eden\MidiBuffer.h" />
     <ClInclude Include="include\eden\MidiMessage.h" />
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
+    <ClInclude Include="include\synth\envelope\EnvelopeGenerator.h" />
+    <ClInclude Include="include\synth\interfaces\IModule.h" />
+    <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
     <ClInclude Include="include\synth\Synthesiser.h" />
     <ClInclude Include="include\synth\Voice.h" />
+    <ClInclude Include="include\synth\waveshaping\WaveshapingModule.h" />
     <ClInclude Include="include\utility\EdenAssert.h" />
     <ClInclude Include="include\utility\MathConstants.h" />
   </ItemGroup>
