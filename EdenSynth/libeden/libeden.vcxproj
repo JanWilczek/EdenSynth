@@ -161,6 +161,7 @@
     <ClInclude Include="include\synth\Synthesiser.h" />
     <ClInclude Include="include\synth\Voice.h" />
     <ClInclude Include="include\synth\waveshaping\WaveshapingModule.h" />
+    <ClInclude Include="include\synth\wavetable\SignalGenerator.h" />
     <ClInclude Include="include\utility\EdenAssert.h" />
     <ClInclude Include="include\utility\MathConstants.h" />
   </ItemGroup>

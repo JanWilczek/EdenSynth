@@ -32,13 +32,11 @@ namespace eden::synth
 	void Voice::startNote(int midiNoteNumber, float velocity, int currentPitchWheelPosition)
 	{
 		_isActive = true;
-
 		_currentNote = midiNoteNumber;
+		_velocity = velocity;
 
-		const auto pitch = _pitchHandler.getPitch(_currentNote, currentPitchWheelPosition);
+		const auto pitch = calculatePitch(_currentNote, currentPitchWheelPosition);
 		setPitch(pitch);
-
-		_signalGenerator->setVelocity(velocity);
 
 		_envelopeGenerator->attack();
 	}
@@ -52,6 +50,8 @@ namespace eden::synth
 		_waveshapingModule->process(outputBuffer, startSample, samplesToRender);
 
 		_envelopeGenerator->applyEnvelope(outputBuffer, startSample, samplesToRender);
+
+		applyVelocity(outputBuffer, startSample, samplesToRender);
 	}
 
 	//void Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int numSamples)
@@ -112,7 +112,7 @@ namespace eden::synth
 
 	void Voice::pitchWheelMoved(int newPitchWheelValue)
 	{
-		const auto newPitch = _pitchHandler.getPitch(_currentNote, newPitchWheelValue);
+		const auto newPitch = calculatePitch(_currentNote, newPitchWheelValue);
 		setPitch(newPitch);
 	}
 
@@ -165,10 +165,16 @@ namespace eden::synth
 		_isActive = false;
 	}
 
+	double Voice::calculatePitch(int midiNoteNumber, int pitchWheelPosition)
+	{
+		return MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+	}
+
+
 	void Voice::setPitch(double newPitch)
 	{
-		_signalGenerator->setPitch(pitch);
+		_signalGenerator->setPitch(newPitch);
 
-		_subtractiveModule->setPitch(pitch);
+		_subtractiveModule->setPitch(newPitch);
 	}
 }

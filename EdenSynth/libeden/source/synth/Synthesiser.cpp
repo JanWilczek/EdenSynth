@@ -129,7 +129,7 @@ namespace eden::synth
 
 		if (voice)
 		{
-			voice->stopNote(velocity, true);
+			voice->stopNote(velocity);
 		}
 	}
 

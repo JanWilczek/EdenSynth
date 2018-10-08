@@ -13,5 +13,6 @@ namespace eden::synth::subtractive
 		~SubtractiveModule() override;
 
 		void process(eden::AudioBuffer& audioBuffer, int startSample, int samplesToProcess) override;
+		void setPitch(double pitch);
 	};
 }

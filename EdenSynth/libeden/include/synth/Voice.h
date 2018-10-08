@@ -4,6 +4,10 @@
 /// \date 02.09.2018
 /// 
 #include "eden/AudioBuffer.h"
+#include "synth/envelope/EnvelopeGenerator.h"
+#include "synth/subtractive/SubtractiveModule.h"
+#include "synth/waveshaping/WaveshapingModule.h"
+#include "synth/wavetable/SignalGenerator.h"
 
 namespace eden::synth
 {
@@ -70,6 +74,8 @@ namespace eden::synth
 		void generateSample(AudioBuffer& outputBuffer, int& startSample);
 
 		void finalizeVoice();
+		double calculatePitch(int midiNoteNumber, int pitchWheelPosition);
+		void applyVelocity(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
 		void setPitch(double newPitch);
 
 		double _sampleRate;
@@ -78,7 +84,11 @@ namespace eden::synth
 		//AudioBuffer::SampleType angleDelta = 0.0;
 		//AudioBuffer::SampleType level = 0.0;
 		//AudioBuffer::SampleType tailOff = 0.0;
-		
+		std::unique_ptr<envelope::EnvelopeGenerator> _envelopeGenerator;
+		std::unique_ptr<subtractive::SubtractiveModule> _subtractiveModule;
+		std::unique_ptr<waveshaping::WaveshapingModule> _waveshapingModule;
+		std::unique_ptr<wavetable::SignalGenerator> _signalGenerator;
 		int _currentNote = -1;
+		float _velocity = 0.f;
 	};
 }

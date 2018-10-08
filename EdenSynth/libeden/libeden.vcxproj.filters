@@ -90,6 +90,9 @@
     <ClInclude Include="include\synth\envelope\EnvelopeGenerator.h">
       <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\wavetable\SignalGenerator.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
