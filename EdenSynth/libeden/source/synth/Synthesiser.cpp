@@ -85,7 +85,7 @@ namespace eden::synth
 		switch(messageType)
 		{
 		case MidiMessage::MidiMessageType::NoteOn:
-			noteOn(channel, midiMessage.getNoteNumber(), midiMessage.getVelocity(), midiMessage.getPitchWheelPosition());
+			noteOn(channel, midiMessage.getNoteNumber(), midiMessage.getVelocity());
 			break;
 		case MidiMessage::MidiMessageType::NoteOff:
 			noteOff(channel, midiMessage.getNoteNumber(), midiMessage.getVelocity());
@@ -103,7 +103,7 @@ namespace eden::synth
 		}
 	}
 
-	void Synthesiser::noteOn(const int midiChannel, const int midiNoteNumber, const float velocity, const int currentPitchWheelPosition)
+	void Synthesiser::noteOn(const int midiChannel, const int midiNoteNumber, const float velocity)
 	{
 		// The note may already be playing.
 		if (getVoicePlayingNote(midiNoteNumber))
@@ -118,9 +118,8 @@ namespace eden::synth
 
 		if (voice)
 		{
-			voice->startNote(midiNoteNumber, velocity, currentPitchWheelPosition);	// TODO: handle pitch wheel
+			voice->startNote(midiNoteNumber, velocity);	// TODO: handle pitch wheel
 		}
-
 	}
 	
 	void Synthesiser::noteOff(const int midiChannel, const int midiNoteNumber, const float velocity)

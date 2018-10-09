@@ -27,4 +27,8 @@ namespace eden::synth
 		/// <param name="samplesToRender"></param>
 		virtual void process(eden::AudioBuffer& audioBuffer, int startSample, int samplesToProcess) = 0;
 	};
+
+	inline IModule::~IModule()
+	{	
+	}
 }

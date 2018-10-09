@@ -3,18 +3,27 @@
 /// \author Jan Wilczek
 /// \date 08.10.2018
 /// 
-
-namespace eden
-{
-	class AudioBuffer;
-}
+#include "eden/AudioBuffer.h"
 
 namespace eden::synth::wavetable
 {
 	class SignalGenerator
 	{
 	public:
-		void generateSignal(eden::AudioBuffer& audioBuffer, int startSample, int samplesToGenerate);
+		explicit SignalGenerator(double sampleRate);
+
+		void generateSignal(AudioBuffer::SampleType* audioChannel, int startSample, int samplesToGenerate);
+		void stop();
 		void setPitch(double pitch);
+		void setSampleRate(double sampleRate);
+
+	private:
+		void generateSample(AudioBuffer::SampleType* audioChannel, int sampleIndex);
+
+		double _currentPhase = 0.0;
+		double _phaseDeltaPerSample = 0.0;
+		double _sampleRate;
+		//SignalSource _signalSource;
+		//IInterpolator _interpolator;
 	};
 }

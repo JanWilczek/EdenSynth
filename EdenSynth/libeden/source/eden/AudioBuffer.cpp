@@ -3,6 +3,7 @@
 /// \date 02.09.2018
 /// 
 #include "eden/AudioBuffer.h"
+#include "utility/EdenAssert.h"
 
 namespace eden
 {
@@ -38,14 +39,29 @@ namespace eden
 		}
 	}
 
+	AudioBuffer::SampleType* AudioBuffer::getWritePointer(int channel) const
+	{
+		EDEN_ASSERT(channel < _numChannels);
+
+		return _channels[channel];
+	}
+
 	AudioBuffer::SampleType** AudioBuffer::getArrayOfWritePointers() const noexcept
 	{
 		return _channels;
 	}
 
+	const AudioBuffer::SampleType* AudioBuffer::getReadPointer(int channel) const
+	{
+		EDEN_ASSERT(channel < _numChannels);
+
+		return const_cast<const SampleType*>(_channels[channel]);
+	}
+
+
 	const AudioBuffer::SampleType** AudioBuffer::getArrayOfReadPointers() const noexcept
 	{
-		return const_cast<const AudioBuffer::SampleType**>(_channels);
+		return const_cast<const SampleType**>(_channels);
 	}
 
 
@@ -83,4 +99,14 @@ namespace eden
 		}
 	}
 
+	void AudioBuffer::forEachSample(std::function<void(SampleType&)> callback)
+	{
+		for (int channel = 0; channel < _numChannels; ++channel)
+		{
+			for (unsigned sample = 0; sample < _numSamples; ++sample)
+			{
+				callback(_channels[channel][sample]);
+			}
+		}
+	}
 }

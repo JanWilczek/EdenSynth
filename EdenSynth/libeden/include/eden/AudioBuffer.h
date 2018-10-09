@@ -34,8 +34,12 @@ namespace eden
 		
 		~AudioBuffer();
 
+		SampleType* getWritePointer(int channel) const;
+
 		/// <returns>array of pointers to inner mutable data block, each element in array being a pointer to a channel</returns>
 		SampleType** getArrayOfWritePointers() const noexcept;
+
+		const SampleType* getReadPointer(int channel) const;
 
 		/// <returns>array of pointers to inner immutable data block, each element in array being a pointer to a channel</returns>
 		const SampleType** getArrayOfReadPointers() const noexcept;
@@ -75,6 +79,8 @@ namespace eden
 		/// </summary>
 		/// <param name="callback">function to call on each channel (array of samples)</param>
 		void forEachChannel(std::function<void(SampleType*)> callback);
+
+		void forEachSample(std::function<void(SampleType&)> callback);
 
 	private:
 		int _numChannels = 2;

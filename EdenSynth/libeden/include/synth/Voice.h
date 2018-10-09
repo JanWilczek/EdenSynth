@@ -29,7 +29,7 @@ namespace eden::synth
 		/// <param name="midiNoteNumber"></param>
 		/// <param name="velocity"></param>
 		/// <param name="currentPitchWheelPosition"></param>
-		void startNote(int midiNoteNumber, float velocity, int currentPitchWheelPosition);
+		void startNote(int midiNoteNumber, float velocity);
 
 		/// <summary>
 		/// Stops playing note. It should only be called if <c>startNote()</c> method has been invoked earlier.
@@ -65,18 +65,20 @@ namespace eden::synth
 		/// <param name="newSampleRate"></param>
 		void setSampleRate(double newSampleRate);
 
+		void finalizeVoice();
+
 	private:
 		/// <summary>
 		/// Generates a single sample.
 		/// </summary>
 		/// <param name="outputBuffer"></param>
 		/// <param name="startSample">the index of sample to render, will be incremented by 1</param>
-		void generateSample(AudioBuffer& outputBuffer, int& startSample);
+		//void generateSample(AudioBuffer& outputBuffer, int& startSample);
 
-		void finalizeVoice();
 		double calculatePitch(int midiNoteNumber, int pitchWheelPosition);
-		void applyVelocity(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
 		void setPitch(double newPitch);
+		void applyVelocity(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
+		void duplicateMonoChannel(AudioBuffer& outputBuffer, int channelToDuplicate, int startSample, int samplesToCopy);
 
 		double _sampleRate;
 		bool _isActive = false;
@@ -84,11 +86,11 @@ namespace eden::synth
 		//AudioBuffer::SampleType angleDelta = 0.0;
 		//AudioBuffer::SampleType level = 0.0;
 		//AudioBuffer::SampleType tailOff = 0.0;
-		std::unique_ptr<envelope::EnvelopeGenerator> _envelopeGenerator;
+		std::unique_ptr<wavetable::SignalGenerator> _signalGenerator;
 		std::unique_ptr<subtractive::SubtractiveModule> _subtractiveModule;
 		std::unique_ptr<waveshaping::WaveshapingModule> _waveshapingModule;
-		std::unique_ptr<wavetable::SignalGenerator> _signalGenerator;
+		std::unique_ptr<envelope::EnvelopeGenerator> _envelopeGenerator;
 		int _currentNote = -1;
-		float _velocity = 0.f;
+		AudioBuffer::SampleType _velocity = 0.f;
 	};
 }
