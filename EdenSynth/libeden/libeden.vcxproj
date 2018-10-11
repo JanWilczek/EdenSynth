@@ -157,9 +157,13 @@
     <ClInclude Include="include\eden\MidiMessage.h" />
     <ClInclude Include="include\eden\SampleType.h" />
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
+    <ClInclude Include="include\synth\envelope\ADBDR.h" />
+    <ClInclude Include="include\synth\envelope\Decay.h" />
     <ClInclude Include="include\synth\envelope\Envelope.h" />
     <ClInclude Include="include\synth\envelope\EnvelopeGenerator.h" />
     <ClInclude Include="include\synth\envelope\EnvelopeSegment.h" />
+    <ClInclude Include="include\synth\envelope\Attack.h" />
+    <ClInclude Include="include\synth\envelope\Release.h" />
     <ClInclude Include="include\synth\interfaces\IModule.h" />
     <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
     <ClInclude Include="include\synth\Synthesiser.h" />

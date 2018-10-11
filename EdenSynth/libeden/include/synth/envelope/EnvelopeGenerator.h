@@ -4,8 +4,8 @@
 /// \date 08.10.2018
 /// 
 #include <chrono>
-#include "eden/AudioBuffer.h"
 #include <map>
+#include "eden/AudioBuffer.h"
 
 namespace eden
 {
@@ -39,7 +39,7 @@ namespace eden::synth::envelope
 
 		explicit EnvelopeGenerator(Voice& voice);
 
-		void applyEnvelope(AudioBuffer::SampleType* audioChannel, int startSample, int samplesToProcess);
+		void applyEnvelope(SampleType* audioChannel, int startSample, int samplesToProcess);
 		void attack();
 		void release();
 

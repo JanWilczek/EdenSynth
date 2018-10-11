@@ -21,11 +21,11 @@ namespace eden::synth::envelope
 		initializePhase(EnvelopePhase::Silent, { 0ms, BASE_VALUE, BASE_VALUE, 0.0, 0.0 });
 	}
 
-	void EnvelopeGenerator::applyEnvelope(AudioBuffer::SampleType* audioChannel, int startSample, int samplesToProcess)
+	void EnvelopeGenerator::applyEnvelope(SampleType* audioChannel, int startSample, int samplesToProcess)
 	{
 		for (auto sample = startSample; sample < startSample + samplesToProcess; ++sample)
 		{
-			audioChannel[sample] *= static_cast<AudioBuffer::SampleType>(_currentEnvelopeValue);
+			audioChannel[sample] *= static_cast<SampleType>(_currentEnvelopeValue);
 			increaseGain();
 			checkAndChangePhase();
 		}

@@ -6,6 +6,7 @@
 
 #include "eden/AudioBuffer.h"
 #include "eden/MidiMessage.h"
+#include "synth/envelope/ADBDR.h"
 
 namespace eden::synth
 {
@@ -14,8 +15,9 @@ namespace eden::synth
 		, _signalGenerator(std::make_unique<wavetable::SignalGenerator>(_sampleRate))
 		, _subtractiveModule(std::make_unique<subtractive::SubtractiveModule>())
 		, _waveshapingModule(std::make_unique<waveshaping::WaveshapingModule>())
-		, _envelopeGenerator(std::make_unique<envelope::Envelope>())
+		, _envelopeGenerator(std::make_unique<envelope::ADBDR>())
 	{
+		_envelopeGenerator->setOnEnvelopeEndedCallback([this]() { finalizeVoice(); });
 	}
 
 	//void Voice::startNote(int midiNoteNumber, float velocity, int currentPitchWheelPosition)
@@ -149,6 +151,7 @@ namespace eden::synth
 	{
 		_sampleRate = newSampleRate;
 		_signalGenerator->setSampleRate(_sampleRate);
+		_envelopeGenerator->setSampleRate(_sampleRate);
 	}
 
 	//void Voice::generateSample(AudioBuffer& outputBuffer, int& startSample)
