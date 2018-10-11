@@ -47,13 +47,15 @@ namespace eden::synth
 	{
 		if (isPlaying())
 		{
-			_signalGenerator->generateSignal(outputBuffer.getWritePointer(0), startSample, samplesToRender);
+			constexpr int MONO_CHANNEL_TO_PROCESS = 0;
+
+			_signalGenerator->generateSignal(outputBuffer.getWritePointer(MONO_CHANNEL_TO_PROCESS), startSample, samplesToRender);
 
 			_subtractiveModule->process(outputBuffer, startSample, samplesToRender);
 
 			_waveshapingModule->process(outputBuffer, startSample, samplesToRender);
 
-			_envelopeGenerator->applyEnvelope(outputBuffer, startSample, samplesToRender);
+			_envelopeGenerator->applyEnvelope(outputBuffer.getWritePointer(MONO_CHANNEL_TO_PROCESS), startSample, samplesToRender);
 
 			applyVelocity(outputBuffer, startSample, samplesToRender);
 
