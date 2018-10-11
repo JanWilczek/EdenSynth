@@ -155,8 +155,11 @@
     <ClInclude Include="include\eden\EdenSynthesiser.h" />
     <ClInclude Include="include\eden\MidiBuffer.h" />
     <ClInclude Include="include\eden\MidiMessage.h" />
+    <ClInclude Include="include\eden\SampleType.h" />
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
+    <ClInclude Include="include\synth\envelope\Envelope.h" />
     <ClInclude Include="include\synth\envelope\EnvelopeGenerator.h" />
+    <ClInclude Include="include\synth\envelope\EnvelopeSegment.h" />
     <ClInclude Include="include\synth\interfaces\IModule.h" />
     <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
     <ClInclude Include="include\synth\Synthesiser.h" />
@@ -172,7 +175,9 @@
     <ClCompile Include="source\eden\MidiBuffer.cpp" />
     <ClCompile Include="source\eden\MidiMessage.cpp" />
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp" />
+    <ClCompile Include="source\synth\envelope\Envelope.cpp" />
     <ClCompile Include="source\synth\envelope\EnvelopeGenerator.cpp" />
+    <ClCompile Include="source\synth\envelope\EnvelopeSegment.cpp" />
     <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp" />
     <ClCompile Include="source\synth\Synthesiser.cpp" />
     <ClCompile Include="source\synth\Voice.cpp" />

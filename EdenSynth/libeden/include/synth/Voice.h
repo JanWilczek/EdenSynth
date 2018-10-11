@@ -4,7 +4,7 @@
 /// \date 02.09.2018
 /// 
 #include "eden/AudioBuffer.h"
-#include "synth/envelope/EnvelopeGenerator.h"
+#include "synth/envelope/Envelope.h"
 #include "synth/subtractive/SubtractiveModule.h"
 #include "synth/waveshaping/WaveshapingModule.h"
 #include "synth/wavetable/SignalGenerator.h"
@@ -89,8 +89,8 @@ namespace eden::synth
 		std::unique_ptr<wavetable::SignalGenerator> _signalGenerator;
 		std::unique_ptr<subtractive::SubtractiveModule> _subtractiveModule;
 		std::unique_ptr<waveshaping::WaveshapingModule> _waveshapingModule;
-		std::unique_ptr<envelope::EnvelopeGenerator> _envelopeGenerator;
+		std::unique_ptr<envelope::Envelope> _envelopeGenerator;
 		int _currentNote = -1;
-		AudioBuffer::SampleType _velocity = 0.f;
+		SampleType _velocity = 0.f;
 	};
 }

@@ -14,7 +14,7 @@ namespace eden::synth
 		, _signalGenerator(std::make_unique<wavetable::SignalGenerator>(_sampleRate))
 		, _subtractiveModule(std::make_unique<subtractive::SubtractiveModule>())
 		, _waveshapingModule(std::make_unique<waveshaping::WaveshapingModule>())
-		, _envelopeGenerator(std::make_unique<envelope::EnvelopeGenerator>(*this))
+		, _envelopeGenerator(std::make_unique<envelope::Envelope>())
 	{
 	}
 
@@ -35,19 +35,19 @@ namespace eden::synth
 	{
 		_isActive = true;
 		_currentNote = midiNoteNumber;
-		_velocity = static_cast<AudioBuffer::SampleType>(velocity);
+		_velocity = static_cast<SampleType>(velocity);
 
 		const auto pitch = calculatePitch(_currentNote, 0);	// TODO: Handle pitch wheel.
 		setPitch(pitch);
 
-		_envelopeGenerator->attack();
+		_envelopeGenerator->keyOn();
 	}
 
 	void Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender)
 	{
 		if (isPlaying())
 		{
-			constexpr int MONO_CHANNEL_TO_PROCESS = 0;
+			constexpr auto MONO_CHANNEL_TO_PROCESS = 0;
 
 			_signalGenerator->generateSignal(outputBuffer.getWritePointer(MONO_CHANNEL_TO_PROCESS), startSample, samplesToRender);
 
@@ -55,7 +55,7 @@ namespace eden::synth
 
 			_waveshapingModule->process(outputBuffer, startSample, samplesToRender);
 
-			_envelopeGenerator->applyEnvelope(outputBuffer.getWritePointer(MONO_CHANNEL_TO_PROCESS), startSample, samplesToRender);
+			_envelopeGenerator->apply(outputBuffer.getWritePointer(MONO_CHANNEL_TO_PROCESS), startSample, samplesToRender);
 
 			applyVelocity(outputBuffer, startSample, samplesToRender);
 
@@ -98,7 +98,7 @@ namespace eden::synth
 
 	void Voice::stopNote(float /* velocity */)
 	{
-		_envelopeGenerator->release();
+		_envelopeGenerator->keyOff();
 	}
 
 	//void Voice::stopNote(float, bool allowTailOff)
@@ -190,7 +190,7 @@ namespace eden::synth
 
 	void Voice::applyVelocity(AudioBuffer& outputBuffer, int startSample, int samplesToRender)
 	{
-		outputBuffer.forEachChannel([&](AudioBuffer::SampleType* channel)
+		outputBuffer.forEachChannel([&](SampleType* channel)
 		{
 			for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
 			{

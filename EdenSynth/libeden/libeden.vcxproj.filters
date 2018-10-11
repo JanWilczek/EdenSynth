@@ -105,6 +105,15 @@
     <ClInclude Include="include\synth\wavetable\SignalGenerator.h">
       <Filter>Header Files\synth\wavetable</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\envelope\EnvelopeSegment.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\SampleType.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\Envelope.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -139,6 +148,12 @@
     </ClCompile>
     <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp">
       <Filter>Source Files\synth\wavetable</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\EnvelopeSegment.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\Envelope.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

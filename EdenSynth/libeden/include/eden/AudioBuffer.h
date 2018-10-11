@@ -4,6 +4,7 @@
 /// \date 27.08.2018
 /// 
 #include <functional>
+#include "eden/SampleType.h"
 
 namespace eden
 {
@@ -13,8 +14,6 @@ namespace eden
 	class AudioBuffer
 	{
 	public:
-		typedef float SampleType;
-
 		AudioBuffer() = default;
 
 		/// <summary>
