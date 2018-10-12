@@ -99,9 +99,6 @@
     <ClInclude Include="include\synth\waveshaping\WaveshapingModule.h">
       <Filter>Header Files\synth\waveshaping</Filter>
     </ClInclude>
-    <ClInclude Include="include\synth\envelope\EnvelopeGenerator.h">
-      <Filter>Header Files\synth\envelope</Filter>
-    </ClInclude>
     <ClInclude Include="include\synth\wavetable\SignalGenerator.h">
       <Filter>Header Files\synth\wavetable</Filter>
     </ClInclude>
@@ -151,9 +148,6 @@
     </ClCompile>
     <ClCompile Include="source\synth\Voice.cpp">
       <Filter>Source Files\synth</Filter>
-    </ClCompile>
-    <ClCompile Include="source\synth\envelope\EnvelopeGenerator.cpp">
-      <Filter>Source Files\synth\envelope</Filter>
     </ClCompile>
     <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp">
       <Filter>Source Files\synth\subtractive</Filter>

@@ -34,6 +34,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)libeden\include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
