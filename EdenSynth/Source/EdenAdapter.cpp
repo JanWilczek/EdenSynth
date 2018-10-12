@@ -7,7 +7,7 @@
 
 namespace eden_vst
 {
-	void EdenAdapter::convertToEdenBuffer(juce::AudioBuffer<eden::AudioBuffer::SampleType>& juceAudioBuffer, eden::AudioBuffer& edenBuffer)
+	void EdenAdapter::convertToEdenBuffer(juce::AudioBuffer<eden::SampleType>& juceAudioBuffer, eden::AudioBuffer& edenBuffer)
 	{
 		/*
 		1. Check for number of channels

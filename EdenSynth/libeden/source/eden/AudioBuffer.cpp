@@ -39,31 +39,29 @@ namespace eden
 		}
 	}
 
-	AudioBuffer::SampleType* AudioBuffer::getWritePointer(int channel) const
+	SampleType* AudioBuffer::getWritePointer(int channel) const
 	{
 		EDEN_ASSERT(channel < _numChannels);
 
 		return _channels[channel];
 	}
 
-	AudioBuffer::SampleType** AudioBuffer::getArrayOfWritePointers() const noexcept
+	SampleType** AudioBuffer::getArrayOfWritePointers() const noexcept
 	{
 		return _channels;
 	}
 
-	const AudioBuffer::SampleType* AudioBuffer::getReadPointer(int channel) const
+	const SampleType* AudioBuffer::getReadPointer(int channel) const
 	{
 		EDEN_ASSERT(channel < _numChannels);
 
 		return const_cast<const SampleType*>(_channels[channel]);
 	}
 
-
-	const AudioBuffer::SampleType** AudioBuffer::getArrayOfReadPointers() const noexcept
+	const SampleType** AudioBuffer::getArrayOfReadPointers() const noexcept
 	{
 		return const_cast<const SampleType**>(_channels);
 	}
-
 
 	int AudioBuffer::getNumChannels() const noexcept
 	{

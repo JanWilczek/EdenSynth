@@ -12,13 +12,13 @@ namespace eden::synth::wavetable
 	public:
 		explicit SignalGenerator(double sampleRate);
 
-		void generateSignal(AudioBuffer::SampleType* audioChannel, int startSample, int samplesToGenerate);
+		void generateSignal(SampleType* audioChannel, int startSample, int samplesToGenerate);
 		void stop();
 		void setPitch(double pitch);
 		void setSampleRate(double sampleRate);
 
 	private:
-		void generateSample(AudioBuffer::SampleType* audioChannel, int sampleIndex);
+		void generateSample(SampleType* audioChannel, int sampleIndex);
 
 		double _currentPhase = 0.0;
 		double _phaseDeltaPerSample = 0.0;

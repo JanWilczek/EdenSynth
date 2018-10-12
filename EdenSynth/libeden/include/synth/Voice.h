@@ -82,10 +82,6 @@ namespace eden::synth
 
 		double _sampleRate;
 		bool _isActive = false;
-		//AudioBuffer::SampleType currentAngle = 0.0;
-		//AudioBuffer::SampleType angleDelta = 0.0;
-		//AudioBuffer::SampleType level = 0.0;
-		//AudioBuffer::SampleType tailOff = 0.0;
 		std::unique_ptr<wavetable::SignalGenerator> _signalGenerator;
 		std::unique_ptr<subtractive::SubtractiveModule> _subtractiveModule;
 		std::unique_ptr<waveshaping::WaveshapingModule> _waveshapingModule;

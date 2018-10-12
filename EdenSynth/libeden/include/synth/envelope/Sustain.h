@@ -1,18 +1,19 @@
 #pragma once
 /// 
 /// \author Jan Wilczek
-/// \date 11.10.2018
+/// \date 12.10.18
 /// 
 #include "synth/envelope/EnvelopeSegment.h"
 
 namespace eden::synth::envelope
 {
-	class Attack : public EnvelopeSegment
+	class Sustain : public EnvelopeSegment
 	{
 	public:
-		Attack(double sampleRate, std::chrono::milliseconds duration, SampleType initialLevel = 0, SampleType finalLevel = 1.0);
-		~Attack() override = default;
+		explicit Sustain();
+		~Sustain() override = default;
 
+		SampleType updateAndReturnPerSampleGain() override;
 		bool hasEnded(SampleType currentGain) override;
 		void reset() override;
 	};

@@ -24,7 +24,7 @@ namespace eden_vst
 		/// </summary>
 		/// <param name="juceAudioBuffer">buffer to convert from</param>
 		/// <param name="edenBuffer">buffer to convert to</param>
-		static void convertToEdenBuffer(juce::AudioBuffer<eden::AudioBuffer::SampleType>& juceAudioBuffer,
+		static void convertToEdenBuffer(juce::AudioBuffer<eden::SampleType>& juceAudioBuffer,
 			eden::AudioBuffer& edenBuffer);
 
 		/// <summary>

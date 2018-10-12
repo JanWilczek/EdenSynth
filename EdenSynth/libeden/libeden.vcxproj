@@ -164,6 +164,7 @@
     <ClInclude Include="include\synth\envelope\EnvelopeSegment.h" />
     <ClInclude Include="include\synth\envelope\Attack.h" />
     <ClInclude Include="include\synth\envelope\Release.h" />
+    <ClInclude Include="include\synth\envelope\Sustain.h" />
     <ClInclude Include="include\synth\interfaces\IModule.h" />
     <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
     <ClInclude Include="include\synth\Synthesiser.h" />
@@ -179,9 +180,14 @@
     <ClCompile Include="source\eden\MidiBuffer.cpp" />
     <ClCompile Include="source\eden\MidiMessage.cpp" />
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp" />
+    <ClCompile Include="source\synth\envelope\ADBDR.cpp" />
+    <ClCompile Include="source\synth\envelope\Attack.cpp" />
+    <ClCompile Include="source\synth\envelope\Decay.cpp" />
     <ClCompile Include="source\synth\envelope\Envelope.cpp" />
     <ClCompile Include="source\synth\envelope\EnvelopeGenerator.cpp" />
     <ClCompile Include="source\synth\envelope\EnvelopeSegment.cpp" />
+    <ClCompile Include="source\synth\envelope\Release.cpp" />
+    <ClCompile Include="source\synth\envelope\Sustain.cpp" />
     <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp" />
     <ClCompile Include="source\synth\Synthesiser.cpp" />
     <ClCompile Include="source\synth\Voice.cpp" />

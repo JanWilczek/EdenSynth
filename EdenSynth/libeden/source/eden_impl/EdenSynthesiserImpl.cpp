@@ -19,14 +19,15 @@ namespace eden
 
 	void EdenSynthesiserImpl::setSampleRate(double sampleRate)
 	{
-		_sampleRate = sampleRate;
-		_synthesiser->setSampleRate(sampleRate);
+		if (sampleRate != _sampleRate)
+		{
+			_sampleRate = sampleRate;
+			_synthesiser->setSampleRate(sampleRate);
+		}
 	}
 
 	double EdenSynthesiserImpl::sampleRate() const noexcept
 	{
 		return _sampleRate;
 	}
-
-
 }

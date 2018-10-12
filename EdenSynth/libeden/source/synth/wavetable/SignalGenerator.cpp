@@ -13,7 +13,7 @@ namespace eden::synth::wavetable
 	{
 	}
 
-	void SignalGenerator::generateSignal(AudioBuffer::SampleType* audioChannel, int startSample, int samplesToGenerate)
+	void SignalGenerator::generateSignal(SampleType* audioChannel, int startSample, int samplesToGenerate)
 	{
 		for (int sample = startSample; sample < startSample + samplesToGenerate; ++sample)
 		{
@@ -38,7 +38,7 @@ namespace eden::synth::wavetable
 		_sampleRate = sampleRate;
 	}
 
-	void SignalGenerator::generateSample(AudioBuffer::SampleType* audioChannel, int sampleIndex)
+	void SignalGenerator::generateSample(SampleType* audioChannel, int sampleIndex)
 	{
 		audioChannel[sampleIndex] += 0.15 * std::sin(_currentPhase);
 		_currentPhase += _phaseDeltaPerSample;

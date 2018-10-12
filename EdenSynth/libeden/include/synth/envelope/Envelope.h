@@ -5,10 +5,12 @@
 /// 
 #include <vector>
 #include <functional>
-#include "synth/envelope/EnvelopeSegment.h"
+#include "eden/SampleType.h"
 
 namespace eden::synth::envelope
 {
+	class EnvelopeSegment;
+
 	class Envelope
 	{
 	public:
@@ -22,13 +24,17 @@ namespace eden::synth::envelope
 
 		void setOnEnvelopeEndedCallback(OnEnvelopeEnded callback);
 
-	private:
-		void switchToNextSegment();
+	protected:
+		/// <summary>
+		/// Checks if the envelope has ended and applies appropriate actions if it did.
+		/// </summary>
+		virtual void checkForEnd();
+		void switchToSegment(size_t segment);
 		void updateGain();
 
-		SampleType _currentGain;
-		std::vector<EnvelopeSegment> _segments;
+		SampleType _currentGain = 0.0;
+		std::vector<EnvelopeSegment*> _segments;
 		size_t _currentSegment = 0;
-		OnEnvelopeEnded _onEnvelopeEndedCallback;
+		OnEnvelopeEnded _onEnvelopeEndedCallback = [](){};
 	};
 }

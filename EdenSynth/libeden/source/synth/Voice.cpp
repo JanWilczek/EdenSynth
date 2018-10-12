@@ -15,23 +15,10 @@ namespace eden::synth
 		, _signalGenerator(std::make_unique<wavetable::SignalGenerator>(_sampleRate))
 		, _subtractiveModule(std::make_unique<subtractive::SubtractiveModule>())
 		, _waveshapingModule(std::make_unique<waveshaping::WaveshapingModule>())
-		, _envelopeGenerator(std::make_unique<envelope::ADBDR>())
+		, _envelopeGenerator(std::make_unique<envelope::ADBDR>(_sampleRate, 400ms, 100ms, 30000ms, 2000ms, SampleType(0.8)))
 	{
 		_envelopeGenerator->setOnEnvelopeEndedCallback([this]() { finalizeVoice(); });
 	}
-
-	//void Voice::startNote(int midiNoteNumber, float velocity, int currentPitchWheelPosition)
-	//{
-	//	_currentNote = midiNoteNumber;
-	//	currentAngle = 0.0;
-	//	level = static_cast<AudioBuffer::SampleType>(velocity * 0.15);
-	//	tailOff = 0.0;
-
-	//	const auto cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-	//	const auto cyclesPerSample = cyclesPerSecond / getSampleRate();
-
-	//	angleDelta = static_cast<AudioBuffer::SampleType>(cyclesPerSample * 2.0 * 3.141);//juce::MathConstants<double>::pi;
-	//}
 
 	void Voice::startNote(int midiNoteNumber, float velocity)
 	{
@@ -43,6 +30,11 @@ namespace eden::synth
 		setPitch(pitch);
 
 		_envelopeGenerator->keyOn();
+	}
+
+	void Voice::stopNote(float /* velocity */)
+	{
+		_envelopeGenerator->keyOff();
 	}
 
 	void Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender)
@@ -64,62 +56,6 @@ namespace eden::synth
 			duplicateMonoChannel(outputBuffer, 0, startSample, samplesToRender);
 		}
 	}
-
-	//void Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int numSamples)
-	//{
-	//	if (angleDelta != 0.0)
-	//	{
-	//		if (tailOff > 0.0)
-	//		{
-	//			while (--numSamples > 0)
-	//			{
-	//				generateSample(outputBuffer, startSample);
-
-	//				tailOff *= static_cast<AudioBuffer::SampleType>(0.998);
-
-	//				if (tailOff <= 0.005f)
-	//				{
-	//					//clearCurrentNote();
-	//					currentAngle = 0.0;
-	//					angleDelta = 0.0f;
-	//					tailOff = 0.0f;
-	//					_currentNote = -1;
-	//					break;
-	//				}
-	//			}
-	//		}
-	//		else
-	//		{
-	//			while (--numSamples >= 0)
-	//			{
-	//				generateSample(outputBuffer, startSample);
-	//			}
-	//		}
-	//	}
-	//}
-
-	void Voice::stopNote(float /* velocity */)
-	{
-		_envelopeGenerator->keyOff();
-	}
-
-	//void Voice::stopNote(float, bool allowTailOff)
-	//{
-	//	if (allowTailOff)
-	//	{
-	//		if (tailOff == 0.0)
-	//		{
-	//			tailOff = 1.0;
-	//		}
-	//	}
-	//	else
-	//	{
-	//		//clearCurrentNote();
-	//		angleDelta = 0.0f;
-	//		_currentNote = -1;
-	//		currentAngle = 0.0;
-	//	}
-	//}
 
 	void Voice::pitchWheelMoved(int newPitchWheelValue)
 	{
@@ -153,24 +89,6 @@ namespace eden::synth
 		_signalGenerator->setSampleRate(_sampleRate);
 		_envelopeGenerator->setSampleRate(_sampleRate);
 	}
-
-	//void Voice::generateSample(AudioBuffer& outputBuffer, int& startSample)
-	//{
-	//	auto currentSample = static_cast<AudioBuffer::SampleType>(std::sin(currentAngle) * level);
-
-	//	if (tailOff > 0.0)
-	//	{
-	//		currentSample *= tailOff;
-	//	}
-
-	//	for (auto i = outputBuffer.getNumChannels() - 1; i >= 0; --i)
-	//	{
-	//		outputBuffer.addSample(i, startSample, currentSample);
-	//	}
-
-	//	currentAngle += angleDelta;
-	//	++startSample;
-	//}
 
 	void Voice::finalizeVoice()
 	{
