@@ -3,17 +3,13 @@
 /// \date 12.10.18
 /// 
 #include "synth/envelope/Sustain.h"
+#include "synth/envelope/NoGain.h"
 
 namespace eden::synth::envelope
 {
 	Sustain::Sustain()
-		: EnvelopeSegment(0)
+		: EnvelopeSegment(0, std::make_unique<NoGain>())
 	{
-	}
-
-	SampleType Sustain::updateAndReturnPerSampleGain()
-	{
-		return 0.0;
 	}
 
 	bool Sustain::hasEnded(SampleType currentGain)

@@ -6,10 +6,10 @@
 
 namespace eden::synth::envelope
 {
-	Decay::Decay(double sampleRate, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel)
-		: EnvelopeSegment(sampleRate, duration, initialLevel, finalLevel)
+	Decay::Decay(double sampleRate, std::unique_ptr<IEnvelopeGain> envelopeGain, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel)
+		: EnvelopeSegment(sampleRate, std::move(envelopeGain), duration, initialLevel, finalLevel)
 	{
-		calculatePerSampleGain();
+		_envelopeGain->calculateGain(_sampleRate, _duration, _initialLevel, _finalLevel);
 	}
 
 	bool Decay::hasEnded(SampleType currentGain)

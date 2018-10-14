@@ -3,16 +3,17 @@
 /// \date 12.10.18
 /// 
 #include "synth/envelope/ADBDR.h"
+#include "synth/envelope/LinearGain.h"
 
 namespace eden::synth::envelope
 {
 	ADBDR::ADBDR(double sampleRate, ms attackTime, ms decay1Time, ms decay2Time, ms releaseTime, SampleType breakLevel)
 		: Envelope()
 		, _breakLevel(breakLevel)
-		, _attack(sampleRate, attackTime, 0.0, 1.0)
-		, _decay1(sampleRate, decay1Time, 1.0, _breakLevel)
-		, _decay2(sampleRate, decay2Time, _breakLevel, 0.0)
-		, _release(sampleRate, releaseTime, _breakLevel, 0.0)
+		, _attack(sampleRate, std::make_unique<LinearGain>(), attackTime, 0.0, 1.0)
+		, _decay1(sampleRate, std::make_unique<LinearGain>(), decay1Time, 1.0, _breakLevel)
+		, _decay2(sampleRate, std::make_unique<LinearGain>(), decay2Time, _breakLevel, 0.0)
+		, _release(sampleRate, std::make_unique<LinearGain>(), releaseTime, _breakLevel, 0.0)
 		, _silence()
 	{
 		_segments.push_back(&_attack);
@@ -36,7 +37,7 @@ namespace eden::synth::envelope
 	{
 		if (_currentSegment >= _segments.size() - 1)
 		{
-			_currentGain = 0.0;
+			_currentLevel = 0.0;
 			_onEnvelopeEndedCallback();
 		}
 	}

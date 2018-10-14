@@ -123,6 +123,18 @@
     <ClInclude Include="include\synth\envelope\Sustain.h">
       <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\envelope\IEnvelopeGain.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\LinearGain.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\NoGain.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\ExponentialGain.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -171,6 +183,15 @@
       <Filter>Source Files\synth\envelope</Filter>
     </ClCompile>
     <ClCompile Include="source\synth\envelope\Sustain.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\LinearGain.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\NoGain.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\ExponentialGain.cpp">
       <Filter>Source Files\synth\envelope</Filter>
     </ClCompile>
   </ItemGroup>

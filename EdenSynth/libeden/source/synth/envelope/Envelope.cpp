@@ -15,10 +15,10 @@ namespace eden::synth::envelope
 	{
 		for (auto sample = startSample; sample < startSample + samplesToApply; ++sample)
 		{
-			channel[sample] *= _currentGain;
+			channel[sample] *= _currentLevel;
 			updateGain();
 
-			if (_segments[_currentSegment]->hasEnded(_currentGain))
+			if (_segments[_currentSegment]->hasEnded(_currentLevel))
 			{
 				switchToSegment(_currentSegment + 1);
 				checkForEnd();
@@ -47,6 +47,6 @@ namespace eden::synth::envelope
 
 	void Envelope::updateGain()
 	{
-		_currentGain += _segments[_currentSegment]->updateAndReturnPerSampleGain();
+		_segments[_currentSegment]->applyAndUpdateGain(_currentLevel);
 	}
 }

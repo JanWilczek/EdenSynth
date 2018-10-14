@@ -13,8 +13,7 @@ namespace eden::synth::envelope
 		explicit Sustain();
 		~Sustain() override = default;
 
-		SampleType updateAndReturnPerSampleGain() override;
-		bool hasEnded(SampleType currentGain) override;
+		bool hasEnded(SampleType currentLevel) override;
 		void reset() override;
 	};
 }

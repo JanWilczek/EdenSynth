@@ -6,8 +6,9 @@
 
 namespace eden::synth::envelope
 {
-	EnvelopeSegment::EnvelopeSegment(double sampleRate, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel)
+	EnvelopeSegment::EnvelopeSegment(double sampleRate, std::unique_ptr<IEnvelopeGain> envelopeGain, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel)
 		: _sampleRate(sampleRate)
+		, _envelopeGain(std::move(envelopeGain))
 		, _duration(duration)
 		, _initialLevel(initialLevel)
 		, _finalLevel(finalLevel)
@@ -18,21 +19,14 @@ namespace eden::synth::envelope
 	{
 	}
 
-	SampleType EnvelopeSegment::updateAndReturnPerSampleGain()
+	void EnvelopeSegment::applyAndUpdateGain(SampleType& currentLevel)
 	{
-		return _gainPerSample;
+		_envelopeGain->applyAndUpdateGain(currentLevel);
 	}
 
 	void EnvelopeSegment::setSampleRate(double sampleRate)
 	{
 		_sampleRate = sampleRate;
-		calculatePerSampleGain();
-	}
-
-	void EnvelopeSegment::calculatePerSampleGain()
-	{
-		constexpr double millisecondsInASecond = 1000.0;
-		const auto durationInSamples =  (_duration.count() / millisecondsInASecond) * _sampleRate;
-		_gainPerSample = (_finalLevel - _initialLevel) / durationInSamples;
+		_envelopeGain->calculateGain(_sampleRate, _duration, _initialLevel, _finalLevel);
 	}
 }

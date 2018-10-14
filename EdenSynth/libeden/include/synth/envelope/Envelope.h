@@ -32,7 +32,7 @@ namespace eden::synth::envelope
 		void switchToSegment(size_t segment);
 		void updateGain();
 
-		SampleType _currentGain = 0.0;
+		SampleType _currentLevel = 0.0;
 		std::vector<EnvelopeSegment*> _segments;
 		size_t _currentSegment = 0;
 		OnEnvelopeEnded _onEnvelopeEndedCallback = [](){};

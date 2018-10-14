@@ -167,6 +167,10 @@
     <ClInclude Include="include\synth\envelope\Envelope.h" />
     <ClInclude Include="include\synth\envelope\EnvelopeSegment.h" />
     <ClInclude Include="include\synth\envelope\Attack.h" />
+    <ClInclude Include="include\synth\envelope\ExponentialGain.h" />
+    <ClInclude Include="include\synth\envelope\IEnvelopeGain.h" />
+    <ClInclude Include="include\synth\envelope\LinearGain.h" />
+    <ClInclude Include="include\synth\envelope\NoGain.h" />
     <ClInclude Include="include\synth\envelope\Sustain.h" />
     <ClInclude Include="include\synth\interfaces\IModule.h" />
     <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
@@ -188,6 +192,9 @@
     <ClCompile Include="source\synth\envelope\Decay.cpp" />
     <ClCompile Include="source\synth\envelope\Envelope.cpp" />
     <ClCompile Include="source\synth\envelope\EnvelopeSegment.cpp" />
+    <ClCompile Include="source\synth\envelope\ExponentialGain.cpp" />
+    <ClCompile Include="source\synth\envelope\LinearGain.cpp" />
+    <ClCompile Include="source\synth\envelope\NoGain.cpp" />
     <ClCompile Include="source\synth\envelope\Sustain.cpp" />
     <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp" />
     <ClCompile Include="source\synth\Synthesiser.cpp" />
