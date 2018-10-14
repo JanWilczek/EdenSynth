@@ -26,16 +26,6 @@ namespace eden::synth::envelope
 		}
 	}
 
-	void Envelope::keyOn()
-	{
-		switchToSegment(0);
-	}
-
-	void Envelope::keyOff()
-	{
-		switchToSegment(_segments.size() - 1);
-	}
-
 	void Envelope::setSampleRate(double sampleRate)
 	{
 		for (auto& segment : _segments)
@@ -47,15 +37,6 @@ namespace eden::synth::envelope
 	void Envelope::setOnEnvelopeEndedCallback(OnEnvelopeEnded callback)
 	{
 		_onEnvelopeEndedCallback = callback;
-	}
-
-	void Envelope::checkForEnd()
-	{
-		if (_currentSegment >= _segments.size())
-		{
-			_currentGain = 0.0;
-			_onEnvelopeEndedCallback();
-		}
 	}
 
 	void Envelope::switchToSegment(size_t segment)

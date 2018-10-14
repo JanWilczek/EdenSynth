@@ -22,12 +22,16 @@ namespace eden::synth::envelope
 		_segments.push_back(&_silence);
 	}
 
+	void ADBDR::keyOn()
+	{
+		switchToSegment(0);
+	}
+
 	void ADBDR::keyOff()
 	{
 		switchToSegment(_segments.size() - 2);
 	}
 
-	// TODO: Refactor to return bool.
 	void ADBDR::checkForEnd()
 	{
 		if (_currentSegment >= _segments.size() - 1)

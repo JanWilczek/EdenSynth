@@ -6,7 +6,6 @@
 #include "synth/envelope/Envelope.h"
 #include "synth/envelope/Attack.h"
 #include "synth/envelope/Decay.h"
-#include "synth/envelope/Release.h"
 #include "Sustain.h"
 
 namespace eden::synth::envelope
@@ -19,6 +18,7 @@ namespace eden::synth::envelope
 		ADBDR(double sampleRate, ms attackTime, ms decay1Time, ms decay2Time, ms releaseTime, SampleType breakLevel = 0.5);
 		~ADBDR() override = default;
 
+		void keyOn() override;
 		void keyOff() override;
 
 	protected:
@@ -29,7 +29,7 @@ namespace eden::synth::envelope
 		Attack _attack;
 		Decay _decay1;
 		Decay _decay2;
-		Release _release;
+		Decay _release;
 		Sustain _silence;
 	};
 }

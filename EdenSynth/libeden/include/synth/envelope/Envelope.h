@@ -18,17 +18,17 @@ namespace eden::synth::envelope
 
 		virtual ~Envelope() = 0;
 		virtual void apply(SampleType* channel, int startSample, int samplesToApply);
-		virtual void keyOn();
-		virtual void keyOff();
+		virtual void keyOn() = 0;
+		virtual void keyOff() = 0;
+		/// <summary>
+		/// Checks if the envelope has ended and applies appropriate actions if it did.
+		/// </summary>
+		virtual void checkForEnd() = 0;
 		virtual void setSampleRate(double sampleRate);
 
 		void setOnEnvelopeEndedCallback(OnEnvelopeEnded callback);
 
 	protected:
-		/// <summary>
-		/// Checks if the envelope has ended and applies appropriate actions if it did.
-		/// </summary>
-		virtual void checkForEnd();
 		void switchToSegment(size_t segment);
 		void updateGain();
 
