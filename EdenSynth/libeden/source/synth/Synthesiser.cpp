@@ -97,6 +97,8 @@ namespace eden::synth
 
 	void Synthesiser::renderVoices(AudioBuffer& outputBuffer, int startSample, int samplesToProcess)
 	{
+		EDEN_ASSERT(samplesToProcess >= 0);
+
 		for (auto& voice : _voices)
 		{
 			voice->renderBlock(outputBuffer, startSample, samplesToProcess);
@@ -106,16 +108,13 @@ namespace eden::synth
 	void Synthesiser::noteOn(const int midiChannel, const int midiNoteNumber, const float velocity)
 	{
 		// The note may already be playing.
-		if (getVoicePlayingNote(midiNoteNumber))
+		auto voice = getVoicePlayingNote(midiNoteNumber);
+		if (voice)
 		{
-			return;
+			voice->startNote(midiNoteNumber, velocity);
 		}
 
-		auto voice = getFreeVoice();
-
-		// If there are too few voices - add more in constructor.
-		EDEN_ASSERT(voice != nullptr);
-
+		voice = getFreeVoice();
 		if (voice)
 		{
 			voice->startNote(midiNoteNumber, velocity);	// TODO: handle pitch wheel

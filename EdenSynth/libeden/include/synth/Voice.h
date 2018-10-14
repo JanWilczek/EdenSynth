@@ -68,16 +68,9 @@ namespace eden::synth
 		void finalizeVoice();
 
 	private:
-		/// <summary>
-		/// Generates a single sample.
-		/// </summary>
-		/// <param name="outputBuffer"></param>
-		/// <param name="startSample">the index of sample to render, will be incremented by 1</param>
-		//void generateSample(AudioBuffer& outputBuffer, int& startSample);
-
 		double calculatePitch(int midiNoteNumber, int pitchWheelPosition);
 		void setPitch(double newPitch);
-		void applyVelocity(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
+		void applyVelocity(SampleType* channel, int startSample, int samplesToRender);
 		void duplicateMonoChannel(AudioBuffer& outputBuffer, int channelToDuplicate, int startSample, int samplesToCopy);
 
 		double _sampleRate;

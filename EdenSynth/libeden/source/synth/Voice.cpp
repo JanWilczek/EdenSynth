@@ -15,7 +15,7 @@ namespace eden::synth
 		, _signalGenerator(std::make_unique<wavetable::SignalGenerator>(_sampleRate))
 		, _subtractiveModule(std::make_unique<subtractive::SubtractiveModule>())
 		, _waveshapingModule(std::make_unique<waveshaping::WaveshapingModule>())
-		, _envelopeGenerator(std::make_unique<envelope::ADBDR>(_sampleRate, 400ms, 100ms, 30000ms, 2000ms, SampleType(0.8)))
+		, _envelopeGenerator(std::make_unique<envelope::ADBDR>(_sampleRate, 100ms, 100ms, 10000ms, 1000ms, SampleType(0.8)))
 	{
 		_envelopeGenerator->setOnEnvelopeEndedCallback([this]() { finalizeVoice(); });
 	}
@@ -51,9 +51,9 @@ namespace eden::synth
 
 			_envelopeGenerator->apply(outputBuffer.getWritePointer(MONO_CHANNEL_TO_PROCESS), startSample, samplesToRender);
 
-			applyVelocity(outputBuffer, startSample, samplesToRender);
+			applyVelocity(outputBuffer.getWritePointer(MONO_CHANNEL_TO_PROCESS), startSample, samplesToRender);
 
-			duplicateMonoChannel(outputBuffer, 0, startSample, samplesToRender);
+			//duplicateMonoChannel(outputBuffer, 0, startSample, samplesToRender);
 		}
 	}
 
@@ -109,15 +109,12 @@ namespace eden::synth
 		_subtractiveModule->setPitch(newPitch);
 	}
 
-	void Voice::applyVelocity(AudioBuffer& outputBuffer, int startSample, int samplesToRender)
+	void Voice::applyVelocity(SampleType* channel, int startSample, int samplesToRender)
 	{
-		outputBuffer.forEachChannel([&](SampleType* channel)
+		for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
 		{
-			for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
-			{
-				channel[sample] *= _velocity;
-			}
-		});
+			channel[sample] *= _velocity;
+		}
 	}
 
 	void Voice::duplicateMonoChannel(AudioBuffer& outputBuffer, int channelToDuplicate, int startSample, int samplesToCopy)
