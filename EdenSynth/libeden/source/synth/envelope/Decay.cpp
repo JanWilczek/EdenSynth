@@ -14,7 +14,8 @@ namespace eden::synth::envelope
 
 	bool Decay::hasEnded(SampleType currentGain)
 	{
-		return currentGain <= _finalLevel;
+		constexpr auto EPSILON = 1e-3;
+		return std::abs(currentGain - _finalLevel) < EPSILON;
 	}
 
 	void Decay::reset()

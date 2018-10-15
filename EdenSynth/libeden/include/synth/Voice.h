@@ -65,16 +65,24 @@ namespace eden::synth
 		/// <param name="newSampleRate"></param>
 		void setSampleRate(double newSampleRate);
 
+		/// <summary>
+		/// Sets the expected length of processing block. Must be called at least once before first call to <c>renderBlock()</c>.
+		/// </summary>
+		/// <param name="samplesPerBlock"></param>
+		void setBlockLength(unsigned samplesPerBlock);
+
 		void finalizeVoice();
 
 	private:
 		double calculatePitch(int midiNoteNumber, int pitchWheelPosition);
 		void setPitch(double newPitch);
 		void applyVelocity(SampleType* channel, int startSample, int samplesToRender);
-		void duplicateMonoChannel(AudioBuffer& outputBuffer, int channelToDuplicate, int startSample, int samplesToCopy);
+		void mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix);
 
 		double _sampleRate;
 		bool _isActive = false;
+		unsigned _blockLength = 0u;
+		SampleType* _innerBlock = nullptr;
 		std::unique_ptr<wavetable::SignalGenerator> _signalGenerator;
 		std::unique_ptr<subtractive::SubtractiveModule> _subtractiveModule;
 		std::unique_ptr<waveshaping::WaveshapingModule> _waveshapingModule;

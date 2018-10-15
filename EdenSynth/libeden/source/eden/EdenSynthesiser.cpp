@@ -26,4 +26,9 @@ namespace eden
 	{
 		return _impl->sampleRate();
 	}
+
+	void EdenSynthesiser::setBlockLength(int samplesPerBlock)
+	{
+		_impl->setBlockLength(samplesPerBlock);
+	}
 }

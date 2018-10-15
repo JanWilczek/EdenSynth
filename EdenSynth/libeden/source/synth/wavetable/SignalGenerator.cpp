@@ -40,7 +40,7 @@ namespace eden::synth::wavetable
 
 	void SignalGenerator::generateSample(SampleType* audioChannel, int sampleIndex)
 	{
-		audioChannel[sampleIndex] += 0.15 * std::sin(_currentPhase);
+		audioChannel[sampleIndex] = std::sin(_currentPhase);
 		_currentPhase += _phaseDeltaPerSample;
 	}
 }

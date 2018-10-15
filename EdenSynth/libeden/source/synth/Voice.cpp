@@ -41,19 +41,17 @@ namespace eden::synth
 	{
 		if (isPlaying())
 		{
-			constexpr auto MONO_CHANNEL_TO_PROCESS = 0;
-
-			_signalGenerator->generateSignal(outputBuffer.getWritePointer(MONO_CHANNEL_TO_PROCESS), startSample, samplesToRender);
+			_signalGenerator->generateSignal(_innerBlock, startSample, samplesToRender);
 
 			_subtractiveModule->process(outputBuffer, startSample, samplesToRender);
 
 			_waveshapingModule->process(outputBuffer, startSample, samplesToRender);
 
-			_envelopeGenerator->apply(outputBuffer.getWritePointer(MONO_CHANNEL_TO_PROCESS), startSample, samplesToRender);
+			_envelopeGenerator->apply(_innerBlock, startSample, samplesToRender);
 
-			applyVelocity(outputBuffer.getWritePointer(MONO_CHANNEL_TO_PROCESS), startSample, samplesToRender);
+			applyVelocity(_innerBlock, startSample, samplesToRender);
 
-			//duplicateMonoChannel(outputBuffer, 0, startSample, samplesToRender);
+			mixTo(outputBuffer, startSample, samplesToRender);
 		}
 	}
 
@@ -90,6 +88,18 @@ namespace eden::synth
 		_envelopeGenerator->setSampleRate(_sampleRate);
 	}
 
+	void Voice::setBlockLength(unsigned samplesPerBlock)
+	{
+		if (samplesPerBlock > _blockLength)
+		{
+			if (_innerBlock)
+			{
+				delete[] _innerBlock;
+			}
+			_innerBlock = new SampleType[samplesPerBlock];
+		}
+	}
+
 	void Voice::finalizeVoice()
 	{
 		_signalGenerator->stop();
@@ -113,20 +123,18 @@ namespace eden::synth
 	{
 		for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
 		{
-			channel[sample] *= _velocity;
+			channel[sample] *= 0.3 * _velocity;
 		}
 	}
 
-	void Voice::duplicateMonoChannel(AudioBuffer& outputBuffer, int channelToDuplicate, int startSample, int samplesToCopy)
+	void Voice::mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix)
 	{
-		for (auto channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
+		outputBuffer.forEachChannel([this,&startSample,&samplesToMix](SampleType* channel)
 		{
-			if (channel != channelToDuplicate)
+			for (auto sample = startSample; sample < startSample + samplesToMix; ++sample)
 			{
-				std::copy(outputBuffer.getReadPointer(channelToDuplicate) + startSample,
-					outputBuffer.getReadPointer(channelToDuplicate) + startSample + samplesToCopy,
-					outputBuffer.getWritePointer(channel));
+				channel[sample] += _innerBlock[sample];
 			}
-		}
+		});
 	}
 }

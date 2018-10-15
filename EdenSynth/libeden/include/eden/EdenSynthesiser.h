@@ -37,6 +37,12 @@ namespace eden
 		/// <returns>currently used sample rate</returns>
 		double sampleRate() const noexcept;
 
+		/// <summary>
+		/// Sets the expected length of processing block - use it to allocate memory beforehand.
+		/// </summary>
+		/// <param name="samplesPerBlock"></param>
+		void setBlockLength(int samplesPerBlock);
+
 	private:
 		/// <summary>
 		/// Internal implementation.

@@ -15,7 +15,7 @@ namespace eden::synth
 	Synthesiser::Synthesiser(double sampleRate)
 		: _sampleRate(sampleRate)
 	{
-		constexpr unsigned VOICES_TO_ADD = 32;
+		constexpr unsigned VOICES_TO_ADD = 16;
 		addVoices(VOICES_TO_ADD);
 	}
 
@@ -73,7 +73,19 @@ namespace eden::synth
 		_sampleRate = newSampleRate;
 		for (auto& voice : _voices)
 		{
-			voice->setSampleRate(newSampleRate);
+			voice->setSampleRate(_sampleRate);
+		}
+	}
+
+	void Synthesiser::setBlockLength(unsigned samplesPerBlock)
+	{
+		if (samplesPerBlock > _blockLength)
+		{
+			_blockLength = samplesPerBlock;
+			for (auto& voice : _voices)
+			{
+				voice->setBlockLength(_blockLength);
+			}
 		}
 	}
 
@@ -113,11 +125,13 @@ namespace eden::synth
 		{
 			voice->startNote(midiNoteNumber, velocity);
 		}
-
-		voice = getFreeVoice();
-		if (voice)
+		else
 		{
-			voice->startNote(midiNoteNumber, velocity);	// TODO: handle pitch wheel
+			voice = getFreeVoice();
+			if (voice)
+			{
+				voice->startNote(midiNoteNumber, velocity);	// TODO: handle pitch wheel
+			}
 		}
 	}
 	

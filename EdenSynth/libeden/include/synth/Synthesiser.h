@@ -50,6 +50,12 @@ namespace eden::synth
 		/// <param name="newSampleRate"></param>
 		void setSampleRate(double newSampleRate);
 
+		/// <summary>
+		/// Sets the expected length of processing block - use it to allocate memory beforehand.
+		/// </summary>
+		/// <param name="samplesPerBlock"></param>
+		void setBlockLength(unsigned samplesPerBlock);
+
 	private:
 		/// <summary>
 		/// Changes internal state based on received MIDI message. E.g. starts playing a note after note on message.
@@ -99,5 +105,6 @@ namespace eden::synth
 		/// </summary>
 		std::vector<std::unique_ptr<Voice>> _voices;
 		double _sampleRate;
+		unsigned _blockLength = 480u;
 	};
 }
