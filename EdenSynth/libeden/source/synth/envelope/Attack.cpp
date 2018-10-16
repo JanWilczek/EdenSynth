@@ -15,7 +15,8 @@ namespace eden::synth::envelope
 
 	bool Attack::hasEnded(SampleType currentGain)
 	{
-		return currentGain >= _finalLevel;
+		constexpr auto EPSILON = 1e-4;
+		return currentGain >= _finalLevel - EPSILON;
 	}
 
 	void Attack::reset()
