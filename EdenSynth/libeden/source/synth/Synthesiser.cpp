@@ -89,6 +89,15 @@ namespace eden::synth
 		}
 	}
 
+	// TODO: This method is unimplemented.
+	void Synthesiser::setEnvelope(std::unique_ptr<envelope::Envelope> envelope)
+	{
+		for (auto& voice : _voices)
+		{
+			//voice->setEnvelope(*envelope);
+		}
+	}
+
 	void Synthesiser::handleMidiMessage(MidiMessage& midiMessage)
 	{
 		const int channel = midiMessage.getChannel();

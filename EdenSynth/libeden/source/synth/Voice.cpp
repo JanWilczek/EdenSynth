@@ -100,6 +100,11 @@ namespace eden::synth
 		}
 	}
 
+	void Voice::setEnvelope(std::unique_ptr<envelope::Envelope> envelope)
+	{
+		_envelopeGenerator = std::move(envelope);
+	}
+
 	void Voice::finalizeVoice()
 	{
 		_signalGenerator->stop();

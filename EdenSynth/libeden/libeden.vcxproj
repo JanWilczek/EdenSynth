@@ -180,6 +180,7 @@
     <ClInclude Include="include\synth\wavetable\SignalGenerator.h" />
     <ClInclude Include="include\utility\EdenAssert.h" />
     <ClInclude Include="include\utility\MathConstants.h" />
+    <ClInclude Include="include\utility\TimeSampleConverter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden\AudioBuffer.cpp" />
@@ -201,6 +202,7 @@
     <ClCompile Include="source\synth\Voice.cpp" />
     <ClCompile Include="source\synth\waveshaping\WaveshapingModule.cpp" />
     <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp" />
+    <ClCompile Include="source\utility\TimeSampleConverter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

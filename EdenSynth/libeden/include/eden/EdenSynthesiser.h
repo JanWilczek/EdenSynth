@@ -11,6 +11,11 @@ namespace eden
 	class AudioBuffer;
 	class MidiBuffer;
 
+	namespace synth::envelope
+	{
+		class Envelope;
+	}
+
 	/// <summary>
 	/// Main Eden synthesiser class.
 	/// </summary>
@@ -42,6 +47,13 @@ namespace eden
 		/// </summary>
 		/// <param name="samplesPerBlock"></param>
 		void setBlockLength(int samplesPerBlock);
+
+		/// <summary>
+		/// Sets new envelope of sound - the information about volume change in time in relation
+		/// to keyboard events.
+		/// </summary>
+		/// <param name="envelope"></param>
+		void setEnvelope(std::unique_ptr<synth::envelope::Envelope> envelope);
 
 	private:
 		/// <summary>

@@ -35,4 +35,9 @@ namespace eden
 	{
 		_synthesiser->setBlockLength(samplesPerBlock);
 	}
+
+	void EdenSynthesiserImpl::setEnvelope(std::unique_ptr<synth::envelope::Envelope> envelope)
+	{
+		_synthesiser->setEnvelope(std::move(envelope));
+	}
 }

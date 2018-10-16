@@ -56,6 +56,13 @@ namespace eden::synth
 		/// <param name="samplesPerBlock"></param>
 		void setBlockLength(unsigned samplesPerBlock);
 
+		/// <summary>
+		/// Sets new envelope of sound - the information about volume change in time in relation
+		/// to keyboard events.
+		/// </summary>
+		/// <param name="envelope"></param>
+		void setEnvelope(std::unique_ptr<synth::envelope::Envelope> envelope);
+
 	private:
 		/// <summary>
 		/// Changes internal state based on received MIDI message. E.g. starts playing a note after note on message.

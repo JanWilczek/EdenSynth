@@ -11,6 +11,9 @@
     <ClCompile Include="eden_test\MidiBufferTest.cpp">
       <Filter>eden_test</Filter>
     </ClCompile>
+    <ClCompile Include="synth_test\envelope_test\ADBDRTest.cpp">
+      <Filter>synth_test\envelope</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -21,6 +24,9 @@
     </Filter>
     <Filter Include="synth_test">
       <UniqueIdentifier>{f1309d23-d074-4f33-93a8-0ebe84f85e0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="synth_test\envelope">
+      <UniqueIdentifier>{215146bb-d62b-4a50-8d81-a5ed90cfacbe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
