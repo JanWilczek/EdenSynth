@@ -13,6 +13,7 @@ namespace eden::synth::envelope
 		, _initialLevel(initialLevel)
 		, _finalLevel(finalLevel)
 	{
+		_envelopeGain->calculateGain(_sampleRate, _duration, _initialLevel, _finalLevel);
 	}
 
 	EnvelopeSegment::~EnvelopeSegment()

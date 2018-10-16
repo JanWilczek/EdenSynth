@@ -14,6 +14,5 @@ namespace eden::synth::envelope
 		~Decay() override = default;
 
 		bool hasEnded(SampleType currentLevel) override;
-		void reset() override;
 	};
 }

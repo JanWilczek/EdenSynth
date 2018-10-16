@@ -14,6 +14,5 @@ namespace eden::synth::envelope
 		~Attack() override = default;
 
 		bool hasEnded(SampleType currentLevel) override;
-		void reset() override;
 	};
 }

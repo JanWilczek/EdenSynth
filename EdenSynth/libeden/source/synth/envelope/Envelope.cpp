@@ -41,7 +41,6 @@ namespace eden::synth::envelope
 
 	void Envelope::switchToSegment(size_t segment)
 	{
-		_segments[_currentSegment]->reset();
 		_currentSegment = segment;
 	}
 

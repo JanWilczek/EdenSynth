@@ -16,8 +16,4 @@ namespace eden::synth::envelope
 	{
 		return false;
 	}
-
-	void Sustain::reset()
-	{
-	}
 }

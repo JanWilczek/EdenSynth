@@ -20,7 +20,6 @@ namespace eden::synth::envelope
 
 		virtual void applyAndUpdateGain(SampleType& currentLevel);
 		virtual bool hasEnded(SampleType currentLevel) = 0;
-		virtual void reset() = 0;
 		virtual void setSampleRate(double sampleRate);
 
 	protected:
