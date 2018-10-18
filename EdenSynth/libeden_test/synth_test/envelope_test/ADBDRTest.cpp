@@ -25,8 +25,18 @@ namespace libeden_test
 		const unsigned NUM_SAMPLES = 10000;
 		const double SAMPLE_RATE = 48000.0;
 		std::unique_ptr<eden::SampleType[]> _channel = std::make_unique<eden::SampleType[]>(NUM_SAMPLES);
+		std::unique_ptr<eden::synth::envelope::Envelope> _envelope;
+		ADBDRTestData _data;
 
 		void SetUp() override
+		{
+			fillChannel(eden::SampleType(1.0));
+			_data = GetParam();
+			_envelope = std::make_unique<eden::synth::envelope::ADBDR>(SAMPLE_RATE, _data.attackTime,
+				_data.decay1Time, _data.decay2Time, _data.releaseTime, _data.breakLevel);
+		}
+
+		void fillChannel(const eden::SampleType value)
 		{
 			for (auto i = 0u; i < NUM_SAMPLES; ++i)
 			{
@@ -34,35 +44,35 @@ namespace libeden_test
 			}
 		}
 
-		void processAttack(eden::synth::envelope::Envelope& envelope, unsigned& attackEndSample)
+		void processSamplesRange(const unsigned fromSample, unsigned& toSample)
 		{
-			bool firstIteration = true;
+			ASSERT_LE(fromSample, toSample);
 
-			while (attackEndSample > NUM_SAMPLES - 1)
+			if (toSample < NUM_SAMPLES)
 			{
-				envelope.apply(_channel.get(), 0, NUM_SAMPLES);
-				if (firstIteration)
+				_envelope->apply(_channel.get(), fromSample, toSample - fromSample + 1);
+			}
+			else
+			{
+				_envelope->apply(_channel.get(), fromSample, NUM_SAMPLES - fromSample);
+				toSample -= NUM_SAMPLES;
+				while (toSample > NUM_SAMPLES - 1)
 				{
-					EXPECT_NEAR(_channel[0], eden::SampleType(0.0), 1e-3);
-					firstIteration = false;
+					fillChannel(eden::SampleType(1.0));
+					_envelope->apply(_channel.get(), 0, NUM_SAMPLES);
+					toSample -= NUM_SAMPLES;
 				}
-				attackEndSample -= NUM_SAMPLES;
+				fillChannel(eden::SampleType(1.0));
+				_envelope->apply(_channel.get(), 0, toSample + 1);
 			}
-			envelope.apply(_channel.get(), 0, attackEndSample + 1);
-
-			if (firstIteration)
-			{
-				EXPECT_NEAR(_channel[0], eden::SampleType(0.0), 1e-3);
-				firstIteration = false;
-			}
-
-			EXPECT_NEAR(_channel[attackEndSample], eden::SampleType(1.0), 1e-3);
 		}
 
 		void shapeTest(unsigned startSample, unsigned endSample)
 		{
+			ASSERT_LT(startSample, endSample);
+
 			// test for exponential shape of the envelope
-			const unsigned middleSample = static_cast<unsigned>((endSample - startSample) / 2) + startSample;
+			const unsigned middleSample = static_cast<unsigned>((endSample - startSample) / 2 + 1) + startSample;
 			const auto startSampleLevel = 20 * std::log10(_channel[startSample]);
 			const auto middleSampleLevel = 20 * std::log10(_channel[middleSample]);
 			const auto lastSampleLevel = 20 * std::log10(_channel[endSample - 1]);
@@ -92,69 +102,50 @@ namespace libeden_test
 
 	TEST_P(ADBDRTest, AttackDecayTest)
 	{
-		const auto data = GetParam();
-		eden::synth::envelope::ADBDR envelope(SAMPLE_RATE, data.attackTime,
-			data.decay1Time, data.decay2Time, data.releaseTime, data.breakLevel);
+		_envelope->keyOn();
 
-		envelope.keyOn();
-
-		const auto attackSamples = eden::utility::TimeSampleConverter::timeToSamples(data.attackTime, SAMPLE_RATE) + 1;
+		const auto attackSamples = eden::utility::TimeSampleConverter::timeToSamples(_data.attackTime, SAMPLE_RATE) + 1;
 		auto attackEndSample = attackSamples;
-		
-		processAttack(envelope, attackEndSample);
-		
+
+		processSamplesRange(0, attackEndSample);
 		ASSERT_TRUE(attackEndSample < NUM_SAMPLES - 1);
-		envelope.apply(_channel.get(), attackEndSample + 1, NUM_SAMPLES - attackEndSample - 1);
-		//auto breakSample = findFirstSample(attackEndSample + 1, [&](eden::SampleType sample) {return std::abs(sample - data.breakLevel) < 1e-2; });
-		auto breakSample = eden::utility::TimeSampleConverter::timeToSamples(data.decay1Time, SAMPLE_RATE) + attackEndSample;
+		EXPECT_NEAR(_channel[attackEndSample], eden::SampleType(1.0), 2e-3);
+
+		const auto decay1Samples = eden::utility::TimeSampleConverter::timeToSamples(_data.decay1Time, SAMPLE_RATE);
+		auto breakSample = decay1Samples + attackEndSample;
+		processSamplesRange(attackEndSample + 1, breakSample);
 
 		ASSERT_TRUE(breakSample < NUM_SAMPLES);
-		EXPECT_NEAR(_channel[breakSample], data.breakLevel, 1e-2);
+		EXPECT_NEAR(_channel[breakSample], _data.breakLevel, 1e-2);
 
-		const auto decay1Time = eden::utility::TimeSampleConverter::samplesToMilliseconds(breakSample, SAMPLE_RATE) - data.attackTime;
-		EXPECT_NEAR(decay1Time.count(), data.decay1Time.count(), 1);
-		
-		shapeTest(breakSample, NUM_SAMPLES - 1);
+		auto endChannel = NUM_SAMPLES - 1;
+		processSamplesRange(breakSample + 1, endChannel);
+		const auto endSample = findFirstSample(breakSample, [](eden::SampleType sample) { return std::abs(sample - eden::SampleType(0.0)) < 1e-6; });
+
+		shapeTest(breakSample, endSample > 0u ? endSample : NUM_SAMPLES - 1);
 	}
 
 	TEST_P(ADBDRTest, ReleaseTest)
 	{
-		const auto data = GetParam();
-		eden::synth::envelope::ADBDR envelope(SAMPLE_RATE, data.attackTime,
-			data.decay1Time, data.decay2Time, data.releaseTime, data.breakLevel);
+		_envelope->keyOn();
 
-		envelope.keyOn();
-		envelope.apply(_channel.get(), 0, NUM_SAMPLES - 1);
+		const auto attackDecay1Samples = eden::utility::TimeSampleConverter::timeToSamples(_data.attackTime + _data.decay1Time, SAMPLE_RATE) + 1;
+		auto decay1EndSample = attackDecay1Samples;
+		processSamplesRange(0, decay1EndSample);
+		_envelope->keyOff();
 
-		const auto attackSamples = eden::utility::TimeSampleConverter::timeToSamples(data.attackTime, SAMPLE_RATE) + 1;
-		auto attackEndSample = attackSamples;
-		processAttack(envelope, attackEndSample);
-		envelope.keyOff();
-		
-		// TODO: The break point may be behind envelope's end.
-		auto breakSample = findFirstSample(attackEndSample, [&](eden::SampleType sample) {return std::abs(sample - data.breakLevel) < 1e-2; });
+		const auto releaseSamples = eden::utility::TimeSampleConverter::timeToSamples(_data.releaseTime, SAMPLE_RATE);
+		auto endSample = releaseSamples + decay1EndSample;
+		processSamplesRange(decay1EndSample, endSample);
+		auto endChannel = NUM_SAMPLES - 1;
+		processSamplesRange(endSample, endChannel);
 
-		envelope.apply(_channel.get(), breakSample, NUM_SAMPLES - 1 - breakSample);
+		// Handle case when release is very short (only one apply iteration) and when it is very long (we can start from sample 0 then).
+		const auto smallestPossibleReleaseStart = decay1EndSample < endSample ? decay1EndSample : 0u;
+		auto foundEndSample = findFirstSample(smallestPossibleReleaseStart, [](eden::SampleType sample) { return std::abs(sample - eden::SampleType(0.0)) < 1e-6; });
+		EXPECT_LE(foundEndSample, endSample);
 
-		// TODO: Here may be mistakes.
-		auto finalSample = 0u;
-		for (auto i = attackSamples; i < NUM_SAMPLES; ++i)
-		{
-			if (_channel[i] == 0.0)
-			{
-				finalSample = i;
-				break;
-			}
-		}
-		if (finalSample == 0u)
-		{
-			finalSample = NUM_SAMPLES - 1;
-		}
-
-		const auto releaseTime = eden::utility::TimeSampleConverter::samplesToMilliseconds(finalSample + 1, SAMPLE_RATE);
-		EXPECT_NEAR(releaseTime.count(), data.releaseTime.count(), 5);
-
-		shapeTest(breakSample, finalSample);
+		shapeTest(smallestPossibleReleaseStart, foundEndSample);
 	}
 
 	constexpr ADBDRTestData testData[] =
