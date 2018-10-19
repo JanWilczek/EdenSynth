@@ -44,38 +44,75 @@ namespace libeden_test
 			}
 		}
 
-		void processSamplesRange(const unsigned fromSample, unsigned& toSample)
+		void fillChannel(const eden::SampleType value, unsigned fromSample, unsigned toSample)
 		{
-			ASSERT_LE(fromSample, toSample);
+			for (; fromSample <= toSample; ++fromSample)
+			{
+				_channel[fromSample] = eden::SampleType(1.0);
+			}
+		}
+
+		/// <summary>
+		/// Applies envelope to samples in [fromSample, toSample] range.
+		/// </summary>
+		/// <param name="fromSample"></param>
+		/// <param name="toSample">after execution this parameter is the index in buffer of the last processed sample</param>
+		/// <returns>the number of processed samples</returns>
+		unsigned processSamplesRange(const unsigned fromSample, unsigned& toSample)
+		{
+			if (toSample < fromSample)
+			{
+				return 0u;
+			}
 
 			if (toSample < NUM_SAMPLES)
 			{
-				_envelope->apply(_channel.get(), fromSample, toSample - fromSample + 1);
+				const auto samplesToProcess = toSample - fromSample + 1;
+				fillChannel(eden::SampleType(1.0), fromSample, toSample);
+				_envelope->apply(_channel.get(), fromSample, samplesToProcess);
+				return samplesToProcess;
 			}
 			else
 			{
-				_envelope->apply(_channel.get(), fromSample, NUM_SAMPLES - fromSample);
+				auto processedSamples = 0u;
+				const auto initialSamplesToProcess = NUM_SAMPLES - fromSample;
+
+				fillChannel(eden::SampleType(1.0), fromSample, NUM_SAMPLES-1);
+				_envelope->apply(_channel.get(), fromSample, initialSamplesToProcess);
+
+				processedSamples += initialSamplesToProcess;
 				toSample -= NUM_SAMPLES;
+
 				while (toSample > NUM_SAMPLES - 1)
 				{
 					fillChannel(eden::SampleType(1.0));
 					_envelope->apply(_channel.get(), 0, NUM_SAMPLES);
+
+					processedSamples += NUM_SAMPLES;
 					toSample -= NUM_SAMPLES;
 				}
-				fillChannel(eden::SampleType(1.0));
-				_envelope->apply(_channel.get(), 0, toSample + 1);
+				const auto finalSamplesToProcess = toSample + 1;
+
+				fillChannel(eden::SampleType(1.0), 0, finalSamplesToProcess - 1);
+				_envelope->apply(_channel.get(), 0, finalSamplesToProcess);
+				processedSamples += finalSamplesToProcess;
+
+				return processedSamples;
 			}
 		}
 
-		void shapeTest(unsigned startSample, unsigned endSample)
+		void shapeTest(int startSample, int endSample)
 		{
-			ASSERT_LT(startSample, endSample);
+			if (endSample < startSample)
+			{
+				return;
+			}
 
 			// test for exponential shape of the envelope
-			const unsigned middleSample = static_cast<unsigned>((endSample - startSample) / 2 + 1) + startSample;
+			const unsigned middleSample = static_cast<unsigned>((endSample + startSample) / 2) ;
 			const auto startSampleLevel = 20 * std::log10(_channel[startSample]);
 			const auto middleSampleLevel = 20 * std::log10(_channel[middleSample]);
-			const auto lastSampleLevel = 20 * std::log10(_channel[endSample - 1]);
+			const auto lastSampleLevel = 20 * std::log10(_channel[endSample]);
 
 			EXPECT_NEAR(middleSampleLevel, (startSampleLevel + lastSampleLevel) / 2, 0.2);
 		}
@@ -136,16 +173,27 @@ namespace libeden_test
 
 		const auto releaseSamples = eden::utility::TimeSampleConverter::timeToSamples(_data.releaseTime, SAMPLE_RATE);
 		auto endSample = releaseSamples + decay1EndSample;
-		processSamplesRange(decay1EndSample, endSample);
-		auto endChannel = NUM_SAMPLES - 1;
-		processSamplesRange(endSample, endChannel);
+		auto processedSamples = processSamplesRange(decay1EndSample, endSample);
+		auto endChannel = NUM_SAMPLES - endSample;
+		processedSamples += processSamplesRange(endSample + 1, endChannel);
+
+		EXPECT_FLOAT_EQ(_channel[endSample], 0.0f);
 
 		// Handle case when release is very short (only one apply iteration) and when it is very long (we can start from sample 0 then).
-		const auto smallestPossibleReleaseStart = decay1EndSample < endSample ? decay1EndSample : 0u;
-		auto foundEndSample = findFirstSample(smallestPossibleReleaseStart, [](eden::SampleType sample) { return std::abs(sample - eden::SampleType(0.0)) < 1e-6; });
+		unsigned releaseStartOnChannel;
+		if (processedSamples > NUM_SAMPLES - decay1EndSample)
+		{
+			releaseStartOnChannel = 0u;
+		}
+		else
+		{
+			releaseStartOnChannel = decay1EndSample;
+		}
+
+		auto foundEndSample = findFirstSample(releaseStartOnChannel, [](eden::SampleType sample) { return std::abs(sample - eden::SampleType(0.0)) < 1e-6; });
 		EXPECT_LE(foundEndSample, endSample);
 
-		shapeTest(smallestPossibleReleaseStart, foundEndSample);
+		shapeTest(releaseStartOnChannel, foundEndSample - 1);
 	}
 
 	constexpr ADBDRTestData testData[] =
