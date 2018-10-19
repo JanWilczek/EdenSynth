@@ -8,18 +8,6 @@
 
 namespace eden::synth::envelope
 {
-	void ExponentialGain::applyAndUpdateGain(SampleType& currentGain)
-	{
-		if (currentGain < MINIMUM_LEVEL)
-		{
-			currentGain = MINIMUM_LEVEL;
-		}
-		else
-		{
-			currentGain *= _multiplier;
-		}
-	}
-
 	void ExponentialGain::calculateGain(double sampleRate, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel)
 	{
 		/* 
@@ -53,5 +41,17 @@ namespace eden::synth::envelope
 
 		const auto exponent = (1.0 / durationInSamples) * std::log10(finalLevel / initialLevel);
 		_multiplier = static_cast<SampleType>(std::pow(10, exponent));
+	}
+
+	void ExponentialGain::applyAndUpdateGain(SampleType& currentGain)
+	{
+		if (currentGain < MINIMUM_LEVEL)
+		{
+			currentGain = MINIMUM_LEVEL;
+		}
+		else
+		{
+			currentGain *= _multiplier;
+		}
 	}
 }

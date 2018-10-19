@@ -7,6 +7,9 @@
 
 namespace eden::synth::envelope
 {
+	/// <summary>
+	/// Represents no change in gain - the given value will remain constant.
+	/// </summary>
 	class NoGain : public IEnvelopeGain
 	{
 	public:

@@ -22,10 +22,17 @@ namespace eden::synth::envelope
 		void keyOff() override;
 
 	protected:
-		void checkForEnd() override;
+		void checkForEnd(unsigned currentSampleIndex) override;
 
 	private:
+		/// <summary>
+		/// Value of envelope at which segments change from Decay 1 to Decay 2.
+		/// </summary>
 		SampleType _breakLevel;
+
+		/// <summary>
+		/// ADBDR envelope's segments.
+		/// </summary>
 		Attack _attack;
 		Decay _decay1;
 		Decay _decay2;

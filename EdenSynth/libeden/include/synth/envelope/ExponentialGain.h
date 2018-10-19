@@ -8,6 +8,9 @@
 
 namespace eden::synth::envelope
 {
+	/// <summary>
+	/// Represents exponential gain curve - i.e. linear to the human ear.
+	/// </summary>
 	class ExponentialGain : public IEnvelopeGain
 	{
 	public:

@@ -7,6 +7,9 @@
 
 namespace eden::synth::envelope
 {
+	/// <summary>
+	/// Represents linear gain curve - i.e. logarithmic to the human ear.
+	/// </summary>
 	class LinearGain : public IEnvelopeGain
 	{
 	public:

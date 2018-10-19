@@ -7,6 +7,9 @@
 
 namespace eden::synth::envelope
 {
+	/// <summary>
+	/// Represents attack - time segment when volume should increase.
+	/// </summary>
 	class Attack : public EnvelopeSegment
 	{
 	public:

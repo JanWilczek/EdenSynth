@@ -12,14 +12,26 @@ using namespace std::chrono_literals;
 
 namespace eden::synth::envelope
 {
+	/// <summary>
+	/// Abstract class representing envelope segment, i.e. time segment with gain given with a function of time.
+	/// Subclasses may represent attack or decay for example.
+	/// It's gain curve is based on passed IEnvelopeGain subclass and the duration of the gain change from initial level to final level.
+	/// </summary>
 	class EnvelopeSegment
 	{
 	public:
-		explicit EnvelopeSegment(double sampleRate, std::unique_ptr<IEnvelopeGain> envelopeGain, std::chrono::milliseconds duration = 0ms, SampleType initialLevel = 0, SampleType finalLevel = 0);
+		EnvelopeSegment(double sampleRate, std::unique_ptr<IEnvelopeGain> envelopeGain, std::chrono::milliseconds duration = 0ms, SampleType initialLevel = 0, SampleType finalLevel = 0);
 		virtual ~EnvelopeSegment() = 0;
 
+		/// <summary>
+		/// Changes the current envelope level.
+		/// </summary>
+		/// <param name="currentLevel"></param>
 		virtual void applyAndUpdateGain(SampleType& currentLevel);
+
+		/// <returns>true if current value of envelope means that current segment has ended, false otherwise</returns>
 		virtual bool hasEnded(SampleType currentLevel) = 0;
+
 		virtual void setSampleRate(double sampleRate);
 
 	protected:

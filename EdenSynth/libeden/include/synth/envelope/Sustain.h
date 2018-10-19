@@ -7,6 +7,9 @@
 
 namespace eden::synth::envelope
 {
+	/// <summary>
+	/// Represents sustain - no change in envelope's value.
+	/// </summary>
 	class Sustain : public EnvelopeSegment
 	{
 	public:

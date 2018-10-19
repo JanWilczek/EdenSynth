@@ -7,6 +7,9 @@
 
 namespace eden::synth::envelope
 {
+	/// <summary>
+	/// Represents decay - time segment when volume should decrease.
+	/// </summary>
 	class Decay : public EnvelopeSegment
 	{
 	public:

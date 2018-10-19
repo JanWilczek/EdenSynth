@@ -33,12 +33,12 @@ namespace eden::synth::envelope
 		switchToSegment(_segments.size() - 2);
 	}
 
-	void ADBDR::checkForEnd()
+	void ADBDR::checkForEnd(unsigned currentSampleIndex)
 	{
 		if (_currentSegment >= _segments.size() - 1)
 		{
 			_currentLevel = 0.0;
-			_onEnvelopeEndedCallback();
+			_onEnvelopeEndedCallback(currentSampleIndex);
 		}
 	}
 }
