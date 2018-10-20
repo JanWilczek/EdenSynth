@@ -14,6 +14,9 @@
     <ClCompile Include="synth_test\envelope_test\ADBDRTest.cpp">
       <Filter>synth_test\envelope</Filter>
     </ClCompile>
+    <ClCompile Include="synth_test\envelope_test\SegmentsTest.cpp">
+      <Filter>synth_test\envelope</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

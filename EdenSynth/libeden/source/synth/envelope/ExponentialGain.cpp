@@ -5,6 +5,7 @@
 #include <cmath>
 #include "synth/envelope/ExponentialGain.h"
 #include <algorithm>
+#include "utility/TimeSampleConverter.h"
 
 namespace eden::synth::envelope
 {
@@ -33,8 +34,7 @@ namespace eden::synth::envelope
 		 * E(durationInSamples) = 10 ^ (a * durationInSamples / 20) * 10 ^ (b / 20) = 10 ^ (a * durationInSamples / 20) * initialLevel = finalLevel.
 		 */
 
-		constexpr double millisecondsInASecond = 1000.0;
-		const auto durationInSamples = (duration.count() / millisecondsInASecond) * sampleRate;
+		const auto durationInSamples = utility::TimeSampleConverter::timeToSamples(duration, sampleRate);
 
 		initialLevel = std::max(initialLevel, MINIMUM_LEVEL);
 		finalLevel = std::max(finalLevel, MINIMUM_LEVEL);
