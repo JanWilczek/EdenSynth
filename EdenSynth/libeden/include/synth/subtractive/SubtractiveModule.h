@@ -3,16 +3,17 @@
 ///	\author Jan Wilczek 
 ///	 \date 08.10.2018
 ///
-#include "synth/interfaces/IModule.h"
+#include "synth/IMonoModule.h"
+#include "eden/SampleType.h"
 
 namespace eden::synth::subtractive
 {
-	class SubtractiveModule : public IModule
+	class SubtractiveModule : public IMonoModule
 	{
 	public:
 		~SubtractiveModule() override;
 
-		void process(eden::AudioBuffer& audioBuffer, int startSample, int samplesToProcess) override;
+		void process(SampleType* audioChannel, int startSample, int samplesToProcess) override;
 		void setPitch(double pitch);
 	};
 }

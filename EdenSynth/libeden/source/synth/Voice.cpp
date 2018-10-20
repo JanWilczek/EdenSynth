@@ -43,9 +43,9 @@ namespace eden::synth
 		{
 			_signalGenerator->generateSignal(_innerBlock, startSample, samplesToRender);
 
-			_subtractiveModule->process(outputBuffer, startSample, samplesToRender);
+			_subtractiveModule->process(_innerBlock, startSample, samplesToRender);
 
-			_waveshapingModule->process(outputBuffer, startSample, samplesToRender);
+			_waveshapingModule->process(_innerBlock, startSample, samplesToRender);
 
 			_envelopeGenerator->apply(_innerBlock, startSample, samplesToRender);
 

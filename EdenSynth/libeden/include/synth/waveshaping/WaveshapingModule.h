@@ -3,15 +3,15 @@
 /// \auhtor Jan Wilczek
 /// \date 08.10.2018
 /// 
-#include "synth/interfaces/IModule.h"
+#include "synth/IMonoModule.h"
 
 namespace eden::synth::waveshaping
 {
-	class WaveshapingModule : public IModule
+	class WaveshapingModule : public IMonoModule
 	{
 	public:
 		~WaveshapingModule() override;
 
-		void process(eden::AudioBuffer& audioBuffer, int startSample, int samplesToProcess) override;
+		void process(SampleType* audioChannel, int startSample, int samplesToProcess) override;
 	};
 }
