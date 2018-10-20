@@ -71,6 +71,8 @@ namespace eden::synth
 		/// <param name="samplesPerBlock"></param>
 		void setBlockLength(unsigned samplesPerBlock);
 
+		void setWaveTable(wavetable::WaveTable waveTable);
+
 		/// <summary>
 		/// Sets new envelope of sound - the information about volume change in time in relation
 		/// to keyboard events.

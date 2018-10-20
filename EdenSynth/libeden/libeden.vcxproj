@@ -186,6 +186,7 @@
     <ClInclude Include="include\utility\EdenAssert.h" />
     <ClInclude Include="include\utility\MathConstants.h" />
     <ClInclude Include="include\utility\TimeSampleConverter.h" />
+    <ClInclude Include="include\utility\WaveFileReader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden\AudioBuffer.cpp" />
@@ -210,6 +211,7 @@
     <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp" />
     <ClCompile Include="source\synth\wavetable\Waveform.cpp" />
     <ClCompile Include="source\utility\TimeSampleConverter.cpp" />
+    <ClCompile Include="source\utility\WaveFileReader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

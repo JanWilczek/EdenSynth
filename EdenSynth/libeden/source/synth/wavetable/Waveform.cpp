@@ -26,6 +26,11 @@ namespace eden::synth::wavetable
 		return _interpolator->interpolate(_waveTable, index);
 	}
 
+	void Waveform::setWaveTable(WaveTable waveTable)
+	{
+		_waveTable = waveTable;
+	}
+
 	void Waveform::setInterpolator(std::shared_ptr<interpolation::IInterpolator> interpolator)
 	{
 		_interpolator = interpolator;

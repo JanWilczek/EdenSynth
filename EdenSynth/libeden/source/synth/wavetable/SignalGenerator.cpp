@@ -29,6 +29,11 @@ namespace eden::synth::wavetable
 		_currentPhase = 0.0;
 	}
 
+	void SignalGenerator::setWaveTable(WaveTable waveTable)
+	{
+		_signalSource.setWaveTable(waveTable);
+	}
+
 	void SignalGenerator::setPitch(double pitch)
 	{
 		const auto omega = 2.0 * math_constants::PI * pitch;

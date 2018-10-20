@@ -14,6 +14,7 @@ namespace eden::synth::wavetable
 
 		void generateSignal(SampleType* audioChannel, int startSample, int samplesToGenerate);
 		void stop();
+		void setWaveTable(WaveTable waveTable);
 		void setPitch(double pitch);
 		void setSampleRate(double sampleRate);
 

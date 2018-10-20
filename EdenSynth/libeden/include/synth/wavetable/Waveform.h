@@ -16,6 +16,7 @@ namespace eden::synth::wavetable
 		Waveform(WaveTable waveTable, std::shared_ptr<interpolation::IInterpolator> interpolator);
 
 		SampleType operator()(double phase) const;
+		void setWaveTable(WaveTable waveTable);
 		void setInterpolator(std::shared_ptr<interpolation::IInterpolator> interpolator);
 
 	private:

@@ -101,6 +101,11 @@ namespace eden::synth
 		}
 	}
 
+	void Voice::setWaveTable(wavetable::WaveTable waveTable)
+	{
+		_signalGenerator->setWaveTable(waveTable);
+	}
+
 	void Voice::setEnvelope(std::unique_ptr<envelope::Envelope> envelope)
 	{
 		_envelopeGenerator = std::move(envelope);

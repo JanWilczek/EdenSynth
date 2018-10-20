@@ -159,6 +159,9 @@
     <ClInclude Include="include\synth\wavetable\SineWaveTable.h">
       <Filter>Header Files\synth\wavetable</Filter>
     </ClInclude>
+    <ClInclude Include="include\utility\WaveFileReader.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -226,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="source\synth\wavetable\Waveform.cpp">
       <Filter>Source Files\synth\wavetable</Filter>
+    </ClCompile>
+    <ClCompile Include="source\utility\WaveFileReader.cpp">
+      <Filter>Source Files\utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

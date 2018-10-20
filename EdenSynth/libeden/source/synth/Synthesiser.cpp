@@ -89,6 +89,14 @@ namespace eden::synth
 		}
 	}
 
+	void Synthesiser::setWaveTable(std::vector<SampleType> waveTable)
+	{
+		for (auto& voice : _voices)
+		{
+			voice->setWaveTable(waveTable);
+		}
+	}
+
 	// TODO: This method is unimplemented.
 	void Synthesiser::setEnvelope(std::unique_ptr<envelope::Envelope> envelope)
 	{
