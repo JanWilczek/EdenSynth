@@ -43,9 +43,6 @@
     <Filter Include="Header Files\synth\wavetable">
       <UniqueIdentifier>{01e8e6c2-bc3c-4041-bde4-b7f0e145e01c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\synth\interfaces">
-      <UniqueIdentifier>{faa5da54-b6a7-4b03-a8a2-7ad12156fe26}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\synth\envelope">
       <UniqueIdentifier>{bb9673a0-3989-4063-be1f-81d05d9e5ce0}</UniqueIdentifier>
     </Filter>
@@ -60,6 +57,15 @@
     </Filter>
     <Filter Include="Source Files\synth\waveshaping">
       <UniqueIdentifier>{bc528c21-2cd0-4513-a108-e97a0b35eb01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\interpolation">
+      <UniqueIdentifier>{2091e982-8b78-4da2-aa29-8cc3e51c32f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utility">
+      <UniqueIdentifier>{2a254dd2-43a9-4b6f-9b15-2e55574a496e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interpolation">
+      <UniqueIdentifier>{a30fea81-2eb8-4d0d-bf8d-cbf60ad04689}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -89,9 +95,6 @@
     </ClInclude>
     <ClInclude Include="include\utility\EdenAssert.h">
       <Filter>Header Files\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\synth\interfaces\IModule.h">
-      <Filter>Header Files\synth\interfaces</Filter>
     </ClInclude>
     <ClInclude Include="include\synth\subtractive\SubtractiveModule.h">
       <Filter>Header Files\synth\subtractive</Filter>
@@ -137,6 +140,24 @@
     </ClInclude>
     <ClInclude Include="include\utility\TimeSampleConverter.h">
       <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\Waveform.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\WaveTable.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\IMonoModule.h">
+      <Filter>Header Files\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="include\interpolation\IInterpolator.h">
+      <Filter>Header Files\interpolation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\interpolation\LinearInterpolator.h">
+      <Filter>Header Files\interpolation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\SineWaveTable.h">
+      <Filter>Header Files\synth\wavetable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -198,7 +219,13 @@
       <Filter>Source Files\synth\envelope</Filter>
     </ClCompile>
     <ClCompile Include="source\utility\TimeSampleConverter.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interpolation\LinearInterpolator.cpp">
+      <Filter>Source Files\interpolation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\Waveform.cpp">
+      <Filter>Source Files\synth\wavetable</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

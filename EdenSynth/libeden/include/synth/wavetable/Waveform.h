@@ -13,7 +13,10 @@ namespace eden::synth::wavetable
 	class Waveform
 	{
 	public:
-		SampleType operator()(double phase);
+		Waveform(WaveTable waveTable, std::shared_ptr<interpolation::IInterpolator> interpolator);
+
+		SampleType operator()(double phase) const;
+		void setInterpolator(std::shared_ptr<interpolation::IInterpolator> interpolator);
 
 	private:
 		WaveTable _waveTable;

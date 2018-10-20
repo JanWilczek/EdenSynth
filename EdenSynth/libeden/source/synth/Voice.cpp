@@ -7,6 +7,7 @@
 #include "eden/AudioBuffer.h"
 #include "eden/MidiMessage.h"
 #include "synth/envelope/ADBDR.h"
+#include "utility/EdenAssert.h"
 
 namespace eden::synth
 {
@@ -15,7 +16,7 @@ namespace eden::synth
 		, _signalGenerator(std::make_unique<wavetable::SignalGenerator>(_sampleRate))
 		, _subtractiveModule(std::make_unique<subtractive::SubtractiveModule>())
 		, _waveshapingModule(std::make_unique<waveshaping::WaveshapingModule>())
-		, _envelopeGenerator(std::make_unique<envelope::ADBDR>(_sampleRate, 100ms, 100ms, 10000ms, 1000ms, SampleType(0.8)))
+		, _envelopeGenerator(std::make_unique<envelope::ADBDR>(_sampleRate, 50ms, 100ms, 20000ms, 1000ms, SampleType(0.8)))
 	{
 		_envelopeGenerator->setOnEnvelopeEndedCallback([this](unsigned) { finalizeVoice(); });
 	}
@@ -128,7 +129,10 @@ namespace eden::synth
 	{
 		for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
 		{
-			channel[sample] *= 0.3 * _velocity;
+			channel[sample] *= 0.05 * _velocity;
+
+			// check for clipping
+			EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
 		}
 	}
 
@@ -139,6 +143,9 @@ namespace eden::synth
 			for (auto sample = startSample; sample < startSample + samplesToMix; ++sample)
 			{
 				channel[sample] += _innerBlock[sample];
+				
+				// check for clipping
+				EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
 			}
 		});
 	}

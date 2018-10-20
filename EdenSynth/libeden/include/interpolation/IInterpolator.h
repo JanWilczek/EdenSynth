@@ -15,4 +15,7 @@ namespace eden::interpolation
 
 		virtual SampleType interpolate(const std::vector<SampleType>& discreteValues, double index) = 0;
 	};
+
+	inline IInterpolator::~IInterpolator()
+	{}
 }

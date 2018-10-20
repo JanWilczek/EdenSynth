@@ -2,14 +2,17 @@
 /// \author Jan Wilczek
 /// \date 08.10.2018
 /// 
-#include "synth/wavetable/SignalGenerator.h"
-#include "utility/MathConstants.h"
 #include <cmath>
+#include "synth/wavetable/SignalGenerator.h"
+#include "synth/wavetable/SineWaveTable.h"
+#include "utility/MathConstants.h"
+#include "interpolation/LinearInterpolator.h"
 
 namespace eden::synth::wavetable
 {
 	SignalGenerator::SignalGenerator(double sampleRate)
 		: _sampleRate(sampleRate)
+		, _signalSource(SineWaveTable, std::make_shared<interpolation::LinearInterpolator>())
 	{
 	}
 
@@ -40,7 +43,7 @@ namespace eden::synth::wavetable
 
 	void SignalGenerator::generateSample(SampleType* audioChannel, int sampleIndex)
 	{
-		audioChannel[sampleIndex] = std::sin(_currentPhase);
+		audioChannel[sampleIndex] = _signalSource(_currentPhase);
 		_currentPhase += _phaseDeltaPerSample;
 	}
 }

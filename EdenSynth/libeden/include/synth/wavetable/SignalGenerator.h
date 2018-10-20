@@ -3,7 +3,7 @@
 /// \author Jan Wilczek
 /// \date 08.10.2018
 /// 
-#include "eden/AudioBuffer.h"
+#include "Waveform.h"
 
 namespace eden::synth::wavetable
 {
@@ -23,7 +23,6 @@ namespace eden::synth::wavetable
 		double _currentPhase = 0.0;
 		double _phaseDeltaPerSample = 0.0;
 		double _sampleRate;
-		//SignalSource _signalSource;
-		//IInterpolator _interpolator;
+		Waveform _signalSource;
 	};
 }

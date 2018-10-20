@@ -162,6 +162,8 @@
     <ClInclude Include="include\eden\MidiMessage.h" />
     <ClInclude Include="include\eden\SampleType.h" />
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
+    <ClInclude Include="include\interpolation\IInterpolator.h" />
+    <ClInclude Include="include\interpolation\LinearInterpolator.h" />
     <ClInclude Include="include\synth\envelope\ADBDR.h" />
     <ClInclude Include="include\synth\envelope\Decay.h" />
     <ClInclude Include="include\synth\envelope\Envelope.h" />
@@ -172,12 +174,15 @@
     <ClInclude Include="include\synth\envelope\LinearGain.h" />
     <ClInclude Include="include\synth\envelope\NoGain.h" />
     <ClInclude Include="include\synth\envelope\Sustain.h" />
-    <ClInclude Include="include\synth\interfaces\IModule.h" />
+    <ClInclude Include="include\synth\IMonoModule.h" />
     <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
     <ClInclude Include="include\synth\Synthesiser.h" />
     <ClInclude Include="include\synth\Voice.h" />
     <ClInclude Include="include\synth\waveshaping\WaveshapingModule.h" />
     <ClInclude Include="include\synth\wavetable\SignalGenerator.h" />
+    <ClInclude Include="include\synth\wavetable\SineWaveTable.h" />
+    <ClInclude Include="include\synth\wavetable\Waveform.h" />
+    <ClInclude Include="include\synth\wavetable\WaveTable.h" />
     <ClInclude Include="include\utility\EdenAssert.h" />
     <ClInclude Include="include\utility\MathConstants.h" />
     <ClInclude Include="include\utility\TimeSampleConverter.h" />
@@ -188,6 +193,7 @@
     <ClCompile Include="source\eden\MidiBuffer.cpp" />
     <ClCompile Include="source\eden\MidiMessage.cpp" />
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp" />
+    <ClCompile Include="source\interpolation\LinearInterpolator.cpp" />
     <ClCompile Include="source\synth\envelope\ADBDR.cpp" />
     <ClCompile Include="source\synth\envelope\Attack.cpp" />
     <ClCompile Include="source\synth\envelope\Decay.cpp" />
@@ -202,6 +208,7 @@
     <ClCompile Include="source\synth\Voice.cpp" />
     <ClCompile Include="source\synth\waveshaping\WaveshapingModule.cpp" />
     <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp" />
+    <ClCompile Include="source\synth\wavetable\Waveform.cpp" />
     <ClCompile Include="source\utility\TimeSampleConverter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
