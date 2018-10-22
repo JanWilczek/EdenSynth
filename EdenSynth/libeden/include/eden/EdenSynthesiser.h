@@ -48,6 +48,8 @@ namespace eden
 		/// <param name="samplesPerBlock"></param>
 		void setBlockLength(int samplesPerBlock);
 
+		void setWaveTable(std::vector<SampleType> waveTable);
+
 		/// <summary>
 		/// Sets new envelope of sound - the information about volume change in time in relation
 		/// to keyboard events.

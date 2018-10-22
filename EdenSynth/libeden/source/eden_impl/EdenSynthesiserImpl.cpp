@@ -36,6 +36,11 @@ namespace eden
 		_synthesiser->setBlockLength(samplesPerBlock);
 	}
 
+	void EdenSynthesiserImpl::setWaveTable(std::vector<SampleType> waveTable)
+	{
+		_synthesiser->setWaveTable(waveTable);
+	}
+
 	void EdenSynthesiserImpl::setEnvelope(std::unique_ptr<synth::envelope::Envelope> envelope)
 	{
 		_synthesiser->setEnvelope(std::move(envelope));
