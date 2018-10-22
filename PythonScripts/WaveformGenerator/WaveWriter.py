@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+__author__ = "Jan Wilczek"
+__date__ = "22.10.2018"
+
 from scipy.io.wavfile import write
 
 

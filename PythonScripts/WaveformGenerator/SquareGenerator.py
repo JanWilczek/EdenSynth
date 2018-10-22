@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+__author__ = "Jan Wilczek"
+__date__ = "22.10.2018"
+
 from WaveformGenerator.Generator import Generator
 import numpy as np
 
@@ -11,3 +15,6 @@ class SquareGenerator(Generator):
         output[np.where(t > 0.5)] = -1
 
         return output
+
+    def name(self):
+        return 'Square'
