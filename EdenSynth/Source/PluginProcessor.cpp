@@ -12,9 +12,11 @@
 #include "PluginEditor.h"
 
 #include "EdenAdapter.h"
-
 #include <eden/AudioBuffer.h>
 #include <eden/MidiBuffer.h>
+
+#include <filesystem>
+#include "utility/WaveFileReader.h"
 
 //==============================================================================
 EdenSynthAudioProcessor::EdenSynthAudioProcessor()
@@ -84,16 +86,16 @@ int EdenSynthAudioProcessor::getCurrentProgram()
     return 0;
 }
 
-void EdenSynthAudioProcessor::setCurrentProgram (int index)
+void EdenSynthAudioProcessor::setCurrentProgram (int /*index*/)
 {
 }
 
-const String EdenSynthAudioProcessor::getProgramName (int index)
+const String EdenSynthAudioProcessor::getProgramName (int /*index*/)
 {
     return {};
 }
 
-void EdenSynthAudioProcessor::changeProgramName (int index, const String& newName)
+void EdenSynthAudioProcessor::changeProgramName (int /*index*/, const String& /*newName*/)
 {
 }
 
@@ -102,6 +104,13 @@ void EdenSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
 {
 	_edenSynthesiser.setSampleRate(sampleRate);
 	_edenSynthesiser.setBlockLength(samplesPerBlock);
+
+	auto path = std::experimental::filesystem::current_path();
+	path = path / "assets" / "wavetables" / "Square.wav";
+
+	eden::utility::WaveFileReader reader{};
+	auto squareWave = reader.readWaveFile(path.string());
+	_edenSynthesiser.setWaveTable(squareWave);
 }
 
 void EdenSynthAudioProcessor::releaseResources()
@@ -156,14 +165,14 @@ AudioProcessorEditor* EdenSynthAudioProcessor::createEditor()
 }
 
 //==============================================================================
-void EdenSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
+void EdenSynthAudioProcessor::getStateInformation (MemoryBlock& /*destData*/)
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void EdenSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void EdenSynthAudioProcessor::setStateInformation (const void* /*data*/, int /*sizeInBytes*/)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.

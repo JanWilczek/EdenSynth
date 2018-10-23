@@ -10,7 +10,9 @@ namespace eden::utility
 {
 	std::vector<SampleType> WaveFileReader::readWaveFile(const std::string& pathToWaveFile)
 	{
-		std::ifstream fileStream(pathToWaveFile, std::ios::in);
+		std::ifstream fileStream(pathToWaveFile, std::ios::in | std::ios::binary);
+		
+		EDEN_ASSERT(fileStream.good());
 
 		fileStream >> _header.ChunkID;
 		fileStream >> _header.ChunkSize;
@@ -25,6 +27,11 @@ namespace eden::utility
 		fileStream >> _header.BitsPerSample;
 		fileStream >> _header.Subchunk2ID;
 		fileStream >> _header.Subchunk2Size;
+
+		//fileStream.read((char*)&_header, sizeof(_header));
+
+
+		//fileStream.read(_header.ChunkID, 4);
 
 		EDEN_ASSERT(_header.NumChannels == 1);
 
