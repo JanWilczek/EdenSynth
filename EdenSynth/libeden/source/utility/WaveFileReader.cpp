@@ -2,63 +2,89 @@
 /// \author Jan Wilczek
 /// \date 20.10.2018
 /// 
-#include <fstream>
 #include "utility/WaveFileReader.h"
 #include "utility/EdenAssert.h"
 
 namespace eden::utility
 {
-	std::vector<SampleType> WaveFileReader::readWaveFile(const std::string& pathToWaveFile)
+	WaveFileReader::WaveFileReader(const std::string& pathToWaveFile)
+		: _fileStream(pathToWaveFile, std::ios::in | std::ios::binary)
 	{
-		std::ifstream fileStream(pathToWaveFile, std::ios::in | std::ios::binary);
-		
-		EDEN_ASSERT(fileStream.good());
-
-		fileStream >> _header.ChunkID;
-		fileStream >> _header.ChunkSize;
-		fileStream >> _header.Format;
-		fileStream >> _header.Subchunk1ID;
-		fileStream >> _header.Subchunk1Size;
-		fileStream >> _header.AudioFormat;
-		fileStream >> _header.NumChannels;
-		fileStream >> _header.SampleRate;
-		fileStream >> _header.ByteRate;
-		fileStream >> _header.BlockAlign;
-		fileStream >> _header.BitsPerSample;
-		fileStream >> _header.Subchunk2ID;
-		fileStream >> _header.Subchunk2Size;
-
-		//fileStream.read((char*)&_header, sizeof(_header));
-
-
-		//fileStream.read(_header.ChunkID, 4);
-
-		EDEN_ASSERT(_header.NumChannels == 1);
-
-		std::vector<SampleType> readSamples;
-		int readSample;
-
-		const auto numSamples = _header.Subchunk2Size * 8 / (_header.NumChannels * _header.BitsPerSample);
-		for (int i = 0; i < numSamples; ++i)
+		if (!_fileStream.good())
 		{
-			fileStream >> readSample;
-			switch (_header.BitsPerSample)
-			{
-			case 8:
-				readSamples.push_back(static_cast<double>(readSample) / (1 << 8 - 1));
-				break;
-			case 16:
-				readSamples.push_back(static_cast<double>(readSample) / (1 << 16 - 1));
-				break;
-			case 32:
-				readSamples.push_back(static_cast<double>(readSample) / (1 << 32 - 1));
-				break;
-			default:
-				EDEN_ASSERT(false);
-				break;
-			}
+			throw std::ios_base::failure("Wave file does not exist!");
 		}
 
-		return readSamples;
+		readHeader();
+	}
+
+	WaveFileReader::~WaveFileReader()
+	{
+		_fileStream.close();
+	}
+
+	int WaveFileReader::sampleRate() const noexcept
+	{
+		return _header.SampleRate;
+	}
+
+	int WaveFileReader::getNumSamples() const
+	{
+		// Subchunk2Size = NumSamples * NumChannels * BitsPerSample/8
+		return _header.Subchunk2Size * 8 / (_header.NumChannels * _header.BitsPerSample);
+	}
+
+	std::vector<SampleType> WaveFileReader::readSamples()
+	{
+		if (_samples.size() > 0)
+		{
+			return _samples;
+		}
+
+		int readSample;
+		const auto numSamples = getNumSamples();
+		for (auto i = 0; i < numSamples; ++i)
+		{
+			_fileStream.read(reinterpret_cast<char*>(&readSample), _header.BitsPerSample / 8);
+			addSample(readSample);
+		}
+
+		return _samples;
+	}
+
+	void WaveFileReader::readHeader()
+	{
+		_fileStream.read(reinterpret_cast<char*>(&_header), sizeof(_header));
+
+		if (_header.NumChannels != 1)
+		{
+			throw std::runtime_error("Unsupported number of channels - should be 1.");
+		}
+
+		if (_header.AudioFormat != 1)
+		{
+			throw std::runtime_error("Unsupported audio format - currently only uncompressed PCM is supported.");
+		}
+	}
+
+	void WaveFileReader::addSample(int sample)
+	{
+		switch (_header.BitsPerSample)
+		{
+		case 8:
+			_samples.push_back(static_cast<SampleType>(static_cast<double>(sample) / std::numeric_limits<char>::max()));
+			break;
+		case 16:
+			_samples.push_back(static_cast<SampleType>(static_cast<double>(sample) / std::numeric_limits<short>::max()));
+			break;
+		case 32:
+			_samples.push_back(static_cast<SampleType>(static_cast<double>(sample) / std::numeric_limits<int>::max()));
+			break;
+		case 64:
+			_samples.push_back(static_cast<SampleType>(static_cast<double>(sample) / std::numeric_limits<long>::max()));
+			break;
+		default:
+			throw std::runtime_error("Unsupported number of bits. Currently only 8-, 16- and 32-bit PCM samples are supported.");
+		}
 	}
 }

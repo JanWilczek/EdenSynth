@@ -3,6 +3,7 @@ __author__ = "Jan Wilczek"
 __date__ = "22.10.2018"
 
 from pathlib import Path
+import numpy as np
 from WaveformGenerator.WaveWriter import WaveWriter
 from WaveformGenerator.SineGenerator import SineGenerator
 from WaveformGenerator.TriangleGenerator import TriangleGenerator
@@ -19,8 +20,15 @@ def get_wavetables_path():
     return current_path
 
 
+def convert_to_int32(samples):
+    samples = np.round(samples * np.iinfo(np.int32).max, decimals=0)
+    samples = samples.astype(np.int32)
+    return samples
+
+
 def generate_and_write(generator, length):
     samples = generator.generate(length)
+    samples = convert_to_int32(samples)
     WaveWriter.save_wave_file(str(get_wavetables_path().joinpath(generator.name())), samples, length)
 
 

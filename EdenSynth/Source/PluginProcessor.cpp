@@ -31,6 +31,12 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
                        )
 #endif
 {
+	auto path = std::experimental::filesystem::current_path();
+	path = path / "assets" / "wavetables" / "SawtoothRampUp.wav";
+
+	eden::utility::WaveFileReader reader(path.string());
+	const auto squareWave = reader.readSamples();
+	_edenSynthesiser.setWaveTable(squareWave);
 }
 
 EdenSynthAudioProcessor::~EdenSynthAudioProcessor()
@@ -104,13 +110,6 @@ void EdenSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
 {
 	_edenSynthesiser.setSampleRate(sampleRate);
 	_edenSynthesiser.setBlockLength(samplesPerBlock);
-
-	auto path = std::experimental::filesystem::current_path();
-	path = path / "assets" / "wavetables" / "Square.wav";
-
-	eden::utility::WaveFileReader reader{};
-	auto squareWave = reader.readWaveFile(path.string());
-	_edenSynthesiser.setWaveTable(squareWave);
 }
 
 void EdenSynthAudioProcessor::releaseResources()
