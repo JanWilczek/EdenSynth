@@ -9,6 +9,7 @@ from WaveformGenerator.SineGenerator import SineGenerator
 from WaveformGenerator.TriangleGenerator import TriangleGenerator
 from WaveformGenerator.SquareGenerator import SquareGenerator
 from WaveformGenerator.SawtoothGenerator import SawtoothGenerator
+from WaveformGenerator.AnalogSawtoothGenerator import AnalogSawtoothGenerator
 
 
 def get_wavetables_path():
@@ -29,7 +30,7 @@ def convert_to_int32(samples):
 def generate_and_write(generator, length):
     samples = generator.generate(length)
     samples = convert_to_int32(samples)
-    WaveWriter.save_wave_file(str(get_wavetables_path().joinpath(generator.name())), samples, length)
+    WaveWriter.save_wave_file(str(get_wavetables_path().joinpath(generator.name())), samples, len(samples))
 
 
 if __name__ == "__main__":
@@ -39,3 +40,4 @@ if __name__ == "__main__":
     generate_and_write(TriangleGenerator(), table_length)
     generate_and_write(SquareGenerator(), table_length)
     generate_and_write(SawtoothGenerator(), table_length)
+    generate_and_write(AnalogSawtoothGenerator(), table_length)
