@@ -10,6 +10,7 @@ from WaveformGenerator.TriangleGenerator import TriangleGenerator
 from WaveformGenerator.SquareGenerator import SquareGenerator
 from WaveformGenerator.SawtoothGenerator import SawtoothGenerator
 from WaveformGenerator.AnalogSawtoothGenerator import AnalogSawtoothGenerator
+from WaveformGenerator.AnalogPulseGenerator import AnalogPulseGenerator
 
 
 def get_wavetables_path():
@@ -41,3 +42,4 @@ if __name__ == "__main__":
     generate_and_write(SquareGenerator(), table_length)
     generate_and_write(SawtoothGenerator(), table_length)
     generate_and_write(AnalogSawtoothGenerator(), table_length)
+    generate_and_write(AnalogPulseGenerator(), table_length)
