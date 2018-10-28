@@ -32,7 +32,7 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
 #endif
 {
 	auto path = std::experimental::filesystem::current_path();
-	path = path / "assets" / "wavetables" / "AnalogPulse50Cycle.wav";
+	path = path / "assets" / "wavetables" / "AnalogSawtoothRampUp.wav";
 
 	eden::utility::WaveFileReader reader(path.string());
 	const auto squareWave = reader.readSamples();

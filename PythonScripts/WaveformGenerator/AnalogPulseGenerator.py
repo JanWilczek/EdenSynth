@@ -24,4 +24,7 @@ class AnalogPulseGenerator(Generator):
         return square
 
     def name(self):
-        return 'AnalogPulse{:.0f}Cycle'.format(self.__duty_cycle * 100)
+        if self.__duty_cycle != 0.5:
+            return 'AnalogPulse{:.0f}Cycle'.format(self.__duty_cycle * 100)
+        else:
+            return 'AnalogSquare'

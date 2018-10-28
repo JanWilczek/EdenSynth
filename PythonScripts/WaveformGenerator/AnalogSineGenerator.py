@@ -35,7 +35,7 @@ class AnalogSineGenerator(Generator):
 
         zero_crossings = np.where(np.diff(np.sign(resampled)))[0]
 
-        one_cycle = resampled[zero_crossings[3]:zero_crossings[5]]
+        one_cycle = resampled[zero_crossings[4]:zero_crossings[6]]
         scale_to_range(one_cycle)
 
         return one_cycle
