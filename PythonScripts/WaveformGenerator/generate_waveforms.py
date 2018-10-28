@@ -11,6 +11,8 @@ from WaveformGenerator.SquareGenerator import SquareGenerator
 from WaveformGenerator.SawtoothGenerator import SawtoothGenerator
 from WaveformGenerator.AnalogSawtoothGenerator import AnalogSawtoothGenerator
 from WaveformGenerator.AnalogPulseGenerator import AnalogPulseGenerator
+from WaveformGenerator.AnalogTriangleGenerator import AnalogTriangleGenerator
+from WaveformGenerator.AnalogSineGenerator import AnalogSineGenerator
 
 
 def get_wavetables_path():
@@ -39,7 +41,8 @@ if __name__ == "__main__":
 
     generators = [SineGenerator(), TriangleGenerator(), SquareGenerator(), SawtoothGenerator(),
                   AnalogSawtoothGenerator(), AnalogPulseGenerator(0.1), AnalogPulseGenerator(0.2),
-                  AnalogPulseGenerator(0.3), AnalogPulseGenerator(0.4), AnalogPulseGenerator(0.5)]
+                  AnalogPulseGenerator(0.3), AnalogPulseGenerator(0.4), AnalogPulseGenerator(0.5),
+                  AnalogTriangleGenerator(), AnalogSineGenerator()]
 
     for wave_generator in generators:
         generate_and_write(wave_generator, table_length)

@@ -5,7 +5,7 @@ __date__ = "24.10.2018"
 import numpy as np
 import scipy.signal as signal
 from WaveformGenerator.Generator import Generator
-from WaveformGenerator.utils import limit, resample
+from WaveformGenerator.utils import scale_to_range, resample
 
 
 class AnalogSawtoothGenerator(Generator):
@@ -32,10 +32,12 @@ class AnalogSawtoothGenerator(Generator):
         c = fs / (4 * freq * (1 - delta))               # scaling factor
         scaled_output = c * z
 
-        resampled_output = resample(scaled_output, fs_in=int(fs / freq) + 1, fs_out=length)
+        resampled_output = resample(scaled_output, fs_in=round(fs / freq), fs_out=length)
 
-        after_cycle = np.where(resampled_output[length:] < resampled_output[0])   # find cycle completion
-        one_cycle = resampled_output[0:length + after_cycle[0][0]]
+        zero_crossings = np.where(np.diff(np.sign(resampled_output)))[0]
+        one_cycle = resampled_output[zero_crossings[0] : zero_crossings[2]]
+
+        scale_to_range(one_cycle)
 
         return one_cycle
 
