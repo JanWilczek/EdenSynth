@@ -11,11 +11,11 @@ from WaveformGenerator.utils import resample, scale_to_range
 class AnalogTriangleGenerator(Generator):
     def generate(self, length):
         freq = 2793.8
+        freq2 = 2 * freq
         fs = 44100
         nb_repetitions = 7
 
-        delta = 2 * freq / fs
-        c = fs / (4 * freq * (1 - delta))
+        delta = freq2 / fs
 
         phase = np.arange(0, nb_repetitions, delta)
         mod_phase = phase % 1
@@ -39,6 +39,7 @@ class AnalogTriangleGenerator(Generator):
         zi = signal.lfilter_zi(b, a)
         differentiated, _ = signal.lfilter(b, a, modulated_signal, zi=zi * modulated_signal[0])
 
+        c = fs / (4 * freq2 * (1 - freq2 / fs))
         scaled = c * differentiated
 
         resampled = resample(scaled, fs_in=round(fs / freq), fs_out=length)
