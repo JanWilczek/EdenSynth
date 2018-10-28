@@ -5,17 +5,15 @@ __date__ = "24.10.2018"
 import numpy as np
 import scipy.signal as signal
 from WaveformGenerator.Generator import Generator
-from WaveformGenerator.utils import limit
+from WaveformGenerator.utils import limit, resample
 
 
 class AnalogSawtoothGenerator(Generator):
     def generate(self, length):
-        return self.generate_integrative(length)
-
-    def generate_integrative(self, length):
-        freq = 1
-        fs = freq * length
-        nb_repetitions = 4
+        # constants from Valimaki's article
+        fs = 44100
+        freq = 2793.8
+        nb_repetitions = 3
 
         delta = freq / fs
 
@@ -34,40 +32,12 @@ class AnalogSawtoothGenerator(Generator):
         c = fs / (4 * freq * (1 - delta))               # scaling factor
         scaled_output = c * z
 
-        after_cycle = np.where(scaled_output[length:] < scaled_output[0])   # find cycle completion
-        one_cycle = scaled_output[0:length + after_cycle[0][0]]
+        resampled_output = resample(scaled_output, fs_in=int(fs / freq) + 1, fs_out=length)
+
+        after_cycle = np.where(resampled_output[length:] < resampled_output[0])   # find cycle completion
+        one_cycle = resampled_output[0:length + after_cycle[0][0]]
 
         return one_cycle
-
-    def generate_iterative(self, length):
-        freq = 1
-        sample_rate = length
-        delta = freq / sample_rate
-
-        c = sample_rate / (4 * freq * (1 - freq/sample_rate))
-
-        t = np.arange(0, 1, 1 / sample_rate)
-        phase_v = 2 * np.pi * t
-        samples = np.zeros(len(phase_v))
-        squared = np.zeros(len(phase_v))
-
-        phase = 0
-
-        for i in range(0, len(phase_v)):
-            phase = np.mod(phase + delta, 1)
-            bphase = 2 * phase - 1
-
-            sq = bphase ** 2
-            squared[i] = sq
-
-            dsq = (sq - squared[i - 2]) / 2
-
-            out = c * dsq
-            samples[i] = out
-
-        limit(samples)
-
-        return samples
 
     def name(self):
         return 'AnalogSawtoothRampUp'

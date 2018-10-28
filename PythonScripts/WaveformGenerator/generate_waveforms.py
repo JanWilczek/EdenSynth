@@ -37,9 +37,9 @@ def generate_and_write(generator, length):
 if __name__ == "__main__":
     table_length = 48000
 
-    generate_and_write(SineGenerator(), table_length)
-    generate_and_write(TriangleGenerator(), table_length)
-    generate_and_write(SquareGenerator(), table_length)
-    generate_and_write(SawtoothGenerator(), table_length)
-    generate_and_write(AnalogSawtoothGenerator(), table_length)
-    generate_and_write(AnalogPulseGenerator(), table_length)
+    generators = [SineGenerator(), TriangleGenerator(), SquareGenerator(), SawtoothGenerator(),
+                  AnalogSawtoothGenerator(), AnalogPulseGenerator(0.1), AnalogPulseGenerator(0.2),
+                  AnalogPulseGenerator(0.3), AnalogPulseGenerator(0.4), AnalogPulseGenerator(0.5)]
+
+    for wave_generator in generators:
+        generate_and_write(wave_generator, table_length)
