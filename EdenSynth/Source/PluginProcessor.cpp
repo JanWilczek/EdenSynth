@@ -20,23 +20,19 @@
 
 //==============================================================================
 EdenSynthAudioProcessor::EdenSynthAudioProcessor()
+	:
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
+		AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
                       #if ! JucePlugin_IsSynth
                        .withInput  ("Input",  AudioChannelSet::stereo(), true)
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
 #endif
+		_assetsPath(std::experimental::filesystem::current_path() / "assets")
 {
-	auto path = std::experimental::filesystem::current_path();
-	path = path / "assets" / "wavetables" / "AnalogSawtoothRampUp.wav";
-
-	eden::utility::WaveFileReader reader(path.string());
-	const auto squareWave = reader.readSamples();
-	_edenSynthesiser.setWaveTable(squareWave);
 }
 
 EdenSynthAudioProcessor::~EdenSynthAudioProcessor()
@@ -176,6 +172,28 @@ void EdenSynthAudioProcessor::setStateInformation (const void* /*data*/, int /*s
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
+
+std::experimental::filesystem::path EdenSynthAudioProcessor::getAssetsPath() const
+{
+	return _assetsPath;
+}
+
+void EdenSynthAudioProcessor::setWaveTable(const std::string& filename)
+{
+	try
+	{
+		auto path = getAssetsPath() / "wavetables" / filename;
+
+		eden::utility::WaveFileReader reader(path.string());
+		const auto wave = reader.readSamples();
+		_edenSynthesiser.setWaveTable(wave);
+	}
+	catch(...)
+	{
+		// TODO: Add error handling.
+	}
+}
+
 
 //==============================================================================
 // This creates new instances of the plugin..
