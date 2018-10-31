@@ -14,10 +14,16 @@ namespace eden::interpolation
 
 	SampleType LinearInterpolator::interpolate(const std::vector<SampleType>& discreteValues, double index)
 	{
-		EDEN_ASSERT(index >= 0 && index < discreteValues.size());
+		EDEN_ASSERT(index >= 0 && index <= discreteValues.size() - 1);
 
 		const auto lowerIndex = static_cast<int>(std::floor(index));
 		const auto upperIndex = static_cast<int>(std::ceil(index));
+
+		// if an integer index was given return precise value from vector
+		if (lowerIndex == upperIndex)
+		{
+			return discreteValues[lowerIndex];
+		}
 
 		const auto toLower = index - lowerIndex;
 		const auto toUpper = upperIndex - index;

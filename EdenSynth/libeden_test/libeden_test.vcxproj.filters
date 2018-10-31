@@ -17,6 +17,9 @@
     <ClCompile Include="synth_test\envelope_test\SegmentsTest.cpp">
       <Filter>synth_test\envelope</Filter>
     </ClCompile>
+    <ClCompile Include="interpolation_test\LinearInterpolatorTest.cpp">
+      <Filter>interpolation_test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -30,6 +33,9 @@
     </Filter>
     <Filter Include="synth_test\envelope">
       <UniqueIdentifier>{215146bb-d62b-4a50-8d81-a5ed90cfacbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interpolation_test">
+      <UniqueIdentifier>{9b5df303-62c3-4008-8dbd-e68013ccda73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
