@@ -12,16 +12,19 @@
       <Filter>eden_test</Filter>
     </ClCompile>
     <ClCompile Include="synth_test\envelope_test\ADBDRTest.cpp">
-      <Filter>synth_test\envelope</Filter>
+      <Filter>synth_test\envelope_test</Filter>
     </ClCompile>
     <ClCompile Include="synth_test\envelope_test\SegmentsTest.cpp">
-      <Filter>synth_test\envelope</Filter>
+      <Filter>synth_test\envelope_test</Filter>
     </ClCompile>
     <ClCompile Include="interpolation_test\LinearInterpolatorTest.cpp">
       <Filter>interpolation_test</Filter>
     </ClCompile>
     <ClCompile Include="utility_test\TimeSampleConverterTest.cpp">
       <Filter>utility_test</Filter>
+    </ClCompile>
+    <ClCompile Include="synth_test\wavetable_test\SignalGeneratorTest.cpp">
+      <Filter>synth_test\wavetable_test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,14 +37,17 @@
     <Filter Include="synth_test">
       <UniqueIdentifier>{f1309d23-d074-4f33-93a8-0ebe84f85e0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="synth_test\envelope">
-      <UniqueIdentifier>{215146bb-d62b-4a50-8d81-a5ed90cfacbe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="interpolation_test">
       <UniqueIdentifier>{9b5df303-62c3-4008-8dbd-e68013ccda73}</UniqueIdentifier>
     </Filter>
     <Filter Include="utility_test">
       <UniqueIdentifier>{71d90713-166f-4d7b-92d6-26e0e76799ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="synth_test\wavetable_test">
+      <UniqueIdentifier>{6b4a96f6-940d-45a6-8545-9dd16cc083c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="synth_test\envelope_test">
+      <UniqueIdentifier>{215146bb-d62b-4a50-8d81-a5ed90cfacbe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

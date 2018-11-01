@@ -2,7 +2,6 @@
 /// \author Jan Wilczek
 /// \date 08.10.2018
 /// 
-#include <cmath>
 #include "synth/wavetable/SignalGenerator.h"
 #include "synth/wavetable/SineWaveTable.h"
 #include "utility/MathConstants.h"
@@ -27,6 +26,7 @@ namespace eden::synth::wavetable
 	void SignalGenerator::stop()
 	{
 		_currentPhase = 0.0;
+		_phaseDeltaPerSample = 0.0;
 	}
 
 	void SignalGenerator::setWaveTable(WaveTable waveTable)

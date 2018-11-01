@@ -12,7 +12,7 @@ namespace eden::synth::wavetable
 {
 	const std::vector<SampleType> SineWaveTable = []()
 	{
-		constexpr size_t size = 48000;
+		constexpr size_t size = 48000u;
 		std::vector<SampleType> result(size);
 		for (size_t i = 0; i < size; ++i)
 		{
