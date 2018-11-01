@@ -3,7 +3,7 @@
 /// \date 31.10.2018
 /// 
 #include "pch.h"
-#include "interpolation/LinearInterpolator.h"
+#include <interpolation/LinearInterpolator.h>
 
 namespace libeden_test
 {

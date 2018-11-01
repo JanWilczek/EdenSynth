@@ -20,6 +20,9 @@
     <ClCompile Include="interpolation_test\LinearInterpolatorTest.cpp">
       <Filter>interpolation_test</Filter>
     </ClCompile>
+    <ClCompile Include="utility_test\TimeSampleConverterTest.cpp">
+      <Filter>utility_test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -36,6 +39,9 @@
     </Filter>
     <Filter Include="interpolation_test">
       <UniqueIdentifier>{9b5df303-62c3-4008-8dbd-e68013ccda73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility_test">
+      <UniqueIdentifier>{71d90713-166f-4d7b-92d6-26e0e76799ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
