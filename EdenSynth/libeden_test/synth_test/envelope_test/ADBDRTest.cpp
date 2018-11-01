@@ -72,33 +72,31 @@ namespace libeden_test
 				_envelope->apply(_channel.get(), fromSample, samplesToProcess);
 				return samplesToProcess;
 			}
-			else
+
+			auto processedSamples = 0u;
+			const auto initialSamplesToProcess = NUM_SAMPLES - fromSample;
+
+			fillChannel(eden::SampleType(1.0), fromSample, NUM_SAMPLES - 1);
+			_envelope->apply(_channel.get(), fromSample, initialSamplesToProcess);
+
+			processedSamples += initialSamplesToProcess;
+			toSample -= NUM_SAMPLES;
+
+			while (toSample > NUM_SAMPLES - 1)
 			{
-				auto processedSamples = 0u;
-				const auto initialSamplesToProcess = NUM_SAMPLES - fromSample;
+				fillChannel(eden::SampleType(1.0));
+				_envelope->apply(_channel.get(), 0, NUM_SAMPLES);
 
-				fillChannel(eden::SampleType(1.0), fromSample, NUM_SAMPLES-1);
-				_envelope->apply(_channel.get(), fromSample, initialSamplesToProcess);
-
-				processedSamples += initialSamplesToProcess;
+				processedSamples += NUM_SAMPLES;
 				toSample -= NUM_SAMPLES;
-
-				while (toSample > NUM_SAMPLES - 1)
-				{
-					fillChannel(eden::SampleType(1.0));
-					_envelope->apply(_channel.get(), 0, NUM_SAMPLES);
-
-					processedSamples += NUM_SAMPLES;
-					toSample -= NUM_SAMPLES;
-				}
-				const auto finalSamplesToProcess = toSample + 1;
-
-				fillChannel(eden::SampleType(1.0), 0, finalSamplesToProcess - 1);
-				_envelope->apply(_channel.get(), 0, finalSamplesToProcess);
-				processedSamples += finalSamplesToProcess;
-
-				return processedSamples;
 			}
+			const auto finalSamplesToProcess = toSample + 1;
+
+			fillChannel(eden::SampleType(1.0), 0, finalSamplesToProcess - 1);
+			_envelope->apply(_channel.get(), 0, finalSamplesToProcess);
+			processedSamples += finalSamplesToProcess;
+
+			return processedSamples;
 		}
 
 		void shapeTest(int startSample, int endSample)
@@ -109,7 +107,7 @@ namespace libeden_test
 			}
 
 			// test for exponential shape of the envelope
-			const unsigned middleSample = static_cast<unsigned>((endSample + startSample) / 2) ;
+			const unsigned middleSample = static_cast<unsigned>((endSample + startSample) / 2);
 			const auto startSampleLevel = 20 * std::log10(_channel[startSample]);
 			const auto middleSampleLevel = 20 * std::log10(_channel[middleSample]);
 			const auto lastSampleLevel = 20 * std::log10(_channel[endSample]);

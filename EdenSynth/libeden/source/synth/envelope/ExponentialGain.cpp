@@ -25,13 +25,17 @@ namespace eden::synth::envelope
 		 * EdB(n) = 20 * log10(E(n))	(2)
 		 * by the definition.
 		 * 
-		 * Comparing (1) against (2) gives equation from which one can calculate that
-		 * E(n) = 10 ^ (a / 20) * 10 ^ (b / 20),		(3)
+		 * Comparing (1) against (2) gives an equation from which one can calculate that
+		 * E(n) = 10 ^ (a * n / 20) * 10 ^ (b / 20),		(3)
 		 * so current envelope value should be multiplied by 10 ^ (a / 20) in every update.
 		 * 
 		 * a and b can be calculated by solving following equations:
 		 * E(0) = 10 ^ (b / 20) = initialLevel,
 		 * E(durationInSamples) = 10 ^ (a * durationInSamples / 20) * 10 ^ (b / 20) = 10 ^ (a * durationInSamples / 20) * initialLevel = finalLevel.
+		 * So:
+		 * 10 ^ (a * durationInSamples / 20) = finalLevel / initialLevel
+		 * a * durationInSamples / 20 = log10(finalLevel / initialLevel)
+		 * a = (20 / durationInSamples) * log10(finalLevel  / initialLevel)
 		 */
 
 		const auto durationInSamples = utility::TimeSampleConverter::timeToSamples(duration, sampleRate);
@@ -39,7 +43,7 @@ namespace eden::synth::envelope
 		initialLevel = std::max(initialLevel, MINIMUM_LEVEL);
 		finalLevel = std::max(finalLevel, MINIMUM_LEVEL);
 
-		const auto exponent = (1.0 / durationInSamples) * std::log10(finalLevel / initialLevel);
+		const auto exponent = (1.0 / durationInSamples) * std::log10(finalLevel / initialLevel);	// = a / 20
 		_multiplier = static_cast<SampleType>(std::pow(10, exponent));
 	}
 

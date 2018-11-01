@@ -76,14 +76,7 @@ namespace libeden_test
 			{
 				for (auto j = 0u; j < testBuffer.getNumSamples(); ++j)
 				{
-					if (typeid(eden::SampleType) == typeid(float))
-					{
-						EXPECT_FLOAT_EQ(testBuffer.getArrayOfReadPointers()[i][j], static_cast<eden::SampleType>(testValues[k]));
-					}
-					else
-					{
-						EXPECT_DOUBLE_EQ(testBuffer.getArrayOfReadPointers()[i][j], testValues[k]);
-					}
+					EXPECT_FLOAT_EQ(testBuffer.getArrayOfReadPointers()[i][j], static_cast<eden::SampleType>(testValues[k]));
 				}
 			}
 		}

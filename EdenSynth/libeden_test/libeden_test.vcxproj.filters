@@ -26,6 +26,9 @@
     <ClCompile Include="synth_test\wavetable_test\SignalGeneratorTest.cpp">
       <Filter>synth_test\wavetable_test</Filter>
     </ClCompile>
+    <ClCompile Include="synth_test\envelope_test\EnvelopeTest.cpp">
+      <Filter>synth_test\envelope_test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

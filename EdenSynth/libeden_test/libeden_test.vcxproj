@@ -50,6 +50,7 @@
     <ClCompile Include="eden_test\MidiBufferTest.cpp" />
     <ClCompile Include="interpolation_test\LinearInterpolatorTest.cpp" />
     <ClCompile Include="synth_test\envelope_test\ADBDRTest.cpp" />
+    <ClCompile Include="synth_test\envelope_test\EnvelopeTest.cpp" />
     <ClCompile Include="synth_test\envelope_test\SegmentsTest.cpp" />
     <ClCompile Include="synth_test\SynthesiserTest.cpp" />
     <ClCompile Include="pch.cpp">
