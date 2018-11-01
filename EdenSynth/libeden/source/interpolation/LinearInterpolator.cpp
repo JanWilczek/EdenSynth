@@ -14,7 +14,7 @@ namespace eden::interpolation
 
 	SampleType LinearInterpolator::interpolate(const std::vector<SampleType>& discreteValues, double index)
 	{
-		EDEN_ASSERT(index >= 0 && index <= discreteValues.size() - 1);
+		EDEN_ASSERT(index >= 0 && index < discreteValues.size());
 
 		const auto lowerIndex = static_cast<int>(std::floor(index));
 		const auto upperIndex = static_cast<int>(std::ceil(index));

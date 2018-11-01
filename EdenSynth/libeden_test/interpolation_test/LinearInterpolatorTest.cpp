@@ -19,12 +19,15 @@ namespace libeden_test
 		const auto result2 = interpolator->interpolate(signal, 2);
 		EXPECT_FLOAT_EQ(result2, 2.f);
 
-		const auto result3 = interpolator->interpolate(signal, 3.5f);
+		const auto result3 = interpolator->interpolate(signal, 3.5);
 		EXPECT_FLOAT_EQ(result3, 4.f);
 
-		const auto result4 = interpolator->interpolate(signal, 5.f);
+		const auto result4 = interpolator->interpolate(signal, 5);
 		EXPECT_FLOAT_EQ(result4, 6.f);
 
-		EXPECT_DEATH(interpolator->interpolate(signal, 5.1f), "");
+		const auto result5 = interpolator->interpolate(signal, 5.5);
+		EXPECT_FLOAT_EQ(result5, 3.f);
+
+		EXPECT_DEATH(interpolator->interpolate(signal, 6), "");
 	}
 }
