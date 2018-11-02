@@ -22,6 +22,7 @@ namespace eden::synth
 	{
 	public:
 		explicit Voice(double sampleRate);
+		Voice() = delete;
 
 		/// <summary>
 		/// Starts rendering a voice in effect of e.g. note on MIDI event.
@@ -82,8 +83,9 @@ namespace eden::synth
 
 		void finalizeVoice();
 
-	private:
 		double calculatePitch(int midiNoteNumber, int pitchWheelPosition);
+
+	private:
 		void setPitch(double newPitch);
 		void applyVelocity(SampleType* channel, int startSample, int samplesToRender);
 		void mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix);

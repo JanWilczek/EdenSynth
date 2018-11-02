@@ -18,6 +18,7 @@ namespace eden::synth
 		, _waveshapingModule(std::make_unique<waveshaping::WaveshapingModule>())
 		, _envelopeGenerator(std::make_unique<envelope::ADBDR>(_sampleRate, 50ms, 100ms, 20000ms, 1000ms, SampleType(0.8)))
 	{
+		setBlockLength(480u);
 		_envelopeGenerator->setOnEnvelopeEndedCallback([this](unsigned) { finalizeVoice(); });
 	}
 
