@@ -6,7 +6,7 @@
 #include <chrono>
 #include <memory>
 #include "eden/SampleType.h" 
-#include "synth/envelope/IEnvelopeGain.h"
+#include "synth/envelope/ISegmentGain.h"
 
 using namespace std::chrono_literals;
 
@@ -15,12 +15,12 @@ namespace eden::synth::envelope
 	/// <summary>
 	/// Abstract class representing envelope segment, i.e. time segment with gain given with a function of time.
 	/// Subclasses may represent attack or decay for example.
-	/// It's gain curve is based on passed IEnvelopeGain subclass and the duration of the gain change from initial level to final level.
+	/// It's gain curve is based on passed ISegmentGain subclass and the duration of the gain change from initial level to final level.
 	/// </summary>
 	class EnvelopeSegment
 	{
 	public:
-		EnvelopeSegment(double sampleRate, std::unique_ptr<IEnvelopeGain> envelopeGain, std::chrono::milliseconds duration = 0ms, SampleType initialLevel = 0, SampleType finalLevel = 0);
+		EnvelopeSegment(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration = 0ms, SampleType initialLevel = 0, SampleType finalLevel = 0);
 		virtual ~EnvelopeSegment() = 0;
 
 		/// <summary>
@@ -36,7 +36,7 @@ namespace eden::synth::envelope
 
 	protected:
 		double _sampleRate;
-		std::unique_ptr<IEnvelopeGain> _envelopeGain;
+		std::unique_ptr<ISegmentGain> _envelopeGain;
 		std::chrono::milliseconds _duration;
 		SampleType _initialLevel;
 		SampleType _finalLevel;

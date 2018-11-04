@@ -3,14 +3,14 @@
 /// \author Jan Wilczek
 /// \date 14.10.18
 /// 
-#include "synth/envelope/IEnvelopeGain.h"
+#include "synth/envelope/ISegmentGain.h"
 
 namespace eden::synth::envelope
 {
 	/// <summary>
 	/// Represents no change in gain - the given value will remain constant.
 	/// </summary>
-	class NoGain : public IEnvelopeGain
+	class NoGain : public ISegmentGain
 	{
 	public:
 		~NoGain() = default;

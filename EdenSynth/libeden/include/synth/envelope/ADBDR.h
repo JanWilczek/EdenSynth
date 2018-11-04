@@ -8,14 +8,17 @@
 #include "synth/envelope/Decay.h"
 #include "Sustain.h"
 
+namespace eden
+{
+	struct ADBDRParameters;
+}
+
 namespace eden::synth::envelope
 {
 	class ADBDR : public Envelope
 	{
-		using ms = std::chrono::milliseconds;
-
 	public:
-		ADBDR(double sampleRate, ms attackTime, ms decay1Time, ms decay2Time, ms releaseTime, SampleType breakLevel = 0.5);
+		ADBDR(double sampleRate, ADBDRParameters parameters);
 		~ADBDR() override = default;
 
 		void keyOn() override;

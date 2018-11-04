@@ -3,14 +3,14 @@
 /// \author Jan Wilczek
 /// \date 14.10.18
 /// 
-#include "synth/envelope/IEnvelopeGain.h"
+#include "synth/envelope/ISegmentGain.h"
 
 namespace eden::synth::envelope
 {
 	/// <summary>
 	/// Represents linear gain curve - i.e. logarithmic to the human ear.
 	/// </summary>
-	class LinearGain : public IEnvelopeGain
+	class LinearGain : public ISegmentGain
 	{
 	public:
 		virtual ~LinearGain() = default;

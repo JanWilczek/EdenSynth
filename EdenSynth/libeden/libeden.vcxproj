@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h" />
     <ClInclude Include="include\eden\EdenSynthesiser.h" />
+    <ClInclude Include="include\eden\EnvelopeParameters.h" />
     <ClInclude Include="include\eden\MidiBuffer.h" />
     <ClInclude Include="include\eden\MidiMessage.h" />
     <ClInclude Include="include\eden\SampleType.h" />
@@ -167,12 +168,14 @@
     <ClInclude Include="include\synth\envelope\ADBDR.h" />
     <ClInclude Include="include\synth\envelope\Decay.h" />
     <ClInclude Include="include\synth\envelope\Envelope.h" />
+    <ClInclude Include="include\synth\envelope\EnvelopeFactory.h" />
     <ClInclude Include="include\synth\envelope\EnvelopeSegment.h" />
     <ClInclude Include="include\synth\envelope\Attack.h" />
     <ClInclude Include="include\synth\envelope\ExponentialGain.h" />
-    <ClInclude Include="include\synth\envelope\IEnvelopeGain.h" />
+    <ClInclude Include="include\synth\envelope\ISegmentGain.h" />
     <ClInclude Include="include\synth\envelope\LinearGain.h" />
     <ClInclude Include="include\synth\envelope\NoGain.h" />
+    <ClInclude Include="include\synth\envelope\SegmentGainFactory.h" />
     <ClInclude Include="include\synth\envelope\Sustain.h" />
     <ClInclude Include="include\synth\IMonoModule.h" />
     <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
@@ -199,10 +202,12 @@
     <ClCompile Include="source\synth\envelope\Attack.cpp" />
     <ClCompile Include="source\synth\envelope\Decay.cpp" />
     <ClCompile Include="source\synth\envelope\Envelope.cpp" />
+    <ClCompile Include="source\synth\envelope\EnvelopeFactory.cpp" />
     <ClCompile Include="source\synth\envelope\EnvelopeSegment.cpp" />
     <ClCompile Include="source\synth\envelope\ExponentialGain.cpp" />
     <ClCompile Include="source\synth\envelope\LinearGain.cpp" />
     <ClCompile Include="source\synth\envelope\NoGain.cpp" />
+    <ClCompile Include="source\synth\envelope\SegmentGainFactory.cpp" />
     <ClCompile Include="source\synth\envelope\Sustain.cpp" />
     <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp" />
     <ClCompile Include="source\synth\Synthesiser.cpp" />

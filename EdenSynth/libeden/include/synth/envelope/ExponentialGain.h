@@ -3,7 +3,7 @@
 /// \author Jan Wilczek
 /// \date 14.10.18
 /// 
-#include "synth/envelope/IEnvelopeGain.h"
+#include "synth/envelope/ISegmentGain.h"
 #include <limits>
 
 namespace eden::synth::envelope
@@ -11,7 +11,7 @@ namespace eden::synth::envelope
 	/// <summary>
 	/// Represents exponential gain curve - i.e. linear to the human ear.
 	/// </summary>
-	class ExponentialGain : public IEnvelopeGain
+	class ExponentialGain : public ISegmentGain
 	{
 	public:
 		~ExponentialGain() = default;

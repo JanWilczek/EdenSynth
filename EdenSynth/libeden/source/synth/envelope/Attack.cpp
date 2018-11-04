@@ -3,12 +3,12 @@
 /// \date 12.10.18
 /// 
 #include "synth/envelope/Attack.h"
-#include "synth/envelope/IEnvelopeGain.h"
+#include "synth/envelope/ISegmentGain.h"
 #include "utility/EdenAssert.h"
 
 namespace eden::synth::envelope
 {
-	Attack::Attack(double sampleRate, std::unique_ptr<IEnvelopeGain> envelopeGain, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel)
+	Attack::Attack(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel)
 		: EnvelopeSegment(sampleRate, std::move(envelopeGain), duration, initialLevel, finalLevel)
 	{
 		EDEN_ASSERT(initialLevel <= finalLevel);

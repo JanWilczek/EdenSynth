@@ -79,7 +79,7 @@ namespace eden::synth
 		/// to keyboard events.
 		/// </summary>
 		/// <param name="envelope"></param>
-		void setEnvelope(std::unique_ptr<synth::envelope::Envelope> envelope);
+		void setEnvelope(std::unique_ptr<envelope::Envelope> envelope);
 
 		void finalizeVoice();
 

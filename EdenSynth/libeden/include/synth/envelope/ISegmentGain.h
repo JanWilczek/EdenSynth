@@ -11,10 +11,10 @@ namespace eden::synth::envelope
 	/// <summary>
 	/// Represents the gain changes in time. Enables gain to follow a particular curve (e.g. linear, exponential).
 	/// </summary>
-	class IEnvelopeGain
+	class ISegmentGain
 	{
 	public:
-		virtual ~IEnvelopeGain() = 0;
+		virtual ~ISegmentGain() = 0;
 
 		/// <summary>
 		/// Calculates all necessary parameters to make gain follow a certain curve.
@@ -32,6 +32,6 @@ namespace eden::synth::envelope
 		virtual void applyAndUpdateGain(SampleType& currentLevel) = 0;
 	};
 
-	inline IEnvelopeGain::~IEnvelopeGain()
+	inline ISegmentGain::~ISegmentGain()
 	{}
 }

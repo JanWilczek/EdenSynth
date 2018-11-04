@@ -3,17 +3,18 @@
 /// \date 12.10.18
 /// 
 #include "synth/envelope/ADBDR.h"
-#include "synth/envelope/ExponentialGain.h"
+#include "eden/EnvelopeParameters.h"
+#include "synth/envelope/SegmentGainFactory.h"
 
 namespace eden::synth::envelope
 {
-	ADBDR::ADBDR(double sampleRate, ms attackTime, ms decay1Time, ms decay2Time, ms releaseTime, SampleType breakLevel)
+	ADBDR::ADBDR(double sampleRate, ADBDRParameters parameters)
 		: Envelope()
-		, _breakLevel(breakLevel)
-		, _attack(sampleRate, std::make_unique<ExponentialGain>(), attackTime, 0.0, 1.0)
-		, _decay1(sampleRate, std::make_unique<ExponentialGain>(), decay1Time, 1.0, _breakLevel)
-		, _decay2(sampleRate, std::make_unique<ExponentialGain>(), decay2Time, _breakLevel, 0.0)
-		, _release(sampleRate, std::make_unique<ExponentialGain>(), releaseTime, _breakLevel, 0.0)
+		, _breakLevel(parameters.breakLevel)
+		, _attack(sampleRate, SegmentGainFactory::createSegmentGain(parameters.attackCurve), parameters.attackTime, 0.0, 1.0)
+		, _decay1(sampleRate, SegmentGainFactory::createSegmentGain(parameters.decay1Curve), parameters.decay1Time, 1.0, _breakLevel)
+		, _decay2(sampleRate, SegmentGainFactory::createSegmentGain(parameters.decay2Curve), parameters.decay2Time, _breakLevel, 0.0)
+		, _release(sampleRate, SegmentGainFactory::createSegmentGain(parameters.releaseCurve), parameters.releaseTime, _breakLevel, 0.0)
 		, _silence()
 	{
 		_segments.push_back(&_attack);

@@ -13,7 +13,7 @@ namespace eden::synth::envelope
 	class Decay : public EnvelopeSegment
 	{
 	public:
-		Decay(double sampleRate, std::unique_ptr<IEnvelopeGain> envelopeGain, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel);
+		Decay(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel);
 		~Decay() override = default;
 
 		bool hasEnded(SampleType currentLevel) override;

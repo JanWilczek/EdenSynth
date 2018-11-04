@@ -126,9 +126,6 @@
     <ClInclude Include="include\synth\envelope\Sustain.h">
       <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
-    <ClInclude Include="include\synth\envelope\IEnvelopeGain.h">
-      <Filter>Header Files\synth\envelope</Filter>
-    </ClInclude>
     <ClInclude Include="include\synth\envelope\LinearGain.h">
       <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
@@ -161,6 +158,18 @@
     </ClInclude>
     <ClInclude Include="include\utility\WaveFileReader.h">
       <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\EnvelopeParameters.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\EnvelopeFactory.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\SegmentGainFactory.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\ISegmentGain.h">
+      <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +241,12 @@
     </ClCompile>
     <ClCompile Include="source\utility\WaveFileReader.cpp">
       <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\EnvelopeFactory.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\SegmentGainFactory.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
