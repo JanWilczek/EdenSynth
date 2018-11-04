@@ -110,6 +110,7 @@ namespace eden::synth
 	void Voice::setEnvelope(std::unique_ptr<envelope::Envelope> envelope)
 	{
 		_envelopeGenerator = std::move(envelope);
+		_envelopeGenerator->setOnEnvelopeEndedCallback([this](unsigned) { finalizeVoice(); });
 	}
 
 	void Voice::finalizeVoice()

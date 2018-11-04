@@ -56,6 +56,11 @@ namespace eden::synth::envelope
 		else
 		{
 			currentGain *= _multiplier;
+
+			if (currentGain > SampleType(1.0))
+			{
+				currentGain = SampleType(1.0);
+			}
 		}
 	}
 }

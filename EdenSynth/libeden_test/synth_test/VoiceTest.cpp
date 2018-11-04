@@ -118,6 +118,11 @@ namespace libeden_test
 		_buffer.fill(eden::SampleType(0));
 		_voice->renderBlock(_buffer, 0, blockLength);
 
+		for (auto i = 1u; i < blockLength; ++i)
+		{
+			EXPECT_FLOAT_EQ(_buffer.getReadPointer(0)[i], eden::SampleType(0));
+		}
+
 		EXPECT_FALSE(_voice->isPlayingNote(noteNumber));
 		EXPECT_FALSE(_voice->isPlaying());
 	}
