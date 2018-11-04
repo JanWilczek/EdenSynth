@@ -70,4 +70,19 @@ namespace libeden_test
 	{
 		EXPECT_DOUBLE_EQ(_voice->calculatePitch(69, 0), 440.0);
 	}
+
+	TEST_F(VoiceTest, GetSetSampleRate)
+	{
+		// TODO
+	}
+
+	TEST_F(VoiceTest, FinalizeVoice)
+	{
+		// TODO
+	}
+
+	TEST_F(VoiceTest, SetBlockLength)
+	{
+		// TODO
+	}
 }

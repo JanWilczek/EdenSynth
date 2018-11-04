@@ -16,7 +16,7 @@ namespace eden::synth::wavetable
 		std::vector<SampleType> result(size);
 		for (size_t i = 0; i < size; ++i)
 		{
-			result[i] = std::sin(2 * math_constants::PI * i / size);
+			result[i] = static_cast<SampleType>(std::sin(2 * math_constants::PI * i / size));
 		}
 		
 		return result;

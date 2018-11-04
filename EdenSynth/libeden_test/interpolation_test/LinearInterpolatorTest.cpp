@@ -28,6 +28,8 @@ namespace libeden_test
 		const auto result5 = interpolator->interpolate(signal, 5.5);
 		EXPECT_FLOAT_EQ(result5, 3.f);
 
+#ifdef _DEBUG
 		EXPECT_DEATH(interpolator->interpolate(signal, 6), "");
+#endif
 	}
 }
