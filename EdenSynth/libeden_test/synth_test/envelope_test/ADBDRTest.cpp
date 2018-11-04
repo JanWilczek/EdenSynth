@@ -33,11 +33,11 @@ namespace libeden_test
 		{
 			fillChannel(eden::SampleType(1.0));
 			_data = GetParam();
-			eden::ADBDRParameters envelopeParameters = { _data.attackTime, eden::EnvelopeSegmentCurve::Exponential,
+			eden::ADBDRParameters envelopeParameters( _data.attackTime, eden::EnvelopeSegmentCurve::Exponential,
 				_data.decay1Time, eden::EnvelopeSegmentCurve::Exponential,
 				_data.decay2Time, eden::EnvelopeSegmentCurve::Exponential,
 				_data.releaseTime, eden::EnvelopeSegmentCurve::Exponential,
-				_data.breakLevel };
+				_data.breakLevel);
 			_envelope = std::make_unique<eden::synth::envelope::ADBDR>(SAMPLE_RATE, envelopeParameters);
 		}
 

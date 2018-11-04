@@ -21,9 +21,19 @@ namespace eden
 		virtual ~EnvelopeParameters(){}
 	};
 
-	struct ADBDRParameters : public EnvelopeParameters
+	struct ADBDRParameters : EnvelopeParameters
 	{
+		ADBDRParameters() {};
 		
+		ADBDRParameters(std::chrono::milliseconds _attackTime, EnvelopeSegmentCurve _attackCurve,
+			std::chrono::milliseconds _decay1Time, EnvelopeSegmentCurve _decay1Curve,
+			std::chrono::milliseconds _decay2Time, EnvelopeSegmentCurve _decay2Curve,
+			std::chrono::milliseconds _releaseTime, EnvelopeSegmentCurve _releaseCurve,
+			SampleType _breakLevel) : attackTime(_attackTime), attackCurve(_attackCurve),
+		decay1Time(_decay1Time), decay1Curve(_decay1Curve), decay2Time(_decay2Time), decay2Curve(_decay2Curve),
+		releaseTime(_releaseTime), releaseCurve(_releaseCurve), breakLevel(_breakLevel)
+		{}
+
 		~ADBDRParameters(){}
 
 		std::chrono::milliseconds attackTime = 50ms;

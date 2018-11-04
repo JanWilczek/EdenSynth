@@ -6,12 +6,14 @@
 #include <synth/envelope/Envelope.h>
 #include <synth/envelope/ADBDR.h>
 #include "TestUtils.h"
+#include "eden/EnvelopeParameters.h"
 
 namespace libeden_test
 {
 	TEST(EnvelopeTest, SetSampleRate)
 	{
-		std::unique_ptr<eden::synth::envelope::Envelope> envelope = std::make_unique<eden::synth::envelope::ADBDR>(48000.0, 10ms, 10ms, 10000ms, 8000ms, 0.7f);
+		std::unique_ptr<eden::synth::envelope::Envelope> envelope = std::make_unique<eden::synth::envelope::ADBDR>(48000.0, eden::ADBDRParameters(10ms, eden::EnvelopeSegmentCurve::Exponential, 
+			10ms, eden::EnvelopeSegmentCurve::Exponential, 10000ms, eden::EnvelopeSegmentCurve::Exponential, 8000ms, eden::EnvelopeSegmentCurve::Exponential, 0.7f));
 		constexpr auto channelLength = 480u;
 		eden::SampleType audioChannel[channelLength] = { eden::SampleType(0) };
 
