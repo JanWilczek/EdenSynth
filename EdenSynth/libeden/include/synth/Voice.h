@@ -72,6 +72,10 @@ namespace eden::synth
 		/// <param name="samplesPerBlock"></param>
 		void setBlockLength(unsigned samplesPerBlock);
 
+		/// <summary>
+		/// Set the wave table to be played.
+		/// </summary>
+		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
 		void setWaveTable(wavetable::WaveTable waveTable);
 
 		/// <summary>
@@ -81,24 +85,79 @@ namespace eden::synth
 		/// <param name="envelope"></param>
 		void setEnvelope(std::unique_ptr<envelope::Envelope> envelope);
 
+		/// <summary>
+		/// Makes the voice available for a new note. Typically should be called when the envelope's release has ended.
+		/// </summary>
 		void finalizeVoice();
 
+		/// <param name="midiNoteNumber"></param>
+		/// <param name="pitchWheelPosition"></param>
+		/// <returns>pitch based on given <paramref name="midiNoteNumber"> and <paramref name="pitchWheelPosition"></returns>
 		double calculatePitch(int midiNoteNumber, int pitchWheelPosition);
 
 	private:
+		/// <summary>
+		/// Sets pitch of the voice.
+		/// </summary>
+		/// <param name="newPitch">frequency in Hz</param>
 		void setPitch(double newPitch);
+
+		/// <summary>
+		/// Applies current velocity to the given <paramref name="channel">.
+		/// </summary>
+		/// <param name="channel"></param>
+		/// <param name="startSample"></param>
+		/// <param name="samplesToRender"></param>
 		void applyVelocity(SampleType* channel, int startSample, int samplesToRender);
+
+		/// <summary>
+		/// Mixes the contentt of the inner rendered block to the output buffer.
+		/// </summary>
+		/// <param name="outputBuffer"></param>
+		/// <param name="startSample"></param>
+		/// <param name="samplesToMix"></param>
 		void mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix);
 
 		double _sampleRate;
-		bool _isActive = false;
+
+		/// <summary>
+		/// Length of the inner audio channel to which the voice is rendered.
+		/// </summary>
 		unsigned _blockLength = 0u;
+
+		/// <summary>
+		/// Inner audio channel the voice is rendered to.
+		/// </summary>
 		SampleType* _innerBlock = nullptr;
+
+		/// <summary>
+		/// Responsible for rendering the initial signal.
+		/// </summary>
 		std::unique_ptr<wavetable::SignalGenerator> _signalGenerator;
+
+		/// <summary>
+		/// Responsible for filtering the signal.
+		/// </summary>
 		std::unique_ptr<subtractive::SubtractiveModule> _subtractiveModule;
+
+		/// <summary>
+		/// Responsible for waveshaping the signal.
+		/// </summary>
 		std::unique_ptr<waveshaping::WaveshapingModule> _waveshapingModule;
+
+		/// <summary>
+		/// Responsible for applying envelope to the signal. It holds the information about the current level of rendered samples.
+		/// </summary>
 		std::unique_ptr<envelope::Envelope> _envelopeGenerator;
+
+		/// <summary>
+		/// Currently played note by this voice. -1 means that no note is being played and voice is free to play a new one.
+		/// </summary>
 		int _currentNote = -1;
+
+		/// <summary>
+		/// Velocity with which the key was pressed.
+		/// </summary>
 		SampleType _velocity = 0.f;
 	};
 }

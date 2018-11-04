@@ -44,6 +44,10 @@ namespace eden
 		/// <param name="samplesPerBlock"></param>
 		void setBlockLength(int samplesPerBlock);
 
+		/// <summary>
+		/// Sets the wave table to be played - one cycle of a waveform. From that cycle all pitches will be created.
+		/// </summary>
+		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
 		void setWaveTable(std::vector<SampleType> waveTable);
 
 		/// <summary>

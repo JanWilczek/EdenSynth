@@ -10,17 +10,31 @@ namespace eden
 {
 	using namespace std::chrono_literals;
 
+	/// <summary>
+	/// Enum determining the shape of the envelope curve in particular segment.
+	/// Names refer to curve names on a plot with linear scales.
+	/// The exponential gain sounds linear to the human ear, since it is linear on the dB scale.
+	/// </summary>
 	enum class EnvelopeSegmentCurve
 	{
 		Linear,
 		Exponential
 	};
 	
+	/// <summary>
+	/// Base struct to pass polymorphic envelope parameters in.
+	/// </summary>
 	struct EnvelopeParameters
 	{
 		virtual ~EnvelopeParameters(){}
 	};
 
+	/// <summary>
+	/// Parameters necessary to control an Attack Decay1 Break Decay2 Release envelope. Such an envelope is 
+	/// appropriate for simulating piano-like envelope when Decay2 time is very long.
+	/// The break level parameter specifies at what amplitude the envelope should pass from
+	/// Decay1 to Decay2 segment.
+	/// </summary>
 	struct ADBDRParameters : EnvelopeParameters
 	{
 		ADBDRParameters() {};

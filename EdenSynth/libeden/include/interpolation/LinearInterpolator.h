@@ -7,6 +7,9 @@
 
 namespace eden::interpolation
 {
+	/// <summary>
+	/// Interpolates linearly between two points taking into consideration the distance from each of them to the supplied index.
+	/// </summary>
 	class LinearInterpolator : public IInterpolator
 	{
 	public:

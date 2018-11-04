@@ -81,7 +81,7 @@ namespace eden::synth
 
 	void Synthesiser::setBlockLength(unsigned samplesPerBlock)
 	{
-		if (samplesPerBlock > _blockLength)
+		if (samplesPerBlock != _blockLength)
 		{
 			_blockLength = samplesPerBlock;
 			for (auto& voice : _voices)

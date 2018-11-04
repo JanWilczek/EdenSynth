@@ -8,11 +8,21 @@
 
 namespace eden::interpolation
 {
+	/// <summary>
+	/// General interpolator interface. Concrete classes may use linear, polynomial or spline interpolation.
+	/// </summary>
 	class IInterpolator
 	{
 	public:
 		virtual ~IInterpolator() = 0;
 
+		/// <summary>
+		/// Interpolate the value at the <paramref name="index"> using the <paramref name="discreteValues"> as the function to interpolate.
+		/// The method may access any of the supplied points.
+		/// </summary>
+		/// <param name="discreteValues"></param>
+		/// <param name="index"></param>
+		/// <returns></returns>
 		virtual SampleType interpolate(const std::vector<SampleType>& discreteValues, double index) = 0;
 	};
 

@@ -25,7 +25,6 @@ namespace eden::synth
 
 	void Voice::startNote(int midiNoteNumber, float velocity)
 	{
-		_isActive = true;
 		_currentNote = midiNoteNumber;
 		_velocity = static_cast<SampleType>(velocity);
 
@@ -71,7 +70,7 @@ namespace eden::synth
 
 	bool Voice::isPlaying() const noexcept
 	{
-		return _isActive;
+		return _currentNote != -1;
 	}
 
 	bool Voice::isPlayingNote(const int midiNoteNumber) const noexcept
@@ -117,7 +116,6 @@ namespace eden::synth
 	{
 		_signalGenerator->stop();
 		_currentNote = -1;
-		_isActive = false;
 	}
 
 	double Voice::calculatePitch(int midiNoteNumber, int pitchWheelPosition)
