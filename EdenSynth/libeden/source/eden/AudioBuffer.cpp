@@ -27,16 +27,41 @@ namespace eden
 	{
 	}
 
+	AudioBuffer::AudioBuffer(AudioBuffer&& other) noexcept 
+		: _numChannels(other._numChannels)
+		, _numSamples(other._numSamples)
+		, _channels(other._channels)
+		, _ownsChannels(other._ownsChannels)
+	{
+		other._numChannels = 0;
+		other._numSamples = 0u;
+		other._ownsChannels = false;
+		other._channels = nullptr;
+	}
+
+	AudioBuffer& AudioBuffer::operator=(AudioBuffer&& other) noexcept
+	{
+		if (this != &other)
+		{
+			freeAllChannels();
+
+			_numChannels = other._numChannels;
+			_numSamples = other._numSamples;
+			_channels = other._channels;
+			_ownsChannels = other._ownsChannels;
+
+			other._numChannels = 0;
+			other._numSamples = 0u; 
+			other._ownsChannels = false;
+			other._channels = nullptr;
+		}
+
+		return *this;
+	}
+	
 	AudioBuffer::~AudioBuffer()
 	{
-		if (_ownsChannels)
-		{
-			for (int channel = 0; channel < _numChannels; ++channel)
-			{
-				delete[] _channels[channel];
-			}
-			delete[] _channels;
-		}
+		freeAllChannels();
 	}
 
 	SampleType* AudioBuffer::getWritePointer(int channel) const
@@ -105,6 +130,18 @@ namespace eden
 			{
 				callback(_channels[channel][sample]);
 			}
+		}
+	}
+
+	void AudioBuffer::freeAllChannels()
+	{
+		if (_ownsChannels && _channels)
+		{
+			for (int channel = 0; channel < _numChannels; ++channel)
+			{
+				delete[] _channels[channel];
+			}
+			delete[] _channels;
 		}
 	}
 }

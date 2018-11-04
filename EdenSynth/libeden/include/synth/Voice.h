@@ -51,7 +51,7 @@ namespace eden::synth
 
 		void pitchWheelMoved(int newPitchWheelValue);
 
-		/// <returns>true if the voice is active (renders a note in <c>renderBlock()</c>, false otherwise</returns>
+		/// <returns>true if the voice is active (renders a note in <c>renderBlock()</c>), false otherwise</returns>
 		bool isPlaying() const noexcept;
 
 		/// <returns>true if the voice is currently rendering a particular note, false otherwise</returns>

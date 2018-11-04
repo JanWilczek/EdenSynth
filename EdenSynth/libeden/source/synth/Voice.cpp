@@ -134,7 +134,7 @@ namespace eden::synth
 	{
 		for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
 		{
-			channel[sample] *= SampleType(0.05) * _velocity;
+			channel[sample] *= /*SampleType(0.05) **/ _velocity;
 
 			// check for clipping
 			EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);

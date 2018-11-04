@@ -31,6 +31,9 @@ namespace eden
 		/// <param name="numSamplesToUse">length of buffer to use</param>
 		AudioBuffer(SampleType** dataToUse, int numChannelsToUse, unsigned numSamplesToUse);
 		
+		AudioBuffer(AudioBuffer&&) noexcept;
+		AudioBuffer& operator=(AudioBuffer&&) noexcept;
+
 		~AudioBuffer();
 
 		SampleType* getWritePointer(int channel) const;
@@ -82,6 +85,8 @@ namespace eden
 		void forEachSample(std::function<void(SampleType&)> callback);
 
 	private:
+		void freeAllChannels();
+
 		int _numChannels = 2;
 		unsigned _numSamples = 512;
 		SampleType** _channels;

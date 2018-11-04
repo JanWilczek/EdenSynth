@@ -24,7 +24,7 @@ namespace libeden_test
 		std::unique_ptr<eden::synth::Voice> _voice;
 
 		constexpr static unsigned BUFFER_LENGTH = 480u;
-		eden::AudioBuffer _buffer{1, BUFFER_LENGTH};
+		eden::AudioBuffer _buffer{ 1, BUFFER_LENGTH };
 	};
 
 	TEST_F(VoiceTest, ZeroInZeroOut)
@@ -41,7 +41,7 @@ namespace libeden_test
 	{
 		constexpr int noteNumber = 69;
 
-		_voice->setEnvelope(std::make_unique<eden::synth::envelope::ADBDR>(SAMPLE_RATE, eden::ADBDRParameters(10ms, eden::EnvelopeSegmentCurve::Linear, 
+		_voice->setEnvelope(std::make_unique<eden::synth::envelope::ADBDR>(SAMPLE_RATE, eden::ADBDRParameters(10ms, eden::EnvelopeSegmentCurve::Linear,
 			10ms, eden::EnvelopeSegmentCurve::Linear, 100000ms, eden::EnvelopeSegmentCurve::Linear, 1ms, eden::EnvelopeSegmentCurve::Linear, eden::SampleType(0.9))));
 		_voice->startNote(noteNumber, 1.0f);
 
@@ -71,18 +71,54 @@ namespace libeden_test
 		EXPECT_DOUBLE_EQ(_voice->calculatePitch(69, 0), 440.0);
 	}
 
-	TEST_F(VoiceTest, GetSetSampleRate)
+	TEST_F(VoiceTest, VariousParameters)
 	{
-		// TODO
-	}
+		constexpr auto sampleRate = 1000.0;
+		constexpr auto blockLength = 250u;
+		constexpr auto segmentTime = 250ms;
+		constexpr eden::SampleType breakLevel(0.5);
+		constexpr int noteNumber = 83;
 
-	TEST_F(VoiceTest, FinalizeVoice)
-	{
-		// TODO
-	}
+		_voice->setSampleRate(sampleRate);
+		_voice->setBlockLength(250u);
+		_voice->setEnvelope(std::make_unique<eden::synth::envelope::ADBDR>(sampleRate, eden::ADBDRParameters(segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, breakLevel)));
+		_voice->setWaveTable({ 1.f, 1.f });
 
-	TEST_F(VoiceTest, SetBlockLength)
-	{
-		// TODO
+		EXPECT_DOUBLE_EQ(_voice->getSampleRate(), sampleRate);
+		EXPECT_FALSE(_voice->isPlaying());
+
+		_voice->startNote(noteNumber, 1.0f);
+
+		EXPECT_TRUE(_voice->isPlaying());
+		EXPECT_TRUE(_voice->isPlayingNote(noteNumber));
+
+		_buffer = eden::AudioBuffer(1, blockLength);
+
+		// attack
+		_buffer.fill(eden::SampleType(0));
+		_voice->renderBlock(_buffer, 0, blockLength);
+
+		EXPECT_NEAR(_buffer.getReadPointer(0)[blockLength - 1], 1.0f, 0.05f);
+
+		// decay1
+		_buffer.fill(eden::SampleType(0));
+		_voice->renderBlock(_buffer, 0, blockLength);
+
+		EXPECT_NEAR(_buffer.getReadPointer(0)[blockLength - 1], breakLevel, 0.05f);
+
+		// release
+		_voice->stopNote(0.f);
+
+		_buffer.fill(eden::SampleType(0));
+		_voice->renderBlock(_buffer, 0, blockLength);
+
+		EXPECT_NEAR(_buffer.getReadPointer(0)[blockLength - 1], 0.f, 0.05f);
+
+		// silence
+		_buffer.fill(eden::SampleType(0));
+		_voice->renderBlock(_buffer, 0, blockLength);
+
+		EXPECT_FALSE(_voice->isPlayingNote(noteNumber));
+		EXPECT_FALSE(_voice->isPlaying());
 	}
 }
