@@ -5,6 +5,7 @@
 #include "eden/EdenSynthesiser.h"
 #include "eden/AudioBuffer.h"
 #include "eden/MidiBuffer.h"
+#include "eden/EnvelopeParameters.h"
 
 namespace eden
 {
@@ -37,8 +38,8 @@ namespace eden
 		_impl->setWaveTable(waveTable);
 	}
 
-	void EdenSynthesiser::setEnvelope(std::unique_ptr<synth::envelope::Envelope> envelope)
+	void EdenSynthesiser::setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
-		_impl->setEnvelope(std::move(envelope));
+		_impl->setEnvelope(envelopeParameters);
 	}
 }

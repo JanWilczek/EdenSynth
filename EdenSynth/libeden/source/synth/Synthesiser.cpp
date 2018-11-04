@@ -8,7 +8,9 @@
 #include "eden/AudioBuffer.h"
 #include "eden/MidiBuffer.h"
 #include "eden/MidiMessage.h"
+#include "eden/EnvelopeParameters.h"
 #include "utility/EdenAssert.h"
+#include "synth/envelope/EnvelopeFactory.h"
 
 namespace eden::synth
 {
@@ -97,12 +99,11 @@ namespace eden::synth
 		}
 	}
 
-	// TODO: This method is unimplemented.
-	void Synthesiser::setEnvelope(std::unique_ptr<envelope::Envelope> envelope)
+	void Synthesiser::setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
 		for (auto& voice : _voices)
 		{
-			//voice->setEnvelope(*envelope);
+			voice->setEnvelope(envelope::EnvelopeFactory::createEnvelope(_sampleRate, envelopeParameters));
 		}
 	}
 

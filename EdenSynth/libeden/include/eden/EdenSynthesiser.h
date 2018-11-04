@@ -10,11 +10,7 @@ namespace eden
 {
 	class AudioBuffer;
 	class MidiBuffer;
-
-	namespace synth::envelope
-	{
-		class Envelope;
-	}
+	struct EnvelopeParameters;
 
 	/// <summary>
 	/// Main Eden synthesiser class.
@@ -54,8 +50,8 @@ namespace eden
 		/// Sets new envelope of sound - the information about volume change in time in relation
 		/// to keyboard events.
 		/// </summary>
-		/// <param name="envelope"></param>
-		void setEnvelope(std::unique_ptr<synth::envelope::Envelope> envelope);
+		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
+		void setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
 	private:
 		/// <summary>

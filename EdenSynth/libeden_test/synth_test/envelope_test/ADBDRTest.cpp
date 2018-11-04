@@ -5,6 +5,7 @@
 #include "pch.h"
 #include "synth/envelope/ADBDR.h"
 #include "utility/TimeSampleConverter.h"
+#include "eden/EnvelopeParameters.h"
 
 namespace libeden_test
 {
@@ -32,8 +33,12 @@ namespace libeden_test
 		{
 			fillChannel(eden::SampleType(1.0));
 			_data = GetParam();
-			_envelope = std::make_unique<eden::synth::envelope::ADBDR>(SAMPLE_RATE, _data.attackTime,
-				_data.decay1Time, _data.decay2Time, _data.releaseTime, _data.breakLevel);
+			eden::ADBDRParameters envelopeParameters = { _data.attackTime, eden::EnvelopeSegmentCurve::Exponential,
+				_data.decay1Time, eden::EnvelopeSegmentCurve::Exponential,
+				_data.decay2Time, eden::EnvelopeSegmentCurve::Exponential,
+				_data.releaseTime, eden::EnvelopeSegmentCurve::Exponential,
+				_data.breakLevel };
+			_envelope = std::make_unique<eden::synth::envelope::ADBDR>(SAMPLE_RATE, envelopeParameters);
 		}
 
 		void fillChannel(const eden::SampleType value)
