@@ -82,9 +82,16 @@ namespace eden
 		/// <param name="callback">function to call on each channel (array of samples)</param>
 		void forEachChannel(std::function<void(SampleType*)> callback);
 
+		/// <summary>
+		/// Performs given operation on each sample stored in the buffer.
+		/// </summary>
+		/// <param name="callback">function to call on each sample</param>
 		void forEachSample(std::function<void(SampleType&)> callback);
 
 	private:
+		/// <summary>
+		/// Frees any allocated memory if it belongs to the buffer.
+		/// </summary>
 		void freeAllChannels();
 
 		int _numChannels = 2;

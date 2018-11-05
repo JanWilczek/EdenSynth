@@ -51,7 +51,7 @@ namespace libeden_test
 		_buffer.fill(eden::SampleType(0));
 		_voice->renderBlock(_buffer, 0, BUFFER_LENGTH);
 
-		const auto detectedFrequency = TestUtils::calculateFrequency(_buffer.getReadPointer(0), BUFFER_LENGTH, SAMPLE_RATE);
+		const auto detectedFrequency = TestUtils::detectFrequency(_buffer.getReadPointer(0), BUFFER_LENGTH, SAMPLE_RATE);
 		EXPECT_NEAR(440.0, detectedFrequency, 0.5f);
 
 		_voice->stopNote(0.f);

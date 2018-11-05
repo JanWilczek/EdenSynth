@@ -11,6 +11,14 @@ namespace libeden_test
 	class TestUtils
 	{
 	public:
+		/// <summary>
+		/// Fills audio <paramref name="channel"> with given <paramref name="value"> from <paramref name="begin">
+		/// (including) to <paramref name="end"> (excluding).
+		/// </summary>
+		/// <param name="channel"></param>
+		/// <param name="value"></param>
+		/// <param name="begin"></param>
+		/// <param name="end"></param>
 		static void fillChannel(eden::SampleType* channel, eden::SampleType value, int begin, int end)
 		{
 			for (auto i = begin; i < end; ++i)
@@ -19,7 +27,14 @@ namespace libeden_test
 			}
 		}
 
-		static double calculateFrequency(const eden::SampleType* channel, int bufferSize, double sampleRate)
+		/// <summary>
+		/// Calculates frequency of a signal in <paramref name="channel"> using zero crossings method.
+		/// </summary>
+		/// <param name="channel"></param>
+		/// <param name="bufferSize"></param>
+		/// <param name="sampleRate"></param>
+		/// <returns>detected frequency in Hz, 0 if no period has been found</returns>
+		static double detectFrequency(const eden::SampleType* channel, int bufferSize, double sampleRate)
 		{
 			unsigned zeroCrossingsCount = 0u;
 			int startIndex, stopIndex;

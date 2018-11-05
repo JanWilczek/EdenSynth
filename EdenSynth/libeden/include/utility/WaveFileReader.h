@@ -9,6 +9,9 @@
 
 namespace eden::utility
 {
+	/// <summary>
+	/// Wave file header according to http://soundfile.sapp.org/doc/WaveFormat/
+	/// </summary>
 	struct WaveHeader
 	{
 		char ChunkID[4];
@@ -37,16 +40,40 @@ namespace eden::utility
 		explicit WaveFileReader(const std::string& pathToWaveFile);
 		~WaveFileReader();
 
+		/// <returns>sample rate of the wave file</returns>
 		int sampleRate() const noexcept;
+
+		/// <returns>number of samples stored in wave file</returns>
 		int getNumSamples() const;
+
+		/// <returns>samples from decoded wave file in SampleType format</returns>
 		std::vector<SampleType> readSamples();
 
 	private:
+		/// <summary>
+		/// Reads the header part of the wave file.
+		/// </summary>
 		void readHeader();
+
+		/// <summary>
+		/// Converts the given <paramref name="sample"> to SampleType and adds it at the end of samples vector.
+		/// </summary>
+		/// <param name="sample"></param>
 		void addSample(int sample);
 
+		/// <summary>
+		/// File stream associated with the wave file.
+		/// </summary>
 		std::ifstream _fileStream;
+
+		/// <summary>
+		/// Read wave file's header.
+		/// </summary>
 		WaveHeader _header;
+
+		/// <summary>
+		/// Samples read from wave file.
+		/// </summary>
 		std::vector<SampleType> _samples;
 	};
 }

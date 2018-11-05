@@ -15,7 +15,7 @@ namespace eden::synth::envelope
 	/// <summary>
 	/// Abstract class representing envelope segment, i.e. time segment with gain given with a function of time.
 	/// Subclasses may represent attack or decay for example.
-	/// It's gain curve is based on passed ISegmentGain subclass and the duration of the gain change from initial level to final level.
+	/// It's gain curve is based on passed ISegmentGain's subclass and the duration of the gain change from initial to the final level.
 	/// </summary>
 	class EnvelopeSegment
 	{

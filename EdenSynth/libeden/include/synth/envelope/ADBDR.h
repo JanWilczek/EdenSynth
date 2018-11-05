@@ -15,6 +15,10 @@ namespace eden
 
 namespace eden::synth::envelope
 {
+	/// <summary>
+	/// Attack Decay1 Break Decay2 Release envelope. Similar to ADSR envelope, but contains Decay2 instead of Sustain
+	/// and therefore is better for simulating piano-like envelope - one which fades slowly with the key pressed.
+	/// </summary>
 	class ADBDR : public Envelope
 	{
 	public:

@@ -19,7 +19,7 @@ namespace eden::interpolation
 		const auto lowerIndex = static_cast<int>(std::floor(index));
 		const auto upperIndex = static_cast<int>(std::ceil(index));
 
-		// if an integer index was given return precise value from vector
+		// if an integer index was given return precise value from the vector
 		if (lowerIndex == upperIndex)
 		{
 			return discreteValues[lowerIndex];
