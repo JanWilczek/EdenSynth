@@ -165,6 +165,7 @@
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
     <ClInclude Include="include\interpolation\IInterpolator.h" />
     <ClInclude Include="include\interpolation\LinearInterpolator.h" />
+    <ClInclude Include="include\settings\Settings.h" />
     <ClInclude Include="include\synth\envelope\ADBDR.h" />
     <ClInclude Include="include\synth\envelope\Decay.h" />
     <ClInclude Include="include\synth\envelope\Envelope.h" />

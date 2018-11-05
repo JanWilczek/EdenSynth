@@ -41,4 +41,9 @@ namespace eden_vst
 	{
 		
 	}
+
+	void EdenAdapter::updateEdenParameters(const eden::EdenSynthesiser& edenSynthesiser, AudioProcessorValueTreeState& pluginParameters)
+	{
+		
+	}
 }

@@ -67,6 +67,9 @@
     <Filter Include="Source Files\interpolation">
       <UniqueIdentifier>{a30fea81-2eb8-4d0d-bf8d-cbf60ad04689}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\settings">
+      <UniqueIdentifier>{a69ce1b5-340a-4160-9b8a-ed987e839200}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h">
@@ -170,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="include\synth\envelope\ISegmentGain.h">
       <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings\Settings.h">
+      <Filter>Header Files\settings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
