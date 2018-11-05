@@ -8,14 +8,16 @@
 #include "eden/AudioBuffer.h"
 #include "eden/MidiBuffer.h"
 #include "eden/MidiMessage.h"
+#include "eden/EnvelopeParameters.h"
 #include "utility/EdenAssert.h"
+#include "synth/envelope/EnvelopeFactory.h"
 
 namespace eden::synth
 {
 	Synthesiser::Synthesiser(double sampleRate)
 		: _sampleRate(sampleRate)
 	{
-		constexpr unsigned VOICES_TO_ADD = 32;
+		constexpr unsigned VOICES_TO_ADD = 16;
 		addVoices(VOICES_TO_ADD);
 	}
 
@@ -26,51 +28,43 @@ namespace eden::synth
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples)
 	{
+		// 1. Empty the buffer - it may contain garbage.
 		bufferToFill.fill(0);
-
+		
 		auto midiIterator = midiBuffer.begin();
 
 		while (numSamples > 0)
 		{
-			// 1. Proceed with voice rendering if there are no midi events.
-			if (midiIterator == midiBuffer.end())
+			// 2. Calculate the number of samples to render.
+			const auto samplesToNextMidiMessage = midiIterator != midiBuffer.end() ? midiIterator->sampleTimeStamp - startSample : numSamples;
+			const auto samplesToRender = std::min(numSamples, samplesToNextMidiMessage);
+
+			// 3. Render voices to the end or to the next MIDI message.
+			renderVoices(bufferToFill, startSample, samplesToRender);
+
+			// 4. Handle MIDI message if there is any.
+			if (midiIterator != midiBuffer.end())
 			{
-				renderVoices(bufferToFill, startSample, numSamples);
-
-				return;
-			}
-
-			const int samplesToNextMidiMessage = midiIterator->sampleTimeStamp - startSample;
-
-			// 2. When message happened outside the rendered block.
-			if (samplesToNextMidiMessage >= numSamples)
-			{
-				renderVoices(bufferToFill, startSample, numSamples);
-
 				handleMidiMessage(midiIterator->message);
-
-				break;
+				++midiIterator;
 			}
 
-			// 3. Render samples till the next midi message.
-			renderVoices(bufferToFill, startSample, samplesToNextMidiMessage);
-
-			handleMidiMessage(midiIterator->message);
-
-			// 4. Advance in buffers.
-			startSample += samplesToNextMidiMessage;
-			numSamples -= samplesToNextMidiMessage;
-			++midiIterator;
+			// 5. Advance in buffer.
+			startSample += samplesToRender;
+			numSamples -= samplesToRender;
 		}
 
+		// 6. Handle all remaining MIDI messages.
 		while (midiIterator != midiBuffer.end())
 		{
 			handleMidiMessage(midiIterator->message);
+			++midiIterator;
 		}
 
+		// 7. Clear the MIDI buffer, so that there is no MIDI output.
 		midiBuffer.clear();
 	}
-
+	
 	double Synthesiser::getSampleRate() const noexcept
 	{
 		return _sampleRate;
@@ -81,7 +75,35 @@ namespace eden::synth
 		_sampleRate = newSampleRate;
 		for (auto& voice : _voices)
 		{
-			voice->setSampleRate(newSampleRate);
+			voice->setSampleRate(_sampleRate);
+		}
+	}
+
+	void Synthesiser::setBlockLength(unsigned samplesPerBlock)
+	{
+		if (samplesPerBlock != _blockLength)
+		{
+			_blockLength = samplesPerBlock;
+			for (auto& voice : _voices)
+			{
+				voice->setBlockLength(_blockLength);
+			}
+		}
+	}
+
+	void Synthesiser::setWaveTable(std::vector<SampleType> waveTable)
+	{
+		for (auto& voice : _voices)
+		{
+			voice->setWaveTable(waveTable);
+		}
+	}
+
+	void Synthesiser::setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters)
+	{
+		for (auto& voice : _voices)
+		{
+			voice->setEnvelope(envelope::EnvelopeFactory::createEnvelope(_sampleRate, envelopeParameters));
 		}
 	}
 
@@ -105,6 +127,8 @@ namespace eden::synth
 
 	void Synthesiser::renderVoices(AudioBuffer& outputBuffer, int startSample, int samplesToProcess)
 	{
+		EDEN_ASSERT(samplesToProcess >= 0);
+
 		for (auto& voice : _voices)
 		{
 			voice->renderBlock(outputBuffer, startSample, samplesToProcess);
@@ -114,21 +138,19 @@ namespace eden::synth
 	void Synthesiser::noteOn(const int midiChannel, const int midiNoteNumber, const float velocity)
 	{
 		// The note may already be playing.
-		if (getVoicePlayingNote(midiNoteNumber))
-		{
-			return;
-		}
-
-		auto voice = getFreeVoice();
-
-		// If there are too few voices - add more in constructor.
-		EDEN_ASSERT(voice != nullptr);
-
+		auto voice = getVoicePlayingNote(midiNoteNumber);
 		if (voice)
 		{
-			voice->startNote(midiNoteNumber, velocity, 0);	// TODO: handle pitch wheel
+			voice->startNote(midiNoteNumber, velocity);
 		}
-
+		else
+		{
+			voice = getFreeVoice();
+			if (voice)
+			{
+				voice->startNote(midiNoteNumber, velocity);	// TODO: handle pitch wheel
+			}
+		}
 	}
 	
 	void Synthesiser::noteOff(const int midiChannel, const int midiNoteNumber, const float velocity)
@@ -137,7 +159,7 @@ namespace eden::synth
 
 		if (voice)
 		{
-			voice->stopNote(velocity, true);
+			voice->stopNote(velocity);
 		}
 	}
 

@@ -3,7 +3,6 @@
 /// \author Jan Wilczek
 /// \date 02.09.2018
 /// 
-#include "eden/AudioBuffer.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 
 namespace eden 
@@ -19,14 +18,6 @@ namespace eden_vst
 	class EdenAdapter
 	{
 	public:
-		/// <summary>
-		/// Converts JUCE audio buffer to Eden audio buffer.
-		/// </summary>
-		/// <param name="juceAudioBuffer">buffer to convert from</param>
-		/// <param name="edenBuffer">buffer to convert to</param>
-		static void convertToEdenBuffer(juce::AudioBuffer<eden::AudioBuffer::SampleType>& juceAudioBuffer,
-			eden::AudioBuffer& edenBuffer);
-
 		/// <summary>
 		/// Converts JUCE MIDI buffer to Eden MIDI buffer.
 		/// </summary>

@@ -4,6 +4,10 @@
 /// \date 02.09.2018
 /// 
 #include "eden/AudioBuffer.h"
+#include "synth/envelope/Envelope.h"
+#include "synth/subtractive/SubtractiveModule.h"
+#include "synth/waveshaping/WaveshapingModule.h"
+#include "synth/wavetable/SignalGenerator.h"
 
 namespace eden::synth
 {
@@ -18,6 +22,7 @@ namespace eden::synth
 	{
 	public:
 		explicit Voice(double sampleRate);
+		Voice() = delete;
 
 		/// <summary>
 		/// Starts rendering a voice in effect of e.g. note on MIDI event.
@@ -25,14 +30,13 @@ namespace eden::synth
 		/// <param name="midiNoteNumber"></param>
 		/// <param name="velocity"></param>
 		/// <param name="currentPitchWheelPosition"></param>
-		void startNote(int midiNoteNumber, float velocity, int currentPitchWheelPosition);
+		void startNote(int midiNoteNumber, float velocity);
 
 		/// <summary>
 		/// Stops playing note. It should only be called if <c>startNote()</c> method has been invoked earlier.
 		/// </summary>
 		/// <param name="velocity"></param>
-		/// <param name="allowTailOff"></param>
-		void stopNote(float velocity, bool allowTailOff);
+		void stopNote(float velocity);
 
 		/// <summary>
 		/// Renders played note to the given audio buffer. 
@@ -45,7 +49,9 @@ namespace eden::synth
 		/// <param name="samplesToRender">number of samples to render</param>
 		void renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
 
-		/// <returns>true if the voice is active (renders a note in <c>renderBlock()</c>, false otherwise</returns>
+		void pitchWheelMoved(int newPitchWheelValue);
+
+		/// <returns>true if the voice is active (renders a note in <c>renderBlock()</c>), false otherwise</returns>
 		bool isPlaying() const noexcept;
 
 		/// <returns>true if the voice is currently rendering a particular note, false otherwise</returns>
@@ -60,20 +66,101 @@ namespace eden::synth
 		/// <param name="newSampleRate"></param>
 		void setSampleRate(double newSampleRate);
 
-	private:
 		/// <summary>
-		/// Generates a single sample.
+		/// Sets the expected length of processing block. Must be called at least once before first call to <c>renderBlock()</c>.
 		/// </summary>
-		/// <param name="outputBuffer"></param>
-		/// <param name="startSample">the index of sample to render, will be incremented by 1</param>
-		void generateSample(AudioBuffer& outputBuffer, int& startSample);
+		/// <param name="samplesPerBlock"></param>
+		void setBlockLength(unsigned samplesPerBlock);
+
+		/// <summary>
+		/// Set the wave table to be played.
+		/// </summary>
+		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
+		void setWaveTable(wavetable::WaveTable waveTable);
+
+		/// <summary>
+		/// Sets new envelope of sound - the information about volume change in time in relation
+		/// to keyboard events.
+		/// </summary>
+		/// <param name="envelope"></param>
+		void setEnvelope(std::unique_ptr<envelope::Envelope> envelope);
+
+		/// <summary>
+		/// Makes the voice available for a new note. Typically should be called when the envelope's release has ended.
+		/// </summary>
+		void finalizeVoice();
+
+		/// <param name="midiNoteNumber"></param>
+		/// <param name="pitchWheelPosition"></param>
+		/// <returns>pitch based on given <paramref name="midiNoteNumber"> and <paramref name="pitchWheelPosition"></returns>
+		double calculatePitch(int midiNoteNumber, int pitchWheelPosition);
+
+		/// <returns>current gain value by which every voice is scaled</returns>
+		SampleType gainValue() const noexcept;
 
 	private:
+		/// <summary>
+		/// Sets pitch of the voice.
+		/// </summary>
+		/// <param name="newPitch">frequency in Hz</param>
+		void setPitch(double newPitch);
+
+		/// <summary>
+		/// Applies current velocity to the given <paramref name="channel">.
+		/// </summary>
+		/// <param name="channel"></param>
+		/// <param name="startSample"></param>
+		/// <param name="samplesToRender"></param>
+		void applyVelocity(SampleType* channel, int startSample, int samplesToRender);
+
+		/// <summary>
+		/// Mixes the contentt of the inner rendered block to the output buffer.
+		/// </summary>
+		/// <param name="outputBuffer"></param>
+		/// <param name="startSample"></param>
+		/// <param name="samplesToMix"></param>
+		void mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix);
+
 		double _sampleRate;
-		AudioBuffer::SampleType currentAngle = 0.0;
-		AudioBuffer::SampleType angleDelta = 0.0;
-		AudioBuffer::SampleType level = 0.0;
-		AudioBuffer::SampleType tailOff = 0.0;
+
+		/// <summary>
+		/// Length of the inner audio channel to which the voice is rendered.
+		/// </summary>
+		unsigned _blockLength = 0u;
+
+		/// <summary>
+		/// Inner audio channel the voice is rendered to.
+		/// </summary>
+		SampleType* _innerBlock = nullptr;
+
+		/// <summary>
+		/// Responsible for rendering the initial signal.
+		/// </summary>
+		std::unique_ptr<wavetable::SignalGenerator> _signalGenerator;
+
+		/// <summary>
+		/// Responsible for filtering the signal.
+		/// </summary>
+		std::unique_ptr<subtractive::SubtractiveModule> _subtractiveModule;
+
+		/// <summary>
+		/// Responsible for waveshaping the signal.
+		/// </summary>
+		std::unique_ptr<waveshaping::WaveshapingModule> _waveshapingModule;
+
+		/// <summary>
+		/// Responsible for applying envelope to the signal. It holds the information about the current level of rendered samples.
+		/// </summary>
+		std::unique_ptr<envelope::Envelope> _envelopeGenerator;
+
+		/// <summary>
+		/// Currently played note by this voice. -1 means that no note is being played and voice is free to play a new one.
+		/// </summary>
 		int _currentNote = -1;
+
+		/// <summary>
+		/// Velocity with which the key was pressed.
+		/// </summary>
+		SampleType _velocity = 0.f;
 	};
 }

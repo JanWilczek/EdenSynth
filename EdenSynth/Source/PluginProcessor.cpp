@@ -12,22 +12,26 @@
 #include "PluginEditor.h"
 
 #include "EdenAdapter.h"
-
 #include <eden/AudioBuffer.h>
 #include <eden/MidiBuffer.h>
 
+#include <filesystem>
+#include "utility/WaveFileReader.h"
+
 //==============================================================================
 EdenSynthAudioProcessor::EdenSynthAudioProcessor()
+	:
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
+		AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
                       #if ! JucePlugin_IsSynth
                        .withInput  ("Input",  AudioChannelSet::stereo(), true)
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
 #endif
+		_assetsPath(std::experimental::filesystem::current_path() / "assets")
 {
 }
 
@@ -84,16 +88,16 @@ int EdenSynthAudioProcessor::getCurrentProgram()
     return 0;
 }
 
-void EdenSynthAudioProcessor::setCurrentProgram (int index)
+void EdenSynthAudioProcessor::setCurrentProgram (int /*index*/)
 {
 }
 
-const String EdenSynthAudioProcessor::getProgramName (int index)
+const String EdenSynthAudioProcessor::getProgramName (int /*index*/)
 {
     return {};
 }
 
-void EdenSynthAudioProcessor::changeProgramName (int index, const String& newName)
+void EdenSynthAudioProcessor::changeProgramName (int /*index*/, const String& /*newName*/)
 {
 }
 
@@ -101,6 +105,7 @@ void EdenSynthAudioProcessor::changeProgramName (int index, const String& newNam
 void EdenSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
 	_edenSynthesiser.setSampleRate(sampleRate);
+	_edenSynthesiser.setBlockLength(samplesPerBlock);
 }
 
 void EdenSynthAudioProcessor::releaseResources()
@@ -155,18 +160,40 @@ AudioProcessorEditor* EdenSynthAudioProcessor::createEditor()
 }
 
 //==============================================================================
-void EdenSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
+void EdenSynthAudioProcessor::getStateInformation (MemoryBlock& /*destData*/)
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void EdenSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void EdenSynthAudioProcessor::setStateInformation (const void* /*data*/, int /*sizeInBytes*/)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
+
+std::experimental::filesystem::path EdenSynthAudioProcessor::getAssetsPath() const
+{
+	return _assetsPath;
+}
+
+void EdenSynthAudioProcessor::setWaveTable(const std::string& filename)
+{
+	try
+	{
+		auto path = getAssetsPath() / "wavetables" / filename;
+
+		eden::utility::WaveFileReader reader(path.string());
+		const auto wave = reader.readSamples();
+		_edenSynthesiser.setWaveTable(wave);
+	}
+	catch(...)
+	{
+		// TODO: Add error handling.
+	}
+}
+
 
 //==============================================================================
 // This creates new instances of the plugin..

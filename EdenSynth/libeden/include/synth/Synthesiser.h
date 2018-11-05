@@ -12,6 +12,7 @@ namespace eden
 	class AudioBuffer;
 	class MidiBuffer;
 	class MidiMessage;
+	struct EnvelopeParameters;
 }
 
 namespace eden::synth
@@ -49,6 +50,25 @@ namespace eden::synth
 		/// </summary>
 		/// <param name="newSampleRate"></param>
 		void setSampleRate(double newSampleRate);
+
+		/// <summary>
+		/// Sets the expected length of processing block - use it to allocate memory beforehand.
+		/// </summary>
+		/// <param name="samplesPerBlock"></param>
+		void setBlockLength(unsigned samplesPerBlock);
+
+		/// <summary>
+		/// Sets the wave table to be played - one cycle of a waveform. From that cycle all pitches will be created.
+		/// </summary>
+		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
+		void setWaveTable(std::vector<SampleType> waveTable);
+
+		/// <summary>
+		/// Sets new envelope of sound - the information about volume change in time in relation
+		/// to keyboard events.
+		/// </summary>
+		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
+		void setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
 	private:
 		/// <summary>
@@ -98,6 +118,12 @@ namespace eden::synth
 		/// Container with voices.
 		/// </summary>
 		std::vector<std::unique_ptr<Voice>> _voices;
+
 		double _sampleRate;
+
+		/// <summary>
+		/// Size of the inner audio channel of each voice.
+		/// </summary>
+		unsigned _blockLength = 480u;
 	};
 }

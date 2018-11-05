@@ -12,6 +12,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "eden/EdenSynthesiser.h"
+#include <filesystem>
 
 //==============================================================================
 /**
@@ -56,9 +57,14 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+	//==============================================================================
+	std::experimental::filesystem::path getAssetsPath() const;
+	void setWaveTable(const std::string& filename);
+
 private:
     //==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EdenSynthAudioProcessor)
 
+	std::experimental::filesystem::path _assetsPath;
 	eden::EdenSynthesiser _edenSynthesiser;
 };

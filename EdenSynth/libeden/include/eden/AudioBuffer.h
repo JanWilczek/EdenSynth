@@ -4,6 +4,7 @@
 /// \date 27.08.2018
 /// 
 #include <functional>
+#include "eden/SampleType.h"
 
 namespace eden
 {
@@ -13,8 +14,6 @@ namespace eden
 	class AudioBuffer
 	{
 	public:
-		typedef float SampleType;
-
 		AudioBuffer() = default;
 
 		/// <summary>
@@ -32,10 +31,17 @@ namespace eden
 		/// <param name="numSamplesToUse">length of buffer to use</param>
 		AudioBuffer(SampleType** dataToUse, int numChannelsToUse, unsigned numSamplesToUse);
 		
+		AudioBuffer(AudioBuffer&&) noexcept;
+		AudioBuffer& operator=(AudioBuffer&&) noexcept;
+
 		~AudioBuffer();
+
+		SampleType* getWritePointer(int channel) const;
 
 		/// <returns>array of pointers to inner mutable data block, each element in array being a pointer to a channel</returns>
 		SampleType** getArrayOfWritePointers() const noexcept;
+
+		const SampleType* getReadPointer(int channel) const;
 
 		/// <returns>array of pointers to inner immutable data block, each element in array being a pointer to a channel</returns>
 		const SampleType** getArrayOfReadPointers() const noexcept;
@@ -76,7 +82,18 @@ namespace eden
 		/// <param name="callback">function to call on each channel (array of samples)</param>
 		void forEachChannel(std::function<void(SampleType*)> callback);
 
+		/// <summary>
+		/// Performs given operation on each sample stored in the buffer.
+		/// </summary>
+		/// <param name="callback">function to call on each sample</param>
+		void forEachSample(std::function<void(SampleType&)> callback);
+
 	private:
+		/// <summary>
+		/// Frees any allocated memory if it belongs to the buffer.
+		/// </summary>
+		void freeAllChannels();
+
 		int _numChannels = 2;
 		unsigned _numSamples = 512;
 		SampleType** _channels;

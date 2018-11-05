@@ -9,6 +9,7 @@ namespace eden
 {
 	class AudioBuffer;
 	class MidiBuffer;
+	struct EnvelopeParameters;
 
 	/// <summary>
 	///	Internal EdenSynthesiser implementation.
@@ -35,6 +36,25 @@ namespace eden
 
 		/// <returns>currently used sample rate</returns>
 		double sampleRate() const noexcept;
+
+		/// <summary>
+		/// Sets the expected length of processing block - use it to allocate memory beforehand.
+		/// </summary>
+		/// <param name="samplesPerBlock"></param>
+		void setBlockLength(int samplesPerBlock);
+
+		/// <summary>
+		/// Sets the wave table to be played - one cycle of a waveform. From that cycle all pitches will be created.
+		/// </summary>
+		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
+		void setWaveTable(std::vector<SampleType> waveTable);
+
+		/// <summary>
+		/// Sets new envelope of sound - the information about volume change in time in relation
+		/// to keyboard events.
+		/// </summary>
+		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
+		void setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
 	private:
 		double _sampleRate = 48000;

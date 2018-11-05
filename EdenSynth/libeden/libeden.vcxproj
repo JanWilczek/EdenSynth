@@ -74,6 +74,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)include\;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -83,6 +84,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(ProjectDir)include\;$(IncludePath)</IncludePath>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -93,6 +97,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -133,7 +138,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -141,6 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,13 +158,38 @@
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h" />
     <ClInclude Include="include\eden\EdenSynthesiser.h" />
+    <ClInclude Include="include\eden\EnvelopeParameters.h" />
     <ClInclude Include="include\eden\MidiBuffer.h" />
     <ClInclude Include="include\eden\MidiMessage.h" />
+    <ClInclude Include="include\eden\SampleType.h" />
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
+    <ClInclude Include="include\interpolation\IInterpolator.h" />
+    <ClInclude Include="include\interpolation\LinearInterpolator.h" />
+    <ClInclude Include="include\synth\envelope\ADBDR.h" />
+    <ClInclude Include="include\synth\envelope\Decay.h" />
+    <ClInclude Include="include\synth\envelope\Envelope.h" />
+    <ClInclude Include="include\synth\envelope\EnvelopeFactory.h" />
+    <ClInclude Include="include\synth\envelope\EnvelopeSegment.h" />
+    <ClInclude Include="include\synth\envelope\Attack.h" />
+    <ClInclude Include="include\synth\envelope\ExponentialGain.h" />
+    <ClInclude Include="include\synth\envelope\ISegmentGain.h" />
+    <ClInclude Include="include\synth\envelope\LinearGain.h" />
+    <ClInclude Include="include\synth\envelope\NoGain.h" />
+    <ClInclude Include="include\synth\envelope\SegmentGainFactory.h" />
+    <ClInclude Include="include\synth\envelope\Sustain.h" />
+    <ClInclude Include="include\synth\IMonoModule.h" />
+    <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
     <ClInclude Include="include\synth\Synthesiser.h" />
     <ClInclude Include="include\synth\Voice.h" />
+    <ClInclude Include="include\synth\waveshaping\WaveshapingModule.h" />
+    <ClInclude Include="include\synth\wavetable\SignalGenerator.h" />
+    <ClInclude Include="include\synth\wavetable\SineWaveTable.h" />
+    <ClInclude Include="include\synth\wavetable\Waveform.h" />
+    <ClInclude Include="include\synth\wavetable\WaveTable.h" />
     <ClInclude Include="include\utility\EdenAssert.h" />
     <ClInclude Include="include\utility\MathConstants.h" />
+    <ClInclude Include="include\utility\TimeSampleConverter.h" />
+    <ClInclude Include="include\utility\WaveFileReader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden\AudioBuffer.cpp" />
@@ -166,8 +197,26 @@
     <ClCompile Include="source\eden\MidiBuffer.cpp" />
     <ClCompile Include="source\eden\MidiMessage.cpp" />
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp" />
+    <ClCompile Include="source\interpolation\LinearInterpolator.cpp" />
+    <ClCompile Include="source\synth\envelope\ADBDR.cpp" />
+    <ClCompile Include="source\synth\envelope\Attack.cpp" />
+    <ClCompile Include="source\synth\envelope\Decay.cpp" />
+    <ClCompile Include="source\synth\envelope\Envelope.cpp" />
+    <ClCompile Include="source\synth\envelope\EnvelopeFactory.cpp" />
+    <ClCompile Include="source\synth\envelope\EnvelopeSegment.cpp" />
+    <ClCompile Include="source\synth\envelope\ExponentialGain.cpp" />
+    <ClCompile Include="source\synth\envelope\LinearGain.cpp" />
+    <ClCompile Include="source\synth\envelope\NoGain.cpp" />
+    <ClCompile Include="source\synth\envelope\SegmentGainFactory.cpp" />
+    <ClCompile Include="source\synth\envelope\Sustain.cpp" />
+    <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp" />
     <ClCompile Include="source\synth\Synthesiser.cpp" />
     <ClCompile Include="source\synth\Voice.cpp" />
+    <ClCompile Include="source\synth\waveshaping\WaveshapingModule.cpp" />
+    <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp" />
+    <ClCompile Include="source\synth\wavetable\Waveform.cpp" />
+    <ClCompile Include="source\utility\TimeSampleConverter.cpp" />
+    <ClCompile Include="source\utility\WaveFileReader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

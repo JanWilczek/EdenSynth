@@ -3,6 +3,7 @@
 /// \date 02.09.2018
 /// 
 #include "eden/AudioBuffer.h"
+#include "utility/EdenAssert.h"
 
 namespace eden
 {
@@ -26,28 +27,66 @@ namespace eden
 	{
 	}
 
-	AudioBuffer::~AudioBuffer()
+	AudioBuffer::AudioBuffer(AudioBuffer&& other) noexcept 
+		: _numChannels(other._numChannels)
+		, _numSamples(other._numSamples)
+		, _channels(other._channels)
+		, _ownsChannels(other._ownsChannels)
 	{
-		if (_ownsChannels)
-		{
-			for (int channel = 0; channel < _numChannels; ++channel)
-			{
-				delete[] _channels[channel];
-			}
-			delete[] _channels;
-		}
+		other._numChannels = 0;
+		other._numSamples = 0u;
+		other._ownsChannels = false;
+		other._channels = nullptr;
 	}
 
-	AudioBuffer::SampleType** AudioBuffer::getArrayOfWritePointers() const noexcept
+	AudioBuffer& AudioBuffer::operator=(AudioBuffer&& other) noexcept
+	{
+		if (this != &other)
+		{
+			freeAllChannels();
+
+			_numChannels = other._numChannels;
+			_numSamples = other._numSamples;
+			_channels = other._channels;
+			_ownsChannels = other._ownsChannels;
+
+			other._numChannels = 0;
+			other._numSamples = 0u; 
+			other._ownsChannels = false;
+			other._channels = nullptr;
+		}
+
+		return *this;
+	}
+	
+	AudioBuffer::~AudioBuffer()
+	{
+		freeAllChannels();
+	}
+
+	SampleType* AudioBuffer::getWritePointer(int channel) const
+	{
+		EDEN_ASSERT(channel < _numChannels);
+
+		return _channels[channel];
+	}
+
+	SampleType** AudioBuffer::getArrayOfWritePointers() const noexcept
 	{
 		return _channels;
 	}
 
-	const AudioBuffer::SampleType** AudioBuffer::getArrayOfReadPointers() const noexcept
+	const SampleType* AudioBuffer::getReadPointer(int channel) const
 	{
-		return const_cast<const AudioBuffer::SampleType**>(_channels);
+		EDEN_ASSERT(channel < _numChannels);
+
+		return const_cast<const SampleType*>(_channels[channel]);
 	}
 
+	const SampleType** AudioBuffer::getArrayOfReadPointers() const noexcept
+	{
+		return const_cast<const SampleType**>(_channels);
+	}
 
 	int AudioBuffer::getNumChannels() const noexcept
 	{
@@ -83,4 +122,26 @@ namespace eden
 		}
 	}
 
+	void AudioBuffer::forEachSample(std::function<void(SampleType&)> callback)
+	{
+		for (int channel = 0; channel < _numChannels; ++channel)
+		{
+			for (unsigned sample = 0; sample < _numSamples; ++sample)
+			{
+				callback(_channels[channel][sample]);
+			}
+		}
+	}
+
+	void AudioBuffer::freeAllChannels()
+	{
+		if (_ownsChannels && _channels)
+		{
+			for (int channel = 0; channel < _numChannels; ++channel)
+			{
+				delete[] _channels[channel];
+			}
+			delete[] _channels;
+		}
+	}
 }

@@ -34,6 +34,39 @@
     <Filter Include="Header Files\utility">
       <UniqueIdentifier>{0df9fb59-6100-4c96-9c3b-7d94a23b0357}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\synth\waveshaping">
+      <UniqueIdentifier>{f4a71b0d-aae6-4168-8646-da9408dc46b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\synth\subtractive">
+      <UniqueIdentifier>{5d38e1d0-5981-4f10-8094-4a510d28d52d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\synth\wavetable">
+      <UniqueIdentifier>{01e8e6c2-bc3c-4041-bde4-b7f0e145e01c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\synth\envelope">
+      <UniqueIdentifier>{bb9673a0-3989-4063-be1f-81d05d9e5ce0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\synth\envelope">
+      <UniqueIdentifier>{57dcccc3-9044-4d1f-b010-beaeb7acea63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\synth\wavetable">
+      <UniqueIdentifier>{04763cc2-925a-47a0-baa6-88acb1072d08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\synth\subtractive">
+      <UniqueIdentifier>{7cd7abc1-bfd2-4088-bdd1-65d8b7164ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\synth\waveshaping">
+      <UniqueIdentifier>{bc528c21-2cd0-4513-a108-e97a0b35eb01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\interpolation">
+      <UniqueIdentifier>{2091e982-8b78-4da2-aa29-8cc3e51c32f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utility">
+      <UniqueIdentifier>{2a254dd2-43a9-4b6f-9b15-2e55574a496e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interpolation">
+      <UniqueIdentifier>{a30fea81-2eb8-4d0d-bf8d-cbf60ad04689}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h">
@@ -63,6 +96,81 @@
     <ClInclude Include="include\utility\EdenAssert.h">
       <Filter>Header Files\utility</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\subtractive\SubtractiveModule.h">
+      <Filter>Header Files\synth\subtractive</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\waveshaping\WaveshapingModule.h">
+      <Filter>Header Files\synth\waveshaping</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\SignalGenerator.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\EnvelopeSegment.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\SampleType.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\Envelope.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\ADBDR.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\Attack.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\Decay.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\Sustain.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\LinearGain.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\NoGain.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\ExponentialGain.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utility\TimeSampleConverter.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\Waveform.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\WaveTable.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\IMonoModule.h">
+      <Filter>Header Files\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="include\interpolation\IInterpolator.h">
+      <Filter>Header Files\interpolation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\interpolation\LinearInterpolator.h">
+      <Filter>Header Files\interpolation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\SineWaveTable.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utility\WaveFileReader.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\EnvelopeParameters.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\EnvelopeFactory.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\SegmentGainFactory.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\ISegmentGain.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -85,6 +193,60 @@
     </ClCompile>
     <ClCompile Include="source\synth\Voice.cpp">
       <Filter>Source Files\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp">
+      <Filter>Source Files\synth\subtractive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\waveshaping\WaveshapingModule.cpp">
+      <Filter>Source Files\synth\waveshaping</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp">
+      <Filter>Source Files\synth\wavetable</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\EnvelopeSegment.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\Envelope.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\ADBDR.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\Attack.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\Decay.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\Sustain.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\LinearGain.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\NoGain.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\ExponentialGain.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\utility\TimeSampleConverter.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interpolation\LinearInterpolator.cpp">
+      <Filter>Source Files\interpolation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\Waveform.cpp">
+      <Filter>Source Files\synth\wavetable</Filter>
+    </ClCompile>
+    <ClCompile Include="source\utility\WaveFileReader.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\EnvelopeFactory.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\SegmentGainFactory.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

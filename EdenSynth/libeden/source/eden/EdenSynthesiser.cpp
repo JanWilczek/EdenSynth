@@ -5,6 +5,7 @@
 #include "eden/EdenSynthesiser.h"
 #include "eden/AudioBuffer.h"
 #include "eden/MidiBuffer.h"
+#include "eden/EnvelopeParameters.h"
 
 namespace eden
 {
@@ -25,5 +26,20 @@ namespace eden
 	double EdenSynthesiser::sampleRate() const noexcept
 	{
 		return _impl->sampleRate();
+	}
+
+	void EdenSynthesiser::setBlockLength(int samplesPerBlock)
+	{
+		_impl->setBlockLength(samplesPerBlock);
+	}
+
+	void EdenSynthesiser::setWaveTable(std::vector<SampleType> waveTable)
+	{
+		_impl->setWaveTable(waveTable);
+	}
+
+	void EdenSynthesiser::setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters)
+	{
+		_impl->setEnvelope(envelopeParameters);
 	}
 }
