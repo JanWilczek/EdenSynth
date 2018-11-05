@@ -7,6 +7,7 @@
 
 namespace eden 
 {
+	class EdenSynthesiser;
 	class MidiBuffer;
 }
 
@@ -23,6 +24,8 @@ namespace eden_vst
 		/// </summary>
 		/// <param name="juceMidiBuffer">buffer to get messages from</param>
 		/// <param name="edenMidiBuffer">buffer to pass messages to</param>
-		static void convertToEdenMidi(const juce::MidiBuffer& juceMidiBuffer, eden::MidiBuffer& edenMidiBuffer);
+		static eden::MidiBuffer convertToEdenMidi(const juce::MidiBuffer& juceMidiBuffer);
+
+		static void addEdenParameters(const eden::EdenSynthesiser& edenSynthesiser, AudioProcessorValueTreeState& pluginParameters);
 	};
 }

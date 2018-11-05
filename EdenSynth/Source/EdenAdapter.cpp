@@ -7,8 +7,10 @@
 
 namespace eden_vst
 {
-	void EdenAdapter::convertToEdenMidi(const juce::MidiBuffer& juceMidiBuffer, eden::MidiBuffer& edenMidiBuffer)
+	eden::MidiBuffer EdenAdapter::convertToEdenMidi(const juce::MidiBuffer& juceMidiBuffer)
 	{
+		eden::MidiBuffer edenMidiBuffer;
+
 		int midiEventPos;
 		MidiMessage m;
 
@@ -31,5 +33,12 @@ namespace eden_vst
 				edenMidiBuffer.addEvent(std::move(edenMessage), midiEventPos);
 			}
 		}
+
+		return edenMidiBuffer;
+	}
+
+	void EdenAdapter::addEdenParameters(const eden::EdenSynthesiser& edenSynthesiser, AudioProcessorValueTreeState& pluginParameters)
+	{
+		
 	}
 }

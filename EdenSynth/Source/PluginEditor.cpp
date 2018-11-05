@@ -1,20 +1,10 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-    It contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
 #include <filesystem>
 
 //==============================================================================
-EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor& p)
+EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor& p, AudioProcessorValueTreeState& vts)
 	: AudioProcessorEditor(&p), _processor(p)
 {
 	// Make sure that before the constructor has finished, you've set the
@@ -43,20 +33,20 @@ EdenSynthAudioProcessorEditor::~EdenSynthAudioProcessorEditor()
 }
 
 //==============================================================================
-void EdenSynthAudioProcessorEditor::paint (Graphics& g)
+void EdenSynthAudioProcessorEditor::paint(Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
+	// (Our component is opaque, so we must completely fill the background with a solid colour)
+	g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
 
-    g.setColour (Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
+	g.setColour(Colours::white);
+	g.setFont(15.0f);
+	g.drawFittedText("Hello World!", getLocalBounds(), Justification::centred, 1);
 }
 
 void EdenSynthAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+	// This is generally where you'll want to lay out the positions of any
+	// subcomponents in your editor..
 	_title.setBounds(40, 200, 100, 20);
 	_waveTables.setBounds(100, 100, 100, 100);
 }
@@ -65,4 +55,3 @@ void EdenSynthAudioProcessorEditor::waveTableChanged()
 {
 	_processor.setWaveTable(_waveTables.getText().toStdString());
 }
-
