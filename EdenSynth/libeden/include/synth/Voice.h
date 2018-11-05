@@ -95,6 +95,9 @@ namespace eden::synth
 		/// <returns>pitch based on given <paramref name="midiNoteNumber"> and <paramref name="pitchWheelPosition"></returns>
 		double calculatePitch(int midiNoteNumber, int pitchWheelPosition);
 
+		/// <returns>current gain value by which every voice is scaled</returns>
+		SampleType gainValue() const noexcept;
+
 	private:
 		/// <summary>
 		/// Sets pitch of the voice.

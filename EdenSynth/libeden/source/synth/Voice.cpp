@@ -124,6 +124,12 @@ namespace eden::synth
 		return MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	}
 
+	SampleType Voice::gainValue() const noexcept
+	{
+		return SampleType(0.1);
+	}
+
+
 	void Voice::setPitch(double newPitch)
 	{
 		_signalGenerator->setPitch(newPitch);
@@ -135,7 +141,7 @@ namespace eden::synth
 	{
 		for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
 		{
-			channel[sample] *= /*SampleType(0.05) **/ _velocity;
+			channel[sample] *= gainValue() * _velocity;
 
 			// check for clipping
 			EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
