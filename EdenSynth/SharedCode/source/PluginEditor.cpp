@@ -48,8 +48,8 @@ void EdenSynthAudioProcessorEditor::resized()
 	
 	_waveTables.setBounds(100, 100, 100, 100);
 
-	_generatorComponent.setBounds(100, 30, 400, 460);
-	_modifierComponent.setBounds(500, 30, 400, 460);
+	_generatorComponent.setBounds(120, 0, 380, 500);
+	_modifierComponent.setBounds(500, 0, 380, 500);
 }
 
 void EdenSynthAudioProcessorEditor::waveTableChanged()

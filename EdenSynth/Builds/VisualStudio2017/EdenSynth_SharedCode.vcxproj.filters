@@ -2172,6 +2172,15 @@
     <ClCompile Include="..\..\SharedCode\source\ModifierComponent.cpp">
       <Filter>EdenSynth\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\FilterComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\WaveshaperComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\EnvelopeComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
@@ -4188,6 +4197,15 @@
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\SharedCode\include\ModifierComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\FilterComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\WaveshaperComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\EnvelopeComponent.h">
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

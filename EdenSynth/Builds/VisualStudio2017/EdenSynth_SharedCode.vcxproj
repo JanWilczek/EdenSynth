@@ -1888,10 +1888,13 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp" />
     <ClCompile Include="..\..\SharedCode\source\EdenAdapter.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\EnvelopeComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\FilterComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\GeneratorComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\ModifierComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\PluginEditor.cpp" />
     <ClCompile Include="..\..\SharedCode\source\PluginProcessor.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\WaveshaperComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h" />
@@ -2562,10 +2565,13 @@
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
     <ClInclude Include="..\..\SharedCode\include\EdenAdapter.h" />
+    <ClInclude Include="..\..\SharedCode\include\EnvelopeComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\FilterComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\ModifierComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\GeneratorComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\PluginEditor.h" />
     <ClInclude Include="..\..\SharedCode\include\PluginProcessor.h" />
+    <ClInclude Include="..\..\SharedCode\include\WaveshaperComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_formats\codecs\flac\Flac Licence.txt" />
