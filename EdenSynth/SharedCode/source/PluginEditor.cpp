@@ -5,10 +5,11 @@
 
 //==============================================================================
 EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor& p, AudioProcessorValueTreeState& vts)
-	: AudioProcessorEditor(&p), _processor(p)
+	: AudioProcessorEditor(&p)
+	, _processor(p)
+	, _generatorComponent(vts)
+	, _modifierComponent(vts)
 {
-	// Make sure that before the constructor has finished, you've set the
-	// editor's size to whatever you need it to be.
 	setSize(1000, 500);
 
 	_title.setFont(_titleFont);
@@ -26,6 +27,9 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(EdenSynthAudioProce
 	_waveTables.setSelectedId(1);
 
 	addAndMakeVisible(&_waveTables);
+
+	addAndMakeVisible(_generatorComponent);
+	addAndMakeVisible(_modifierComponent);
 }
 
 EdenSynthAudioProcessorEditor::~EdenSynthAudioProcessorEditor()
@@ -35,16 +39,17 @@ EdenSynthAudioProcessorEditor::~EdenSynthAudioProcessorEditor()
 //==============================================================================
 void EdenSynthAudioProcessorEditor::paint(Graphics& g)
 {
-	// (Our component is opaque, so we must completely fill the background with a solid colour)
 	g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
 }
 
 void EdenSynthAudioProcessorEditor::resized()
 {
-	// This is generally where you'll want to lay out the positions of any
-	// subcomponents in your editor..
-	_title.setBounds(40, 200, 100, 20);
+	_title.setBounds(450, 450, 100, 20);
+	
 	_waveTables.setBounds(100, 100, 100, 100);
+
+	_generatorComponent.setBounds(100, 30, 400, 460);
+	_modifierComponent.setBounds(500, 30, 400, 460);
 }
 
 void EdenSynthAudioProcessorEditor::waveTableChanged()

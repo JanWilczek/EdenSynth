@@ -2166,6 +2166,12 @@
     <ClCompile Include="..\..\SharedCode\source\PluginProcessor.cpp">
       <Filter>EdenSynth\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\GeneratorComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\ModifierComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
@@ -4176,6 +4182,12 @@
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\SharedCode\include\PluginProcessor.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\GeneratorComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\ModifierComponent.h">
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

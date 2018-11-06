@@ -1888,6 +1888,8 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp" />
     <ClCompile Include="..\..\SharedCode\source\EdenAdapter.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\GeneratorComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\ModifierComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\PluginEditor.cpp" />
     <ClCompile Include="..\..\SharedCode\source\PluginProcessor.cpp" />
   </ItemGroup>
@@ -2560,6 +2562,8 @@
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
     <ClInclude Include="..\..\SharedCode\include\EdenAdapter.h" />
+    <ClInclude Include="..\..\SharedCode\include\ModifierComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\GeneratorComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\PluginEditor.h" />
     <ClInclude Include="..\..\SharedCode\include\PluginProcessor.h" />
   </ItemGroup>
