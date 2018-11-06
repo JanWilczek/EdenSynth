@@ -70,6 +70,9 @@
     <Filter Include="Header Files\settings">
       <UniqueIdentifier>{a69ce1b5-340a-4160-9b8a-ed987e839200}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\settings">
+      <UniqueIdentifier>{cb3afa4a-2f68-481e-b209-27ae74cd886f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h">
@@ -177,6 +180,18 @@
     <ClInclude Include="include\settings\Settings.h">
       <Filter>Header Files\settings</Filter>
     </ClInclude>
+    <ClInclude Include="include\settings\GeneratorSettings.h">
+      <Filter>Header Files\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings\SubtractiveModuleSettings.h">
+      <Filter>Header Files\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings\WaveshapingModuleSettings.h">
+      <Filter>Header Files\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings\EnvelopeSettings.h">
+      <Filter>Header Files\settings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -253,6 +268,21 @@
     </ClCompile>
     <ClCompile Include="source\synth\envelope\SegmentGainFactory.cpp">
       <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\settings\Settings.cpp">
+      <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\settings\GeneratorSettings.cpp">
+      <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\settings\SubtractiveModuleSettings.cpp">
+      <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\settings\WaveshapingModuleSettings.cpp">
+      <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\settings\EnvelopeSettings.cpp">
+      <Filter>Source Files\settings</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

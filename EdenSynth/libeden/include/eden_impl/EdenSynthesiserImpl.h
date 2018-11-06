@@ -4,6 +4,7 @@
 /// \date 29.08.2018
 /// 
 #include "synth/Synthesiser.h"
+#include "settings/Settings.h"
 
 namespace eden
 {
@@ -58,6 +59,7 @@ namespace eden
 
 	private:
 		double _sampleRate = 48000;
-		std::unique_ptr<synth::Synthesiser> _synthesiser;
+		settings::Settings _settings;
+		synth::Synthesiser _synthesiser;
 	};
 }

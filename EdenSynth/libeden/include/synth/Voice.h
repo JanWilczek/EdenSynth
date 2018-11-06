@@ -9,6 +9,11 @@
 #include "synth/waveshaping/WaveshapingModule.h"
 #include "synth/wavetable/SignalGenerator.h"
 
+namespace eden::settings
+{
+	class Settings;
+}
+
 namespace eden::synth
 {
 	/// <summary>
@@ -21,7 +26,7 @@ namespace eden::synth
 	class Voice
 	{
 	public:
-		explicit Voice(double sampleRate);
+		Voice(settings::Settings& settings, double sampleRate);
 		Voice() = delete;
 
 		/// <summary>
@@ -121,6 +126,8 @@ namespace eden::synth
 		/// <param name="samplesToMix"></param>
 		void mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix);
 
+		void registerModules(settings::Settings& settings);
+
 		double _sampleRate;
 
 		/// <summary>
@@ -136,22 +143,22 @@ namespace eden::synth
 		/// <summary>
 		/// Responsible for rendering the initial signal.
 		/// </summary>
-		std::unique_ptr<wavetable::SignalGenerator> _signalGenerator;
+		std::shared_ptr<wavetable::SignalGenerator> _signalGenerator;
 
 		/// <summary>
 		/// Responsible for filtering the signal.
 		/// </summary>
-		std::unique_ptr<subtractive::SubtractiveModule> _subtractiveModule;
+		std::shared_ptr<subtractive::SubtractiveModule> _subtractiveModule;
 
 		/// <summary>
 		/// Responsible for waveshaping the signal.
 		/// </summary>
-		std::unique_ptr<waveshaping::WaveshapingModule> _waveshapingModule;
+		std::shared_ptr<waveshaping::WaveshapingModule> _waveshapingModule;
 
 		/// <summary>
 		/// Responsible for applying envelope to the signal. It holds the information about the current level of rendered samples.
 		/// </summary>
-		std::unique_ptr<envelope::Envelope> _envelopeGenerator;
+		std::shared_ptr<envelope::Envelope> _envelopeGenerator;
 
 		/// <summary>
 		/// Currently played note by this voice. -1 means that no note is being played and voice is free to play a new one.

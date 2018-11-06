@@ -9,13 +9,14 @@
 namespace eden
 {
 	EdenSynthesiserImpl::EdenSynthesiserImpl()
-		: _synthesiser(std::make_unique<synth::Synthesiser>(_sampleRate))
+		: _settings()
+		, _synthesiser(_settings, _sampleRate)
 	{
 	}
 
 	void EdenSynthesiserImpl::processInputBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer)
 	{
-		_synthesiser->processBlock(bufferToFill, midiBuffer, bufferToFill.getNumSamples());
+		_synthesiser.processBlock(bufferToFill, midiBuffer, bufferToFill.getNumSamples());
 	}
 
 	void EdenSynthesiserImpl::setSampleRate(double sampleRate)
@@ -23,7 +24,7 @@ namespace eden
 		if (sampleRate != _sampleRate)
 		{
 			_sampleRate = sampleRate;
-			_synthesiser->setSampleRate(sampleRate);
+			_synthesiser.setSampleRate(sampleRate);
 		}
 	}
 
@@ -34,16 +35,16 @@ namespace eden
 
 	void EdenSynthesiserImpl::setBlockLength(int samplesPerBlock)
 	{
-		_synthesiser->setBlockLength(samplesPerBlock);
+		_synthesiser.setBlockLength(samplesPerBlock);
 	}
 
 	void EdenSynthesiserImpl::setWaveTable(std::vector<SampleType> waveTable)
 	{
-		_synthesiser->setWaveTable(waveTable);
+		_synthesiser.setWaveTable(waveTable);
 	}
 
 	void EdenSynthesiserImpl::setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
-		_synthesiser->setEnvelope(envelopeParameters);
+		_synthesiser.setEnvelope(envelopeParameters);
 	}
 }

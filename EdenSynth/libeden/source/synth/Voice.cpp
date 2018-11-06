@@ -9,18 +9,21 @@
 #include "synth/envelope/ADBDR.h"
 #include "utility/EdenAssert.h"
 #include "eden/EnvelopeParameters.h"
+#include "settings/Settings.h"
 
 namespace eden::synth
 {
-	Voice::Voice(double sampleRate)
+	Voice::Voice(settings::Settings& settings, double sampleRate)
 		: _sampleRate(sampleRate)
-		, _signalGenerator(std::make_unique<wavetable::SignalGenerator>(_sampleRate))
-		, _subtractiveModule(std::make_unique<subtractive::SubtractiveModule>())
-		, _waveshapingModule(std::make_unique<waveshaping::WaveshapingModule>())
-		, _envelopeGenerator(std::make_unique<envelope::ADBDR>(_sampleRate, ADBDRParameters{}))
+		, _signalGenerator(std::make_shared<wavetable::SignalGenerator>(_sampleRate))
+		, _subtractiveModule(std::make_shared<subtractive::SubtractiveModule>())
+		, _waveshapingModule(std::make_shared<waveshaping::WaveshapingModule>())
+		, _envelopeGenerator(std::make_shared<envelope::ADBDR>(_sampleRate, ADBDRParameters{}))
 	{
 		setBlockLength(480u);
 		_envelopeGenerator->setOnEnvelopeEndedCallback([this](unsigned) { finalizeVoice(); });
+
+		registerModules(settings);
 	}
 
 	void Voice::startNote(int midiNoteNumber, float velocity)
@@ -160,5 +163,13 @@ namespace eden::synth
 				EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
 			}
 		});
+	}
+
+	void Voice::registerModules(settings::Settings& settings)
+	{
+		settings.registerSignalGenerator(_signalGenerator);
+		settings.registerSubtractiveModule(_subtractiveModule);
+		settings.registerWaveshapingModule(_waveshapingModule);
+		settings.registerEnvelope(_envelopeGenerator);
 	}
 }

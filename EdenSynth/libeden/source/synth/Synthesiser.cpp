@@ -11,14 +11,15 @@
 #include "eden/EnvelopeParameters.h"
 #include "utility/EdenAssert.h"
 #include "synth/envelope/EnvelopeFactory.h"
+#include "settings/Settings.h"
 
 namespace eden::synth
 {
-	Synthesiser::Synthesiser(double sampleRate)
+	Synthesiser::Synthesiser(settings::Settings& settings, double sampleRate)
 		: _sampleRate(sampleRate)
 	{
 		constexpr unsigned VOICES_TO_ADD = 16;
-		addVoices(VOICES_TO_ADD);
+		addVoices(settings, VOICES_TO_ADD);
 	}
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int numSamples)
@@ -163,11 +164,11 @@ namespace eden::synth
 		}
 	}
 
-	void Synthesiser::addVoices(unsigned numVoicesToAdd)
+	void Synthesiser::addVoices(settings::Settings& settings, unsigned numVoicesToAdd)
 	{
 		for (unsigned i = 0; i < numVoicesToAdd; ++i)
 		{
-			_voices.emplace_back(std::make_unique<Voice>(_sampleRate));
+			_voices.emplace_back(std::make_unique<Voice>(settings, _sampleRate));
 		}
 	}
 

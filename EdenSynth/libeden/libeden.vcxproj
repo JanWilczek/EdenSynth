@@ -165,7 +165,11 @@
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
     <ClInclude Include="include\interpolation\IInterpolator.h" />
     <ClInclude Include="include\interpolation\LinearInterpolator.h" />
+    <ClInclude Include="include\settings\EnvelopeSettings.h" />
+    <ClInclude Include="include\settings\GeneratorSettings.h" />
     <ClInclude Include="include\settings\Settings.h" />
+    <ClInclude Include="include\settings\SubtractiveModuleSettings.h" />
+    <ClInclude Include="include\settings\WaveshapingModuleSettings.h" />
     <ClInclude Include="include\synth\envelope\ADBDR.h" />
     <ClInclude Include="include\synth\envelope\Decay.h" />
     <ClInclude Include="include\synth\envelope\Envelope.h" />
@@ -199,6 +203,11 @@
     <ClCompile Include="source\eden\MidiMessage.cpp" />
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp" />
     <ClCompile Include="source\interpolation\LinearInterpolator.cpp" />
+    <ClCompile Include="source\settings\EnvelopeSettings.cpp" />
+    <ClCompile Include="source\settings\GeneratorSettings.cpp" />
+    <ClCompile Include="source\settings\Settings.cpp" />
+    <ClCompile Include="source\settings\SubtractiveModuleSettings.cpp" />
+    <ClCompile Include="source\settings\WaveshapingModuleSettings.cpp" />
     <ClCompile Include="source\synth\envelope\ADBDR.cpp" />
     <ClCompile Include="source\synth\envelope\Attack.cpp" />
     <ClCompile Include="source\synth\envelope\Decay.cpp" />

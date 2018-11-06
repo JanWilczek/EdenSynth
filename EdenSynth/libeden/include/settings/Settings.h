@@ -4,6 +4,10 @@
 /// \date 06.11.2018
 /// 
 #include <memory>
+#include "settings/EnvelopeSettings.h"
+#include "settings/GeneratorSettings.h"
+#include "settings/SubtractiveModuleSettings.h"
+#include "settings/WaveshapingModuleSettings.h"
 
 namespace eden::synth
 {
@@ -28,12 +32,13 @@ namespace eden::synth
 	}
 }
 
-
 namespace eden::settings
 {
 	class Settings
 	{
 	public:
+		Settings();
+
 		void registerSignalGenerator(std::shared_ptr<synth::wavetable::SignalGenerator> signalGenerator);
 		void registerSubtractiveModule(std::shared_ptr<synth::subtractive::SubtractiveModule> subtractiveModule);
 		void registerWaveshapingModule(std::shared_ptr<synth::waveshaping::WaveshapingModule> waveshapingModule);

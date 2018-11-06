@@ -5,9 +5,10 @@
 #include "pch.h"
 #include <synth/Voice.h>
 #include <eden/AudioBuffer.h>
+#include <synth/envelope/ADBDR.h>
+#include <eden/EnvelopeParameters.h>
+#include <settings/Settings.h>
 #include "TestUtils.h"
-#include "synth/envelope/ADBDR.h"
-#include "eden/EnvelopeParameters.h"
 
 namespace libeden_test
 {
@@ -16,11 +17,12 @@ namespace libeden_test
 	protected:
 		void SetUp() override
 		{
-			_voice = std::make_unique<eden::synth::Voice>(SAMPLE_RATE);
+			_voice = std::make_unique<eden::synth::Voice>(_settings, SAMPLE_RATE);
 			_buffer.fill(eden::SampleType(0));
 		}
 
 		const double SAMPLE_RATE = 48000.0;
+		eden::settings::Settings _settings{};
 		std::unique_ptr<eden::synth::Voice> _voice;
 
 		constexpr static unsigned BUFFER_LENGTH = 480u;

@@ -13,6 +13,11 @@ namespace eden
 	class MidiBuffer;
 	class MidiMessage;
 	struct EnvelopeParameters;
+
+	namespace settings
+	{
+		class Settings;
+	}
 }
 
 namespace eden::synth
@@ -23,7 +28,7 @@ namespace eden::synth
 	class Synthesiser
 	{
 	public:
-		explicit Synthesiser(double sampleRate);
+		Synthesiser(settings::Settings& settings, double sampleRate);
 
 		/// <summary>
 		/// Fills the given audio buffer with samples in full based on internal state.
@@ -105,7 +110,7 @@ namespace eden::synth
 		/// Adds voices given number of voices to the synthesiser. More voices means, that more notes can be played at once.
 		/// </summary>
 		/// <param name="numVoicesToAdd"></param>
-		void addVoices(unsigned numVoicesToAdd);
+		void addVoices(settings::Settings& settings, unsigned numVoicesToAdd);
 
 		/// <returns>first free voice</returns>
 		Voice* getFreeVoice();
