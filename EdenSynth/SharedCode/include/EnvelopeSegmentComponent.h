@@ -12,15 +12,20 @@ class EnvelopeComponent;
 class EnvelopeSegmentComponent : public Component
 {
 public:
-	EnvelopeSegmentComponent(EnvelopeComponent& parent, NormalisableRange<double> timeRangeMs);
+	using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
+	using ComboBoxAttachment = AudioProcessorValueTreeState::ComboBoxAttachment;
+
+	EnvelopeSegmentComponent(AudioProcessorValueTreeState& valueTreeState, String timeParameterID, String curveParameterID);
 
 	void resized() override;
 
-	std::chrono::milliseconds getTime() const;
-	eden::EnvelopeSegmentCurve getCurve() const;
+	//std::chrono::milliseconds getTime() const;
+	//eden::EnvelopeSegmentCurve getCurve() const;
 
 private:
 	Slider _time;
+	std::unique_ptr<SliderAttachment> _timeAttachment;
+
 	ComboBox _curve;
-	int _comboBoxOffset = 1;
+	std::unique_ptr<ComboBoxAttachment> _curveAttachment;
 };

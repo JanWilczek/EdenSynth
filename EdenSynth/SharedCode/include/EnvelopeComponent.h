@@ -9,16 +9,20 @@
 class EnvelopeComponent : public Component
 {
 public:
+	using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
+
 	EnvelopeComponent(AudioProcessorValueTreeState& valueTreeState);
 
 	void paint(Graphics& g) override;
 	void resized() override;
-	void onParameterChanged();
+	//void onParameterChanged();
 
 private:
 	EnvelopeSegmentComponent _attack;
 	EnvelopeSegmentComponent _decay1;
 	EnvelopeSegmentComponent _decay2;
 	EnvelopeSegmentComponent _release;
+
 	Slider _breakLevel;
+	std::unique_ptr<SliderAttachment> _breakLevelAttachment;
 };

@@ -5,10 +5,10 @@
 #include "EnvelopeComponent.h"
 
 EnvelopeComponent::EnvelopeComponent(AudioProcessorValueTreeState& valueTreeState)
-	: _attack(*this, NormalisableRange<double>(0., 10000., 10.))
-	, _decay1(*this, NormalisableRange<double>(0, 4000, 10))
-	, _decay2(*this, NormalisableRange<double>(0, 30000, 10))
-	, _release(*this, NormalisableRange<double>(0, 40000, 10))
+	: _attack(valueTreeState, "envelope.adbdr.attack.time", "envelopeadbdr.attack.curve")
+	, _decay1(valueTreeState, "envelope.adbdr.decay1.time", "envelopeadbdr.decay1.curve")
+	, _decay2(valueTreeState, "envelope.adbdr.decay2.time", "envelopeadbdr.decay2.curve")
+	, _release(valueTreeState, "envelope.adbdr.release.time", "envelopeadbdr.release.curve")
 	, _breakLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
 	addAndMakeVisible(_attack);
@@ -16,9 +16,10 @@ EnvelopeComponent::EnvelopeComponent(AudioProcessorValueTreeState& valueTreeStat
 	addAndMakeVisible(_decay2);
 	addAndMakeVisible(_release);
 	
-	_breakLevel.setNormalisableRange(NormalisableRange<double>(0., 1., 0.01));
-	_breakLevel.onValueChange = [this]() { onParameterChanged(); };
+	//_breakLevel.setNormalisableRange(NormalisableRange<double>(0., 1., 0.01));
+	//_breakLevel.onValueChange = [this]() { onParameterChanged(); };
 	addAndMakeVisible(_breakLevel);
+	_breakLevelAttachment = std::make_unique<SliderAttachment>(valueTreeState, "envelope.adbdr.breakLevel", _breakLevel);
 }
 
 void EnvelopeComponent::paint(Graphics& g)
@@ -35,8 +36,8 @@ void EnvelopeComponent::resized()
 	_release.setBounds(_decay2.getX() + _attack.getWidth(), _attack.getY(), _attack.getWidth(), _attack.getHeight());
 	_breakLevel.setBounds(_release.getX() + _attack.getWidth(), _attack.getY(), _attack.getWidth(), _attack.getHeight());
 }
-
-void EnvelopeComponent::onParameterChanged()
-{
-	
-}
+//
+//void EnvelopeComponent::onParameterChanged()
+//{
+//	
+//}

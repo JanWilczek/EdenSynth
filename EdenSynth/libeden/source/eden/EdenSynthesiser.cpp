@@ -38,9 +38,9 @@ namespace eden
 		_impl->setWaveTable(waveTable);
 	}
 
-	void EdenSynthesiser::setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters)
+	void EdenSynthesiser::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
-		_impl->setEnvelope(envelopeParameters);
+		_impl->setEnvelopeParameters(envelopeParameters);
 	}
 
 	void EdenSynthesiser::setCutoff(float cutoff)

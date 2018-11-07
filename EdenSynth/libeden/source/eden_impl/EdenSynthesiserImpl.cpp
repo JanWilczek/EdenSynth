@@ -43,9 +43,9 @@ namespace eden
 		_synthesiser.setWaveTable(waveTable);
 	}
 
-	void EdenSynthesiserImpl::setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters)
+	void EdenSynthesiserImpl::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
-		_synthesiser.setEnvelope(envelopeParameters);
+		//_settings.setEnvelopeParameters(envelopeParameters);
 	}
 
 	void EdenSynthesiserImpl::setCutoff(float cutoff)

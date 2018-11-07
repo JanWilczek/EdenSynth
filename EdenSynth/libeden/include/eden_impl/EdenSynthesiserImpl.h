@@ -55,7 +55,7 @@ namespace eden
 		/// to keyboard events.
 		/// </summary>
 		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
-		void setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters);
+		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
 		void setCutoff(float cutoff);
 
