@@ -10,6 +10,11 @@ namespace eden
 {
 	using namespace std::chrono_literals;
 
+	enum class EnvelopeType
+	{
+		ADBDR
+	};
+
 	/// <summary>
 	/// Enum determining the shape of the envelope curve in particular segment.
 	/// Names refer to curve names on a plot with linear scales.
@@ -26,7 +31,13 @@ namespace eden
 	/// </summary>
 	struct EnvelopeParameters
 	{
+		EnvelopeParameters(EnvelopeType _type)
+			: type(_type)
+		{}
+
 		virtual ~EnvelopeParameters(){}
+
+		EnvelopeType type;
 	};
 
 	/// <summary>
@@ -37,13 +48,17 @@ namespace eden
 	/// </summary>
 	struct ADBDRParameters : EnvelopeParameters
 	{
-		ADBDRParameters() {};
+		ADBDRParameters()
+			: EnvelopeParameters(EnvelopeType::ADBDR)
+		{}
 		
 		ADBDRParameters(std::chrono::milliseconds _attackTime, EnvelopeSegmentCurve _attackCurve,
 			std::chrono::milliseconds _decay1Time, EnvelopeSegmentCurve _decay1Curve,
 			std::chrono::milliseconds _decay2Time, EnvelopeSegmentCurve _decay2Curve,
 			std::chrono::milliseconds _releaseTime, EnvelopeSegmentCurve _releaseCurve,
-			SampleType _breakLevel) : attackTime(_attackTime), attackCurve(_attackCurve),
+			SampleType _breakLevel) 
+			: EnvelopeParameters(EnvelopeType::ADBDR)
+			, attackTime(_attackTime), attackCurve(_attackCurve),
 		decay1Time(_decay1Time), decay1Curve(_decay1Curve), decay2Time(_decay2Time), decay2Curve(_decay2Curve),
 		releaseTime(_releaseTime), releaseCurve(_releaseCurve), breakLevel(_breakLevel)
 		{}

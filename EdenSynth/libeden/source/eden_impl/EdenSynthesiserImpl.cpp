@@ -45,7 +45,7 @@ namespace eden
 
 	void EdenSynthesiserImpl::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
-		//_settings.setEnvelopeParameters(envelopeParameters);
+		_settings.setEnvelopeParameters(envelopeParameters);
 	}
 
 	void EdenSynthesiserImpl::setCutoff(float cutoff)

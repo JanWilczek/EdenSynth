@@ -3,6 +3,7 @@
 /// \date 06.11.2018
 /// 
 #include "settings/Settings.h"
+#include "eden/EnvelopeParameters.h"
 
 namespace eden::settings
 {
@@ -42,5 +43,10 @@ namespace eden::settings
 	void Settings::setResonance(float resonance)
 	{
 		_subtractiveModuleSettings->setResonance(resonance);
+	}
+
+	void Settings::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
+	{
+		_envelopeSettings->setEnvelopeParameters(envelopeParameters);
 	}
 }

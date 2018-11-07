@@ -9,26 +9,30 @@
 #include "settings/SubtractiveModuleSettings.h"
 #include "settings/WaveshapingModuleSettings.h"
 
-namespace eden::synth
+namespace eden
 {
-	namespace wavetable
-	{
-		class SignalGenerator;
-	}
+	struct EnvelopeParameters;
 
-	namespace subtractive
-	{
-		class SubtractiveModule;
-	}
+	namespace synth {
+		namespace wavetable
+		{
+			class SignalGenerator;
+		}
 
-	namespace waveshaping
-	{
-		class WaveshapingModule;
-	}
+		namespace subtractive
+		{
+			class SubtractiveModule;
+		}
 
-	namespace envelope
-	{
-		class Envelope;
+		namespace waveshaping
+		{
+			class WaveshapingModule;
+		}
+
+		namespace envelope
+		{
+			class Envelope;
+		}
 	}
 }
 
@@ -46,6 +50,8 @@ namespace eden::settings
 
 		void setCutoff(float cutoff);
 		void setResonance(float resonance);
+
+		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
 	private:
 		std::unique_ptr<GeneratorSettings> _generatorSettings;
