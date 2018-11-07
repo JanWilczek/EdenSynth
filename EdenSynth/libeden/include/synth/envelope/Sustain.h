@@ -17,5 +17,9 @@ namespace eden::synth::envelope
 		~Sustain() override = default;
 
 		bool hasEnded(SampleType currentLevel) override;
+
+		void setDuration(std::chrono::milliseconds duration) override;
+
+		void setGainCurve(std::unique_ptr<ISegmentGain> envelopeGain) override;
 	};
 }

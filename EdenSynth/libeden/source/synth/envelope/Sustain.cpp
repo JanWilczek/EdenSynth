@@ -16,4 +16,12 @@ namespace eden::synth::envelope
 	{
 		return false;
 	}
+
+	void Sustain::setDuration(std::chrono::milliseconds duration)
+	{	
+	}
+
+	void Sustain::setGainCurve(std::unique_ptr<ISegmentGain> envelopeGain)
+	{
+	}
 }

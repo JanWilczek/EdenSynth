@@ -13,7 +13,7 @@ namespace eden::synth::envelope
 		, _initialLevel(initialLevel)
 		, _finalLevel(finalLevel)
 	{
-		_envelopeGain->calculateGain(_sampleRate, _duration, _initialLevel, _finalLevel);
+		calculateGain();
 	}
 
 	EnvelopeSegment::~EnvelopeSegment()
@@ -25,9 +25,26 @@ namespace eden::synth::envelope
 		_envelopeGain->applyAndUpdateGain(currentLevel);
 	}
 
+	void EnvelopeSegment::setDuration(std::chrono::milliseconds duration)
+	{
+		_duration = duration;
+		calculateGain();
+	}
+
+	void EnvelopeSegment::setGainCurve(std::unique_ptr<ISegmentGain> envelopeGain)
+	{
+		_envelopeGain = std::move(envelopeGain);
+		calculateGain();
+	}
+
 	void EnvelopeSegment::setSampleRate(double sampleRate)
 	{
 		_sampleRate = sampleRate;
+		calculateGain();
+	}
+
+	void EnvelopeSegment::calculateGain()
+	{
 		_envelopeGain->calculateGain(_sampleRate, _duration, _initialLevel, _finalLevel);
 	}
 }

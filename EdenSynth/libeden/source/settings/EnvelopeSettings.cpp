@@ -42,5 +42,8 @@ namespace eden::settings
 		auto currentParameters = std::dynamic_pointer_cast<ADBDRParameters>(_currentParameters);
 
 		// set envelope parameters
+		for (auto envelope : _envelopes)
+		{
+		}
 	}
 }

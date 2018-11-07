@@ -32,7 +32,14 @@ namespace eden::synth::envelope
 		/// <returns>true if current value of envelope means that current segment has ended, false otherwise</returns>
 		virtual bool hasEnded(SampleType currentLevel) = 0;
 
+		virtual void setDuration(std::chrono::milliseconds duration);
+
+		virtual void setGainCurve(std::unique_ptr<ISegmentGain> envelopeGain);
+
 		virtual void setSampleRate(double sampleRate);
+
+	private:
+		void calculateGain();
 
 	protected:
 		double _sampleRate;

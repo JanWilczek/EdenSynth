@@ -26,12 +26,22 @@ namespace eden::synth::envelope
 
 	void ADBDR::keyOn()
 	{
-		switchToSegment(0);
+		switchToSegment(static_cast<int>(ADBDRSegments::Attack));;
 	}
 
 	void ADBDR::keyOff()
 	{
-		switchToSegment(_segments.size() - 2);
+		switchToSegment(static_cast<int>(ADBDRSegments::Release));;
+	}
+
+	void ADBDR::setSegmentTime(ADBDRSegments segment, std::chrono::milliseconds time)
+	{
+		_segments[static_cast<int>(segment)]->setDuration(time);
+	}
+
+	void ADBDR::setSegmentCurve(ADBDRSegments segment, EnvelopeSegmentCurve curve)
+	{
+		_segments[static_cast<int>(segment)]->setGainCurve(SegmentGainFactory::createSegmentGain(curve));
 	}
 
 	void ADBDR::checkForEnd(unsigned currentSampleIndex)

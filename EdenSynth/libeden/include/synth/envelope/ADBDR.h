@@ -10,11 +10,21 @@
 
 namespace eden
 {
+	enum class EnvelopeSegmentCurve;
 	struct ADBDRParameters;
 }
 
 namespace eden::synth::envelope
 {
+	enum class ADBDRSegments
+	{
+		Attack = 0,
+		Decay1 = 1,
+		Decay2 = 2,
+		Release = 3,
+		Silence = 4
+	};
+
 	/// <summary>
 	/// Attack Decay1 Break Decay2 Release envelope. Similar to ADSR envelope, but contains Decay2 instead of Sustain
 	/// and therefore is better for simulating piano-like envelope - one which fades slowly with the key pressed.
@@ -27,6 +37,9 @@ namespace eden::synth::envelope
 
 		void keyOn() override;
 		void keyOff() override;
+
+		void setSegmentTime(ADBDRSegments segment, std::chrono::milliseconds time);
+		void setSegmentCurve(ADBDRSegments segment, EnvelopeSegmentCurve curve);
 
 	protected:
 		void checkForEnd(unsigned currentSampleIndex) override;
