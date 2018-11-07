@@ -13,6 +13,7 @@ public:
 	FilterComponent(AudioProcessorValueTreeState& valueTreeState);
 
 	void paint(Graphics& g) override;
+	void resized() override;
 
 private:
 	Label _cutoffLabel;

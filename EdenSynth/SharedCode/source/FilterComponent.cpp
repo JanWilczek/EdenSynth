@@ -26,7 +26,10 @@ void FilterComponent::paint(Graphics& g)
 {
 	g.setColour(getLookAndFeel().findColour(Slider::ColourIds::textBoxOutlineColourId));
 	g.drawRect(getBounds(), 5);
+}
 
+void FilterComponent::resized()
+{
 	_cutoffLabel.setBounds(5, 5, 80, 20);
 	_cutoff.setBounds(5, 25, 80, 80);
 
