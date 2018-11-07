@@ -47,4 +47,14 @@ namespace eden
 	{
 		_synthesiser.setEnvelope(envelopeParameters);
 	}
+
+	void EdenSynthesiserImpl::setCutoff(float cutoff)
+	{
+		_settings.setCutoff(cutoff);
+	}
+
+	void EdenSynthesiserImpl::setResonance(float resonance)
+	{
+		_settings.setResonance(resonance);
+	}
 }

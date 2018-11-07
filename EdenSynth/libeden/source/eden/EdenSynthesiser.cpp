@@ -42,4 +42,14 @@ namespace eden
 	{
 		_impl->setEnvelope(envelopeParameters);
 	}
+
+	void EdenSynthesiser::setCutoff(float cutoff)
+	{
+		_impl->setCutoff(cutoff);
+	}
+
+	void EdenSynthesiser::setResonance(float resonance)
+	{
+		_impl->setResonance(resonance);
+	}
 }

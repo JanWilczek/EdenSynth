@@ -33,4 +33,14 @@ namespace eden::settings
 	{
 		_envelopeSettings->registerEnvelope(envelope);
 	}
+
+	void Settings::setCutoff(float cutoff)
+	{
+		_subtractiveModuleSettings->setCutoff(cutoff);
+	}
+
+	void Settings::setResonance(float resonance)
+	{
+		_subtractiveModuleSettings->setResonance(resonance);
+	}
 }

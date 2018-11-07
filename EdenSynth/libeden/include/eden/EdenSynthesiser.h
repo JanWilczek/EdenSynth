@@ -57,6 +57,10 @@ namespace eden
 		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
 		void setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
+		void setCutoff(float cutoff);
+
+		void setResonance(float resonance);
+
 	private:
 		/// <summary>
 		/// Internal implementation.

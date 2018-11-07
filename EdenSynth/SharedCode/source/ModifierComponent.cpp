@@ -14,7 +14,8 @@ ModifierComponent::ModifierComponent(AudioProcessorValueTreeState& valueTreeStat
 
 void ModifierComponent::paint(Graphics& g)
 {
-	g.fillAll(Colours::yellow);
+	g.setColour(getLookAndFeel().findColour(Slider::ColourIds::rotarySliderOutlineColourId));
+	g.drawRect(getBounds(), 2);
 }
 
 void ModifierComponent::resized()

@@ -44,6 +44,9 @@ namespace eden::settings
 		void registerWaveshapingModule(std::shared_ptr<synth::waveshaping::WaveshapingModule> waveshapingModule);
 		void registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope);
 
+		void setCutoff(float cutoff);
+		void setResonance(float resonance);
+
 	private:
 		std::unique_ptr<GeneratorSettings> _generatorSettings;
 		std::unique_ptr<SubtractiveModuleSettings> _subtractiveModuleSettings;

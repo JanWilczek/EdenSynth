@@ -27,6 +27,6 @@ namespace eden_vst
 		static eden::MidiBuffer convertToEdenMidi(const juce::MidiBuffer& juceMidiBuffer);
 
 		static void addEdenParameters(const eden::EdenSynthesiser& edenSynthesiser, AudioProcessorValueTreeState& pluginParameters);
-		static void updateEdenParameters(const eden::EdenSynthesiser& edenSynthesiser, AudioProcessorValueTreeState& pluginParameters);
+		static void updateEdenParameters(eden::EdenSynthesiser& edenSynthesiser, const AudioProcessorValueTreeState& pluginParameters);
 	};
 }

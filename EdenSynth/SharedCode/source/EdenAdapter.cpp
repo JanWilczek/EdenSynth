@@ -4,6 +4,7 @@
 /// 
 #include "EdenAdapter.h"
 #include "eden/MidiBuffer.h"
+#include "eden/EdenSynthesiser.h"
 
 namespace eden_vst
 {
@@ -39,11 +40,13 @@ namespace eden_vst
 
 	void EdenAdapter::addEdenParameters(const eden::EdenSynthesiser& edenSynthesiser, AudioProcessorValueTreeState& pluginParameters)
 	{
-		
+		pluginParameters.createAndAddParameter("filter.cutoff", "Cutoff", String(), NormalisableRange<float>(0.f, 0.5f, 0.01f), 0.49f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("filter.resonance", "Resonance", String(), NormalisableRange<float>(0.5f, 5.0f), 1.f, nullptr, nullptr);
 	}
 
-	void EdenAdapter::updateEdenParameters(const eden::EdenSynthesiser& edenSynthesiser, AudioProcessorValueTreeState& pluginParameters)
+	void EdenAdapter::updateEdenParameters(eden::EdenSynthesiser& edenSynthesiser, const AudioProcessorValueTreeState& pluginParameters)
 	{
-		
+		edenSynthesiser.setCutoff(pluginParameters.getParameterAsValue("filter.cutoff").getValue());
+		edenSynthesiser.setResonance(pluginParameters.getParameterAsValue("filter.resonance").getValue());
 	}
 }

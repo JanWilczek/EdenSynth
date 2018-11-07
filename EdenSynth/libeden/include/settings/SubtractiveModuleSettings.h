@@ -18,7 +18,12 @@ namespace eden::settings
 	public:
 		void registerSubtractiveModule(std::shared_ptr<synth::subtractive::SubtractiveModule> subtractiveModule);
 
+		void setCutoff(float cutoff);
+		void setResonance(float resonance);
+
 	private:
 		std::vector<std::shared_ptr<synth::subtractive::SubtractiveModule>> _subtractiveModules;
+		float _cutoff;
+		float _resonance;
 	};
 }
