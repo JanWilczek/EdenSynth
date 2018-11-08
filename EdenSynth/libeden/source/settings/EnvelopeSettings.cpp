@@ -5,6 +5,7 @@
 #include "settings/EnvelopeSettings.h"
 #include "synth/envelope/Envelope.h"
 #include "utility/EdenAssert.h"
+#include "synth/envelope/ADBDR.h"
 
 namespace eden::settings
 {
@@ -42,8 +43,83 @@ namespace eden::settings
 		auto currentParameters = std::dynamic_pointer_cast<ADBDRParameters>(_currentParameters);
 
 		// set envelope parameters
-		for (auto envelope : _envelopes)
+		if (adbdrParameters->attackTime != currentParameters->attackTime)
 		{
+			for (auto envelope : _envelopes)
+			{
+				auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(envelope);
+				adbdr->setSegmentTime(synth::envelope::ADBDR::ADBDRSegments::Attack, adbdrParameters->attackTime);
+			}
 		}
+		if (adbdrParameters->attackCurve != currentParameters->attackCurve)
+		{
+			for (auto envelope : _envelopes)
+			{
+				auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(envelope);
+				adbdr->setSegmentCurve(synth::envelope::ADBDR::ADBDRSegments::Attack, adbdrParameters->attackCurve);
+			}
+		}
+
+		if (adbdrParameters->decay1Time != currentParameters->decay1Time)
+		{
+			for (auto envelope : _envelopes)
+			{
+				auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(envelope);
+				adbdr->setSegmentTime(synth::envelope::ADBDR::ADBDRSegments::Decay1, adbdrParameters->decay1Time);
+			}
+		}
+		if (adbdrParameters->decay1Curve != currentParameters->decay1Curve)
+		{
+			for (auto envelope : _envelopes)
+			{
+				auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(envelope);
+				adbdr->setSegmentCurve(synth::envelope::ADBDR::ADBDRSegments::Decay1, adbdrParameters->decay1Curve);
+			}
+		}
+
+		if (adbdrParameters->decay2Time != currentParameters->decay2Time)
+		{
+			for (auto envelope : _envelopes)
+			{
+				auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(envelope);
+				adbdr->setSegmentTime(synth::envelope::ADBDR::ADBDRSegments::Decay2, adbdrParameters->decay2Time);
+			}
+		}
+		if (adbdrParameters->decay2Curve != currentParameters->decay2Curve)
+		{
+			for (auto envelope : _envelopes)
+			{
+				auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(envelope);
+				adbdr->setSegmentCurve(synth::envelope::ADBDR::ADBDRSegments::Decay2, adbdrParameters->decay2Curve);
+			}
+		}
+
+		if (adbdrParameters->releaseTime != currentParameters->releaseTime)
+		{
+			for (auto envelope : _envelopes)
+			{
+				auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(envelope);
+				adbdr->setSegmentTime(synth::envelope::ADBDR::ADBDRSegments::Release, adbdrParameters->releaseTime);
+			}
+		}
+		if (adbdrParameters->releaseCurve != currentParameters->releaseCurve)
+		{
+			for (auto envelope : _envelopes)
+			{
+				auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(envelope);
+				adbdr->setSegmentCurve(synth::envelope::ADBDR::ADBDRSegments::Release, adbdrParameters->releaseCurve);
+			}
+		}
+
+		if (adbdrParameters->breakLevel != currentParameters->breakLevel)
+		{
+			for (auto envelope : _envelopes)
+			{
+				auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(envelope);
+				adbdr->setBreakLevel(adbdrParameters->breakLevel);
+			}
+		}
+
+		_currentParameters = adbdrParameters;
 	}
 }

@@ -37,6 +37,18 @@ namespace eden::synth::envelope
 		calculateGain();
 	}
 
+	void EnvelopeSegment::setInitialLevel(SampleType initialLevel)
+	{
+		_initialLevel = initialLevel;
+		calculateGain();
+	}
+
+	void EnvelopeSegment::setFinalLevel(SampleType finalLevel)
+	{
+		_finalLevel = finalLevel;
+		calculateGain();
+	}
+
 	void EnvelopeSegment::setSampleRate(double sampleRate)
 	{
 		_sampleRate = sampleRate;

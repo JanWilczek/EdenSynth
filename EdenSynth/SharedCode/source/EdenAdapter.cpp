@@ -85,7 +85,7 @@ namespace eden_vst
 
 			adbdrParameters.breakLevel = pluginParameters.getParameterAsValue("envelope.adbdr.breakLevel").getValue();
 
-			edenSynthesiser.setEnvelopeParameters(std::make_shared<eden::EnvelopeParameters>(adbdrParameters));
+			edenSynthesiser.setEnvelopeParameters(std::make_shared<eden::ADBDRParameters>(adbdrParameters));
 		}
 	}
 }

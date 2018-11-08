@@ -36,6 +36,10 @@ namespace eden::synth::envelope
 
 		virtual void setGainCurve(std::unique_ptr<ISegmentGain> envelopeGain);
 
+		virtual void setInitialLevel(SampleType initialLevel);
+
+		virtual void setFinalLevel(SampleType finalLevel);
+
 		virtual void setSampleRate(double sampleRate);
 
 	private:

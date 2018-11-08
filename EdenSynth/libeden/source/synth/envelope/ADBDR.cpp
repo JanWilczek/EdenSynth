@@ -44,6 +44,13 @@ namespace eden::synth::envelope
 		_segments[static_cast<int>(segment)]->setGainCurve(SegmentGainFactory::createSegmentGain(curve));
 	}
 
+	void ADBDR::setBreakLevel(SampleType breakLevel)
+	{
+		_decay1.setFinalLevel(breakLevel);
+		_decay2.setInitialLevel(breakLevel);
+		_release.setInitialLevel(breakLevel);
+	}
+
 	void ADBDR::checkForEnd(unsigned currentSampleIndex)
 	{
 		if (_currentSegment >= _segments.size() - 1)
