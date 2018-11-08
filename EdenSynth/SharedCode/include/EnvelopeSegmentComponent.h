@@ -19,9 +19,6 @@ public:
 
 	void resized() override;
 
-	//std::chrono::milliseconds getTime() const;
-	//eden::EnvelopeSegmentCurve getCurve() const;
-
 private:
 	Slider _time;
 	std::unique_ptr<SliderAttachment> _timeAttachment;
