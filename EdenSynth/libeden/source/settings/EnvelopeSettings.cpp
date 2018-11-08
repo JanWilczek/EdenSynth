@@ -34,7 +34,8 @@ namespace eden::settings
 		}
 		else
 		{
-			// switch to new envelope
+			// switch to new envelope - TODO: unimplemented.
+			EDEN_ASSERT(false);
 		}
 	}
 

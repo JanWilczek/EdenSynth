@@ -15,7 +15,6 @@ public:
 
 	void paint(Graphics& g) override;
 	void resized() override;
-	//void onParameterChanged();
 
 private:
 	EnvelopeSegmentComponent _attack;
@@ -23,6 +22,7 @@ private:
 	EnvelopeSegmentComponent _decay2;
 	EnvelopeSegmentComponent _release;
 
+	Label _breakLevelLabel{"breakLevelLabel", "Break level"};
 	Slider _breakLevel;
 	std::unique_ptr<SliderAttachment> _breakLevelAttachment;
 };

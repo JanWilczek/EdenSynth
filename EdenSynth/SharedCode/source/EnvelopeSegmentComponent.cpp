@@ -4,13 +4,17 @@
 /// 
 #include "EnvelopeSegmentComponent.h"
 #include "EnvelopeComponent.h"
-#include <string>
+#include "eden/EnvelopeParameters.h"
 
-EnvelopeSegmentComponent::EnvelopeSegmentComponent(AudioProcessorValueTreeState& valueTreeState, String timeParameterID, String curveParameterID)
-	: _time(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
+EnvelopeSegmentComponent::EnvelopeSegmentComponent(AudioProcessorValueTreeState& valueTreeState, String segmentLabel, String timeParameterID, String curveParameterID)
+	: _segmentName(segmentLabel.toLowerCase().replaceCharacters(" ", ""), segmentLabel)
+	, _time(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 	, _curve("EnvelopeSegmentCurve")
 {
-	_time.onValueChange = [this]() { _time.setTooltip(std::to_string(_time.getValue()) + " ms"); };
+	_segmentName.setJustificationType(Justification::horizontallyCentred);
+	addAndMakeVisible(_segmentName);
+
+	_time.setPopupDisplayEnabled(true, false, this);
 	addAndMakeVisible(_time);
 	_timeAttachment = std::make_unique<SliderAttachment>(valueTreeState, timeParameterID, _time);
 
@@ -23,6 +27,7 @@ EnvelopeSegmentComponent::EnvelopeSegmentComponent(AudioProcessorValueTreeState&
 
 void EnvelopeSegmentComponent::resized()
 {
-	_time.setBounds(0, 0, getWidth(), getHeight() - 30);
-	_curve.setBounds(0, _time.getHeight(), getWidth(), getHeight() - _time.getHeight());
+	_segmentName.setBounds(0, 0, getWidth(), 20);
+	_time.setBounds(0, _segmentName.getHeight(), getWidth(), getHeight() - _segmentName.getHeight() - 30);
+	_curve.setBounds(0, _time.getY() + _time.getHeight(), getWidth(), getHeight() - _segmentName.getHeight() - _time.getHeight());
 }

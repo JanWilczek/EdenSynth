@@ -5,10 +5,10 @@
 #include "EnvelopeComponent.h"
 
 EnvelopeComponent::EnvelopeComponent(AudioProcessorValueTreeState& valueTreeState)
-	: _attack(valueTreeState, "envelope.adbdr.attack.time", "envelopeadbdr.attack.curve")
-	, _decay1(valueTreeState, "envelope.adbdr.decay1.time", "envelopeadbdr.decay1.curve")
-	, _decay2(valueTreeState, "envelope.adbdr.decay2.time", "envelopeadbdr.decay2.curve")
-	, _release(valueTreeState, "envelope.adbdr.release.time", "envelopeadbdr.release.curve")
+	: _attack(valueTreeState, "Attack", "envelope.adbdr.attack.time", "envelopeadbdr.attack.curve")
+	, _decay1(valueTreeState, "Decay 1", "envelope.adbdr.decay1.time", "envelopeadbdr.decay1.curve")
+	, _decay2(valueTreeState, "Decay 2", "envelope.adbdr.decay2.time", "envelopeadbdr.decay2.curve")
+	, _release(valueTreeState, "Release", "envelope.adbdr.release.time", "envelopeadbdr.release.curve")
 	, _breakLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
 	addAndMakeVisible(_attack);
@@ -16,9 +16,10 @@ EnvelopeComponent::EnvelopeComponent(AudioProcessorValueTreeState& valueTreeStat
 	addAndMakeVisible(_decay2);
 	addAndMakeVisible(_release);
 	
-	//_breakLevel.setNormalisableRange(NormalisableRange<double>(0., 1., 0.01));
-	//_breakLevel.onValueChange = [this]() { onParameterChanged(); };
+	_breakLevelLabel.setJustificationType(Justification::horizontallyCentred);
+	addAndMakeVisible(_breakLevelLabel);
 	addAndMakeVisible(_breakLevel);
+	_breakLevel.setPopupDisplayEnabled(true, false, this);
 	_breakLevelAttachment = std::make_unique<SliderAttachment>(valueTreeState, "envelope.adbdr.breakLevel", _breakLevel);
 }
 
@@ -34,10 +35,7 @@ void EnvelopeComponent::resized()
 	_decay1.setBounds(_attack.getX() + _attack.getWidth(), _attack.getY(), _attack.getWidth(), _attack.getHeight());
 	_decay2.setBounds(_decay1.getX() + _attack.getWidth(), _attack.getY(), _attack.getWidth(), _attack.getHeight());
 	_release.setBounds(_decay2.getX() + _attack.getWidth(), _attack.getY(), _attack.getWidth(), _attack.getHeight());
-	_breakLevel.setBounds(_release.getX() + _attack.getWidth(), _attack.getY(), _attack.getWidth(), _attack.getHeight());
+	
+	_breakLevelLabel.setBounds(_release.getX() + _attack.getWidth(), _attack.getY(), _attack.getWidth(), 20);
+	_breakLevel.setBounds(_release.getX() + _attack.getWidth(), _breakLevelLabel.getY() + _breakLevelLabel.getHeight(), _attack.getWidth(), _attack.getHeight() - _breakLevelLabel.getHeight());
 }
-//
-//void EnvelopeComponent::onParameterChanged()
-//{
-//	
-//}
