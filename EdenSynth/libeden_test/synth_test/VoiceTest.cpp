@@ -43,8 +43,8 @@ namespace libeden_test
 	{
 		constexpr int noteNumber = 69;
 
-		_voice->setEnvelope(std::make_unique<eden::synth::envelope::ADBDR>(SAMPLE_RATE, eden::ADBDRParameters(10ms, eden::EnvelopeSegmentCurve::Linear,
-			10ms, eden::EnvelopeSegmentCurve::Linear, 100000ms, eden::EnvelopeSegmentCurve::Linear, 1ms, eden::EnvelopeSegmentCurve::Linear, eden::SampleType(0.9))));
+		_settings.setEnvelopeParameters(std::make_shared<eden::ADBDRParameters>(10ms, eden::EnvelopeSegmentCurve::Linear,
+			10ms, eden::EnvelopeSegmentCurve::Linear, 100000ms, eden::EnvelopeSegmentCurve::Linear, 1ms, eden::EnvelopeSegmentCurve::Linear, eden::SampleType(0.9)));
 		_voice->startNote(noteNumber, 1.0f);
 
 		EXPECT_TRUE(_voice->isPlaying());
@@ -83,7 +83,7 @@ namespace libeden_test
 
 		_voice->setSampleRate(sampleRate);
 		_voice->setBlockLength(250u);
-		_voice->setEnvelope(std::make_unique<eden::synth::envelope::ADBDR>(sampleRate, eden::ADBDRParameters(segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, breakLevel)));
+		_settings.setEnvelopeParameters(std::make_shared<eden::ADBDRParameters>(segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, breakLevel));
 		_voice->setWaveTable({ 1.f, 1.f });
 
 		EXPECT_DOUBLE_EQ(_voice->getSampleRate(), sampleRate);

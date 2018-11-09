@@ -68,13 +68,6 @@ namespace eden::synth
 		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
 		void setWaveTable(std::vector<SampleType> waveTable);
 
-		/// <summary>
-		/// Sets new envelope of sound - the information about volume change in time in relation
-		/// to keyboard events.
-		/// </summary>
-		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
-		void setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters);
-
 	private:
 		/// <summary>
 		/// Changes internal state based on received MIDI message. E.g. starts playing a note after note on message.

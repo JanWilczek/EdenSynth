@@ -84,13 +84,6 @@ namespace eden::synth
 		void setWaveTable(wavetable::WaveTable waveTable);
 
 		/// <summary>
-		/// Sets new envelope of sound - the information about volume change in time in relation
-		/// to keyboard events.
-		/// </summary>
-		/// <param name="envelope"></param>
-		void setEnvelope(std::unique_ptr<envelope::Envelope> envelope);
-
-		/// <summary>
 		/// Makes the voice available for a new note. Typically should be called when the envelope's release has ended.
 		/// </summary>
 		void finalizeVoice();

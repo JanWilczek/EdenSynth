@@ -100,14 +100,6 @@ namespace eden::synth
 		}
 	}
 
-	void Synthesiser::setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters)
-	{
-		for (auto& voice : _voices)
-		{
-			voice->setEnvelope(envelope::EnvelopeFactory::createEnvelope(_sampleRate, envelopeParameters));
-		}
-	}
-
 	void Synthesiser::handleMidiMessage(MidiMessage& midiMessage)
 	{
 		const int channel = midiMessage.getChannel();
