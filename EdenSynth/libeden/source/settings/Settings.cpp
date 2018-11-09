@@ -4,6 +4,7 @@
 /// 
 #include "settings/Settings.h"
 #include "eden/EnvelopeParameters.h"
+#include "synth/wavetable/WaveTable.h"
 
 namespace eden::settings
 {
@@ -33,6 +34,11 @@ namespace eden::settings
 	void Settings::registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope)
 	{
 		_envelopeSettings->registerEnvelope(envelope);
+	}
+
+	void Settings::setWaveTable(synth::wavetable::WaveTable waveTable)
+	{
+		_generatorSettings->setWaveTable(waveTable);
 	}
 
 	void Settings::setCutoff(float cutoff)

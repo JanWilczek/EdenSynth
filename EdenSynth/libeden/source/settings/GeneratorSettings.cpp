@@ -11,4 +11,12 @@ namespace eden::settings
 	{
 		_signalGenerators.push_back(signalGenerator);
 	}
+
+	void GeneratorSettings::setWaveTable(synth::wavetable::WaveTable waveTable)
+	{
+		for (auto generator : _signalGenerators)
+		{
+			generator->setWaveTable(waveTable);
+		}
+	}
 }

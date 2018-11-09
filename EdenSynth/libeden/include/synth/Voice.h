@@ -78,12 +78,6 @@ namespace eden::synth
 		void setBlockLength(unsigned samplesPerBlock);
 
 		/// <summary>
-		/// Set the wave table to be played.
-		/// </summary>
-		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
-		void setWaveTable(wavetable::WaveTable waveTable);
-
-		/// <summary>
 		/// Makes the voice available for a new note. Typically should be called when the envelope's release has ended.
 		/// </summary>
 		void finalizeVoice();

@@ -40,7 +40,7 @@ namespace eden
 
 	void EdenSynthesiserImpl::setWaveTable(std::vector<SampleType> waveTable)
 	{
-		_synthesiser.setWaveTable(waveTable);
+		_settings.setWaveTable(waveTable);
 	}
 
 	void EdenSynthesiserImpl::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)

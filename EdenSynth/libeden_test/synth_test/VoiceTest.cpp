@@ -84,7 +84,7 @@ namespace libeden_test
 		_voice->setSampleRate(sampleRate);
 		_voice->setBlockLength(250u);
 		_settings.setEnvelopeParameters(std::make_shared<eden::ADBDRParameters>(segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, breakLevel));
-		_voice->setWaveTable({ 1.f, 1.f });
+		_settings.setWaveTable({ 1.f, 1.f });
 
 		EXPECT_DOUBLE_EQ(_voice->getSampleRate(), sampleRate);
 		EXPECT_FALSE(_voice->isPlaying());

@@ -105,11 +105,6 @@ namespace eden::synth
 		}
 	}
 
-	void Voice::setWaveTable(wavetable::WaveTable waveTable)
-	{
-		_signalGenerator->setWaveTable(waveTable);
-	}
-
 	void Voice::finalizeVoice()
 	{
 		_signalGenerator->stop();

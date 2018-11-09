@@ -92,14 +92,6 @@ namespace eden::synth
 		}
 	}
 
-	void Synthesiser::setWaveTable(std::vector<SampleType> waveTable)
-	{
-		for (auto& voice : _voices)
-		{
-			voice->setWaveTable(waveTable);
-		}
-	}
-
 	void Synthesiser::handleMidiMessage(MidiMessage& midiMessage)
 	{
 		const int channel = midiMessage.getChannel();
