@@ -2,19 +2,19 @@
 /// \author Jan Wilczek
 /// \date 20.10.2018
 /// 
-#include "synth/wavetable/Waveform.h"
+#include "synth/wavetable/WaveTableSource.h"
 #include "utility/MathConstants.h"
 #include "utility/EdenAssert.h"
 
 namespace eden::synth::wavetable
 {
-	Waveform::Waveform(WaveTable waveTable, std::shared_ptr<interpolation::IInterpolator> interpolator)
+	WaveTableSource::WaveTableSource(WaveTable waveTable, std::shared_ptr<interpolation::IInterpolator> interpolator)
 		: _waveTable(waveTable)
 		, _interpolator(interpolator)
 	{
 	}
 
-	SampleType Waveform::operator()(double phase) const
+	SampleType WaveTableSource::operator()(double phase) const
 	{
 		const int num2PI = static_cast<int>(phase / (2 * math_constants::PI));
 		phase -= num2PI * 2 * math_constants::PI;
@@ -26,12 +26,12 @@ namespace eden::synth::wavetable
 		return _interpolator->interpolate(_waveTable, index);
 	}
 
-	void Waveform::setWaveTable(WaveTable waveTable)
+	void WaveTableSource::setWaveTable(WaveTable waveTable)
 	{
 		_waveTable = waveTable;
 	}
 
-	void Waveform::setInterpolator(std::shared_ptr<interpolation::IInterpolator> interpolator)
+	void WaveTableSource::setInterpolator(std::shared_ptr<interpolation::IInterpolator> interpolator)
 	{
 		_interpolator = interpolator;
 	}

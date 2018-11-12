@@ -144,9 +144,6 @@
     <ClInclude Include="include\utility\TimeSampleConverter.h">
       <Filter>Header Files\utility</Filter>
     </ClInclude>
-    <ClInclude Include="include\synth\wavetable\Waveform.h">
-      <Filter>Header Files\synth\wavetable</Filter>
-    </ClInclude>
     <ClInclude Include="include\synth\wavetable\WaveTable.h">
       <Filter>Header Files\synth\wavetable</Filter>
     </ClInclude>
@@ -191,6 +188,27 @@
     </ClInclude>
     <ClInclude Include="include\settings\EnvelopeSettings.h">
       <Filter>Header Files\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\Oscillator.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden_impl\OscillatorImpl.h">
+      <Filter>Header Files\eden_impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\OscillatorSource.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\OscillatorParameters.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\SynthOscillator.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\IOscillatorSource.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\WaveTableSource.h">
+      <Filter>Header Files\synth\wavetable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -257,9 +275,6 @@
     <ClCompile Include="source\interpolation\LinearInterpolator.cpp">
       <Filter>Source Files\interpolation</Filter>
     </ClCompile>
-    <ClCompile Include="source\synth\wavetable\Waveform.cpp">
-      <Filter>Source Files\synth\wavetable</Filter>
-    </ClCompile>
     <ClCompile Include="source\utility\WaveFileReader.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
@@ -283,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="source\settings\EnvelopeSettings.cpp">
       <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp">
+      <Filter>Source Files\synth\wavetable</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

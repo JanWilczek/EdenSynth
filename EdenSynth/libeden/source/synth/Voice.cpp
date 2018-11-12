@@ -57,6 +57,8 @@ namespace eden::synth
 			applyVelocity(_innerBlock, startSample, samplesToRender);
 
 			mixTo(outputBuffer, startSample, samplesToRender);
+
+			clearInnerBlock(startSample, samplesToRender);
 		}
 	}
 
@@ -152,6 +154,14 @@ namespace eden::synth
 				EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
 			}
 		});
+	}
+
+	void Voice::clearInnerBlock(int startSample, int samplesToClear)
+	{
+		for (auto sample = startSample; sample < startSample + samplesToClear; ++sample)
+		{
+			_innerBlock[sample] = SampleType(0);
+		}
 	}
 
 	void Voice::registerModules(settings::Settings& settings)

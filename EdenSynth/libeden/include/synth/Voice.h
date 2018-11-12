@@ -113,6 +113,8 @@ namespace eden::synth
 		/// <param name="samplesToMix"></param>
 		void mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix);
 
+		void clearInnerBlock(int startSample, int samplesToClear);
+
 		void registerModules(settings::Settings& settings);
 
 		double _sampleRate;

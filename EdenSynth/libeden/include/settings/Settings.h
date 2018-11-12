@@ -9,6 +9,7 @@
 #include "settings/SubtractiveModuleSettings.h"
 #include "settings/WaveshapingModuleSettings.h"
 #include "synth/wavetable/WaveTable.h"
+#include "eden/OscillatorParameters.h"
 
 namespace eden
 {
@@ -19,7 +20,7 @@ namespace eden
 		namespace wavetable
 		{
 			class SignalGenerator;
-			//class WaveTable;
+			class IOscillatorSource;
 		}
 
 		namespace subtractive
@@ -51,7 +52,14 @@ namespace eden::settings
 		void registerWaveshapingModule(std::shared_ptr<synth::waveshaping::WaveshapingModule> waveshapingModule);
 		void registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope);
 
-		void setWaveTable(synth::wavetable::WaveTable waveTable);
+		OscillatorId getAvailableOscillatorId();
+
+		//void setGenerator(OscillatorId oscillatorId, WaveformGenerators generatorName);
+		//void setWaveTable(OscillatorId oscillatorId, synth::wavetable::WaveTable waveTable);
+		void setOscillatorSource(OscillatorId, std::shared_ptr<synth::wavetable::IOscillatorSource> source);
+		void setOctaveTransposition(OscillatorId oscillatorId, int octaveShift);
+		void setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift);
+		void setCentTransposition(OscillatorId oscillatorId, int centShift);
 
 		void setCutoff(float cutoff);
 		void setResonance(float resonance);

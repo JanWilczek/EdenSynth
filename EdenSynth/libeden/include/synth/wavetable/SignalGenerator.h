@@ -3,7 +3,10 @@
 /// \author Jan Wilczek
 /// \date 08.10.2018
 /// 
-#include "synth/wavetable/Waveform.h"
+#include <map>
+#include "synth/wavetable/WaveTableSource.h"
+#include "eden/OscillatorParameters.h"
+#include "synth/wavetable/SynthOscillator.h"
 
 namespace eden::synth::wavetable
 {
@@ -49,6 +52,16 @@ namespace eden::synth::wavetable
 		/// <param name="pitch"></param>
 		void setPitch(double pitch);
 
+		void addOscillator(SynthOscillator oscillator);
+		void removeOscillator(OscillatorId oscillatorToRemove);
+
+		void setOscillatorSource(OscillatorId oscillatorId, std::unique_ptr<IOscillatorSource> source);
+		void setOctaveTransposition(OscillatorId oscillatorId, int octaveShift);
+		void setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift);
+		void setCentTransposition(OscillatorId oscillatorId, int centShift);
+
+		void setPitchBendRange(std::pair<float, float> pitchBendRange);
+		
 		void setSampleRate(double sampleRate);
 
 	private:
@@ -73,8 +86,10 @@ namespace eden::synth::wavetable
 		double _sampleRate;
 
 		/// <summary>
-		/// Waveform to base the generated signal on.
+		/// WaveTableSource to base the generated signal on.
 		/// </summary>
-		Waveform _signalSource;
+		WaveTableSource _signalSource;
+
+		std::map<OscillatorId, SynthOscillator> _oscillators;
 	};
 }

@@ -7,6 +7,7 @@
 #include "eden/SampleType.h"
 #include "synth/wavetable/WaveTable.h"
 #include "interpolation/IInterpolator.h"
+#include "synth/wavetable/IOscillatorSource.h"
 
 namespace eden::synth::wavetable
 {
@@ -14,16 +15,17 @@ namespace eden::synth::wavetable
 	/// Class representing a continuous periodic signal basing on given discrete values and interpolator.
 	/// Its cycle's length is 2 * pi.
 	/// </summary>
-	class Waveform
+	class WaveTableSource : public IOscillatorSource
 	{
 	public:
 		/// <param name="waveTable">discrete values to interpolate from</param>
 		/// <param name="interpolator">interpolation method to use</param>
-		Waveform(WaveTable waveTable, std::shared_ptr<interpolation::IInterpolator> interpolator);
+		WaveTableSource(WaveTable waveTable, std::shared_ptr<interpolation::IInterpolator> interpolator);
+		~WaveTableSource() override = default;
 
 		/// <param name="phase"></param>
 		/// <returns>interpolated function's value at specified <paramref name="phase"></returns>
-		SampleType operator()(double phase) const;
+		SampleType operator()(float phase) override;
 
 		/// <param name="waveTable">discrete values to interpolate from upon the calls to <c>operator()</c></param>
 		void setWaveTable(WaveTable waveTable);

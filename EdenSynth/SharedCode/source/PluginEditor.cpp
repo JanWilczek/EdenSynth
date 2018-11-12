@@ -12,9 +12,6 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(EdenSynthAudioProce
 {
 	setSize(1000, 500);
 
-	_title.setFont(_titleFont);
-	addAndMakeVisible(&_title);
-
 	const auto path = _processor.getAssetsPath() / "wavetables";
 	auto i = 0;
 	for (auto& file : std::experimental::filesystem::directory_iterator(path))
@@ -44,8 +41,6 @@ void EdenSynthAudioProcessorEditor::paint(Graphics& g)
 
 void EdenSynthAudioProcessorEditor::resized()
 {
-	_title.setBounds(450, 450, 100, 20);
-	
 	_waveTables.setBounds(100, 100, 100, 100);
 
 	_generatorComponent.setBounds(120, 0, 380, 500);

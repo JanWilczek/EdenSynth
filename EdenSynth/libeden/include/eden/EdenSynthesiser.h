@@ -10,6 +10,9 @@ namespace eden
 {
 	class AudioBuffer;
 	class MidiBuffer;
+	class Oscillator;
+	class OscillatorSource;
+	enum class WaveformGenerators;
 	struct EnvelopeParameters;
 
 	/// <summary>
@@ -60,6 +63,8 @@ namespace eden
 		void setCutoff(float cutoff);
 
 		void setResonance(float resonance);
+
+		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillator);
 
 	private:
 		/// <summary>

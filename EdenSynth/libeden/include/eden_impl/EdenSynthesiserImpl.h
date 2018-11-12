@@ -10,6 +10,8 @@ namespace eden
 {
 	class AudioBuffer;
 	class MidiBuffer;
+	class OscillatorSource;
+	class Oscillator;
 	struct EnvelopeParameters;
 
 	/// <summary>
@@ -60,6 +62,8 @@ namespace eden
 		void setCutoff(float cutoff);
 
 		void setResonance(float resonance);
+
+		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillator);
 
 	private:
 		double _sampleRate = 48000;

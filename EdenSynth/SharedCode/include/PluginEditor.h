@@ -21,8 +21,6 @@ private:
 	// access the processor object that created it.
 	EdenSynthAudioProcessor& _processor;
 	
-	Label _title{ "headLabel", "Eden Synthesiser" };
-	Font _titleFont{ 12.0f };
 	ComboBox _waveTables;
 
 	GeneratorComponent _generatorComponent;
