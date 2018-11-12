@@ -213,6 +213,9 @@
     <ClInclude Include="include\synth\wavetable\WaveTableSource.h">
       <Filter>Header Files\synth\wavetable</Filter>
     </ClInclude>
+    <ClInclude Include="include\eden_impl\OscillatorSourceImpl.h">
+      <Filter>Header Files\eden_impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -311,10 +314,16 @@
     <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp">
       <Filter>Source Files\synth\wavetable</Filter>
     </ClCompile>
-    <ClCompile Include="source\eden_impl\Oscillator.cpp">
+    <ClCompile Include="source\eden_impl\OscillatorImpl.cpp">
       <Filter>Source Files\eden_impl</Filter>
     </ClCompile>
-    <ClCompile Include="source\eden_impl\OscillatorImpl.cpp">
+    <ClCompile Include="source\eden\Oscillator.cpp">
+      <Filter>Source Files\eden</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden\OscillatorSource.cpp">
+      <Filter>Source Files\eden</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden_impl\OscillatorSourceImpl.cpp">
       <Filter>Source Files\eden_impl</Filter>
     </ClCompile>
   </ItemGroup>
