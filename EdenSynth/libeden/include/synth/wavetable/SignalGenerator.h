@@ -4,7 +4,6 @@
 /// \date 08.10.2018
 /// 
 #include <map>
-#include "synth/wavetable/WaveTableSource.h"
 #include "eden/OscillatorParameters.h"
 #include "synth/wavetable/SynthOscillator.h"
 
@@ -22,7 +21,7 @@ namespace eden::synth::wavetable
 		/// Creates the generator with the default sine timbre.
 		/// </summary>
 		/// <param name="sampleRate"></param>
-		explicit SignalGenerator(double sampleRate);
+		explicit SignalGenerator();
 
 		/// <summary>
 		/// Fills the <paramref name="audioChannel"> from <paramref name="startSample">
@@ -39,18 +38,18 @@ namespace eden::synth::wavetable
 		/// Stops generating the signal - all subsequent calls to <c>generateSignal</c> will fill the channel
 		/// with zeros until new pitch is set.
 		/// </summary>
-		void stop();
+		//void stop();
 
 		/// <param name="waveTable">wave table of samples to create source signal from - it should be a signle cycle
 		/// of a waveform of any length</param>
-		void setWaveTable(WaveTable waveTable);
+		//void setWaveTable(WaveTable waveTable);
 
 		/// <summary>
 		/// Sets the pitch of the generator. From now on all calls to generateSignal will fill the
 		/// given channel with samples at specified pitch.
 		/// </summary>
 		/// <param name="pitch"></param>
-		void setPitch(double pitch);
+		void setPitch(float pitch);
 
 		void addOscillator(SynthOscillator oscillator);
 		void removeOscillator(OscillatorId oscillatorToRemove);
@@ -60,7 +59,7 @@ namespace eden::synth::wavetable
 		void setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift);
 		void setCentTransposition(OscillatorId oscillatorId, int centShift);
 
-		void setPitchBendRange(std::pair<float, float> pitchBendRange);
+		//void setPitchBendRange(std::pair<float, float> pitchBendRange);
 		
 		void setSampleRate(double sampleRate);
 
@@ -76,19 +75,19 @@ namespace eden::synth::wavetable
 		/// <summary>
 		/// Current phase in the waveform.
 		/// </summary>
-		double _currentPhase = 0.0;
+		//double _currentPhase = 0.0;
 
 		/// <summary>
 		/// The increase in phase with every generated sample.
 		/// </summary>
-		double _phaseDeltaPerSample = 0.0;
+		//double _phaseDeltaPerSample = 0.0;
 
-		double _sampleRate;
+		//double _sampleRate;
 
 		/// <summary>
-		/// WaveTableSource to base the generated signal on.
+		/// Waveform to base the generated signal on.
 		/// </summary>
-		WaveTableSource _signalSource;
+		//Waveform _signalSource;
 
 		std::map<OscillatorId, SynthOscillator> _oscillators;
 	};

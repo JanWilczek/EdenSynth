@@ -1,38 +1,42 @@
 /// 
 /// \author Jan Wilczek
-/// \date 20.10.2018
+/// \date 08.10.2018
 /// 
 #include "synth/wavetable/WaveTableSource.h"
+#include "synth/wavetable/SineWaveTable.h"
 #include "utility/MathConstants.h"
-#include "utility/EdenAssert.h"
+#include "interpolation/LinearInterpolator.h"
 
 namespace eden::synth::wavetable
 {
-	WaveTableSource::WaveTableSource(WaveTable waveTable, std::shared_ptr<interpolation::IInterpolator> interpolator)
-		: _waveTable(waveTable)
-		, _interpolator(interpolator)
+	WaveTableSource::WaveTableSource(float sampleRate)
+		: _sampleRate(sampleRate)
+		, _waveform(SineWaveTable, std::make_shared<interpolation::LinearInterpolator>())
 	{
 	}
 
-	SampleType WaveTableSource::operator()(double phase) const
+	SampleType WaveTableSource::getSample()
 	{
-		const int num2PI = static_cast<int>(phase / (2 * math_constants::PI));
-		phase -= num2PI * 2 * math_constants::PI;
+		const auto sample = _waveform(_currentPhase);
+		_currentPhase += _phaseDeltaPerSample;
+		return sample;
 
-		EDEN_ASSERT(phase >= 0 && phase < 2 * math_constants::PI);
-
-		const double index = (phase / (2 * math_constants::PI)) * _waveTable.size();
-
-		return _interpolator->interpolate(_waveTable, index);
 	}
 
 	void WaveTableSource::setWaveTable(WaveTable waveTable)
 	{
-		_waveTable = waveTable;
+		_waveform.setWaveTable(waveTable);
 	}
 
-	void WaveTableSource::setInterpolator(std::shared_ptr<interpolation::IInterpolator> interpolator)
+	void WaveTableSource::setPitch(float pitch)
 	{
-		_interpolator = interpolator;
+		const auto omega = 2.0 * math_constants::PI * pitch;
+		_phaseDeltaPerSample = omega / _sampleRate;
+	}
+
+	void WaveTableSource::setSampleRate(float sampleRate)
+	{
+		_phaseDeltaPerSample = _phaseDeltaPerSample * _sampleRate / sampleRate;
+		_sampleRate = sampleRate;
 	}
 }

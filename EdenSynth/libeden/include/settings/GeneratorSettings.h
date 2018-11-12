@@ -21,7 +21,7 @@ namespace eden::settings
 		void registerSignalGenerator(std::shared_ptr<synth::wavetable::SignalGenerator> signalGenerator);
 		
 		OscillatorId getAvailableOscillatorId();
-		void setWaveTable(synth::wavetable::WaveTable waveTable);
+		//void setWaveTable(synth::wavetable::WaveTable waveTable);
 
 	private:
 		std::vector<std::shared_ptr<synth::wavetable::SignalGenerator>> _signalGenerators;

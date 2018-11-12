@@ -15,7 +15,7 @@ namespace eden::synth
 {
 	Voice::Voice(settings::Settings& settings, double sampleRate)
 		: _sampleRate(sampleRate)
-		, _signalGenerator(std::make_shared<wavetable::SignalGenerator>(_sampleRate))
+		, _signalGenerator(std::make_shared<wavetable::SignalGenerator>())
 		, _subtractiveModule(std::make_shared<subtractive::SubtractiveModule>())
 		, _waveshapingModule(std::make_shared<waveshaping::WaveshapingModule>())
 		, _envelopeGenerator(std::make_shared<envelope::ADBDR>(_sampleRate, ADBDRParameters{}))
@@ -109,7 +109,6 @@ namespace eden::synth
 
 	void Voice::finalizeVoice()
 	{
-		_signalGenerator->stop();
 		_currentNote = -1;
 	}
 
@@ -124,7 +123,7 @@ namespace eden::synth
 	}
 
 
-	void Voice::setPitch(double newPitch)
+	void Voice::setPitch(float newPitch)
 	{
 		_signalGenerator->setPitch(newPitch);
 

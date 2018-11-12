@@ -207,6 +207,9 @@
     <ClInclude Include="include\synth\wavetable\IOscillatorSource.h">
       <Filter>Header Files\synth\wavetable</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\wavetable\Waveform.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
     <ClInclude Include="include\synth\wavetable\WaveTableSource.h">
       <Filter>Header Files\synth\wavetable</Filter>
     </ClInclude>
@@ -298,6 +301,12 @@
     </ClCompile>
     <ClCompile Include="source\settings\EnvelopeSettings.cpp">
       <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\SynthOscillator.cpp">
+      <Filter>Source Files\synth\wavetable</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\Waveform.cpp">
+      <Filter>Source Files\synth\wavetable</Filter>
     </ClCompile>
     <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp">
       <Filter>Source Files\synth\wavetable</Filter>

@@ -12,7 +12,9 @@ namespace eden::synth::wavetable
 	public:
 		virtual ~IOscillatorSource() = 0;
 
-		virtual SampleType operator()(float phase) = 0;
+		virtual void setPitch(float pitch) = 0;
+		virtual void setSampleRate(float sampleRate) = 0;
+		virtual SampleType getSample() = 0;
 	};
 
 	inline IOscillatorSource::~IOscillatorSource()

@@ -1,47 +1,30 @@
 #pragma once
 /// 
 /// \author Jan Wilczek
-/// \date 20.10.2018
+/// \date 12.11.2018
 /// 
-#include <memory>
-#include "eden/SampleType.h"
-#include "synth/wavetable/WaveTable.h"
-#include "interpolation/IInterpolator.h"
 #include "synth/wavetable/IOscillatorSource.h"
+#include "synth/wavetable/Waveform.h"
 
 namespace eden::synth::wavetable
 {
-	/// <summary>
-	/// Class representing a continuous periodic signal basing on given discrete values and interpolator.
-	/// Its cycle's length is 2 * pi.
-	/// </summary>
 	class WaveTableSource : public IOscillatorSource
 	{
 	public:
-		/// <param name="waveTable">discrete values to interpolate from</param>
-		/// <param name="interpolator">interpolation method to use</param>
-		WaveTableSource(WaveTable waveTable, std::shared_ptr<interpolation::IInterpolator> interpolator);
-		~WaveTableSource() override = default;
+		WaveTableSource(float sampleRate);
+		~WaveTableSource() = default;
 
-		/// <param name="phase"></param>
-		/// <returns>interpolated function's value at specified <paramref name="phase"></returns>
-		SampleType operator()(float phase) override;
-
-		/// <param name="waveTable">discrete values to interpolate from upon the calls to <c>operator()</c></param>
 		void setWaveTable(WaveTable waveTable);
 
-		/// <param name="interpolator">interpolation method to use - linear, polynomial, spline etc.</param>
-		void setInterpolator(std::shared_ptr<interpolation::IInterpolator> interpolator);
+		SampleType getSample() override;
+		void setPitch(float pitch) override;
+		void setSampleRate(float sampleRate) override;
+
 
 	private:
-		/// <summary>
-		/// Discrete values to interpolate from.
-		/// </summary>
-		WaveTable _waveTable;
-
-		/// <summary>
-		/// Interpolation method.
-		/// </summary>
-		std::shared_ptr<interpolation::IInterpolator> _interpolator;
+		float _sampleRate;
+		Waveform _waveform;
+		float _phaseDeltaPerSample = 0.f;
+		float _currentPhase = 0.f;
 	};
 }

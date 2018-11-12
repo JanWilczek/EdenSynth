@@ -195,8 +195,9 @@
     <ClInclude Include="include\synth\wavetable\SineWaveTable.h" />
     <ClInclude Include="include\synth\wavetable\SynthOscillator.h" />
     <ClInclude Include="include\synth\wavetable\IOscillatorSource.h" />
-    <ClInclude Include="include\synth\wavetable\WaveTableSource.h" />
+    <ClInclude Include="include\synth\wavetable\Waveform.h" />
     <ClInclude Include="include\synth\wavetable\WaveTable.h" />
+    <ClInclude Include="include\synth\wavetable\WaveTableSource.h" />
     <ClInclude Include="include\utility\EdenAssert.h" />
     <ClInclude Include="include\utility\MathConstants.h" />
     <ClInclude Include="include\utility\TimeSampleConverter.h" />
@@ -230,6 +231,8 @@
     <ClCompile Include="source\synth\Voice.cpp" />
     <ClCompile Include="source\synth\waveshaping\WaveshapingModule.cpp" />
     <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp" />
+    <ClCompile Include="source\synth\wavetable\SynthOscillator.cpp" />
+    <ClCompile Include="source\synth\wavetable\Waveform.cpp" />
     <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp" />
     <ClCompile Include="source\utility\TimeSampleConverter.cpp" />
     <ClCompile Include="source\utility\WaveFileReader.cpp" />

@@ -95,7 +95,7 @@ namespace eden::synth
 		/// Sets pitch of the voice.
 		/// </summary>
 		/// <param name="newPitch">frequency in Hz</param>
-		void setPitch(double newPitch);
+		void setPitch(float newPitch);
 
 		/// <summary>
 		/// Applies current velocity to the given <paramref name="channel">.

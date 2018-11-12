@@ -36,11 +36,6 @@ namespace eden::settings
 		_envelopeSettings->registerEnvelope(envelope);
 	}
 
-	void Settings::setWaveTable(synth::wavetable::WaveTable waveTable)
-	{
-		_generatorSettings->setWaveTable(waveTable);
-	}
-
 	void Settings::setCutoff(float cutoff)
 	{
 		_subtractiveModuleSettings->setCutoff(cutoff);

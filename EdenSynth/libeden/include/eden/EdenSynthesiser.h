@@ -51,7 +51,7 @@ namespace eden
 		/// Sets the wave table to be played - one cycle of a waveform. From that cycle all pitches will be created.
 		/// </summary>
 		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
-		void setWaveTable(std::vector<SampleType> waveTable);
+		//void setWaveTable(std::vector<SampleType> waveTable);
 
 		/// <summary>
 		/// Sets new envelope of sound - the information about volume change in time in relation
