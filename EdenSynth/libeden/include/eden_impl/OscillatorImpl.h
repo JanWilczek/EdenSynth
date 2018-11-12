@@ -5,11 +5,10 @@
 /// 
 #include <memory>
 #include "eden/OscillatorParameters.h"
+#include "eden/OscillatorSource.h"
 
 namespace eden
 {
-	class OscillatorSource;
-
 	namespace settings
 	{
 		class Settings;
@@ -19,6 +18,10 @@ namespace eden
 	{
 	public:
 		OscillatorImpl(settings::Settings& settings, std::unique_ptr<OscillatorSource> source);
+		
+		OscillatorId getId() const noexcept;
+
+		void setSource(std::unique_ptr<OscillatorSource> source);
 
 		void setOctaveTransposition(int octaveShift);
 		void setSemitoneTransposition(int semitoneShift);
@@ -27,5 +30,6 @@ namespace eden
 	private:
 		settings::Settings& _ext_settings;
 		OscillatorId _id;
+		std::unique_ptr<OscillatorSource> _oscillatorSource;
 	};
 }

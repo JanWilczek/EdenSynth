@@ -33,6 +33,11 @@ namespace eden
 		_impl->setBlockLength(samplesPerBlock);
 	}
 
+	std::unique_ptr<Oscillator> EdenSynthesiser::createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource)
+	{
+		return _impl->createAndAddOscillator(std::move(oscillatorSource));
+	}
+
 	void EdenSynthesiser::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
 		_impl->setEnvelopeParameters(envelopeParameters);

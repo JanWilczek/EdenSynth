@@ -5,12 +5,13 @@
 /// 
 #include <memory>
 #include <vector>
-#include "synth/wavetable/WaveTable.h"
 #include "eden/OscillatorParameters.h"
 
 namespace eden::synth::wavetable
 {
+	class SynthOscillator;
 	class SignalGenerator;
+	class IOscillatorSource;
 }
 
 namespace eden::settings
@@ -21,10 +22,15 @@ namespace eden::settings
 		void registerSignalGenerator(std::shared_ptr<synth::wavetable::SignalGenerator> signalGenerator);
 		
 		OscillatorId getAvailableOscillatorId();
-		//void setWaveTable(synth::wavetable::WaveTable waveTable);
+		void addOscillator(synth::wavetable::SynthOscillator oscillator);
+		void removeOscillator(OscillatorId oscillatorToRemove);
+		void setOscillatorSource(OscillatorId oscillatorId, std::unique_ptr<synth::wavetable::IOscillatorSource> source);
+		void setOctaveTransposition(OscillatorId oscillatorId, int octaveShift);
+		void setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift);
+		void setCentTransposition(OscillatorId oscillatorId, int centShift);
 
 	private:
 		std::vector<std::shared_ptr<synth::wavetable::SignalGenerator>> _signalGenerators;
-		OscillatorId _firstAvailableOscillatorId;
+		OscillatorId _firstAvailableOscillatorId = 0u;
 	};
 }

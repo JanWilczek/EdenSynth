@@ -14,11 +14,13 @@ namespace eden::synth::wavetable
 	{
 	public:
 		SynthOscillator() = default;
-		SynthOscillator(std::shared_ptr<IOscillatorSource> oscillatorSource);
+		SynthOscillator(OscillatorId id, std::unique_ptr<IOscillatorSource> oscillatorSource);
+		SynthOscillator(const SynthOscillator&);
+		SynthOscillator& operator=(const SynthOscillator&);
 
-		OscillatorId getId();
+		OscillatorId getId() const noexcept;
 		SampleType getSample();
-		void setSource(std::shared_ptr<IOscillatorSource> oscillatorSource);
+		void setSource(std::unique_ptr<IOscillatorSource> oscillatorSource);
 
 		void setOctaveTransposition(int octaveShift);
 		void setSemitoneTransposition(int semitoneShift);
@@ -33,11 +35,11 @@ namespace eden::synth::wavetable
 	private:
 		void setOscillatorPitch();
 
-		std::shared_ptr<IOscillatorSource> _oscillatorSource;
+		std::unique_ptr<IOscillatorSource> _oscillatorSource;
 		OscillatorId _id;
-		int _octaveShift;
-		int _semitoneShift;
-		int _centShift;
-		float _originalPitch;
+		int _octaveShift = 0;
+		int _semitoneShift = 0;
+		int _centShift = 0;
+		float _originalPitch = 0.f;
 	};
 }

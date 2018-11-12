@@ -5,10 +5,10 @@
 /// 
 #include <memory>
 #include "eden/OscillatorParameters.h"
+#include "eden_impl/OscillatorImpl.h"
 
 namespace eden
 {
-	class OscillatorImpl;
 	class OscillatorSource;
 
 	class Oscillator
@@ -16,13 +16,13 @@ namespace eden
 	public:
 		Oscillator(std::unique_ptr<OscillatorImpl> impl);
 
+		OscillatorId getId() const noexcept;
 		void setSource(std::unique_ptr<OscillatorSource> source);
 
 		void setOctaveTransposition(int octaveShift);
 		void setSemitoneTransposition(int semitoneShift);
 		void setCentTransposition(int centShift);
 
-		OscillatorId getId();
 
 	private:
 		std::unique_ptr<OscillatorImpl> _impl;

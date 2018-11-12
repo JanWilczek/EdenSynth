@@ -209,6 +209,8 @@
     <ClCompile Include="source\eden\MidiBuffer.cpp" />
     <ClCompile Include="source\eden\MidiMessage.cpp" />
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp" />
+    <ClCompile Include="source\eden_impl\Oscillator.cpp" />
+    <ClCompile Include="source\eden_impl\OscillatorImpl.cpp" />
     <ClCompile Include="source\interpolation\LinearInterpolator.cpp" />
     <ClCompile Include="source\settings\EnvelopeSettings.cpp" />
     <ClCompile Include="source\settings\GeneratorSettings.cpp" />

@@ -5,6 +5,8 @@
 #include "eden_impl/EdenSynthesiserImpl.h"
 #include "eden/AudioBuffer.h"
 #include "eden/EnvelopeParameters.h"
+#include "eden_impl/OscillatorImpl.h"
+#include "eden/Oscillator.h"
 
 namespace eden
 {
@@ -36,6 +38,11 @@ namespace eden
 	void EdenSynthesiserImpl::setBlockLength(int samplesPerBlock)
 	{
 		_synthesiser.setBlockLength(samplesPerBlock);
+	}
+
+	std::unique_ptr<Oscillator> EdenSynthesiserImpl::createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource)
+	{
+		return std::make_unique<Oscillator>(std::make_unique<OscillatorImpl>(_settings, std::move(oscillatorSource)));
 	}
 
 	void EdenSynthesiserImpl::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)

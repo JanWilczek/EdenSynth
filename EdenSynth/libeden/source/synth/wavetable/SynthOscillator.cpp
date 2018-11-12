@@ -7,12 +7,35 @@
 
 namespace eden::synth::wavetable
 {
-	SynthOscillator::SynthOscillator(std::shared_ptr<IOscillatorSource> oscillatorSource)
-		: _oscillatorSource(oscillatorSource)
+	SynthOscillator::SynthOscillator(OscillatorId id, std::unique_ptr<IOscillatorSource> oscillatorSource)
+		: _oscillatorSource(std::move(oscillatorSource))
+		, _id(id)
 	{
 	}
 
-	OscillatorId SynthOscillator::getId()
+	SynthOscillator::SynthOscillator(const SynthOscillator& other)
+		: _oscillatorSource(other._oscillatorSource->clone())
+		, _id(other._id)
+		, _octaveShift(other._octaveShift)
+		, _semitoneShift(other._semitoneShift)
+		, _centShift(other._centShift)
+		, _originalPitch(other._originalPitch)
+	{
+	}
+
+	SynthOscillator& SynthOscillator::operator=(const SynthOscillator& other)
+	{
+		_oscillatorSource = other._oscillatorSource->clone();
+		_id = other._id;
+		_octaveShift = other._octaveShift;
+		_semitoneShift = other._semitoneShift;
+		_centShift = other._centShift;
+		_originalPitch = other._originalPitch;
+
+		return *this;
+	}
+
+	OscillatorId SynthOscillator::getId() const noexcept
 	{
 		return _id;
 	}
@@ -22,9 +45,9 @@ namespace eden::synth::wavetable
 		return _oscillatorSource->getSample();
 	}
 
-	void SynthOscillator::setSource(std::shared_ptr<IOscillatorSource> oscillatorSource)
+	void SynthOscillator::setSource(std::unique_ptr<IOscillatorSource> oscillatorSource)
 	{
-		_oscillatorSource = _oscillatorSource;
+		_oscillatorSource = std::move(_oscillatorSource);
 		setOscillatorPitch();
 	}
 

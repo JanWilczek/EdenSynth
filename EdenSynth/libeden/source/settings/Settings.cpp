@@ -4,7 +4,7 @@
 /// 
 #include "settings/Settings.h"
 #include "eden/EnvelopeParameters.h"
-#include "synth/wavetable/WaveTable.h"
+#include "synth/wavetable/SynthOscillator.h"
 
 namespace eden::settings
 {
@@ -34,6 +34,41 @@ namespace eden::settings
 	void Settings::registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope)
 	{
 		_envelopeSettings->registerEnvelope(envelope);
+	}
+
+	OscillatorId Settings::getAvailableOscillatorId()
+	{
+		return _generatorSettings->getAvailableOscillatorId();
+	}
+
+	void Settings::addOscillator(synth::wavetable::SynthOscillator oscillator)
+	{
+		_generatorSettings->addOscillator(oscillator);
+	}
+
+	void Settings::removeOscillator(OscillatorId oscillatorToRemove)
+	{
+		_generatorSettings->removeOscillator(oscillatorToRemove);
+	}
+
+	void Settings::setOscillatorSource(OscillatorId oscillatorId, std::unique_ptr<synth::wavetable::IOscillatorSource> source)
+	{
+		_generatorSettings->setOscillatorSource(oscillatorId, std::move(source));
+	}
+
+	void Settings::setOctaveTransposition(OscillatorId oscillatorId, int octaveShift)
+	{
+		_generatorSettings->setOctaveTransposition(oscillatorId, octaveShift);
+	}
+
+	void Settings::setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift)
+	{
+		_generatorSettings->setSemitoneTransposition(oscillatorId, semitoneShift);
+	}
+
+	void Settings::setCentTransposition(OscillatorId oscillatorId, int centShift)
+	{
+		_generatorSettings->setCentTransposition(oscillatorId, centShift);
 	}
 
 	void Settings::setCutoff(float cutoff)

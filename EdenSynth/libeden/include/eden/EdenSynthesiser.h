@@ -4,14 +4,14 @@
 /// \date 26.08.2018
 /// 
 #include <memory>
-#include <eden_impl/EdenSynthesiserImpl.h>
+#include "eden_impl/EdenSynthesiserImpl.h"
+#include "eden/OscillatorSource.h"
+#include "eden/Oscillator.h"
 
 namespace eden
 {
 	class AudioBuffer;
 	class MidiBuffer;
-	class Oscillator;
-	class OscillatorSource;
 	enum class WaveformGenerators;
 	struct EnvelopeParameters;
 
@@ -52,6 +52,7 @@ namespace eden
 		/// </summary>
 		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
 		//void setWaveTable(std::vector<SampleType> waveTable);
+		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillator);
 
 		/// <summary>
 		/// Sets new envelope of sound - the information about volume change in time in relation
@@ -64,7 +65,6 @@ namespace eden
 
 		void setResonance(float resonance);
 
-		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillator);
 
 	private:
 		/// <summary>

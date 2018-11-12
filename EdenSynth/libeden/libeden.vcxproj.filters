@@ -311,5 +311,11 @@
     <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp">
       <Filter>Source Files\synth\wavetable</Filter>
     </ClCompile>
+    <ClCompile Include="source\eden_impl\Oscillator.cpp">
+      <Filter>Source Files\eden_impl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden_impl\OscillatorImpl.cpp">
+      <Filter>Source Files\eden_impl</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

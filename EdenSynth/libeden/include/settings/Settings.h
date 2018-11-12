@@ -53,10 +53,9 @@ namespace eden::settings
 		void registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope);
 
 		OscillatorId getAvailableOscillatorId();
-
-		//void setGenerator(OscillatorId oscillatorId, WaveformGenerators generatorName);
-		//void setWaveTable(OscillatorId oscillatorId, synth::wavetable::WaveTable waveTable);
-		void setOscillatorSource(OscillatorId, std::shared_ptr<synth::wavetable::IOscillatorSource> source);
+		void addOscillator(synth::wavetable::SynthOscillator oscillator);
+		void removeOscillator(OscillatorId oscillatorToRemove);
+		void setOscillatorSource(OscillatorId, std::unique_ptr<synth::wavetable::IOscillatorSource> source);
 		void setOctaveTransposition(OscillatorId oscillatorId, int octaveShift);
 		void setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift);
 		void setCentTransposition(OscillatorId oscillatorId, int centShift);
