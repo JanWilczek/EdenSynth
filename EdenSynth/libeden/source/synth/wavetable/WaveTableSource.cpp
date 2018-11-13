@@ -31,7 +31,6 @@ namespace eden::synth::wavetable
 		const auto sample = _waveform(_currentPhase);
 		_currentPhase += _phaseDeltaPerSample;
 		return sample;
-
 	}
 
 	void WaveTableSource::setWaveTable(WaveTable waveTable)

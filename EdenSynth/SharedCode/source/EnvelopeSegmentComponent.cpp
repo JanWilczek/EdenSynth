@@ -7,7 +7,7 @@
 #include "eden/EnvelopeParameters.h"
 
 EnvelopeSegmentComponent::EnvelopeSegmentComponent(AudioProcessorValueTreeState& valueTreeState, String segmentLabel, String timeParameterID, String curveParameterID)
-	: _segmentName(segmentLabel.toLowerCase().replaceCharacters(" ", ""), segmentLabel)
+	: _segmentName(segmentLabel.toLowerCase().removeCharacters(" "), segmentLabel)
 	, _time(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 	, _curve("EnvelopeSegmentCurve")
 {

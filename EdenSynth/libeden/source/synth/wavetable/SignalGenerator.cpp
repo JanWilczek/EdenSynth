@@ -69,7 +69,7 @@ namespace eden::synth::wavetable
 	{
 		/*const auto omega = 2.0 * math_constants::PI * pitch;
 		_phaseDeltaPerSample = omega / _sampleRate;*/
-		for (auto oscillatorPair : _oscillators)
+		for (auto& oscillatorPair : _oscillators)
 		{
 			oscillatorPair.second.setPitch(pitch);
 		}
@@ -79,7 +79,7 @@ namespace eden::synth::wavetable
 	{
 		//_phaseDeltaPerSample = _phaseDeltaPerSample * _sampleRate / sampleRate;
 		//_sampleRate = sampleRate;
-		for (auto oscillatorPair : _oscillators)
+		for (auto& oscillatorPair : _oscillators)
 		{
 			oscillatorPair.second.setSampleRate(sampleRate);
 		}
@@ -89,7 +89,7 @@ namespace eden::synth::wavetable
 	{
 		audioChannel[sampleIndex] = SampleType(0);
 
-		for (auto oscillatorPair : _oscillators)
+		for (auto& oscillatorPair : _oscillators)
 		{
 			audioChannel[sampleIndex] += oscillatorPair.second.getSample();
 		}
