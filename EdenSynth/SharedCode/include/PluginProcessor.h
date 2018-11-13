@@ -1,7 +1,8 @@
 #pragma once
-#include "../JuceLibraryCode/JuceHeader.h"
-#include <eden/EdenSynthesiser.h>
 #include <filesystem>
+#include <eden/EdenSynthesiser.h>
+#include "../JuceLibraryCode/JuceHeader.h"
+#include "EdenAdapter.h"
 
 class EdenSynthAudioProcessor : public AudioProcessor
 {
@@ -51,7 +52,9 @@ private:
 	//==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EdenSynthAudioProcessor)
 
-		std::experimental::filesystem::path _assetsPath;
+	std::experimental::filesystem::path _assetsPath;
 	eden::EdenSynthesiser _edenSynthesiser;
+	eden_vst::EdenAdapter _edenAdapter;
 	AudioProcessorValueTreeState _pluginParameters;
+	std::vector<std::unique_ptr<eden::Oscillator>> _oscillators{1u};
 };

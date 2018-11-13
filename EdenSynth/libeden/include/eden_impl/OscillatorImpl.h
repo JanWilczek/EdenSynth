@@ -18,7 +18,8 @@ namespace eden
 	{
 	public:
 		OscillatorImpl(settings::Settings& settings, std::unique_ptr<OscillatorSource> source);
-		
+		~OscillatorImpl();
+
 		OscillatorId getId() const noexcept;
 
 		void setSource(std::unique_ptr<OscillatorSource> source);

@@ -87,6 +87,8 @@ namespace eden::synth::wavetable
 
 	void SignalGenerator::generateSample(SampleType* audioChannel, int sampleIndex)
 	{
+		audioChannel[sampleIndex] = SampleType(0);
+
 		for (auto oscillatorPair : _oscillators)
 		{
 			audioChannel[sampleIndex] += oscillatorPair.second.getSample();

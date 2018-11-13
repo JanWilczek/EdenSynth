@@ -20,4 +20,5 @@ namespace eden
 	};
 
 	typedef unsigned long long OscillatorId;
+	typedef unsigned long long OscillatorSourceId;
 }

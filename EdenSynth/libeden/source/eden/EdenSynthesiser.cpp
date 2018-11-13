@@ -33,6 +33,16 @@ namespace eden
 		_impl->setBlockLength(samplesPerBlock);
 	}
 
+	std::unique_ptr<OscillatorSource> EdenSynthesiser::createRealtimeOscillatorSource(WaveformGenerators generatorName)
+	{
+		return _impl->createRealtimeOscillatorSource(generatorName);
+	}
+
+	std::unique_ptr<OscillatorSource> EdenSynthesiser::createWaveTableOscillatorSource(std::vector<SampleType> waveTable)
+	{
+		return _impl->createWaveTableOscillatorSource(waveTable);
+	}
+
 	std::unique_ptr<Oscillator> EdenSynthesiser::createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource)
 	{
 		return _impl->createAndAddOscillator(std::move(oscillatorSource));

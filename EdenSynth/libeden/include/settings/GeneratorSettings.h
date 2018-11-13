@@ -5,7 +5,9 @@
 /// 
 #include <memory>
 #include <vector>
+#include <map>
 #include "eden/OscillatorParameters.h"
+#include "eden/SampleType.h"
 
 namespace eden::synth::wavetable
 {
@@ -21,16 +23,20 @@ namespace eden::settings
 	public:
 		void registerSignalGenerator(std::shared_ptr<synth::wavetable::SignalGenerator> signalGenerator);
 		
-		OscillatorId getAvailableOscillatorId();
-		void addOscillator(synth::wavetable::SynthOscillator oscillator);
+		OscillatorSourceId createGeneratorSource(float sampleRate, WaveformGenerators generatorName);
+		OscillatorSourceId createWaveTableSource(float sampleRate, std::vector<SampleType> waveTable);
+		void removeOscillatorSource(OscillatorSourceId sourceId);
+		OscillatorId addOscillator(OscillatorSourceId sourceId);
 		void removeOscillator(OscillatorId oscillatorToRemove);
-		void setOscillatorSource(OscillatorId oscillatorId, std::unique_ptr<synth::wavetable::IOscillatorSource> source);
+		void setOscillatorSource(OscillatorId oscillatorId, OscillatorSourceId sourceId);
 		void setOctaveTransposition(OscillatorId oscillatorId, int octaveShift);
 		void setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift);
 		void setCentTransposition(OscillatorId oscillatorId, int centShift);
 
 	private:
 		std::vector<std::shared_ptr<synth::wavetable::SignalGenerator>> _signalGenerators;
+		OscillatorSourceId _firstAvailableSourceId = 0u;
+		std::map<OscillatorSourceId, std::unique_ptr<synth::wavetable::IOscillatorSource>> _oscillatorSources;
 		OscillatorId _firstAvailableOscillatorId = 0u;
 	};
 }

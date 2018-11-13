@@ -12,14 +12,17 @@ namespace eden::synth::wavetable
 	{
 	public:
 		WaveTableSource(float sampleRate);
-		~WaveTableSource() = default;
+		WaveTableSource(const WaveTableSource&);
+		~WaveTableSource() override = default;
+
+
+		std::unique_ptr<IOscillatorSource> clone() override;
 
 		void setWaveTable(WaveTable waveTable);
 
 		SampleType getSample() override;
 		void setPitch(float pitch) override;
 		void setSampleRate(float sampleRate) override;
-
 
 	private:
 		float _sampleRate;

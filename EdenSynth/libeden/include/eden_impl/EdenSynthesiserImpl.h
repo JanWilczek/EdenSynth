@@ -52,6 +52,9 @@ namespace eden
 		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
 		//void setWaveTable(std::vector<SampleType> waveTable);
 		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource);
+		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
+
+		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<SampleType> waveTable);
 
 		/// <summary>
 		/// Sets new envelope of sound - the information about volume change in time in relation
@@ -64,9 +67,7 @@ namespace eden
 
 		void setResonance(float resonance);
 
-
 	private:
-		double _sampleRate = 48000;
 		settings::Settings _settings;
 		synth::Synthesiser _synthesiser;
 	};

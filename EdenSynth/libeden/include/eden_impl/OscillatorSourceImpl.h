@@ -5,21 +5,28 @@
 /// 
 #include <memory>
 #include <vector>
-#include "synth/wavetable/IOscillatorSource.h"
 #include "eden/OscillatorParameters.h"
+#include "eden/SampleType.h"
 
 namespace eden
 {
+	namespace settings 
+	{
+		class Settings;
+	}
+
 	class OscillatorSourceImpl
 	{
 	public:
-		static std::unique_ptr<OscillatorSourceImpl> createRealtimeOscillatorSource(WaveformGenerators generatorName);
+		OscillatorSourceImpl(settings::Settings& settings, WaveformGenerators generatorName);
+		OscillatorSourceImpl(settings::Settings& settings, std::vector<SampleType> waveTable);
+		~OscillatorSourceImpl();
 
-		static std::unique_ptr<OscillatorSourceImpl> createWaveTableOscillatorSource(std::vector<SampleType> waveTable);
+		OscillatorSourceId getId();
 
 	private:
-		OscillatorSourceImpl(std::unique_ptr<synth::wavetable::IOscillatorSource> synthOscillatorSource);
 
-		std::unique_ptr<synth::wavetable::IOscillatorSource> _synthOscillatorSource;
+		settings::Settings& _ext_settings;
+		OscillatorSourceId _id;
 	};
 }

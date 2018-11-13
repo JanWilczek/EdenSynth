@@ -52,6 +52,9 @@ namespace eden
 		/// </summary>
 		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
 		//void setWaveTable(std::vector<SampleType> waveTable);
+		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
+
+		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<SampleType> waveTable);
 		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillator);
 
 		/// <summary>

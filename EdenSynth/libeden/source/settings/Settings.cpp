@@ -16,6 +16,16 @@ namespace eden::settings
 	{
 	}
 
+	void Settings::storeSampleRate(float sampleRate) noexcept
+	{
+		_sampleRate = sampleRate;
+	}
+
+	float Settings::storedSampleRate() const noexcept
+	{
+		return _sampleRate;
+	}
+
 	void Settings::registerSignalGenerator(std::shared_ptr<synth::wavetable::SignalGenerator> signalGenerator)
 	{
 		_generatorSettings->registerSignalGenerator(signalGenerator);
@@ -36,14 +46,24 @@ namespace eden::settings
 		_envelopeSettings->registerEnvelope(envelope);
 	}
 
-	OscillatorId Settings::getAvailableOscillatorId()
+	OscillatorSourceId Settings::createGeneratorSource(WaveformGenerators generatorName)
 	{
-		return _generatorSettings->getAvailableOscillatorId();
+		return _generatorSettings->createGeneratorSource(storedSampleRate(), generatorName);
 	}
 
-	void Settings::addOscillator(synth::wavetable::SynthOscillator oscillator)
+	OscillatorSourceId Settings::createWaveTableSource(std::vector<SampleType> waveTable)
 	{
-		_generatorSettings->addOscillator(oscillator);
+		return _generatorSettings->createWaveTableSource(storedSampleRate(), waveTable);
+	}
+
+	void Settings::removeOscillatorSource(OscillatorSourceId sourceId)
+	{
+		_generatorSettings->removeOscillatorSource(sourceId);
+	}
+
+	OscillatorId Settings::addOscillator(OscillatorSourceId sourceId)
+	{
+		return _generatorSettings->addOscillator(sourceId);
 	}
 
 	void Settings::removeOscillator(OscillatorId oscillatorToRemove)
@@ -51,9 +71,9 @@ namespace eden::settings
 		_generatorSettings->removeOscillator(oscillatorToRemove);
 	}
 
-	void Settings::setOscillatorSource(OscillatorId oscillatorId, std::unique_ptr<synth::wavetable::IOscillatorSource> source)
+	void Settings::setOscillatorSource(OscillatorId oscillatorId, OscillatorSourceId sourceId)
 	{
-		_generatorSettings->setOscillatorSource(oscillatorId, std::move(source));
+		_generatorSettings->setOscillatorSource(oscillatorId, sourceId);
 	}
 
 	void Settings::setOctaveTransposition(OscillatorId oscillatorId, int octaveShift)

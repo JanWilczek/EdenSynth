@@ -9,6 +9,11 @@
 
 namespace eden_vst
 {
+	EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser)
+		: _synthesiser(synthesiser)
+	{
+	}
+
 	eden::MidiBuffer EdenAdapter::convertToEdenMidi(const juce::MidiBuffer& juceMidiBuffer)
 	{
 		eden::MidiBuffer edenMidiBuffer;
@@ -39,8 +44,11 @@ namespace eden_vst
 		return edenMidiBuffer;
 	}
 
-	void EdenAdapter::addEdenParameters(const eden::EdenSynthesiser& edenSynthesiser, AudioProcessorValueTreeState& pluginParameters)
+	void EdenAdapter::addEdenParameters(AudioProcessorValueTreeState& pluginParameters)
 	{
+		// oscillator parameters
+
+
 		// filter parameters
 		pluginParameters.createAndAddParameter("filter.cutoff", "Cutoff", String(), NormalisableRange<float>(0.f, 0.5f, 0.01f), 0.49f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("filter.resonance", "Resonance", String(), NormalisableRange<float>(0.5f, 5.0f, 0.01f), 1.f, nullptr, nullptr);
@@ -61,11 +69,11 @@ namespace eden_vst
 		pluginParameters.createAndAddParameter("envelope.adbdr.breakLevel", "Break level", String(), NormalisableRange<float>(0.f, 1.f, 0.001f, 0.7f), 0.6f, nullptr, nullptr);
 	}
 
-	void EdenAdapter::updateEdenParameters(eden::EdenSynthesiser& edenSynthesiser, const AudioProcessorValueTreeState& pluginParameters)
+	void EdenAdapter::updateEdenParameters(const AudioProcessorValueTreeState& pluginParameters)
 	{
 		// filter parameters
-		edenSynthesiser.setCutoff(pluginParameters.getParameterAsValue("filter.cutoff").getValue());
-		edenSynthesiser.setResonance(pluginParameters.getParameterAsValue("filter.resonance").getValue());
+		_synthesiser.setCutoff(pluginParameters.getParameterAsValue("filter.cutoff").getValue());
+		_synthesiser.setResonance(pluginParameters.getParameterAsValue("filter.resonance").getValue());
 
 		// ADBDR envelope parameters
 		{
@@ -85,7 +93,7 @@ namespace eden_vst
 
 			adbdrParameters.breakLevel = pluginParameters.getParameterAsValue("envelope.adbdr.breakLevel").getValue();
 
-			edenSynthesiser.setEnvelopeParameters(std::make_shared<eden::ADBDRParameters>(adbdrParameters));
+			_synthesiser.setEnvelopeParameters(std::make_shared<eden::ADBDRParameters>(adbdrParameters));
 		}
 	}
 }

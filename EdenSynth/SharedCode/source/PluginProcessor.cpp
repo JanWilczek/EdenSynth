@@ -23,8 +23,9 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
 #endif
 	_assetsPath(std::experimental::filesystem::current_path() / "assets")
 	, _pluginParameters(*this, nullptr)
+	, _edenAdapter(_edenSynthesiser)
 {
-	eden_vst::EdenAdapter::addEdenParameters(_edenSynthesiser, _pluginParameters);
+	_edenAdapter.addEdenParameters(_pluginParameters);
 	_pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));
 }
 
@@ -133,7 +134,7 @@ void EdenSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffe
 {
 	ScopedNoDenormals noDenormals;
 
-	eden_vst::EdenAdapter::updateEdenParameters(_edenSynthesiser, _pluginParameters);
+	_edenAdapter.updateEdenParameters(_pluginParameters);
 
 	eden::AudioBuffer edenAudioBuffer(buffer.getArrayOfWritePointers(), getTotalNumOutputChannels(), buffer.getNumSamples());
 	eden::MidiBuffer edenMidiBuffer = eden_vst::EdenAdapter::convertToEdenMidi(midiMessages);
@@ -186,7 +187,8 @@ void EdenSynthAudioProcessor::setWaveTable(const std::string& filename)
 
 		eden::utility::WaveFileReader reader(path.string());
 		const auto wave = reader.readSamples();
-		_edenSynthesiser.setWaveTable(wave);
+		//_edenSynthesiser.setWaveTable(wave);
+		_oscillators[0] = _edenSynthesiser.createAndAddOscillator(_edenSynthesiser.createWaveTableOscillatorSource(wave));
 	}
 	catch (...)
 	{

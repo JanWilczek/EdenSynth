@@ -12,7 +12,7 @@ namespace eden
 {
 	EdenSynthesiserImpl::EdenSynthesiserImpl()
 		: _settings()
-		, _synthesiser(_settings, _sampleRate)
+		, _synthesiser(_settings, _settings.storedSampleRate())
 	{
 	}
 
@@ -23,16 +23,16 @@ namespace eden
 
 	void EdenSynthesiserImpl::setSampleRate(double sampleRate)
 	{
-		if (sampleRate != _sampleRate)
+		if (sampleRate != _settings.storedSampleRate())
 		{
-			_sampleRate = sampleRate;
+			_settings.storeSampleRate(sampleRate);
 			_synthesiser.setSampleRate(sampleRate);
 		}
 	}
 
 	double EdenSynthesiserImpl::sampleRate() const noexcept
 	{
-		return _sampleRate;
+		return _settings.storedSampleRate();
 	}
 
 	void EdenSynthesiserImpl::setBlockLength(int samplesPerBlock)
@@ -43,6 +43,16 @@ namespace eden
 	std::unique_ptr<Oscillator> EdenSynthesiserImpl::createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource)
 	{
 		return std::make_unique<Oscillator>(std::make_unique<OscillatorImpl>(_settings, std::move(oscillatorSource)));
+	}
+
+	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createRealtimeOscillatorSource(WaveformGenerators generatorName)
+	{
+		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, generatorName));
+	}
+
+	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createWaveTableOscillatorSource(std::vector<SampleType> waveTable)
+	{
+		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, waveTable));
 	}
 
 	void EdenSynthesiserImpl::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)

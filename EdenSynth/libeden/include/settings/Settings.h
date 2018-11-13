@@ -47,15 +47,20 @@ namespace eden::settings
 	public:
 		Settings();
 
+		void storeSampleRate(float sampleRate) noexcept;
+		float storedSampleRate() const noexcept;
+
 		void registerSignalGenerator(std::shared_ptr<synth::wavetable::SignalGenerator> signalGenerator);
 		void registerSubtractiveModule(std::shared_ptr<synth::subtractive::SubtractiveModule> subtractiveModule);
 		void registerWaveshapingModule(std::shared_ptr<synth::waveshaping::WaveshapingModule> waveshapingModule);
 		void registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope);
 
-		OscillatorId getAvailableOscillatorId();
-		void addOscillator(synth::wavetable::SynthOscillator oscillator);
+		OscillatorSourceId createGeneratorSource(WaveformGenerators generatorName);
+		OscillatorSourceId createWaveTableSource(std::vector<SampleType> waveTable);
+		void removeOscillatorSource(OscillatorSourceId sourceId);
+		OscillatorId addOscillator(OscillatorSourceId sourceId);
 		void removeOscillator(OscillatorId oscillatorToRemove);
-		void setOscillatorSource(OscillatorId, std::unique_ptr<synth::wavetable::IOscillatorSource> source);
+		void setOscillatorSource(OscillatorId, OscillatorSourceId sourceId);
 		void setOctaveTransposition(OscillatorId oscillatorId, int octaveShift);
 		void setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift);
 		void setCentTransposition(OscillatorId oscillatorId, int centShift);
@@ -66,6 +71,7 @@ namespace eden::settings
 		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
 	private:
+		float _sampleRate = 48000.f;
 		std::unique_ptr<GeneratorSettings> _generatorSettings;
 		std::unique_ptr<SubtractiveModuleSettings> _subtractiveModuleSettings;
 		std::unique_ptr<WaveshapingModuleSettings> _waveshapingModuleSettings;

@@ -15,6 +15,17 @@ namespace eden::synth::wavetable
 	{
 	}
 
+	WaveTableSource::WaveTableSource(const WaveTableSource& other)
+		: _sampleRate(other._sampleRate)
+		, _waveform(other._waveform)
+	{
+	}
+
+	std::unique_ptr<IOscillatorSource> WaveTableSource::clone()
+	{
+		return std::make_unique<WaveTableSource>(*this);
+	}
+
 	SampleType WaveTableSource::getSample()
 	{
 		const auto sample = _waveform(_currentPhase);

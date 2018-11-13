@@ -20,6 +20,7 @@ namespace eden::synth::wavetable
 		/// <param name="waveTable">discrete values to interpolate from</param>
 		/// <param name="interpolator">interpolation method to use</param>
 		Waveform(WaveTable waveTable, std::shared_ptr<interpolation::IInterpolator> interpolator);
+		Waveform(const Waveform&);
 
 		/// <param name="phase"></param>
 		/// <returns>interpolated function's value at specified <paramref name="phase"></returns>

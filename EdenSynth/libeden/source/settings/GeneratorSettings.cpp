@@ -4,6 +4,7 @@
 /// 
 #include "settings/GeneratorSettings.h"
 #include "synth/wavetable/SignalGenerator.h"
+#include "synth/wavetable/WaveTableSource.h"
 
 namespace eden::settings
 {
@@ -12,23 +13,49 @@ namespace eden::settings
 		_signalGenerators.push_back(signalGenerator);
 	}
 
-	/*void GeneratorSettings::setWaveTable(synth::wavetable::WaveTable waveTable)
+	OscillatorSourceId GeneratorSettings::createGeneratorSource(float sampleRate, WaveformGenerators generatorName)
 	{
-		for (auto generator : _signalGenerators)
-		{
-			generator->setWaveTable(waveTable);
-		}
-	}*/
-	OscillatorId GeneratorSettings::getAvailableOscillatorId()
-	{
-		return _firstAvailableOscillatorId++;
+		// TODO: Not implemented.
+		throw std::logic_error("Generators not implemented.");
 	}
-	void GeneratorSettings::addOscillator(synth::wavetable::SynthOscillator oscillator)
+
+	OscillatorSourceId GeneratorSettings::createWaveTableSource(float sampleRate, std::vector<SampleType> waveTable)
 	{
+		const auto id = _firstAvailableSourceId++;
+
+		auto source = std::make_unique<synth::wavetable::WaveTableSource>(sampleRate);
+		source->setWaveTable(waveTable);
+
+		_oscillatorSources[id] = std::move(source);
+
+		return id;
+	}
+
+	void GeneratorSettings::removeOscillatorSource(OscillatorSourceId sourceId)
+	{
+		const auto erased = _oscillatorSources.erase(sourceId);
+
+		if (erased != 1u)
+		{
+			throw std::runtime_error("Invalid oscillator source ID.");
+		}
+	}
+
+	OscillatorId GeneratorSettings::addOscillator(OscillatorSourceId sourceId)
+	{
+		if (_oscillatorSources.find(sourceId) == _oscillatorSources.end())
+		{
+			throw std::runtime_error("Invalid oscillator source ID.");
+		}
+
+		const auto id = _firstAvailableOscillatorId++;
+
 		for (auto generator : _signalGenerators)
 		{
-			generator->addOscillator(oscillator);
+			generator->addOscillator(synth::wavetable::SynthOscillator(id, _oscillatorSources[id]->clone()));
 		}
+
+		return id;
 	}
 
 	void GeneratorSettings::removeOscillator(OscillatorId oscillatorToRemove)
@@ -39,11 +66,16 @@ namespace eden::settings
 		}
 	}
 
-	void GeneratorSettings::setOscillatorSource(OscillatorId oscillatorId, std::unique_ptr<synth::wavetable::IOscillatorSource> source)
+	void GeneratorSettings::setOscillatorSource(OscillatorId oscillatorId, OscillatorSourceId sourceId)
 	{
+		if (_oscillatorSources.find(sourceId) == _oscillatorSources.end())
+		{
+			throw std::runtime_error("Invalid oscillator source ID.");
+		}
+
 		for (auto generator : _signalGenerators)
 		{
-			generator->setOscillatorSource(oscillatorId, source->clone());
+			generator->setOscillatorSource(oscillatorId, _oscillatorSources[sourceId]->clone());
 		}
 	}
 

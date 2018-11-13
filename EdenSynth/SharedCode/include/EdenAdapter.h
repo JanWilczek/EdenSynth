@@ -19,6 +19,8 @@ namespace eden_vst
 	class EdenAdapter
 	{
 	public:
+		EdenAdapter(eden::EdenSynthesiser& synthesiser);
+
 		/// <summary>
 		/// Converts JUCE MIDI buffer to Eden MIDI buffer.
 		/// </summary>
@@ -26,7 +28,10 @@ namespace eden_vst
 		/// <param name="edenMidiBuffer">buffer to pass messages to</param>
 		static eden::MidiBuffer convertToEdenMidi(const juce::MidiBuffer& juceMidiBuffer);
 
-		static void addEdenParameters(const eden::EdenSynthesiser& edenSynthesiser, AudioProcessorValueTreeState& pluginParameters);
-		static void updateEdenParameters(eden::EdenSynthesiser& edenSynthesiser, const AudioProcessorValueTreeState& pluginParameters);
+		void addEdenParameters(AudioProcessorValueTreeState& pluginParameters);
+		void updateEdenParameters(const AudioProcessorValueTreeState& pluginParameters);
+
+	private:
+		eden::EdenSynthesiser& _synthesiser;
 	};
 }
