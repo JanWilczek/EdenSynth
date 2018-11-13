@@ -38,7 +38,7 @@ namespace eden::synth::wavetable
 		/// Stops generating the signal - all subsequent calls to <c>generateSignal</c> will fill the channel
 		/// with zeros until new pitch is set.
 		/// </summary>
-		//void stop();
+		void stop();
 
 		/// <param name="waveTable">wave table of samples to create source signal from - it should be a signle cycle
 		/// of a waveform of any length</param>

@@ -56,5 +56,5 @@ private:
 	eden::EdenSynthesiser _edenSynthesiser;
 	eden_vst::EdenAdapter _edenAdapter;
 	AudioProcessorValueTreeState _pluginParameters;
-	std::vector<std::unique_ptr<eden::Oscillator>> _oscillators{1u};
+	std::unique_ptr<eden::Oscillator> _oscillator;
 };

@@ -105,9 +105,14 @@ namespace eden
 
 	void AudioBuffer::fill(SampleType value)
 	{
+		fillFromTo(value, 0, _numSamples);
+	}
+
+	void AudioBuffer::fillFromTo(SampleType value, unsigned begin, unsigned end)
+	{
 		for (int channel = 0; channel < _numChannels; ++channel)
 		{
-			for (unsigned sample = 0; sample < _numSamples; ++sample)
+			for (unsigned sample = begin; sample < end; ++sample)
 			{
 				_channels[channel][sample] = value;
 			}

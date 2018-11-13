@@ -15,8 +15,9 @@ namespace eden::synth::wavetable
 		WaveTableSource(const WaveTableSource&);
 		~WaveTableSource() override = default;
 
-
 		std::unique_ptr<IOscillatorSource> clone() override;
+
+		void reset() override;
 
 		void setWaveTable(WaveTable waveTable);
 

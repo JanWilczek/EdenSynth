@@ -76,6 +76,8 @@ namespace eden
 		/// <param name="value"></param>
 		void fill(SampleType value);
 
+		void fillFromTo(SampleType value, unsigned begin, unsigned end);
+
 		/// <summary>
 		/// Performs given operation on each channel.
 		/// </summary>

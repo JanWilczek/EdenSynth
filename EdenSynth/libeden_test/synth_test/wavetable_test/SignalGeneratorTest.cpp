@@ -4,6 +4,7 @@
 /// 
 #include "pch.h"
 #include "synth/wavetable/SignalGenerator.h"
+#include "synth/wavetable/WaveTableSource.h"
 
 namespace libeden_test
 {
@@ -14,8 +15,10 @@ namespace libeden_test
 	protected:
 		void SetUp() override
 		{
-			_signalGenerator = std::make_unique<SignalGenerator>(SAMPLE_RATE);
-			
+			_signalGenerator = std::make_unique<SignalGenerator>();
+			_signalGenerator->addOscillator(eden::synth::wavetable::SynthOscillator{ _oscillatorId , std::make_unique<eden::synth::wavetable::WaveTableSource>(SAMPLE_RATE) });
+			_signalGenerator->setSampleRate(SAMPLE_RATE);
+
 			for (auto i = 0u; i < CHANNEL_LENGTH; ++i)
 			{
 				_audioChannel[i] = eden::SampleType(0);
@@ -25,6 +28,8 @@ namespace libeden_test
 		const double SAMPLE_RATE = 48000.0;
 		constexpr static unsigned CHANNEL_LENGTH = 480u;
 		eden::SampleType _audioChannel[CHANNEL_LENGTH];
+
+		constexpr static eden::OscillatorId _oscillatorId = 0u;
 		std::unique_ptr<eden::synth::wavetable::SignalGenerator> _signalGenerator;
 	};
 
@@ -75,7 +80,9 @@ namespace libeden_test
 	TEST_F(SignalGeneratorTest, WaveTableManipulation)
 	{
 		const std::vector<eden::SampleType> waveTable = { eden::SampleType(1.0), eden::SampleType(0.0) };
-		_signalGenerator->setWaveTable(waveTable);
+		auto source = std::make_unique<eden::synth::wavetable::WaveTableSource>(SAMPLE_RATE);
+		source->setWaveTable(waveTable);
+		_signalGenerator->setOscillatorSource(_oscillatorId, std::move(source));
 		_signalGenerator->setSampleRate(10.0);
 		_signalGenerator->setPitch(5.0);
 		_signalGenerator->generateSignal(_audioChannel, 0, 10);

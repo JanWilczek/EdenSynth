@@ -45,6 +45,11 @@ namespace eden::synth::wavetable
 		return _oscillatorSource->getSample();
 	}
 
+	void SynthOscillator::reset()
+	{
+		_oscillatorSource->reset();
+	}
+
 	void SynthOscillator::setSource(std::unique_ptr<IOscillatorSource> oscillatorSource)
 	{
 		_oscillatorSource = std::move(_oscillatorSource);

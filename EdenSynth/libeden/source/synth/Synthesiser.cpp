@@ -30,7 +30,7 @@ namespace eden::synth
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples)
 	{
 		// 1. Empty the buffer - it may contain garbage.
-		bufferToFill.fill(0);
+		bufferToFill.fillFromTo(0, startSample, startSample + numSamples);
 		
 		auto midiIterator = midiBuffer.begin();
 

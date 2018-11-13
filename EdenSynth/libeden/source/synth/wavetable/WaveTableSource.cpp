@@ -18,6 +18,8 @@ namespace eden::synth::wavetable
 	WaveTableSource::WaveTableSource(const WaveTableSource& other)
 		: _sampleRate(other._sampleRate)
 		, _waveform(other._waveform)
+		, _phaseDeltaPerSample(other._phaseDeltaPerSample)
+		, _currentPhase(other._currentPhase)
 	{
 	}
 
@@ -26,11 +28,24 @@ namespace eden::synth::wavetable
 		return std::make_unique<WaveTableSource>(*this);
 	}
 
+	void WaveTableSource::reset()
+	{
+		_currentPhase = 0.0;
+		_phaseDeltaPerSample = 0.0;
+	}
+
 	SampleType WaveTableSource::getSample()
 	{
 		const auto sample = _waveform(_currentPhase);
+
 		_currentPhase += _phaseDeltaPerSample;
+		while (_currentPhase > 2 * math_constants::PI)
+		{
+			_currentPhase -= 2 * math_constants::PI;
+		}
+
 		return sample;
+		//return std::sin(_currentPhase);
 	}
 
 	void WaveTableSource::setWaveTable(WaveTable waveTable)

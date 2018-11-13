@@ -188,7 +188,7 @@ void EdenSynthAudioProcessor::setWaveTable(const std::string& filename)
 		eden::utility::WaveFileReader reader(path.string());
 		const auto wave = reader.readSamples();
 		//_edenSynthesiser.setWaveTable(wave);
-		_oscillators[0] = _edenSynthesiser.createAndAddOscillator(_edenSynthesiser.createWaveTableOscillatorSource(wave));
+		_oscillator = _edenSynthesiser.createAndAddOscillator(_edenSynthesiser.createWaveTableOscillatorSource(wave));
 	}
 	catch (...)
 	{

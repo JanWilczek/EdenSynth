@@ -46,6 +46,8 @@ namespace eden::synth
 	{
 		if (isPlaying())
 		{
+			//clearInnerBlock(startSample, samplesToRender);
+
 			_signalGenerator->generateSignal(_innerBlock, startSample, samplesToRender);
 
 			_subtractiveModule->process(_innerBlock, startSample, samplesToRender);
@@ -57,8 +59,6 @@ namespace eden::synth
 			applyVelocity(_innerBlock, startSample, samplesToRender);
 
 			mixTo(outputBuffer, startSample, samplesToRender);
-
-			clearInnerBlock(startSample, samplesToRender);
 		}
 	}
 
@@ -110,6 +110,7 @@ namespace eden::synth
 	void Voice::finalizeVoice()
 	{
 		_currentNote = -1;
+		_signalGenerator->stop();
 	}
 
 	double Voice::calculatePitch(int midiNoteNumber, int pitchWheelPosition)
@@ -121,7 +122,6 @@ namespace eden::synth
 	{
 		return SampleType(0.1);
 	}
-
 
 	void Voice::setPitch(float newPitch)
 	{

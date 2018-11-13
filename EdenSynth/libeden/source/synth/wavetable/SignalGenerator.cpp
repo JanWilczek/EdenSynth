@@ -54,11 +54,15 @@ namespace eden::synth::wavetable
 		_oscillators[oscillatorId].setCentTransposition(centShift);
 	}
 
-	/*void SignalGenerator::stop()
+	void SignalGenerator::stop()
 	{
-		_currentPhase = 0.0;
-		_phaseDeltaPerSample = 0.0;
-	}*/
+		//_currentPhase = 0.0;
+		//_phaseDeltaPerSample = 0.0;
+		for (auto& oscillatorPair : _oscillators)
+		{
+			oscillatorPair.second.reset();
+		}
+	}
 
 	//void SignalGenerator::setWaveTable(WaveTable waveTable)
 	//{

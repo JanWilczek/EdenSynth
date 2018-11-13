@@ -14,6 +14,7 @@ namespace eden::synth::wavetable
 		virtual ~IOscillatorSource() = 0;
 		virtual std::unique_ptr<IOscillatorSource> clone() = 0;
 
+		virtual void reset() = 0;
 		virtual void setPitch(float pitch) = 0;
 		virtual void setSampleRate(float sampleRate) = 0;
 		virtual SampleType getSample() = 0;

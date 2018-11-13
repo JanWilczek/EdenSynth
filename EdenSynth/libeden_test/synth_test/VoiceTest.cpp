@@ -9,6 +9,8 @@
 #include <eden/EnvelopeParameters.h>
 #include <settings/Settings.h>
 #include "TestUtils.h"
+#include "eden/Oscillator.h"
+#include "synth/wavetable/SineWaveTable.h"
 
 namespace libeden_test
 {
@@ -19,6 +21,9 @@ namespace libeden_test
 		{
 			_voice = std::make_unique<eden::synth::Voice>(_settings, SAMPLE_RATE);
 			_buffer.fill(eden::SampleType(0));
+
+			_sourceId = _settings.createWaveTableSource(eden::synth::wavetable::SineWaveTable);
+			_oscId = _settings.addOscillator(_sourceId);
 		}
 
 		const double SAMPLE_RATE = 48000.0;
@@ -27,6 +32,9 @@ namespace libeden_test
 
 		constexpr static unsigned BUFFER_LENGTH = 480u;
 		eden::AudioBuffer _buffer{ 1, BUFFER_LENGTH };
+
+		eden::OscillatorId _oscId;
+		eden::OscillatorSourceId _sourceId;
 	};
 
 	TEST_F(VoiceTest, ZeroInZeroOut)
@@ -84,7 +92,8 @@ namespace libeden_test
 		_voice->setSampleRate(sampleRate);
 		_voice->setBlockLength(250u);
 		_settings.setEnvelopeParameters(std::make_shared<eden::ADBDRParameters>(segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, breakLevel));
-		_settings.setWaveTable({ 1.f, 1.f });
+		auto sourceId = _settings.createWaveTableSource({ 1.f, 1.f });
+		_settings.setOscillatorSource(_oscId, sourceId);
 
 		EXPECT_DOUBLE_EQ(_voice->getSampleRate(), sampleRate);
 		EXPECT_FALSE(_voice->isPlaying());
