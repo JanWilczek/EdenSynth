@@ -18,6 +18,11 @@ namespace eden_vst
 		}
 	}
 
+	size_t WaveTablePathProvider::size() const
+	{
+		return _waveTablePaths.size();
+	}
+
 	WaveTablePathProvider::path_container_iterator WaveTablePathProvider::begin()
 	{
 		return _waveTablePaths.begin();
@@ -28,6 +33,16 @@ namespace eden_vst
 		return _waveTablePaths.end();
 	}
 
+	WaveTablePathProvider::path_container_const_iterator WaveTablePathProvider::cbegin() const
+	{
+		return _waveTablePaths.cbegin();
+	}
+
+	WaveTablePathProvider::path_container_const_iterator WaveTablePathProvider::cend() const
+	{
+		return _waveTablePaths.cend();
+	}
+
 	std::experimental::filesystem::path WaveTablePathProvider::getPath(std::string waveTableName)
 	{
 		if (_waveTablePaths.find(waveTableName) == _waveTablePaths.end())
@@ -36,5 +51,30 @@ namespace eden_vst
 		}
 
 		return _waveTablePaths[waveTableName];
+	}
+
+	std::string WaveTablePathProvider::indexToName(size_t waveTableIndex)
+	{
+		if (waveTableIndex >= _waveTablePaths.size())
+		{
+			throw std::runtime_error("Invalid wave table index.");
+		}
+
+		auto it = begin();
+		std::advance(it, waveTableIndex);
+
+		return it->first;
+	}
+
+	size_t WaveTablePathProvider::nameToIndex(std::string waveTableName)
+	{
+		const auto it = _waveTablePaths.find(waveTableName);
+
+		if (it == end())
+		{
+			throw std::runtime_error("Invalid wave table name.");
+		}
+
+		return std::distance(begin(), it);
 	}
 }

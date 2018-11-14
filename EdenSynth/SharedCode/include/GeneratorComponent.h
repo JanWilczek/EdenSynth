@@ -5,15 +5,16 @@
 /// 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "EnvelopeComponent.h"
+#include "OscillatorsComponent.h"
 
 class GeneratorComponent : public Component
 {
 public:
-	GeneratorComponent(AudioProcessorValueTreeState& valueTreeState);
+	GeneratorComponent(AudioProcessorValueTreeState& valueTreeState, const eden_vst::WaveTablePathProvider& pathProvider);
 
-	void paint(Graphics& g) override;
 	void resized() override;
 
 private:
+	OscillatorsComponent _oscillators;
 	EnvelopeComponent _envelopeComponent;
 };

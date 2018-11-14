@@ -25,7 +25,7 @@ EnvelopeComponent::EnvelopeComponent(AudioProcessorValueTreeState& valueTreeStat
 
 void EnvelopeComponent::paint(Graphics& g)
 {
-	g.setColour(Colours::purple);
+	g.setColour(getLookAndFeel().findColour(Slider::ColourIds::textBoxOutlineColourId));
 	g.drawRect(getBounds(), 5);
 }
 

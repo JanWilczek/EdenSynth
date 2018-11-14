@@ -52,7 +52,7 @@ namespace eden::synth::wavetable
 
 	void SynthOscillator::setSource(std::unique_ptr<IOscillatorSource> oscillatorSource)
 	{
-		_oscillatorSource = std::move(_oscillatorSource);
+		_oscillatorSource = std::move(oscillatorSource);
 		setOscillatorPitch();
 	}
 

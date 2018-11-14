@@ -33,10 +33,12 @@ namespace eden_vst
 
 		void addEdenParameters(AudioProcessorValueTreeState& pluginParameters);
 		void updateEdenParameters(const AudioProcessorValueTreeState& pluginParameters);
+		WaveTablePathProvider& getPathProvider();
 
 	private:
 		eden::EdenSynthesiser& _synthesiser;
-		eden_vst::WaveTablePathProvider _pathProvider;
+		WaveTablePathProvider _pathProvider;
+		size_t _waveTableIndex = 0u;
 		std::unique_ptr<eden::Oscillator> _oscillator1;
 		std::unique_ptr<eden::Oscillator> _oscillator2;
 		std::unique_ptr<eden::Oscillator> _oscillator3;

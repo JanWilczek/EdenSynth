@@ -23,7 +23,6 @@ namespace eden
 		void setSemitoneTransposition(int semitoneShift);
 		void setCentTransposition(int centShift);
 
-
 	private:
 		std::unique_ptr<OscillatorImpl> _impl;
 	};

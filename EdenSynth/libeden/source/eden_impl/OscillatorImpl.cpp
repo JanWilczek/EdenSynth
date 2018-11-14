@@ -27,21 +27,37 @@ namespace eden
 
 	void OscillatorImpl::setSource(std::unique_ptr<OscillatorSource> source)
 	{
-		_ext_settings.setOscillatorSource(getId(), source->getId());
+		if (source->getId() != _oscillatorSource->getId())
+		{
+			_oscillatorSource = std::move(source);
+			_ext_settings.setOscillatorSource(getId(), _oscillatorSource->getId());
+		}
 	}
 
 	void OscillatorImpl::setOctaveTransposition(int octaveShift)
 	{
-		_ext_settings.setOctaveTransposition(getId(), octaveShift);
+		if (octaveShift != _octaveShift)
+		{
+			_octaveShift = octaveShift;
+			_ext_settings.setOctaveTransposition(getId(), _octaveShift);
+		}
 	}
 
 	void OscillatorImpl::setSemitoneTransposition(int semitoneShift)
 	{
-		_ext_settings.setSemitoneTransposition(getId(), semitoneShift);
+		if (semitoneShift != _semitoneShift)
+		{
+			_semitoneShift = semitoneShift;
+			_ext_settings.setSemitoneTransposition(getId(), _semitoneShift);
+		}
 	}
 
 	void OscillatorImpl::setCentTransposition(int centShift)
 	{
-		_ext_settings.setCentTransposition(getId(), centShift);
+		if (centShift != _centShift)
+		{
+			_centShift = centShift;
+			_ext_settings.setCentTransposition(getId(), _centShift);
+		}
 	}
 }

@@ -32,5 +32,8 @@ namespace eden
 		settings::Settings& _ext_settings;
 		OscillatorId _id;
 		std::unique_ptr<OscillatorSource> _oscillatorSource;
+		int _octaveShift = 0;
+		int _semitoneShift = 0;
+		int _centShift = 0;
 	};
 }

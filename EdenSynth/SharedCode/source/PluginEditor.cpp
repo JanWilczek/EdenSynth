@@ -1,13 +1,12 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-
-#include <filesystem>
+#include "WaveTablePathProvider.h"
 
 //==============================================================================
-EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor& p, AudioProcessorValueTreeState& vts)
+EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor& p, AudioProcessorValueTreeState& vts, const eden_vst::WaveTablePathProvider& pathProvider)
 	: AudioProcessorEditor(&p)
 	, _processor(p)
-	, _generatorComponent(vts)
+	, _generatorComponent(vts, pathProvider)
 	, _modifierComponent(vts)
 {
 	setSize(1000, 500);
@@ -41,7 +40,7 @@ void EdenSynthAudioProcessorEditor::paint(Graphics& g)
 
 void EdenSynthAudioProcessorEditor::resized()
 {
-	_waveTables.setBounds(100, 100, 100, 100);
+	//_waveTables.setBounds(100, 100, 100, 100);
 
 	_generatorComponent.setBounds(120, 0, 380, 500);
 	_modifierComponent.setBounds(500, 0, 380, 500);

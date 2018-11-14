@@ -7,7 +7,7 @@
 class EdenSynthAudioProcessorEditor : public AudioProcessorEditor
 {
 public:
-	EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor&, AudioProcessorValueTreeState&);
+	EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor&, AudioProcessorValueTreeState&, const eden_vst::WaveTablePathProvider&);
 	~EdenSynthAudioProcessorEditor();
 
 	//==============================================================================
@@ -17,11 +17,9 @@ public:
 private:
 	void waveTableChanged();
 
-	// This reference is provided as a quick way for your editor to
-	// access the processor object that created it.
 	EdenSynthAudioProcessor& _processor;
 	
-	ComboBox _waveTables;
+	//ComboBox _waveTables;
 
 	GeneratorComponent _generatorComponent;
 	ModifierComponent _modifierComponent;
