@@ -12,7 +12,7 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(EdenSynthAudioProce
 {
 	setSize(1000, 500);
 
-	const auto path = _processor.getAssetsPath() / "wavetables";
+	/*const auto path = _processor.getAssetsPath() / "wavetables";
 	auto i = 0;
 	for (auto& file : std::experimental::filesystem::directory_iterator(path))
 	{
@@ -23,7 +23,7 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(EdenSynthAudioProce
 	_waveTables.onChange = [this] { waveTableChanged(); };
 	_waveTables.setSelectedId(1);
 
-	addAndMakeVisible(&_waveTables);
+	addAndMakeVisible(&_waveTables);*/
 
 	addAndMakeVisible(_generatorComponent);
 	addAndMakeVisible(_modifierComponent);
@@ -49,5 +49,5 @@ void EdenSynthAudioProcessorEditor::resized()
 
 void EdenSynthAudioProcessorEditor::waveTableChanged()
 {
-	_processor.setWaveTable(_waveTables.getText().toStdString());
+	//_processor.setWaveTable(_waveTables.getText().toStdString());
 }

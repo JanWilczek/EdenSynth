@@ -46,7 +46,7 @@ namespace eden::synth
 	{
 		if (isPlaying())
 		{
-			//clearInnerBlock(startSample, samplesToRender);
+			clearInnerBlock(startSample, samplesToRender);
 
 			_signalGenerator->generateSignal(_innerBlock, startSample, samplesToRender);
 

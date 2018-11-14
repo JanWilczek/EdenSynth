@@ -20,8 +20,7 @@ namespace eden::synth::wavetable
 		/// <summary>
 		/// Creates the generator with the default sine timbre.
 		/// </summary>
-		/// <param name="sampleRate"></param>
-		explicit SignalGenerator();
+		SignalGenerator() = default;
 
 		/// <summary>
 		/// Fills the <paramref name="audioChannel"> from <paramref name="startSample">

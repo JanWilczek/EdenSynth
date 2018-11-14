@@ -9,8 +9,12 @@
 
 namespace eden_vst
 {
-	EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser)
-		: _synthesiser(synthesiser)
+	EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser, std::experimental::filesystem::path assetsPath)
+ 		: _synthesiser(synthesiser)
+		, _pathProvider(assetsPath)
+		, _oscillator1(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath("Sine"))))
+		, _oscillator2(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath("Sine"))))
+		, _oscillator3(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath("Sine"))))
 	{
 	}
 

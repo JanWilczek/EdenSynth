@@ -8,7 +8,6 @@
 #include "eden/AudioBuffer.h"
 #include "eden/MidiBuffer.h"
 #include "eden/MidiMessage.h"
-#include "eden/EnvelopeParameters.h"
 #include "utility/EdenAssert.h"
 #include "synth/envelope/EnvelopeFactory.h"
 #include "settings/Settings.h"

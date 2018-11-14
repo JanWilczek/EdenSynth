@@ -18,16 +18,15 @@ namespace eden::synth::wavetable
 		SynthOscillator(const SynthOscillator&);
 		SynthOscillator& operator=(const SynthOscillator&);
 
-
 		OscillatorId getId() const noexcept;
 		SampleType getSample();
 		void reset();
+		
 		void setSource(std::unique_ptr<IOscillatorSource> oscillatorSource);
 
 		void setOctaveTransposition(int octaveShift);
 		void setSemitoneTransposition(int semitoneShift);
 		void setCentTransposition(int centShift);
-
 		void setPitch(float pitch);
 
 		void setSampleRate(float sampleRate);

@@ -7,10 +7,6 @@
 
 namespace eden::synth::wavetable
 {
-	SignalGenerator::SignalGenerator()
-	{
-	}
-
 	void SignalGenerator::generateSignal(SampleType* audioChannel, int startSample, int samplesToGenerate)
 	{
 		for (int sample = startSample; sample < startSample + samplesToGenerate; ++sample)
@@ -56,23 +52,14 @@ namespace eden::synth::wavetable
 
 	void SignalGenerator::stop()
 	{
-		//_currentPhase = 0.0;
-		//_phaseDeltaPerSample = 0.0;
 		for (auto& oscillatorPair : _oscillators)
 		{
 			oscillatorPair.second.reset();
 		}
 	}
 
-	//void SignalGenerator::setWaveTable(WaveTable waveTable)
-	//{
-	//	_signalSource.setWaveTable(waveTable);
-	//}
-
 	void SignalGenerator::setPitch(float pitch)
 	{
-		/*const auto omega = 2.0 * math_constants::PI * pitch;
-		_phaseDeltaPerSample = omega / _sampleRate;*/
 		for (auto& oscillatorPair : _oscillators)
 		{
 			oscillatorPair.second.setPitch(pitch);
@@ -81,8 +68,6 @@ namespace eden::synth::wavetable
 
 	void SignalGenerator::setSampleRate(double sampleRate)
 	{
-		//_phaseDeltaPerSample = _phaseDeltaPerSample * _sampleRate / sampleRate;
-		//_sampleRate = sampleRate;
 		for (auto& oscillatorPair : _oscillators)
 		{
 			oscillatorPair.second.setSampleRate(sampleRate);
@@ -91,12 +76,11 @@ namespace eden::synth::wavetable
 
 	void SignalGenerator::generateSample(SampleType* audioChannel, int sampleIndex)
 	{
-		audioChannel[sampleIndex] = SampleType(0);
-
 		for (auto& oscillatorPair : _oscillators)
 		{
 			audioChannel[sampleIndex] += oscillatorPair.second.getSample();
 		}
-		//_currentPhase += _phaseDeltaPerSample;
+
+		audioChannel[sampleIndex] /= static_cast<SampleType>(_oscillators.size());
 	}
 }

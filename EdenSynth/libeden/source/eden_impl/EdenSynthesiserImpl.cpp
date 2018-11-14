@@ -7,6 +7,7 @@
 #include "eden/EnvelopeParameters.h"
 #include "eden_impl/OscillatorImpl.h"
 #include "eden/Oscillator.h"
+#include "utility/WaveFileReader.h"
 
 namespace eden
 {
@@ -53,6 +54,13 @@ namespace eden
 	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createWaveTableOscillatorSource(std::vector<SampleType> waveTable)
 	{
 		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, waveTable));
+	}
+
+	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile)
+	{
+		utility::WaveFileReader reader(pathToWaveFile.string());
+		const auto wave = reader.readSamples();
+		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, wave));
 	}
 
 	void EdenSynthesiserImpl::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)

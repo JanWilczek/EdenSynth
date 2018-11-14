@@ -4,6 +4,7 @@
 /// \date 26.08.2018
 /// 
 #include <memory>
+#include <filesystem>
 #include "eden_impl/EdenSynthesiserImpl.h"
 #include "eden/OscillatorSource.h"
 #include "eden/Oscillator.h"
@@ -55,6 +56,9 @@ namespace eden
 		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
 
 		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<SampleType> waveTable);
+		
+		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile);
+		
 		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillator);
 
 		/// <summary>

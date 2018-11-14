@@ -43,6 +43,11 @@ namespace eden
 		return _impl->createWaveTableOscillatorSource(waveTable);
 	}
 
+	std::unique_ptr<OscillatorSource> EdenSynthesiser::createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile)
+	{
+		return _impl->createWaveTableOscillatorSource(pathToWaveFile);
+	}
+
 	std::unique_ptr<Oscillator> EdenSynthesiser::createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource)
 	{
 		return _impl->createAndAddOscillator(std::move(oscillatorSource));

@@ -21,9 +21,9 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
 #endif
 	),
 #endif
-	_assetsPath(std::experimental::filesystem::current_path() / "assets")
-	, _pluginParameters(*this, nullptr)
-	, _edenAdapter(_edenSynthesiser)
+	_pluginParameters(*this, nullptr)
+	, _assetsPath(std::experimental::filesystem::path(File::getSpecialLocation(File::SpecialLocationType::currentExecutableFile).getParentDirectory().getFullPathName().toStdString()) / "assets")
+	, _edenAdapter(_edenSynthesiser, _assetsPath)
 {
 	_edenAdapter.addEdenParameters(_pluginParameters);
 	_pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));
@@ -171,28 +171,6 @@ void EdenSynthAudioProcessor::setStateInformation(const void* data, int sizeInBy
 		{
 			_pluginParameters.replaceState(ValueTree::fromXml(*xmlState));
 		}
-	}
-}
-
-std::experimental::filesystem::path EdenSynthAudioProcessor::getAssetsPath() const
-{
-	return _assetsPath;
-}
-
-void EdenSynthAudioProcessor::setWaveTable(const std::string& filename)
-{
-	try
-	{
-		auto path = getAssetsPath() / "wavetables" / filename;
-
-		eden::utility::WaveFileReader reader(path.string());
-		const auto wave = reader.readSamples();
-		//_edenSynthesiser.setWaveTable(wave);
-		_oscillator = _edenSynthesiser.createAndAddOscillator(_edenSynthesiser.createWaveTableOscillatorSource(wave));
-	}
-	catch (...)
-	{
-		// TODO: Add error handling.
 	}
 }
 

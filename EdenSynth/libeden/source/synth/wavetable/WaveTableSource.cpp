@@ -45,7 +45,6 @@ namespace eden::synth::wavetable
 		}
 
 		return sample;
-		//return std::sin(_currentPhase);
 	}
 
 	void WaveTableSource::setWaveTable(WaveTable waveTable)

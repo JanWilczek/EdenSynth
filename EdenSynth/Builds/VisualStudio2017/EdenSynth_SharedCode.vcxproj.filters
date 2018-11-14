@@ -2184,6 +2184,9 @@
     <ClCompile Include="..\..\SharedCode\source\EnvelopeSegmentComponent.cpp">
       <Filter>EdenSynth\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\WaveTablePathProvider.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
@@ -4212,6 +4215,9 @@
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\SharedCode\include\EnvelopeSegmentComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\WaveTablePathProvider.h">
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

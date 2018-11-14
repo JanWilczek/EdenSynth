@@ -3,7 +3,10 @@
 /// \author Jan Wilczek
 /// \date 02.09.2018
 /// 
+#include <filesystem>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "eden/Oscillator.h"
+#include "WaveTablePathProvider.h"
 
 namespace eden 
 {
@@ -19,7 +22,7 @@ namespace eden_vst
 	class EdenAdapter
 	{
 	public:
-		EdenAdapter(eden::EdenSynthesiser& synthesiser);
+		EdenAdapter(eden::EdenSynthesiser& synthesiser, std::experimental::filesystem::path assetsPath);
 
 		/// <summary>
 		/// Converts JUCE MIDI buffer to Eden MIDI buffer.
@@ -33,5 +36,9 @@ namespace eden_vst
 
 	private:
 		eden::EdenSynthesiser& _synthesiser;
+		eden_vst::WaveTablePathProvider _pathProvider;
+		std::unique_ptr<eden::Oscillator> _oscillator1;
+		std::unique_ptr<eden::Oscillator> _oscillator2;
+		std::unique_ptr<eden::Oscillator> _oscillator3;
 	};
 }

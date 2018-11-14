@@ -1896,6 +1896,7 @@
     <ClCompile Include="..\..\SharedCode\source\PluginEditor.cpp" />
     <ClCompile Include="..\..\SharedCode\source\PluginProcessor.cpp" />
     <ClCompile Include="..\..\SharedCode\source\WaveshaperComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\WaveTablePathProvider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h" />
@@ -2574,6 +2575,7 @@
     <ClInclude Include="..\..\SharedCode\include\PluginEditor.h" />
     <ClInclude Include="..\..\SharedCode\include\PluginProcessor.h" />
     <ClInclude Include="..\..\SharedCode\include\WaveshaperComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\WaveTablePathProvider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_formats\codecs\flac\Flac Licence.txt" />

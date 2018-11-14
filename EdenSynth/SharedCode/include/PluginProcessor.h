@@ -3,6 +3,7 @@
 #include <eden/EdenSynthesiser.h>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "EdenAdapter.h"
+#include "WaveTablePathProvider.h"
 
 class EdenSynthAudioProcessor : public AudioProcessor
 {
@@ -45,8 +46,7 @@ public:
 	void setStateInformation(const void* data, int sizeInBytes) override;
 
 	//==============================================================================
-	std::experimental::filesystem::path getAssetsPath() const;
-	void setWaveTable(const std::string& filename);
+	//void setWaveTable(const std::string& filename);
 
 private:
 	//==============================================================================
@@ -56,5 +56,4 @@ private:
 	eden::EdenSynthesiser _edenSynthesiser;
 	eden_vst::EdenAdapter _edenAdapter;
 	AudioProcessorValueTreeState _pluginParameters;
-	std::unique_ptr<eden::Oscillator> _oscillator;
 };
