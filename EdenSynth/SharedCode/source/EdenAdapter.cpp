@@ -12,10 +12,10 @@ namespace eden_vst
 	EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser, std::experimental::filesystem::path assetsPath)
  		: _synthesiser(synthesiser)
 		, _pathProvider(assetsPath)
-		, _oscillator1(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath("Sine"))))
-		//, _oscillator2(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath("Sine"))))
-		//, _oscillator3(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath("Sine"))))
 		, _waveTableIndex(_pathProvider.nameToIndex("Sine"))
+		, _oscillator1(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_waveTableIndex))))
+		, _oscillator2(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_waveTableIndex))))
+		, _oscillator3(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_waveTableIndex))))
 	{
 	}
 
@@ -67,16 +67,16 @@ namespace eden_vst
 
 		// ADBDR envelope parameters
 		pluginParameters.createAndAddParameter("envelope.adbdr.attack.time", "Attack time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 30.f, nullptr, nullptr);
-		pluginParameters.createAndAddParameter("envelope.adbdr.attack.curve", "Attack curve", String(), NormalisableRange<float>(1.f, 2.f, 1.f), 1.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("envelope.adbdr.attack.curve", "Attack curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
 		pluginParameters.createAndAddParameter("envelope.adbdr.decay1.time", "Decay1 time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 20.f, nullptr, nullptr);
-		pluginParameters.createAndAddParameter("envelope.adbdr.decay1.curve", "Decay1 curve", String(), NormalisableRange<float>(1.f, 2.f, 1.f), 1.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("envelope.adbdr.decay1.curve", "Decay1 curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
 		pluginParameters.createAndAddParameter("envelope.adbdr.decay2.time", "Decay2 time", "ms", NormalisableRange<float>(1.f, 50000.f, 1.f, 0.3f), 20000.f, nullptr, nullptr);
-		pluginParameters.createAndAddParameter("envelope.adbdr.decay2.curve", "Decay2 curve", String(), NormalisableRange<float>(1.f, 2.f, 1.f), 1.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("envelope.adbdr.decay2.curve", "Decay2 curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
 		pluginParameters.createAndAddParameter("envelope.adbdr.release.time", "Release time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 300.f, nullptr, nullptr);
-		pluginParameters.createAndAddParameter("envelope.adbdr.release.curve", "Release curve", String(), NormalisableRange<float>(1.f, 2.f, 1.f), 1.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("envelope.adbdr.release.curve", "Release curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
 		pluginParameters.createAndAddParameter("envelope.adbdr.breakLevel", "Break level", String(), NormalisableRange<float>(0.f, 1.f, 0.001f, 0.7f), 0.6f, nullptr, nullptr);
 	}

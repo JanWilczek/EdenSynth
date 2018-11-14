@@ -18,9 +18,8 @@ EnvelopeSegmentComponent::EnvelopeSegmentComponent(AudioProcessorValueTreeState&
 	addAndMakeVisible(_time);
 	_timeAttachment = std::make_unique<SliderAttachment>(valueTreeState, timeParameterID, _time);
 
-	_curve.addItem("Linear", static_cast<int>(eden::EnvelopeSegmentCurve::Linear));
-	_curve.addItem("Exponential", static_cast<int>(eden::EnvelopeSegmentCurve::Exponential));
-	_curve.setSelectedId(static_cast<int>(eden::EnvelopeSegmentCurve::Exponential));
+	_curve.addItem("Linear", 1);
+	_curve.addItem("Exponential", 2);
 	addAndMakeVisible(_curve);
 	_curveAttachment = std::make_unique<ComboBoxAttachment>(valueTreeState, curveParameterID, _curve);
 }

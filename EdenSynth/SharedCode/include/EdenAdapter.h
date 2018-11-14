@@ -38,7 +38,7 @@ namespace eden_vst
 	private:
 		eden::EdenSynthesiser& _synthesiser;
 		WaveTablePathProvider _pathProvider;
-		size_t _waveTableIndex = 0u;
+		size_t _waveTableIndex;
 		std::unique_ptr<eden::Oscillator> _oscillator1;
 		std::unique_ptr<eden::Oscillator> _oscillator2;
 		std::unique_ptr<eden::Oscillator> _oscillator3;

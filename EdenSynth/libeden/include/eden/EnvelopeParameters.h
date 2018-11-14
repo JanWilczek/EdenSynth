@@ -22,8 +22,8 @@ namespace eden
 	/// </summary>
 	enum class EnvelopeSegmentCurve
 	{
-		Linear = 1,
-		Exponential = 2
+		Linear = 0,
+		Exponential = 1
 	};
 	
 	/// <summary>

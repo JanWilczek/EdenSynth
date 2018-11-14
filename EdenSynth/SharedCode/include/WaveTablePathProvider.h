@@ -22,6 +22,7 @@ namespace eden_vst
 		path_container_const_iterator cbegin() const;
 		path_container_const_iterator cend() const;
 		std::experimental::filesystem::path getPath(std::string waveTableName);
+		std::experimental::filesystem::path getPath(size_t index);
 
 		std::string indexToName(size_t waveTableIndex);
 		size_t nameToIndex(std::string waveTableName);

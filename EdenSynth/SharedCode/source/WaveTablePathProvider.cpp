@@ -53,6 +53,11 @@ namespace eden_vst
 		return _waveTablePaths[waveTableName];
 	}
 
+	std::experimental::filesystem::path WaveTablePathProvider::getPath(size_t index)
+	{
+		return getPath(indexToName(index));
+	}
+
 	std::string WaveTablePathProvider::indexToName(size_t waveTableIndex)
 	{
 		if (waveTableIndex >= _waveTablePaths.size())

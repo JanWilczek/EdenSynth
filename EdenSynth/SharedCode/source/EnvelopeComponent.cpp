@@ -5,10 +5,10 @@
 #include "EnvelopeComponent.h"
 
 EnvelopeComponent::EnvelopeComponent(AudioProcessorValueTreeState& valueTreeState)
-	: _attack(valueTreeState, "Attack", "envelope.adbdr.attack.time", "envelopeadbdr.attack.curve")
-	, _decay1(valueTreeState, "Decay 1", "envelope.adbdr.decay1.time", "envelopeadbdr.decay1.curve")
-	, _decay2(valueTreeState, "Decay 2", "envelope.adbdr.decay2.time", "envelopeadbdr.decay2.curve")
-	, _release(valueTreeState, "Release", "envelope.adbdr.release.time", "envelopeadbdr.release.curve")
+	: _attack(valueTreeState, "Attack", "envelope.adbdr.attack.time", "envelope.adbdr.attack.curve")
+	, _decay1(valueTreeState, "Decay 1", "envelope.adbdr.decay1.time", "envelope.adbdr.decay1.curve")
+	, _decay2(valueTreeState, "Decay 2", "envelope.adbdr.decay2.time", "envelope.adbdr.decay2.curve")
+	, _release(valueTreeState, "Release", "envelope.adbdr.release.time", "envelope.adbdr.release.curve")
 	, _breakLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
 	addAndMakeVisible(_attack);
