@@ -11,11 +11,12 @@ namespace eden_vst
 {
 	EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser, std::experimental::filesystem::path assetsPath)
  		: _synthesiser(synthesiser)
-		, _pathProvider(assetsPath)
-		, _waveTableIndex(_pathProvider.nameToIndex("Sine"))
-		, _oscillator1(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_waveTableIndex))))
-		, _oscillator2(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_waveTableIndex))))
-		, _oscillator3(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_waveTableIndex))))
+		, _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u)
+		//, _pathProvider(assetsPath)
+		//, _waveTableIndex(_pathProvider.nameToIndex("Sine"))
+		//, _oscillator1(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_waveTableIndex))))
+		//, _oscillator2(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_waveTableIndex))))
+		//, _oscillator3(_synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_waveTableIndex))))
 	{
 	}
 
@@ -52,7 +53,7 @@ namespace eden_vst
 	void EdenAdapter::addEdenParameters(AudioProcessorValueTreeState& pluginParameters)
 	{
 		// oscillator parameters
-		pluginParameters.createAndAddParameter("generator.oscillator1.waveTable", "Wave table", String(), NormalisableRange<float>(0.f, static_cast<float>(_pathProvider.size() - 1u), 1.0f), static_cast<float>(_waveTableIndex),
+		/*pluginParameters.createAndAddParameter("generator.oscillator1.waveTable", "Wave table", String(), NormalisableRange<float>(0.f, static_cast<float>(_pathProvider.size() - 1u), 1.0f), static_cast<float>(_waveTableIndex),
 			[this](float index) { return String(_pathProvider.indexToName(static_cast<size_t>(index))); }, 
 			[this](String name) { return static_cast<float>(_pathProvider.nameToIndex(name.toStdString())); });
 		pluginParameters.createAndAddParameter("generator.oscillator1.octaveTransposition", "Octave transposition", "oct", NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f, nullptr, nullptr);
@@ -60,6 +61,8 @@ namespace eden_vst
 		pluginParameters.createAndAddParameter("generator.oscillator1.centTransposition", "Cent transposition", "ct.", NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("generator.oscillator1.volume", "Volume", String(), NormalisableRange<float>(0.f, 1.0f, 0.0001f), 0.75f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("generator.oscillator1.on", "On/Off", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
+*/
+		_oscillators.addOscillatorParameters(pluginParameters);
 
 		// filter parameters
 		pluginParameters.createAndAddParameter("filter.cutoff", "Cutoff", String(), NormalisableRange<float>(0.f, 0.5f, 0.01f), 0.49f, nullptr, nullptr);
@@ -84,15 +87,16 @@ namespace eden_vst
 	void EdenAdapter::updateEdenParameters(const AudioProcessorValueTreeState& pluginParameters)
 	{
 		// oscillator parameters
-		const auto waveTableIndex = static_cast<size_t>(float(pluginParameters.getParameterAsValue("generator.oscillator1.waveTable").getValue()));
-		if (waveTableIndex != _waveTableIndex)
-		{
-			_waveTableIndex = waveTableIndex;
-			_oscillator1->setSource(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_pathProvider.indexToName(_waveTableIndex))));
-		}
-		_oscillator1->setOctaveTransposition(pluginParameters.getParameterAsValue("generator.oscillator1.octaveTransposition").getValue());
-		_oscillator1->setSemitoneTransposition(pluginParameters.getParameterAsValue("generator.oscillator1.semitoneTransposition").getValue());
-		_oscillator1->setCentTransposition(pluginParameters.getParameterAsValue("generator.oscillator1.centTransposition").getValue());
+		//const auto waveTableIndex = static_cast<size_t>(float(pluginParameters.getParameterAsValue("generator.oscillator1.waveTable").getValue()));
+		//if (waveTableIndex != _waveTableIndex)
+		//{
+		//	_waveTableIndex = waveTableIndex;
+		//	_oscillator1->setSource(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_pathProvider.indexToName(_waveTableIndex))));
+		//}
+		//_oscillator1->setOctaveTransposition(pluginParameters.getParameterAsValue("generator.oscillator1.octaveTransposition").getValue());
+		//_oscillator1->setSemitoneTransposition(pluginParameters.getParameterAsValue("generator.oscillator1.semitoneTransposition").getValue());
+		//_oscillator1->setCentTransposition(pluginParameters.getParameterAsValue("generator.oscillator1.centTransposition").getValue());
+		_oscillators.updateOscillatorParameters(pluginParameters);
 
 		// filter parameters
 		_synthesiser.setCutoff(pluginParameters.getParameterAsValue("filter.cutoff").getValue());
@@ -122,6 +126,6 @@ namespace eden_vst
 
 	WaveTablePathProvider& EdenAdapter::getPathProvider()
 	{
-		return _pathProvider;
+		return _oscillators.getPathProvider();
 	}
 }

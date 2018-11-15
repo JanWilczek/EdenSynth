@@ -28,7 +28,8 @@ namespace eden::synth::wavetable
 	private:
 		float _sampleRate;
 		Waveform _waveform;
-		float _phaseDeltaPerSample = 0.f;
-		float _currentPhase = 0.f;
+		float _omega;
+		float _phaseDeltaPerSample;
+		float _currentPhase;
 	};
 }

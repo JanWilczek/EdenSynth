@@ -2193,6 +2193,9 @@
     <ClCompile Include="..\..\SharedCode\source\OscillatorComponent.cpp">
       <Filter>EdenSynth\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\OscillatorContainer.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
@@ -4230,6 +4233,9 @@
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\SharedCode\include\OscillatorComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\OscillatorContainer.h">
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

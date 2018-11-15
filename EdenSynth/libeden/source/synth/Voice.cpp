@@ -109,8 +109,8 @@ namespace eden::synth
 
 	void Voice::finalizeVoice()
 	{
-		_currentNote = -1;
 		_signalGenerator->stop();
+		_currentNote = -1;
 	}
 
 	double Voice::calculatePitch(int midiNoteNumber, int pitchWheelPosition)
@@ -143,12 +143,12 @@ namespace eden::synth
 
 	void Voice::mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix)
 	{
-		outputBuffer.forEachChannel([this,&startSample,&samplesToMix](SampleType* channel)
+		outputBuffer.forEachChannel([this, &startSample, &samplesToMix](SampleType* channel)
 		{
 			for (auto sample = startSample; sample < startSample + samplesToMix; ++sample)
 			{
 				channel[sample] += _innerBlock[sample];
-				
+
 				// check for clipping
 				EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
 			}

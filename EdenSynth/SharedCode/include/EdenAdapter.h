@@ -5,8 +5,8 @@
 /// 
 #include <filesystem>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "eden/Oscillator.h"
 #include "WaveTablePathProvider.h"
+#include "OscillatorContainer.h"
 
 namespace eden 
 {
@@ -37,10 +37,11 @@ namespace eden_vst
 
 	private:
 		eden::EdenSynthesiser& _synthesiser;
-		WaveTablePathProvider _pathProvider;
+		/*WaveTablePathProvider _pathProvider;
 		size_t _waveTableIndex;
 		std::unique_ptr<eden::Oscillator> _oscillator1;
 		std::unique_ptr<eden::Oscillator> _oscillator2;
-		std::unique_ptr<eden::Oscillator> _oscillator3;
+		std::unique_ptr<eden::Oscillator> _oscillator3;*/
+		OscillatorContainer _oscillators;
 	};
 }
