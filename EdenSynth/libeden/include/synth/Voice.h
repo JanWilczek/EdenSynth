@@ -122,12 +122,14 @@ namespace eden::synth
 		/// <summary>
 		/// Length of the inner audio channel to which the voice is rendered.
 		/// </summary>
-		unsigned _blockLength = 0u;
+		//unsigned _blockLength = 0u;
 
 		/// <summary>
 		/// Inner audio channel the voice is rendered to.
 		/// </summary>
-		SampleType* _innerBlock = nullptr;
+		//SampleType* _innerBlock = nullptr;
+
+		AudioBuffer _innerBuffer;
 
 		/// <summary>
 		/// Responsible for rendering the initial signal.

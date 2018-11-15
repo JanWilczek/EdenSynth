@@ -40,7 +40,9 @@ private:
 	ToggleButton _on;
 	std::unique_ptr<ButtonAttachment> _onAttachment;
 
-	// Add volume
+	Label _volumeLabel{ "oscillatorVolumeLabel", "Volume" };
+	Slider _volume;
+	std::unique_ptr<SliderAttachment> _volumeAttachment;
 
 	String _auxParameterName;
 };

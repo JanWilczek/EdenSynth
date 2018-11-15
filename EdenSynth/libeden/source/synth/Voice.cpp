@@ -15,12 +15,13 @@ namespace eden::synth
 {
 	Voice::Voice(settings::Settings& settings, double sampleRate)
 		: _sampleRate(sampleRate)
+		, _innerBuffer(1, 480u)
 		, _signalGenerator(std::make_shared<wavetable::SignalGenerator>())
 		, _subtractiveModule(std::make_shared<subtractive::SubtractiveModule>())
 		, _waveshapingModule(std::make_shared<waveshaping::WaveshapingModule>())
 		, _envelopeGenerator(std::make_shared<envelope::ADBDR>(_sampleRate, ADBDRParameters{}))
 	{
-		setBlockLength(480u);
+		//setBlockLength(480u);
 		_envelopeGenerator->setOnEnvelopeEndedCallback([this](unsigned) { finalizeVoice(); });
 
 		registerModules(settings);
@@ -47,16 +48,17 @@ namespace eden::synth
 		if (isPlaying())
 		{
 			clearInnerBlock(startSample, samplesToRender);
+			_innerBuffer.setNumSamples(samplesToRender);
 
-			_signalGenerator->generateSignal(_innerBlock, startSample, samplesToRender);
+			_signalGenerator->generateSignal(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
-			_subtractiveModule->process(_innerBlock, startSample, samplesToRender);
+			_subtractiveModule->process(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
-			_waveshapingModule->process(_innerBlock, startSample, samplesToRender);
+			_waveshapingModule->process(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
-			_envelopeGenerator->apply(_innerBlock, startSample, samplesToRender);
+			_envelopeGenerator->apply(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
-			applyVelocity(_innerBlock, startSample, samplesToRender);
+			applyVelocity(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
 			mixTo(outputBuffer, startSample, samplesToRender);
 		}
@@ -97,14 +99,18 @@ namespace eden::synth
 
 	void Voice::setBlockLength(unsigned samplesPerBlock)
 	{
-		if (samplesPerBlock > _blockLength)
+		_innerBuffer.setNumSamples(samplesPerBlock);
+		/*if (samplesPerBlock > _blockLength)
 		{
+			_blockLength = samplesPerBlock;
+
 			if (_innerBlock)
 			{
 				delete[] _innerBlock;
 			}
-			_innerBlock = new SampleType[samplesPerBlock];
-		}
+
+			_innerBlock = new SampleType[_blockLength];
+		}*/
 	}
 
 	void Voice::finalizeVoice()
@@ -120,7 +126,7 @@ namespace eden::synth
 
 	SampleType Voice::gainValue() const noexcept
 	{
-		return SampleType(0.1);
+		return SampleType(0.2);
 	}
 
 	void Voice::setPitch(float newPitch)
@@ -147,7 +153,8 @@ namespace eden::synth
 		{
 			for (auto sample = startSample; sample < startSample + samplesToMix; ++sample)
 			{
-				channel[sample] += _innerBlock[sample];
+				//channel[sample] += _innerBlock[sample];
+				channel[sample] += _innerBuffer.getReadPointer(0)[sample];
 
 				// check for clipping
 				EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
@@ -157,10 +164,11 @@ namespace eden::synth
 
 	void Voice::clearInnerBlock(int startSample, int samplesToClear)
 	{
-		for (auto sample = startSample; sample < startSample + samplesToClear; ++sample)
-		{
-			_innerBlock[sample] = SampleType(0);
-		}
+		//for (auto sample = startSample; sample < startSample + samplesToClear; ++sample)
+		//{
+		//	_innerBlock[sample] = SampleType(0);
+		//}
+		_innerBuffer.fillFromTo(SampleType(0), startSample, startSample + samplesToClear);
 	}
 
 	void Voice::registerModules(settings::Settings& settings)

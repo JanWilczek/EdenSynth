@@ -41,11 +41,6 @@ namespace eden
 		_synthesiser.setBlockLength(samplesPerBlock);
 	}
 
-	std::unique_ptr<Oscillator> EdenSynthesiserImpl::createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource)
-	{
-		return std::make_unique<Oscillator>(std::make_unique<OscillatorImpl>(_settings, std::move(oscillatorSource)));
-	}
-
 	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createRealtimeOscillatorSource(WaveformGenerators generatorName)
 	{
 		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, generatorName));
@@ -61,6 +56,11 @@ namespace eden
 		utility::WaveFileReader reader(pathToWaveFile.string());
 		const auto wave = reader.readSamples();
 		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, wave));
+	}
+
+	std::unique_ptr<Oscillator> EdenSynthesiserImpl::createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource)
+	{
+		return std::make_unique<Oscillator>(std::make_unique<OscillatorImpl>(_settings, std::move(oscillatorSource)));
 	}
 
 	void EdenSynthesiserImpl::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)

@@ -12,6 +12,11 @@ namespace eden
 		: _ext_settings(settings)
 		, _id(_ext_settings.addOscillator(source->getId()))
 		, _oscillatorSource(std::move(source))
+		, _octaveShift(0)
+		, _semitoneShift(0)
+		, _centShift(0)
+		, _volume(1.f)
+		, _isOn(true)
 	{
 	}
 

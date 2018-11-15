@@ -14,14 +14,12 @@ namespace eden
 	class AudioBuffer
 	{
 	public:
-		AudioBuffer() = default;
-
 		/// <summary>
 		/// Creates a new audio buffer allocating the given number of channels of given length.
 		/// </summary>
 		/// <param name="numChannels"></param>
 		/// <param name="numSamples"></param>
-		AudioBuffer(int numChannels, unsigned numSamples);
+		AudioBuffer(int numChannels = 2, unsigned numSamples = 512u);
 
 		/// <summary>
 		/// Creates an audio buffer using preallocated data.
@@ -57,7 +55,7 @@ namespace eden
 		/// <summary>
 		/// Sets the length of the buffer. May need to allocate data.
 		/// </summary>
-		//void setNumSamples(unsigned length);
+		void setNumSamples(unsigned length);
 
 		/// <returns>current length of the buffer</returns>
 		unsigned getNumSamples() const noexcept;
@@ -96,8 +94,11 @@ namespace eden
 		/// </summary>
 		void freeAllChannels();
 
-		int _numChannels = 2;
-		unsigned _numSamples = 512;
+		void allocateChannels();
+
+		int _numChannels;
+		unsigned _numSamples;
+		unsigned _allocatedNumSamples;
 		SampleType** _channels;
 		bool _ownsChannels;
 	};

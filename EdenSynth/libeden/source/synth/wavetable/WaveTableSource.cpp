@@ -43,9 +43,9 @@ namespace eden::synth::wavetable
 		const auto sample = _waveform(_currentPhase);
 
 		_currentPhase += _phaseDeltaPerSample;
-		while (_currentPhase > _omega)
+		while (_currentPhase > static_cast<float>(2.0 * math_constants::PI))
 		{
-			_currentPhase -= _omega;
+			_currentPhase -= static_cast<float>(2.0 * math_constants::PI);
 		}
 
 		return sample;

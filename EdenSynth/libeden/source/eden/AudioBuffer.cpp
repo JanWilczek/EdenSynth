@@ -10,13 +10,11 @@ namespace eden
 	AudioBuffer::AudioBuffer(int numChannels, unsigned numSamples)
 		: _numChannels(numChannels)
 		, _numSamples(numSamples)
-		, _channels(new SampleType*[_numChannels])
+		, _allocatedNumSamples(1024u)
+		, _channels(nullptr)
 		, _ownsChannels(true)
 	{
-		for (int channel = 0; channel < _numChannels; ++channel)
-		{
-			_channels[channel] = new SampleType[_numSamples];
-		}
+		allocateChannels();
 	}
 
 	AudioBuffer::AudioBuffer(SampleType** dataToUse, int numChannelsToUse, unsigned numSamplesToUse)
@@ -93,6 +91,21 @@ namespace eden
 		return _numChannels;
 	}
 
+	void AudioBuffer::setNumSamples(unsigned length)
+	{
+		if (length > _allocatedNumSamples)
+		{
+			freeAllChannels();
+			_allocatedNumSamples = length;
+			allocateChannels();
+			_numSamples = length;
+		}
+		else
+		{
+			_numSamples = length;
+		}
+	}
+
 	unsigned AudioBuffer::getNumSamples() const noexcept
 	{
 		return _numSamples;
@@ -147,6 +160,15 @@ namespace eden
 				delete[] _channels[channel];
 			}
 			delete[] _channels;
+		}
+	}
+
+	void AudioBuffer::allocateChannels()
+	{
+		_channels = new SampleType*[_numChannels];
+		for (int channel = 0; channel < _numChannels; ++channel)
+		{
+			_channels[channel] = new SampleType[_allocatedNumSamples];
 		}
 	}
 }

@@ -16,7 +16,9 @@ namespace eden::synth::wavetable
 		SynthOscillator() = default;
 		SynthOscillator(OscillatorId id, std::unique_ptr<IOscillatorSource> oscillatorSource);
 		SynthOscillator(const SynthOscillator&);
+		SynthOscillator(SynthOscillator&&);
 		SynthOscillator& operator=(const SynthOscillator&);
+		SynthOscillator& operator=(SynthOscillator&&);
 
 		OscillatorId getId() const noexcept;
 		SampleType getSample();
