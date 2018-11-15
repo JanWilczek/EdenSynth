@@ -48,6 +48,8 @@ namespace eden_vst
 			oscillator.second->setOctaveTransposition(pluginParameters.getParameterAsValue("generator." + oscillator.first + ".octaveTransposition").getValue());
 			oscillator.second->setSemitoneTransposition(pluginParameters.getParameterAsValue("generator." + oscillator.first + ".semitoneTransposition").getValue());
 			oscillator.second->setCentTransposition(pluginParameters.getParameterAsValue("generator." + oscillator.first + ".centTransposition").getValue());
+			oscillator.second->setVolume(pluginParameters.getParameterAsValue("generator." + oscillator.first + ".volume").getValue());
+			oscillator.second->setOn(static_cast<bool>(pluginParameters.getParameterAsValue("generator." + oscillator.first + ".on").getValue()));
 		}
 	}
 

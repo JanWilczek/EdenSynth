@@ -22,6 +22,8 @@ namespace eden
 		void setOctaveTransposition(int octaveShift);
 		void setSemitoneTransposition(int semitoneShift);
 		void setCentTransposition(int centShift);
+		void setVolume(float volume);
+		void setOn(bool isOn);
 
 	private:
 		std::unique_ptr<OscillatorImpl> _impl;

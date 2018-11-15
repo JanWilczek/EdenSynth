@@ -27,6 +27,8 @@ namespace eden
 		void setOctaveTransposition(int octaveShift);
 		void setSemitoneTransposition(int semitoneShift);
 		void setCentTransposition(int centShift);
+		void setVolume(float volume);
+		void setOn(bool isOn);
 
 	private:
 		settings::Settings& _ext_settings;
@@ -35,5 +37,7 @@ namespace eden
 		int _octaveShift = 0;
 		int _semitoneShift = 0;
 		int _centShift = 0;
+		float _volume = 1.f;
+		bool _isOn = true;
 	};
 }

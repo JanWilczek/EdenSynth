@@ -50,6 +50,16 @@ namespace eden::synth::wavetable
 		_oscillators[oscillatorId].setCentTransposition(centShift);
 	}
 
+	void SignalGenerator::setOscillatorVolume(OscillatorId oscillatorId, float volume)
+	{
+		_oscillators[oscillatorId].setVolume(volume);
+	}
+
+	void SignalGenerator::setOscillatorOn(OscillatorId oscillatorId, bool isOn)
+	{
+		_oscillators[oscillatorId].setOn(isOn);
+	}
+
 	void SignalGenerator::stop()
 	{
 		for (auto& oscillatorPair : _oscillators)

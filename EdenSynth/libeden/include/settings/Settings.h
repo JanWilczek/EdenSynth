@@ -64,6 +64,8 @@ namespace eden::settings
 		void setOctaveTransposition(OscillatorId oscillatorId, int octaveShift);
 		void setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift);
 		void setCentTransposition(OscillatorId oscillatorId, int centShift);
+		void setOscillatorVolume(OscillatorId oscillatorId, float volume);
+		void setOscillatorOn(OscillatorId oscillatorId, bool isOn);
 
 		void setCutoff(float cutoff);
 		void setResonance(float resonance);

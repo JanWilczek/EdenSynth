@@ -60,4 +60,22 @@ namespace eden
 			_ext_settings.setCentTransposition(getId(), _centShift);
 		}
 	}
+
+	void OscillatorImpl::setVolume(float volume)
+	{
+		if (volume != _volume)
+		{
+			_volume = volume;
+			_ext_settings.setOscillatorVolume(getId(), volume);
+		}
+	}
+
+	void OscillatorImpl::setOn(bool isOn)
+	{
+		if (isOn != _isOn)
+		{
+			_isOn = isOn;
+			_ext_settings.setOscillatorOn(getId(), _isOn);
+		}
+	}
 }

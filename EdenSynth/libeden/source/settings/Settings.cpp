@@ -91,6 +91,16 @@ namespace eden::settings
 		_generatorSettings->setCentTransposition(oscillatorId, centShift);
 	}
 
+	void Settings::setOscillatorVolume(OscillatorId oscillatorId, float volume)
+	{
+		_generatorSettings->setOscillatorVolume(oscillatorId, volume);
+	}
+
+	void Settings::setOscillatorOn(OscillatorId oscillatorId, bool isOn)
+	{
+		_generatorSettings->setOscillatorOn(oscillatorId, isOn);
+	}
+
 	void Settings::setCutoff(float cutoff)
 	{
 		_subtractiveModuleSettings->setCutoff(cutoff);

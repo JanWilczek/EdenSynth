@@ -10,6 +10,12 @@ namespace eden::synth::wavetable
 	SynthOscillator::SynthOscillator(OscillatorId id, std::unique_ptr<IOscillatorSource> oscillatorSource)
 		: _oscillatorSource(std::move(oscillatorSource))
 		, _id(id)
+		, _octaveShift(0)
+		, _semitoneShift(0)
+		, _centShift(0)
+		, _volume(1.f)
+		, _isOn(true)
+		, _originalPitch(0.f)
 	{
 	}
 
@@ -19,6 +25,8 @@ namespace eden::synth::wavetable
 		, _octaveShift(other._octaveShift)
 		, _semitoneShift(other._semitoneShift)
 		, _centShift(other._centShift)
+		, _volume(other._volume)
+		, _isOn(other._isOn)
 		, _originalPitch(other._originalPitch)
 	{
 	}
@@ -42,7 +50,10 @@ namespace eden::synth::wavetable
 
 	SampleType SynthOscillator::getSample()
 	{
-		return _oscillatorSource->getSample();
+		if (_isOn)
+		{
+			return static_cast<SampleType>(_volume) * _oscillatorSource->getSample();
+		}
 	}
 
 	void SynthOscillator::reset()
@@ -72,6 +83,16 @@ namespace eden::synth::wavetable
 	{
 		_centShift = centShift;
 		setOscillatorPitch();
+	}
+
+	void SynthOscillator::setVolume(float volume)
+	{
+		_volume = volume;
+	}
+
+	void SynthOscillator::setOn(bool isOn)
+	{
+		_isOn = isOn;
 	}
 
 	void SynthOscillator::setPitch(float pitch)

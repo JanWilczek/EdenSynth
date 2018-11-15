@@ -102,4 +102,20 @@ namespace eden::settings
 			generator->setCentTransposition(oscillatorId, centShift);
 		}
 	}
+
+	void GeneratorSettings::setOscillatorVolume(OscillatorId oscillatorId, float volume)
+	{
+		for (auto generator : _signalGenerators)
+		{
+			generator->setOscillatorVolume(oscillatorId, volume);
+		}
+	}
+
+	void GeneratorSettings::setOscillatorOn(OscillatorId oscillatorId, bool isOn)
+	{
+		for (auto generator : _signalGenerators)
+		{
+			generator->setOscillatorOn(oscillatorId, isOn);
+		}
+	}
 }

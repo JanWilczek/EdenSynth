@@ -28,6 +28,8 @@ namespace eden::synth::wavetable
 		void setSemitoneTransposition(int semitoneShift);
 		void setCentTransposition(int centShift);
 		void setPitch(float pitch);
+		void setVolume(float volume);
+		void setOn(bool isOn);
 
 		void setSampleRate(float sampleRate);
 
@@ -38,9 +40,11 @@ namespace eden::synth::wavetable
 
 		std::unique_ptr<IOscillatorSource> _oscillatorSource;
 		OscillatorId _id;
-		int _octaveShift = 0;
-		int _semitoneShift = 0;
-		int _centShift = 0;
-		float _originalPitch = 0.f;
+		int _octaveShift;
+		int _semitoneShift;
+		int _centShift;
+		float _volume;
+		bool _isOn;
+		float _originalPitch;
 	};
 }

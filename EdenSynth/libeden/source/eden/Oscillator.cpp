@@ -36,4 +36,14 @@ namespace eden
 	{
 		_impl->setCentTransposition(centShift);
 	}
+
+	void Oscillator::setVolume(float volume)
+	{
+		_impl->setVolume(volume);
+	}
+
+	void Oscillator::setOn(bool isOn)
+	{
+		_impl->setOn(isOn);
+	}
 }

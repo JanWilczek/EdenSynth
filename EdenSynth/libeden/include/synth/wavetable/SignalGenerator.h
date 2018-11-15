@@ -57,7 +57,8 @@ namespace eden::synth::wavetable
 		void setOctaveTransposition(OscillatorId oscillatorId, int octaveShift);
 		void setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift);
 		void setCentTransposition(OscillatorId oscillatorId, int centShift);
-
+		void setOscillatorVolume(OscillatorId oscillatorId, float volume);
+		void setOscillatorOn(OscillatorId oscillatorId, bool isOn);
 		//void setPitchBendRange(std::pair<float, float> pitchBendRange);
 		
 		void setSampleRate(double sampleRate);
