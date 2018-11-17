@@ -5,6 +5,7 @@
 #include "pch.h"
 #include "synth/wavetable/SignalGenerator.h"
 #include "synth/wavetable/WaveTableSource.h"
+#include "TestUtils.h"
 
 namespace libeden_test
 {
@@ -25,7 +26,7 @@ namespace libeden_test
 			}
 		}
 
-		const double SAMPLE_RATE = 48000.0;
+		const float SAMPLE_RATE = 48000.f;
 		constexpr static unsigned CHANNEL_LENGTH = 480u;
 		eden::SampleType _audioChannel[CHANNEL_LENGTH];
 
@@ -68,6 +69,8 @@ namespace libeden_test
 			EXPECT_FLOAT_EQ(_audioChannel[i], eden::SampleType(0));
 		}
 
+		TestUtils::fillChannel(_audioChannel, eden::SampleType(0), 0, CHANNEL_LENGTH);
+		
 		_signalGenerator->stop();
 		_signalGenerator->generateSignal(_audioChannel, 0, CHANNEL_LENGTH);
 
@@ -83,13 +86,13 @@ namespace libeden_test
 		auto source = std::make_unique<eden::synth::wavetable::WaveTableSource>(SAMPLE_RATE);
 		source->setWaveTable(waveTable);
 		_signalGenerator->setOscillatorSource(_oscillatorId, std::move(source));
-		_signalGenerator->setSampleRate(10.0);
-		_signalGenerator->setPitch(5.0);
+		_signalGenerator->setSampleRate(10.f);
+		_signalGenerator->setPitch(5.f);
 		_signalGenerator->generateSignal(_audioChannel, 0, 10);
 		
 		for (auto i = 0u; i < 10; ++i)
 		{
-			EXPECT_FLOAT_EQ(_audioChannel[i], eden::SampleType(1 - (i % 2)));
+			EXPECT_NEAR(_audioChannel[i], eden::SampleType(1 - (i % 2)), 1e-6f);
 		}
 	}
 

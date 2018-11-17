@@ -39,10 +39,6 @@ namespace eden::synth::wavetable
 		/// </summary>
 		void stop();
 
-		/// <param name="waveTable">wave table of samples to create source signal from - it should be a signle cycle
-		/// of a waveform of any length</param>
-		//void setWaveTable(WaveTable waveTable);
-
 		/// <summary>
 		/// Sets the pitch of the generator. From now on all calls to generateSignal will fill the
 		/// given channel with samples at specified pitch.
@@ -71,23 +67,6 @@ namespace eden::synth::wavetable
 		/// <param name="audioChannel"></param>
 		/// <param name="sampleIndex"></param>
 		void generateSample(SampleType* audioChannel, int sampleIndex);
-
-		/// <summary>
-		/// Current phase in the waveform.
-		/// </summary>
-		//double _currentPhase = 0.0;
-
-		/// <summary>
-		/// The increase in phase with every generated sample.
-		/// </summary>
-		//double _phaseDeltaPerSample = 0.0;
-
-		//double _sampleRate;
-
-		/// <summary>
-		/// Waveform to base the generated signal on.
-		/// </summary>
-		//Waveform _signalSource;
 
 		std::map<OscillatorId, SynthOscillator> _oscillators;
 	};

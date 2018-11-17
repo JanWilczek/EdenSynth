@@ -43,6 +43,6 @@ namespace libeden_test
 			}
 		}
 
-		EXPECT_NEAR(audioChannel[channelLength - 1], eden::SampleType(0), 1e-6);
+		EXPECT_NEAR(audioChannel[channelLength - 1], eden::SampleType(0), 1e-3);
 	}
 }

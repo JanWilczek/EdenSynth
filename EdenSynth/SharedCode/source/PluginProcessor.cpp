@@ -22,8 +22,7 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
 	),
 #endif
 	_pluginParameters(*this, nullptr)
-	, _assetsPath(std::experimental::filesystem::path(File::getSpecialLocation(File::SpecialLocationType::currentExecutableFile).getParentDirectory().getFullPathName().toStdString()) / "assets")
-	, _edenAdapter(_edenSynthesiser, _assetsPath)
+	, _edenAdapter(_edenSynthesiser, std::experimental::filesystem::path(File::getSpecialLocation(File::SpecialLocationType::currentExecutableFile).getParentDirectory().getFullPathName().toStdString()) / "assets")
 {
 	_edenAdapter.addEdenParameters(_pluginParameters);
 	_pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));

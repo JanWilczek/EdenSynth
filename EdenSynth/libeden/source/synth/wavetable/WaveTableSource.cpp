@@ -34,8 +34,8 @@ namespace eden::synth::wavetable
 
 	void WaveTableSource::reset()
 	{
-		_currentPhase = 0.0;
-		_phaseDeltaPerSample = 0.0;
+		_currentPhase = 0.f;
+		_phaseDeltaPerSample = 0.f;
 	}
 
 	SampleType WaveTableSource::getSample()
@@ -58,7 +58,7 @@ namespace eden::synth::wavetable
 
 	void WaveTableSource::setPitch(float pitch)
 	{
-		_omega = 2.0 * math_constants::PI * pitch;
+		_omega = 2.f * static_cast<float>(math_constants::PI) * pitch;
 		_phaseDeltaPerSample = _omega / _sampleRate;
 	}
 

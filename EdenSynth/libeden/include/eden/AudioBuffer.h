@@ -69,11 +69,17 @@ namespace eden
 		void addSample(int destChannel, unsigned destSample, SampleType valueToAdd);
 
 		/// <summary>
-		/// Fills all currently used buffer with the given value.
+		/// Fills whole currently used buffer with the given value.
 		/// </summary>
 		/// <param name="value"></param>
 		void fill(SampleType value);
 
+		/// <summary>
+		/// Fills the buffer on all channels with given <paramref name="value"> in range [<paramref name="begin">, <paramref name="end">).
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="begin"></param>
+		/// <param name="end"></param>
 		void fillFromTo(SampleType value, unsigned begin, unsigned end);
 
 		/// <summary>
@@ -94,6 +100,9 @@ namespace eden
 		/// </summary>
 		void freeAllChannels();
 
+		/// <summary>
+		/// Allocate a memory block of size _numChannels x _allocatedNumSamples.
+		/// </summary>
 		void allocateChannels();
 
 		int _numChannels;

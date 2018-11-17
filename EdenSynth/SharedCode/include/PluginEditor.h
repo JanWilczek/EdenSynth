@@ -10,17 +10,12 @@ public:
 	EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor&, AudioProcessorValueTreeState&, const eden_vst::WaveTablePathProvider&);
 	~EdenSynthAudioProcessorEditor();
 
-	//==============================================================================
 	void paint(Graphics&) override;
 	void resized() override;
 
 private:
-	void waveTableChanged();
-
 	EdenSynthAudioProcessor& _processor;
 	
-	//ComboBox _waveTables;
-
 	GeneratorComponent _generatorComponent;
 	ModifierComponent _modifierComponent;
 

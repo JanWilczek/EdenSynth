@@ -19,6 +19,9 @@ namespace eden::synth::envelope
 		bool hasEnded(SampleType currentLevel) override;
 
 	private:
+		/// <summary>
+		/// Value to check in hasEnded - can be a little more than passed finalLevel, otherwise decay could never end (e.g. when the exponential gain is used).
+		/// </summary>
 		SampleType _accurateFinalLevel;
 	};
 }

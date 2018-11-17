@@ -113,22 +113,24 @@ namespace eden::synth
 		/// <param name="samplesToMix"></param>
 		void mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix);
 
-		void clearInnerBlock(int startSample, int samplesToClear);
+		/// <summary>
+		/// Performs all necessary actions before voice rendering.
+		/// </summary>
+		/// <param name="startSample"></param>
+		/// <param name="samplesToRender"></param>
+		void prepareToRender(int startSample, int samplesToRender);
 
+		/// <summary>
+		/// Registers all internal modules in <paramref name="settings">.
+		/// </summary>
+		/// <param name="settings"></param>
 		void registerModules(settings::Settings& settings);
 
 		double _sampleRate;
 
 		/// <summary>
-		/// Length of the inner audio channel to which the voice is rendered.
-		/// </summary>
-		//unsigned _blockLength = 0u;
-
-		/// <summary>
 		/// Inner audio channel the voice is rendered to.
 		/// </summary>
-		//SampleType* _innerBlock = nullptr;
-
 		AudioBuffer _innerBuffer;
 
 		/// <summary>
