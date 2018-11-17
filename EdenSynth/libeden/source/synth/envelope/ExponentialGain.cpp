@@ -6,6 +6,7 @@
 #include "synth/envelope/ExponentialGain.h"
 #include <algorithm>
 #include "utility/TimeSampleConverter.h"
+#include "utility/MathConstants.h"
 
 namespace eden::synth::envelope
 {
@@ -40,8 +41,8 @@ namespace eden::synth::envelope
 
 		const auto durationInSamples = utility::TimeSampleConverter::timeToSamples(duration, sampleRate);
 
-		initialLevel = std::max(initialLevel, MINIMUM_LEVEL);
-		finalLevel = std::max(finalLevel, MINIMUM_LEVEL);
+		initialLevel = std::max(initialLevel, math_constants::THRESHOLD_OF_HEARING);
+		finalLevel = std::max(finalLevel, math_constants::THRESHOLD_OF_HEARING);
 
 		const auto exponent = (1.0 / durationInSamples) * std::log10(finalLevel / initialLevel);	// = a / 20
 		_multiplier = static_cast<SampleType>(std::pow(10, exponent));
@@ -49,9 +50,9 @@ namespace eden::synth::envelope
 
 	void ExponentialGain::applyAndUpdateGain(SampleType& currentGain)
 	{
-		if (currentGain < MINIMUM_LEVEL)
+		if (currentGain < math_constants::THRESHOLD_OF_HEARING)
 		{
-			currentGain = MINIMUM_LEVEL;
+			currentGain = math_constants::THRESHOLD_OF_HEARING;
 		}
 		else
 		{

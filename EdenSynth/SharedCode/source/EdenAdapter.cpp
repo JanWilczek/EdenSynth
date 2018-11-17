@@ -61,13 +61,13 @@ namespace eden_vst
 		pluginParameters.createAndAddParameter("envelope.adbdr.decay1.time", "Decay1 time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 20.f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("envelope.adbdr.decay1.curve", "Decay1 curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
-		pluginParameters.createAndAddParameter("envelope.adbdr.decay2.time", "Decay2 time", "ms", NormalisableRange<float>(1.f, 50000.f, 1.f, 0.3f), 20000.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("envelope.adbdr.decay2.time", "Decay2 time", "ms", NormalisableRange<float>(1.f, 100000.f, 1.f, 0.3f), 20000.f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("envelope.adbdr.decay2.curve", "Decay2 curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
 		pluginParameters.createAndAddParameter("envelope.adbdr.release.time", "Release time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 300.f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("envelope.adbdr.release.curve", "Release curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
-		pluginParameters.createAndAddParameter("envelope.adbdr.breakLevel", "Break level", String(), NormalisableRange<float>(0.f, 1.f, 0.001f, 0.7f), 0.6f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("envelope.adbdr.breakLevel", "Break level", String(), NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 0.6f, nullptr, nullptr);
 	}
 
 	void EdenAdapter::updateEdenParameters(const AudioProcessorValueTreeState& pluginParameters)
