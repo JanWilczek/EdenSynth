@@ -68,11 +68,6 @@ namespace eden::synth
 		setPitch(newPitch);
 	}
 
-	//void controllerMoved(int controllerNumber, int newControllerValue) override
-	//{
-
-	//}*/
-
 	bool Voice::isPlaying() const noexcept
 	{
 		return _currentNote != -1;
