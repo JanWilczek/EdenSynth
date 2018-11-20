@@ -104,6 +104,9 @@ namespace eden::synth
 		case MidiMessage::MidiMessageType::NoteOff:
 			noteOff(channel, midiMessage.getNoteNumber(), midiMessage.getVelocity());
 			break;
+		case MidiMessage::MidiMessageType::PitchBendChange:
+			pitchBendChange(channel, midiMessage.getPitchWheelPosition());
+			break;
 		default:
 			break;
 		}
@@ -132,7 +135,7 @@ namespace eden::synth
 			voice = getFreeVoice();
 			if (voice)
 			{
-				voice->startNote(midiNoteNumber, velocity);	// TODO: handle pitch wheel
+				voice->startNote(midiNoteNumber, velocity);
 			}
 		}
 	}
@@ -144,6 +147,17 @@ namespace eden::synth
 		if (voice)
 		{
 			voice->stopNote(velocity);
+		}
+	}
+
+	void Synthesiser::pitchBendChange(const int midiChannel, const int pitchBendValue)
+	{
+		_tuner->pitchBendChange(pitchBendValue);
+		const auto pitchBend = _tuner->getPitchBendInSemitones();
+
+		for (auto& voice : _voices)
+		{
+			voice->setPitchBend(pitchBend);
 		}
 	}
 

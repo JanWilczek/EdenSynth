@@ -190,6 +190,7 @@
     <ClInclude Include="include\synth\IMonoModule.h" />
     <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
     <ClInclude Include="include\synth\Synthesiser.h" />
+    <ClInclude Include="include\synth\Tuner.h" />
     <ClInclude Include="include\synth\Voice.h" />
     <ClInclude Include="include\synth\waveshaping\WaveshapingModule.h" />
     <ClInclude Include="include\synth\wavetable\SignalGenerator.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="source\synth\envelope\Sustain.cpp" />
     <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp" />
     <ClCompile Include="source\synth\Synthesiser.cpp" />
+    <ClCompile Include="source\synth\Tuner.cpp" />
     <ClCompile Include="source\synth\Voice.cpp" />
     <ClCompile Include="source\synth\waveshaping\WaveshapingModule.cpp" />
     <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp" />

@@ -15,5 +15,6 @@ namespace eden::synth::subtractive
 
 		void process(SampleType* audioChannel, int startSample, int samplesToProcess) override;
 		void setPitch(double pitch);
+		void setPitchBend(int pitchBendInSemitones);
 	};
 }

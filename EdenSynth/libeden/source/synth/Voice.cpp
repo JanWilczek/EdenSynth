@@ -31,7 +31,7 @@ namespace eden::synth
 		_currentNote = midiNoteNumber;
 		_velocity = static_cast<SampleType>(velocity);
 
-		const auto pitch = calculatePitch(_currentNote, 0);	// TODO: Handle pitch wheel.
+		const auto pitch = calculatePitch(_currentNote, 0);
 		setPitch(pitch);
 
 		_envelopeGenerator->keyOn();
@@ -62,10 +62,10 @@ namespace eden::synth
 		}
 	}
 
-	void Voice::pitchWheelMoved(int newPitchWheelValue)
+	void Voice::setPitchBend(int pitchBendInSemitones)
 	{
-		const auto newPitch = calculatePitch(_currentNote, newPitchWheelValue);
-		setPitch(newPitch);
+		_signalGenerator->setPitchBend(pitchBendInSemitones);
+		_subtractiveModule->setPitchBend(pitchBendInSemitones);
 	}
 
 	bool Voice::isPlaying() const noexcept
@@ -101,12 +101,7 @@ namespace eden::synth
 		_currentNote = -1;
 	}
 
-	double Voice::calculatePitch(int midiNoteNumber, int pitchWheelPosition)
-	{
-		return MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-	}
-
-	SampleType Voice::gainValue() const noexcept
+		SampleType Voice::gainValue() const noexcept
 	{
 		return SampleType(0.2);
 	}

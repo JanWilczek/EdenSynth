@@ -15,6 +15,30 @@ namespace eden::synth::wavetable
 		}
 	}
 
+	void SignalGenerator::stop()
+	{
+		for (auto& oscillatorPair : _oscillators)
+		{
+			oscillatorPair.second.reset();
+		}
+	}
+
+	void SignalGenerator::setPitch(float pitch)
+	{
+		for (auto& oscillatorPair : _oscillators)
+		{
+			oscillatorPair.second.setPitch(pitch);
+		}
+	}
+
+	void SignalGenerator::setPitchBend(int pitchBendInSemitones)
+	{
+		for (auto& oscillatorPair : _oscillators)
+		{
+			oscillatorPair.second.setSemitoneTransposition(oscillatorPair.second.getSemitoneTransposition() + pitchBendInSemitones);
+		}
+	}
+
 	void SignalGenerator::addOscillator(SynthOscillator oscillator)
 	{
 		_oscillators[oscillator.getId()] = std::move(oscillator);
@@ -58,22 +82,6 @@ namespace eden::synth::wavetable
 	void SignalGenerator::setOscillatorOn(OscillatorId oscillatorId, bool isOn)
 	{
 		_oscillators[oscillatorId].setOn(isOn);
-	}
-
-	void SignalGenerator::stop()
-	{
-		for (auto& oscillatorPair : _oscillators)
-		{
-			oscillatorPair.second.reset();
-		}
-	}
-
-	void SignalGenerator::setPitch(float pitch)
-	{
-		for (auto& oscillatorPair : _oscillators)
-		{
-			oscillatorPair.second.setPitch(pitch);
-		}
 	}
 
 	void SignalGenerator::setSampleRate(double sampleRate)

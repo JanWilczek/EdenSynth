@@ -46,6 +46,8 @@ namespace eden::synth::wavetable
 		/// <param name="pitch"></param>
 		void setPitch(float pitch);
 
+		void setPitchBend(int pitchBendInSemitones);
+
 		void addOscillator(SynthOscillator oscillator);
 		void removeOscillator(OscillatorId oscillatorToRemove);
 
@@ -55,8 +57,7 @@ namespace eden::synth::wavetable
 		void setCentTransposition(OscillatorId oscillatorId, int centShift);
 		void setOscillatorVolume(OscillatorId oscillatorId, float volume);
 		void setOscillatorOn(OscillatorId oscillatorId, bool isOn);
-		//void setPitchBendRange(std::pair<float, float> pitchBendRange);
-		
+
 		void setSampleRate(double sampleRate);
 
 	private:
@@ -69,5 +70,6 @@ namespace eden::synth::wavetable
 		void generateSample(SampleType* audioChannel, int sampleIndex);
 
 		std::map<OscillatorId, SynthOscillator> _oscillators;
+		std::pair<float, float> _pitchBendRange;
 	};
 }

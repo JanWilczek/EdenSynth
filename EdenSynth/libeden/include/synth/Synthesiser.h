@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include "synth/Voice.h"
+#include "synth/Tuner.h"
 
 namespace eden
 {
@@ -93,6 +94,8 @@ namespace eden::synth
 		/// <param name="velocity"></param>
 		void noteOff(const int midiChannel, const int midiNoteNumber, const float velocity);
 
+		void pitchBendChange(const int midiChannel, const int pitchBendValue);
+
 		/// <summary>
 		/// Adds voices given number of voices to the synthesiser. More voices means, that more notes can be played at once.
 		/// </summary>
@@ -117,5 +120,7 @@ namespace eden::synth
 		/// Size of the inner audio channel of each voice.
 		/// </summary>
 		unsigned _blockLength = 480u;
+
+		std::shared_ptr<Tuner> _tuner;
 	};
 }

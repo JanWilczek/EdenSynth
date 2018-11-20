@@ -54,7 +54,7 @@ namespace eden::synth
 		/// <param name="samplesToRender">number of samples to render</param>
 		void renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
 
-		void pitchWheelMoved(int newPitchWheelValue);
+		void setPitchBend(int pitchBendInSemitones);
 
 		/// <returns>true if the voice is active (renders a note in <c>renderBlock()</c>), false otherwise</returns>
 		bool isPlaying() const noexcept;

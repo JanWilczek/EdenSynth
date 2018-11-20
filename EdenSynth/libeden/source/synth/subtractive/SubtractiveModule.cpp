@@ -20,4 +20,9 @@ namespace eden::synth::subtractive
 	{
 		
 	}
+
+	void SubtractiveModule::setPitchBend(int pitchBendInSemitones)
+	{
+		
+	}
 }

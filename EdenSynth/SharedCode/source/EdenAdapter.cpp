@@ -40,6 +40,12 @@ namespace eden_vst
 				edenMessage.setNoteNumber(m.getNoteNumber());
 				edenMidiBuffer.addEvent(std::move(edenMessage), midiEventPos);
 			}
+			else if (m.isPitchWheel())
+			{
+				eden::MidiMessage edenMessage(m.getChannel(), eden::MidiMessage::MidiMessageType::PitchBendChange);
+				edenMessage.setPitchWheelPosition(m.getPitchWheelValue());
+				edenMidiBuffer.addEvent(std::move(edenMessage), midiEventPos);
+;			}
 		}
 
 		return edenMidiBuffer;

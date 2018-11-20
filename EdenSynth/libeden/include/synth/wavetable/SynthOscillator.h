@@ -52,6 +52,8 @@ namespace eden::synth::wavetable
 		/// <param name="semitoneShift">e.g. -2 means, that the rendered sound will be one tone lower than set</param>
 		void setSemitoneTransposition(int semitoneShift);
 
+		int getSemitoneTransposition();
+
 		/// <summary>
 		/// Sets pitch transposition in cents in regard to the pitch set by the <c>setPitch()</c> method.
 		/// </summary>
