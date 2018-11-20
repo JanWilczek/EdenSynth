@@ -27,14 +27,14 @@ namespace eden
 		/// <summary>
 		/// Fills the given audio buffer with samples according to messages stored in the MIDI buffer
 		/// and previous synthesiser state. The audio buffer does not need to be empty, but its
-		/// contents may be completetly overwritten.
+		/// contents will be completetly overwritten.
 		/// </summary>
 		/// <param name="bufferToFill"></param>
 		/// <param name="midiBuffer"></param>
 		void processInputBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer);
 
 		/// <summary>
-		/// Sets new sample rate of synthesiser.
+		/// Sets a new sample rate of synthesiser.
 		/// </summary>
 		/// <param name="sampleRate"></param>
 		void setSampleRate(double sampleRate);
@@ -43,23 +43,38 @@ namespace eden
 		double sampleRate() const noexcept;
 
 		/// <summary>
-		/// Sets the expected length of processing block - use it to allocate memory beforehand.
+		/// Sets the expected length of processing block - use it to allocate memory before calling to <c>processInputBlock()</c>.
 		/// </summary>
 		/// <param name="samplesPerBlock"></param>
 		void setBlockLength(int samplesPerBlock);
 
 		/// <summary>
-		/// Sets the wave table to be played - one cycle of a waveform. From that cycle all pitches will be created.
+		/// Creates an oscillator source which generates samples in realtime, i.e. calculates actual function values.
 		/// </summary>
-		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
-		//void setWaveTable(std::vector<SampleType> waveTable);
+		/// <param name="generatorName">name of the generator to base this source on</param>
+		/// <returns>handle to the source</returns>
 		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
 
+		/// <summary>
+		/// Creates an oscillator source which generates samples by interpolating values given in the <paramref name="waveTable">.
+		/// </summary>
+		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
+		/// <returns>handle to the source</returns>
 		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<SampleType> waveTable);
 		
+		/// <summary>
+		/// Creates an oscillator source which generates samples by interpolating values given in the wave file <paramref name="pathToWaveFile">.
+		/// </summary>
+		/// <param name="pathToWaveFile">path to the wave file containing one cycle of a waveform to replay</param>
+		/// <returns>handl to the source</returns>
 		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile);
 		
-		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillator);
+		/// <summary>
+		/// Creates and oscillator based on the given <paramref name="oscillatorSource">. The source can be later altered.
+		/// </summary>
+		/// <param name="oscillatorSource">source of the waveform to be controlled by this oscillator</param>
+		/// <returns>handle to the oscillator</returns>
+		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource);
 
 		/// <summary>
 		/// Sets new envelope of sound - the information about volume change in time in relation
@@ -68,8 +83,16 @@ namespace eden
 		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
 		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
+		/// <summary>
+		/// Set cutoff of the lowpass filter.
+		/// </summary>
+		/// <param name="cutoff">cutoff in range [0; 0,5]</param>
 		void setCutoff(float cutoff);
 
+		/// <summary>
+		/// Set resonance or Q of the lowpass filter.
+		/// </summary>
+		/// <param name="resonance"></param>
 		void setResonance(float resonance);
 
 

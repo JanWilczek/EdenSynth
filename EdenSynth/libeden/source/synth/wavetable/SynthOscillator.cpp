@@ -31,7 +31,7 @@ namespace eden::synth::wavetable
 	{
 	}
 
-	SynthOscillator::SynthOscillator(SynthOscillator&& other)
+	SynthOscillator::SynthOscillator(SynthOscillator&& other) noexcept
 		: _oscillatorSource(std::move(other._oscillatorSource))
 		, _id(other._id)
 		, _octaveShift(other._octaveShift)
@@ -57,7 +57,7 @@ namespace eden::synth::wavetable
 		return *this;
 	}
 
-	SynthOscillator& SynthOscillator::operator=(SynthOscillator&& other)
+	SynthOscillator& SynthOscillator::operator=(SynthOscillator&& other) noexcept
 	{
 		_oscillatorSource = std::move(other._oscillatorSource);
 		_id = other._id;
