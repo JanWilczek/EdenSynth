@@ -4,7 +4,6 @@
 /// 
 #include <algorithm>
 #include "synth/Synthesiser.h"
-
 #include "eden/AudioBuffer.h"
 #include "eden/MidiBuffer.h"
 #include "eden/MidiMessage.h"

@@ -28,7 +28,7 @@ namespace eden::synth
 	class Synthesiser
 	{
 	public:
-		Synthesiser(settings::Settings& settings);
+		explicit Synthesiser(settings::Settings& settings);
 
 		/// <summary>
 		/// Fills the given audio buffer with samples in full based on internal state.
@@ -84,6 +84,11 @@ namespace eden::synth
 		/// <param name="velocity"></param>
 		void noteOff(const int midiChannel, const int midiNoteNumber, const float velocity);
 
+		/// <summary>
+		/// Handles changes of value of the pitch bend wheel.
+		/// </summary>
+		/// <param name="midiChannel"></param>
+		/// <param name="pitchBendValue"></param>
 		void pitchBendChange(const int midiChannel, const int pitchBendValue);
 
 		/// <summary>

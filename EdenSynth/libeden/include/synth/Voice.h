@@ -28,7 +28,7 @@ namespace eden::synth
 	class Voice
 	{
 	public:
-		Voice(settings::Settings& settings);
+		explicit Voice(settings::Settings& settings);
 		Voice() = delete;
 
 		/// <summary>
@@ -56,6 +56,7 @@ namespace eden::synth
 		/// <param name="samplesToRender">number of samples to render</param>
 		void renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
 
+		/// <param name="pitchBendValue">pitch bend value as specified in the MIDI standard. <see cref="settings::Tuner::getPitchBendInSemitones(int)"> for predefined pitch bend values</param>
 		void setPitchBend(int pitchBendValue);
 
 		/// <returns>true if the voice is active (renders a note in <c>renderBlock()</c>), false otherwise</returns>
@@ -139,8 +140,16 @@ namespace eden::synth
 		/// </summary>
 		std::shared_ptr<envelope::Envelope> _envelopeGenerator;
 
+		/// <summary>
+		/// Tuner contains information about instrument pitch and pitch bend range.
+		/// Use it to convert note number to frequency.
+		/// </summary>
 		std::shared_ptr<settings::Tuner> _tuner;
 
+		/// <summary>
+		/// This information if necessary if a new note is pressed and a new voice has to be launched whilst the pitch wheel is being moved.
+		/// Then it starts to play with this value as pitch bend value.
+		/// </summary>
 		int _lastPitchBendValue;
 
 		/// <summary>
