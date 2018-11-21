@@ -20,7 +20,7 @@ namespace libeden_test
 
 		const double SAMPLE_RATE = 48000;
 		eden::settings::Settings _settings{};
-		eden::synth::Synthesiser synthesiser{_settings, SAMPLE_RATE };
+		eden::synth::Synthesiser synthesiser{_settings};
 		const int NUM_CHANNELS = 2;
 		const unsigned BUFFER_LENGTH = 1024;
 		eden::AudioBuffer audioBuffer{ NUM_CHANNELS, BUFFER_LENGTH };

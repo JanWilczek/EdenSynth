@@ -23,6 +23,7 @@ namespace eden::settings
 	public:
 		void registerSignalGenerator(std::shared_ptr<synth::wavetable::SignalGenerator> signalGenerator);
 		
+		void setSampleRate(float sampleRate);
 		OscillatorSourceId createGeneratorSource(float sampleRate, WaveformGenerators generatorName);
 		OscillatorSourceId createWaveTableSource(float sampleRate, std::vector<SampleType> waveTable);
 		void removeOscillatorSource(OscillatorSourceId sourceId);

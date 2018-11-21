@@ -18,12 +18,12 @@ namespace eden
 		_impl->processInputBlock(bufferToFill, midiBuffer);
 	}
 
-	void EdenSynthesiser::setSampleRate(double sampleRate)
+	void EdenSynthesiser::setSampleRate(float sampleRate)
 	{
 		_impl->setSampleRate(sampleRate);
 	}
 
-	double EdenSynthesiser::sampleRate() const noexcept
+	float EdenSynthesiser::sampleRate() const noexcept
 	{
 		return _impl->sampleRate();
 	}

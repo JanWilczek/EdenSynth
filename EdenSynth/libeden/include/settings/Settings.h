@@ -54,10 +54,10 @@ namespace eden::settings
 		/// Stores the sample rate. It does not change it in any of the modules.
 		/// </summary>
 		/// <param name="sampleRate"></param>
-		void storeSampleRate(float sampleRate) noexcept;
+		void setSampleRate(float sampleRate) noexcept;
 
 		/// <returns>currently stored sample rate</returns>
-		float storedSampleRate() const noexcept;
+		float sampleRate() const noexcept;
 
 		std::shared_ptr<Tuner> tuner() const noexcept;
 

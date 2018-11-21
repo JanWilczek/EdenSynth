@@ -14,8 +14,7 @@
 
 namespace eden::synth
 {
-	Synthesiser::Synthesiser(settings::Settings& settings, double sampleRate)
-		: _sampleRate(sampleRate)
+	Synthesiser::Synthesiser(settings::Settings& settings)
 	{
 		constexpr unsigned VOICES_TO_ADD = 16;
 		addVoices(settings, VOICES_TO_ADD);
@@ -65,20 +64,6 @@ namespace eden::synth
 		midiBuffer.clear();
 	}
 	
-	double Synthesiser::getSampleRate() const noexcept
-	{
-		return _sampleRate;
-	}
-
-	void Synthesiser::setSampleRate(double newSampleRate)
-	{
-		_sampleRate = newSampleRate;
-		for (auto& voice : _voices)
-		{
-			voice->setSampleRate(_sampleRate);
-		}
-	}
-
 	void Synthesiser::setBlockLength(unsigned samplesPerBlock)
 	{
 		if (samplesPerBlock != _blockLength)

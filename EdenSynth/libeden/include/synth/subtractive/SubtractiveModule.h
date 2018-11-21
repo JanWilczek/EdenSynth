@@ -14,6 +14,8 @@ namespace eden::synth::subtractive
 		~SubtractiveModule() override;
 
 		void process(SampleType* audioChannel, int startSample, int samplesToProcess) override;
+		
+		void setSampleRate(float sampleRate);
 		void setPitch(double pitch);
 		void setPitchBend(int pitchBendInSemitones);
 	};

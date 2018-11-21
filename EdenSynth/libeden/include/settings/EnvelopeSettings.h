@@ -20,6 +20,7 @@ namespace eden::settings
 		EnvelopeSettings();
 
 		void registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope);
+		void setSampleRate(float sampleRate);
 		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
 	private:

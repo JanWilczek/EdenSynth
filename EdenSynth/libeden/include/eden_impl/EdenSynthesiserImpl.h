@@ -27,9 +27,9 @@ namespace eden
 
 		void processInputBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer);
 
-		void setSampleRate(double sampleRate);
+		void setSampleRate(float sampleRate);
 
-		double sampleRate() const noexcept;
+		float sampleRate() const noexcept;
 
 		void setBlockLength(int samplesPerBlock);
 

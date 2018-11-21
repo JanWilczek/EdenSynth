@@ -17,12 +17,19 @@ namespace eden::settings
 	{
 	}
 
-	void Settings::storeSampleRate(float sampleRate) noexcept
+	void Settings::setSampleRate(float sampleRate) noexcept
 	{
-		_sampleRate = sampleRate;
+		if (sampleRate != _sampleRate)
+		{
+			_sampleRate = sampleRate;
+
+			_generatorSettings->setSampleRate(_sampleRate);
+			_subtractiveModuleSettings->setSampleRate(_sampleRate);
+			_envelopeSettings->setSampleRate(_sampleRate);
+		}
 	}
 
-	float Settings::storedSampleRate() const noexcept
+	float Settings::sampleRate() const noexcept
 	{
 		return _sampleRate;
 	}
@@ -64,12 +71,12 @@ namespace eden::settings
 
 	OscillatorSourceId Settings::createGeneratorSource(WaveformGenerators generatorName)
 	{
-		return _generatorSettings->createGeneratorSource(storedSampleRate(), generatorName);
+		return _generatorSettings->createGeneratorSource(sampleRate(), generatorName);
 	}
 
 	OscillatorSourceId Settings::createWaveTableSource(std::vector<SampleType> waveTable)
 	{
-		return _generatorSettings->createWaveTableSource(storedSampleRate(), waveTable);
+		return _generatorSettings->createWaveTableSource(sampleRate(), waveTable);
 	}
 
 	void Settings::removeOscillatorSource(OscillatorSourceId sourceId)

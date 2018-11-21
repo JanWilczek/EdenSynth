@@ -19,6 +19,14 @@ namespace eden::settings
 		_envelopes.push_back(envelope);
 	}
 
+	void EnvelopeSettings::setSampleRate(float sampleRate)
+	{
+		for (auto envelope : _envelopes)
+		{
+			envelope->setSampleRate(sampleRate);
+		}
+	}
+
 	void EnvelopeSettings::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
 		if (envelopeParameters->type == _currentParameters->type)

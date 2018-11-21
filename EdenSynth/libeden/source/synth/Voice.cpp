@@ -14,12 +14,11 @@
 namespace eden::synth
 {
 	Voice::Voice(settings::Settings& settings)
-		: _sampleRate(settings.storedSampleRate())
-		, _innerBuffer(1, 480u)
+		: _innerBuffer(1, 480u)
 		, _signalGenerator(std::make_shared<wavetable::SignalGenerator>())
 		, _subtractiveModule(std::make_shared<subtractive::SubtractiveModule>())
 		, _waveshapingModule(std::make_shared<waveshaping::WaveshapingModule>())
-		, _envelopeGenerator(std::make_shared<envelope::ADBDR>(_sampleRate, ADBDRParameters{}))
+		, _envelopeGenerator(std::make_shared<envelope::ADBDR>(settings.sampleRate(), ADBDRParameters{}))
 		, _tuner(settings.tuner())
 		, _lastPitchBendValue(settings::Tuner::PITCH_BEND_NEUTRAL_VALUE)
 	{
@@ -80,18 +79,6 @@ namespace eden::synth
 	bool Voice::isPlayingNote(const int midiNoteNumber) const noexcept
 	{
 		return _currentNote == midiNoteNumber;
-	}
-
-	double Voice::getSampleRate() const noexcept
-	{
-		return _sampleRate;
-	}
-
-	void Voice::setSampleRate(double newSampleRate)
-	{
-		_sampleRate = newSampleRate;
-		_signalGenerator->setSampleRate(_sampleRate);
-		_envelopeGenerator->setSampleRate(_sampleRate);
 	}
 
 	void Voice::setBlockLength(unsigned samplesPerBlock)

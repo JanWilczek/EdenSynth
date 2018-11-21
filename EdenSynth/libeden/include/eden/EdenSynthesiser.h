@@ -37,10 +37,10 @@ namespace eden
 		/// Sets a new sample rate of synthesiser.
 		/// </summary>
 		/// <param name="sampleRate"></param>
-		void setSampleRate(double sampleRate);
+		void setSampleRate(float sampleRate);
 
 		/// <returns>currently used sample rate</returns>
-		double sampleRate() const noexcept;
+		float sampleRate() const noexcept;
 
 		/// <summary>
 		/// Sets the expected length of processing block - use it to allocate memory before calling to <c>processInputBlock()</c>.

@@ -13,7 +13,7 @@ namespace eden
 {
 	EdenSynthesiserImpl::EdenSynthesiserImpl()
 		: _settings()
-		, _synthesiser(_settings, _settings.storedSampleRate())
+		, _synthesiser(_settings)
 	{
 	}
 
@@ -22,18 +22,14 @@ namespace eden
 		_synthesiser.processBlock(bufferToFill, midiBuffer, bufferToFill.getNumSamples());
 	}
 
-	void EdenSynthesiserImpl::setSampleRate(double sampleRate)
+	void EdenSynthesiserImpl::setSampleRate(float sampleRate)
 	{
-		if (sampleRate != _settings.storedSampleRate())
-		{
-			_settings.storeSampleRate(sampleRate);
-			_synthesiser.setSampleRate(sampleRate);
-		}
+		_settings.setSampleRate(sampleRate);
 	}
 
-	double EdenSynthesiserImpl::sampleRate() const noexcept
+	float EdenSynthesiserImpl::sampleRate() const noexcept
 	{
-		return _settings.storedSampleRate();
+		return _settings.sampleRate();
 	}
 
 	void EdenSynthesiserImpl::setBlockLength(int samplesPerBlock)

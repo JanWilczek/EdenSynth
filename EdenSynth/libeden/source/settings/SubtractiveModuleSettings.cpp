@@ -12,6 +12,14 @@ namespace eden::settings
 		_subtractiveModules.push_back(subtractiveModule);
 	}
 
+	void SubtractiveModuleSettings::setSampleRate(float sampleRate)
+	{
+		for (auto subtractiveModule : _subtractiveModules)
+		{
+			subtractiveModule->setSampleRate(sampleRate);
+		}
+	}
+
 	void SubtractiveModuleSettings::setCutoff(float cutoff)
 	{
 		if (cutoff != _cutoff)

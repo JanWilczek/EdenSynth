@@ -18,6 +18,7 @@ namespace eden::settings
 	public:
 		void registerSubtractiveModule(std::shared_ptr<synth::subtractive::SubtractiveModule> subtractiveModule);
 
+		void setSampleRate(float sampleRate);
 		void setCutoff(float cutoff);
 		void setResonance(float resonance);
 

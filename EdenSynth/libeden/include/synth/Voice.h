@@ -64,15 +64,6 @@ namespace eden::synth
 		/// <returns>true if the voice is currently rendering a particular note, false otherwise</returns>
 		bool isPlayingNote(const int midiNoteNumber) const noexcept;
 
-		/// <returns>currently used sample rate</returns>
-		double getSampleRate() const noexcept;
-
-		/// <summary>
-		/// Sets new sample rate. May be costly because of internal filters recalculation.
-		/// </summary>
-		/// <param name="newSampleRate"></param>
-		void setSampleRate(double newSampleRate);
-
 		/// <summary>
 		/// Sets the expected length of processing block. Must be called at least once before first call to <c>renderBlock()</c>.
 		/// </summary>
@@ -122,8 +113,6 @@ namespace eden::synth
 		/// </summary>
 		/// <param name="settings"></param>
 		void registerModules(settings::Settings& settings);
-
-		double _sampleRate;
 
 		/// <summary>
 		/// Inner audio channel the voice is rendered to.

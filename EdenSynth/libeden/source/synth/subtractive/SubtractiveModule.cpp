@@ -16,6 +16,11 @@ namespace eden::synth::subtractive
 		
 	}
 
+	void SubtractiveModule::setSampleRate(float sampleRate)
+	{
+		
+	}
+
 	void SubtractiveModule::setPitch(double pitch)
 	{
 		

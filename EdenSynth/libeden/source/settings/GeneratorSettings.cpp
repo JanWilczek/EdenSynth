@@ -13,6 +13,14 @@ namespace eden::settings
 		_signalGenerators.push_back(signalGenerator);
 	}
 
+	void GeneratorSettings::setSampleRate(float sampleRate)
+	{
+		for (auto generator : _signalGenerators)
+		{
+			generator->setSampleRate(sampleRate);
+		}
+	}
+
 	OscillatorSourceId GeneratorSettings::createGeneratorSource(float sampleRate, WaveformGenerators generatorName)
 	{
 		// TODO: Not implemented.

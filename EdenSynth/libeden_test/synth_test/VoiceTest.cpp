@@ -18,7 +18,7 @@ namespace libeden_test
 	protected:
 		void SetUp() override
 		{
-			_settings.storeSampleRate(SAMPLE_RATE);
+			_settings.setSampleRate(SAMPLE_RATE);
 			_voice = std::make_unique<eden::synth::Voice>(_settings);
 			_buffer.fill(eden::SampleType(0));
 
@@ -26,7 +26,7 @@ namespace libeden_test
 			_oscId = _settings.addOscillator(_sourceId);
 		}
 
-		const double SAMPLE_RATE = 48000.0;
+		const float SAMPLE_RATE = 48000.f;
 		eden::settings::Settings _settings{};
 		std::unique_ptr<eden::synth::Voice> _voice;
 
@@ -93,13 +93,13 @@ namespace libeden_test
 		constexpr eden::SampleType breakLevel(0.5);
 		constexpr int noteNumber = 83;
 
-		_voice->setSampleRate(sampleRate);
+		_settings.setSampleRate(sampleRate);
 		_voice->setBlockLength(250u);
 		_settings.setEnvelopeParameters(std::make_shared<eden::ADBDRParameters>(segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, segmentTime, eden::EnvelopeSegmentCurve::Linear, breakLevel));
 		auto sourceId = _settings.createWaveTableSource({ 1.f, 1.f });
 		_settings.setOscillatorSource(_oscId, sourceId);
 
-		EXPECT_DOUBLE_EQ(_voice->getSampleRate(), sampleRate);
+		EXPECT_DOUBLE_EQ(_settings.sampleRate(), sampleRate);
 		EXPECT_FALSE(_voice->isPlaying());
 
 		_voice->startNote(noteNumber, 1.0f);

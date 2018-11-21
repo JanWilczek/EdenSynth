@@ -28,7 +28,7 @@ namespace eden::synth
 	class Synthesiser
 	{
 	public:
-		Synthesiser(settings::Settings& settings, double sampleRate);
+		Synthesiser(settings::Settings& settings);
 
 		/// <summary>
 		/// Fills the given audio buffer with samples in full based on internal state.
@@ -46,15 +46,6 @@ namespace eden::synth
 		/// <param name="startSample"></param>
 		/// <param name="numSamples"></param>
 		void processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples);
-
-		/// <returns>currently used sample rate</returns>
-		double getSampleRate() const noexcept;
-
-		/// <summary>
-		/// Sets internal sample rate. May be costly due to filters' parameters recalculation.
-		/// </summary>
-		/// <param name="newSampleRate"></param>
-		void setSampleRate(double newSampleRate);
 
 		/// <summary>
 		/// Sets the expected length of processing block - use it to allocate memory beforehand.
@@ -112,8 +103,6 @@ namespace eden::synth
 		/// Container with voices.
 		/// </summary>
 		std::vector<std::unique_ptr<Voice>> _voices;
-
-		double _sampleRate;
 
 		/// <summary>
 		/// Size of the inner audio channel of each voice.
