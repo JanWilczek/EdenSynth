@@ -3,6 +3,7 @@
 #include "PluginProcessor.h"
 #include "GeneratorComponent.h"
 #include "ModifierComponent.h"
+#include "GeneralSettingsComponent.h"
 
 class EdenSynthAudioProcessorEditor : public AudioProcessorEditor
 {
@@ -15,7 +16,8 @@ public:
 
 private:
 	EdenSynthAudioProcessor& _processor;
-	
+
+	GeneralSettingsComponent _generalSettingsComponent;
 	GeneratorComponent _generatorComponent;
 	ModifierComponent _modifierComponent;
 

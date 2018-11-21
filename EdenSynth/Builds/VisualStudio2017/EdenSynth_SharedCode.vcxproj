@@ -1891,11 +1891,13 @@
     <ClCompile Include="..\..\SharedCode\source\EnvelopeComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\EnvelopeSegmentComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\FilterComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\GeneralSettingsComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\GeneratorComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\ModifierComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\OscillatorComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\OscillatorContainer.cpp" />
     <ClCompile Include="..\..\SharedCode\source\OscillatorsComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\OutputSettingsComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\PluginEditor.cpp" />
     <ClCompile Include="..\..\SharedCode\source\PluginProcessor.cpp" />
     <ClCompile Include="..\..\SharedCode\source\WaveshaperComponent.cpp" />
@@ -2573,11 +2575,13 @@
     <ClInclude Include="..\..\SharedCode\include\EnvelopeComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\EnvelopeSegmentComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\FilterComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\GeneralSettingsComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\ModifierComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\GeneratorComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\OscillatorComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\OscillatorContainer.h" />
     <ClInclude Include="..\..\SharedCode\include\OscillatorsComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\OutputSettingsComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\PluginEditor.h" />
     <ClInclude Include="..\..\SharedCode\include\PluginProcessor.h" />
     <ClInclude Include="..\..\SharedCode\include\WaveshaperComponent.h" />

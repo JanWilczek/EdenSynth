@@ -53,6 +53,11 @@ namespace eden_vst
 
 	void EdenAdapter::addEdenParameters(AudioProcessorValueTreeState& pluginParameters)
 	{
+		// general parameters
+		pluginParameters.createAndAddParameter("pitchBend.semitonesDown", "Pitch bend semitones down", String(), NormalisableRange<float>(-24.f, 0.f, 1.f), -12.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("pitchBend.semitonesUp", "Pitch bend semitones up", String(), NormalisableRange<float>(0.f, 24.f, 1.f), 2.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("frequencyOfA4", "Frequency of A4", "Hz", NormalisableRange<float>(420.f, 450.f, 0.1f), 440.f, nullptr, nullptr);
+
 		// oscillator parameters
 		_oscillators.addOscillatorParameters(pluginParameters);
 
@@ -74,10 +79,17 @@ namespace eden_vst
 		pluginParameters.createAndAddParameter("envelope.adbdr.release.curve", "Release curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
 		pluginParameters.createAndAddParameter("envelope.adbdr.breakLevel", "Break level", String(), NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 0.6f, nullptr, nullptr);
+
+		// output parameters
+		pluginParameters.createAndAddParameter("output.volume", "Global volume", String(), NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 1.0f, nullptr, nullptr);
 	}
 
 	void EdenAdapter::updateEdenParameters(const AudioProcessorValueTreeState& pluginParameters)
 	{
+		// general parameters
+		_synthesiser.setPitchBendRange({ static_cast<int>(*pluginParameters.getRawParameterValue("pitchBend.semitonesDown")), static_cast<int>(*pluginParameters.getRawParameterValue("pitchBend.semitonesUp")) });
+		_synthesiser.setFrequencyOfA4(*pluginParameters.getRawParameterValue("frequencyOfA4"));
+
 		// oscillator parameters
 		_oscillators.updateOscillatorParameters(pluginParameters);
 
@@ -105,6 +117,9 @@ namespace eden_vst
 
 			_synthesiser.setEnvelopeParameters(std::make_shared<eden::ADBDRParameters>(adbdrParameters));
 		}
+
+		// output parameters
+		_synthesiser.setVolume(*pluginParameters.getRawParameterValue("output.volume"));
 	}
 
 	WaveTablePathProvider& EdenAdapter::getPathProvider()
