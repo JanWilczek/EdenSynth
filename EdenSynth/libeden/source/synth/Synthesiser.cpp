@@ -26,8 +26,11 @@ namespace eden::synth
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples)
 	{
+		const auto firstSampleIndex = startSample;
+		const auto blockLength = numSamples;
+
 		// 1. Empty the buffer - it may contain garbage.
-		bufferToFill.fillFromTo(0, startSample, startSample + numSamples);
+		bufferToFill.fillFromTo(0, startSample, startSample + blockLength);
 		
 		auto midiIterator = midiBuffer.begin();
 
@@ -63,7 +66,7 @@ namespace eden::synth
 		midiBuffer.clear();
 
 		// 8. Apply global volume.
-		applyVolume(bufferToFill, startSample, numSamples);
+		applyVolume(bufferToFill, firstSampleIndex, blockLength);
 	}
 	
 	void Synthesiser::setBlockLength(unsigned samplesPerBlock)
