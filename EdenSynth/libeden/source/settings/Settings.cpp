@@ -9,7 +9,8 @@
 namespace eden::settings
 {
 	Settings::Settings()
-		: _generatorSettings(std::make_unique<GeneratorSettings>())
+		: _tuner(std::make_shared<Tuner>())
+		, _generatorSettings(std::make_unique<GeneratorSettings>())
 		, _subtractiveModuleSettings(std::make_unique<SubtractiveModuleSettings>())
 		, _waveshapingModuleSettings(std::make_unique<WaveshapingModuleSettings>())
 		, _envelopeSettings(std::make_unique<EnvelopeSettings>())
@@ -24,6 +25,21 @@ namespace eden::settings
 	float Settings::storedSampleRate() const noexcept
 	{
 		return _sampleRate;
+	}
+
+	std::shared_ptr<Tuner>	Settings::tuner() const noexcept
+	{
+		return _tuner;
+	}
+
+	void Settings::setFrequencyOfA4(float frequencyOfA4)
+	{
+		_tuner->setFrequencyOfA4(frequencyOfA4);
+	}
+
+	void Settings::setPitchBendRange(std::pair<float, float>  transposeDownTransposeUp)
+	{
+		_tuner->setPitchBendRange(transposeDownTransposeUp);
 	}
 
 	void Settings::registerSignalGenerator(std::shared_ptr<synth::wavetable::SignalGenerator> signalGenerator)

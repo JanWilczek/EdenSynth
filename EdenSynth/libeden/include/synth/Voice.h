@@ -3,11 +3,13 @@
 /// \author Jan Wilczek
 /// \date 02.09.2018
 /// 
+#include <memory>
 #include "eden/AudioBuffer.h"
 #include "synth/envelope/Envelope.h"
 #include "synth/subtractive/SubtractiveModule.h"
 #include "synth/waveshaping/WaveshapingModule.h"
 #include "synth/wavetable/SignalGenerator.h"
+#include "settings/Tuner.h"
 
 namespace eden::settings
 {
@@ -26,7 +28,7 @@ namespace eden::synth
 	class Voice
 	{
 	public:
-		Voice(settings::Settings& settings, double sampleRate);
+		Voice(settings::Settings& settings);
 		Voice() = delete;
 
 		/// <summary>
@@ -54,7 +56,7 @@ namespace eden::synth
 		/// <param name="samplesToRender">number of samples to render</param>
 		void renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
 
-		void setPitchBend(int pitchBendInSemitones);
+		void setPitchBend(int pitchBendValue);
 
 		/// <returns>true if the voice is active (renders a note in <c>renderBlock()</c>), false otherwise</returns>
 		bool isPlaying() const noexcept;
@@ -82,13 +84,8 @@ namespace eden::synth
 		/// </summary>
 		void finalizeVoice();
 
-		/// <param name="midiNoteNumber"></param>
-		/// <param name="pitchWheelPosition"></param>
-		/// <returns>pitch based on given <paramref name="midiNoteNumber"> and <paramref name="pitchWheelPosition"></returns>
-		double calculatePitch(int midiNoteNumber, int pitchWheelPosition);
-
 		/// <returns>current gain value by which every voice is scaled</returns>
-		SampleType gainValue() const noexcept;
+		constexpr SampleType gainValue() noexcept;
 
 	private:
 		/// <summary>
@@ -152,6 +149,10 @@ namespace eden::synth
 		/// Responsible for applying envelope to the signal. It holds the information about the current level of rendered samples.
 		/// </summary>
 		std::shared_ptr<envelope::Envelope> _envelopeGenerator;
+
+		std::shared_ptr<settings::Tuner> _tuner;
+
+		int _lastPitchBendValue;
 
 		/// <summary>
 		/// Currently played note by this voice. -1 means that no note is being played and voice is free to play a new one.

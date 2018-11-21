@@ -9,7 +9,6 @@
 #include <eden/EnvelopeParameters.h>
 #include <settings/Settings.h>
 #include "TestUtils.h"
-#include "eden/Oscillator.h"
 #include "synth/wavetable/SineWaveTable.h"
 
 namespace libeden_test
@@ -19,7 +18,8 @@ namespace libeden_test
 	protected:
 		void SetUp() override
 		{
-			_voice = std::make_unique<eden::synth::Voice>(_settings, SAMPLE_RATE);
+			_settings.storeSampleRate(SAMPLE_RATE);
+			_voice = std::make_unique<eden::synth::Voice>(_settings);
 			_buffer.fill(eden::SampleType(0));
 
 			_sourceId = _settings.createWaveTableSource(eden::synth::wavetable::SineWaveTable);
@@ -78,7 +78,11 @@ namespace libeden_test
 
 	TEST_F(VoiceTest, CalculatePitch)
 	{
-		EXPECT_DOUBLE_EQ(_voice->calculatePitch(69, 0), 440.0);
+		auto tuner = _settings.tuner();
+		constexpr auto A4 = 440.f;
+
+		tuner->setFrequencyOfA4(A4);
+		EXPECT_FLOAT_EQ(tuner->calculatePitch(69, 0), A4);
 	}
 
 	TEST_F(VoiceTest, VariousParameters)

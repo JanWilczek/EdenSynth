@@ -152,12 +152,9 @@ namespace eden::synth
 
 	void Synthesiser::pitchBendChange(const int midiChannel, const int pitchBendValue)
 	{
-		_tuner->pitchBendChange(pitchBendValue);
-		const auto pitchBend = _tuner->getPitchBendInSemitones();
-
 		for (auto& voice : _voices)
 		{
-			voice->setPitchBend(pitchBend);
+			voice->setPitchBend(pitchBendValue);
 		}
 	}
 
@@ -165,7 +162,7 @@ namespace eden::synth
 	{
 		for (unsigned i = 0; i < numVoicesToAdd; ++i)
 		{
-			_voices.emplace_back(std::make_unique<Voice>(settings, _sampleRate));
+			_voices.emplace_back(std::make_unique<Voice>(settings));
 		}
 	}
 

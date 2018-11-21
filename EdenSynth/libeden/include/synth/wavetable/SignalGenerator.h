@@ -46,8 +46,6 @@ namespace eden::synth::wavetable
 		/// <param name="pitch"></param>
 		void setPitch(float pitch);
 
-		void setPitchBend(int pitchBendInSemitones);
-
 		void addOscillator(SynthOscillator oscillator);
 		void removeOscillator(OscillatorId oscillatorToRemove);
 

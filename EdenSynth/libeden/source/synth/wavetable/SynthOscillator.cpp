@@ -108,11 +108,6 @@ namespace eden::synth::wavetable
 		setOscillatorPitch();
 	}
 
-	int SynthOscillator::getSemitoneTransposition()
-	{
-		return _semitoneShift;
-	}
-
 	void SynthOscillator::setCentTransposition(int centShift)
 	{
 		_centShift = centShift;

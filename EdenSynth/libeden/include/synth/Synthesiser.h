@@ -6,7 +6,6 @@
 #include <vector>
 #include <memory>
 #include "synth/Voice.h"
-#include "synth/Tuner.h"
 
 namespace eden
 {
@@ -120,7 +119,5 @@ namespace eden::synth
 		/// Size of the inner audio channel of each voice.
 		/// </summary>
 		unsigned _blockLength = 480u;
-
-		std::shared_ptr<Tuner> _tuner;
 	};
 }

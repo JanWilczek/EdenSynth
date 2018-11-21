@@ -216,8 +216,8 @@
     <ClInclude Include="include\eden_impl\OscillatorSourceImpl.h">
       <Filter>Header Files\eden_impl</Filter>
     </ClInclude>
-    <ClInclude Include="include\synth\Tuner.h">
-      <Filter>Header Files\synth</Filter>
+    <ClInclude Include="include\settings\Tuner.h">
+      <Filter>Header Files\settings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -329,8 +329,8 @@
     <ClCompile Include="source\eden_impl\OscillatorSourceImpl.cpp">
       <Filter>Source Files\eden_impl</Filter>
     </ClCompile>
-    <ClCompile Include="source\synth\Tuner.cpp">
-      <Filter>Source Files\synth</Filter>
+    <ClCompile Include="source\settings\Tuner.cpp">
+      <Filter>Source Files\settings</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -13,13 +13,15 @@
 
 namespace eden::synth
 {
-	Voice::Voice(settings::Settings& settings, double sampleRate)
-		: _sampleRate(sampleRate)
+	Voice::Voice(settings::Settings& settings)
+		: _sampleRate(settings.storedSampleRate())
 		, _innerBuffer(1, 480u)
 		, _signalGenerator(std::make_shared<wavetable::SignalGenerator>())
 		, _subtractiveModule(std::make_shared<subtractive::SubtractiveModule>())
 		, _waveshapingModule(std::make_shared<waveshaping::WaveshapingModule>())
 		, _envelopeGenerator(std::make_shared<envelope::ADBDR>(_sampleRate, ADBDRParameters{}))
+		, _tuner(settings.tuner())
+		, _lastPitchBendValue(settings::Tuner::PITCH_BEND_NEUTRAL_VALUE)
 	{
 		_envelopeGenerator->setOnEnvelopeEndedCallback([this](unsigned) { finalizeVoice(); });
 
@@ -31,7 +33,7 @@ namespace eden::synth
 		_currentNote = midiNoteNumber;
 		_velocity = static_cast<SampleType>(velocity);
 
-		const auto pitch = calculatePitch(_currentNote, 0);
+		const auto pitch = _tuner->calculatePitch(_currentNote, _lastPitchBendValue);
 		setPitch(pitch);
 
 		_envelopeGenerator->keyOn();
@@ -62,10 +64,12 @@ namespace eden::synth
 		}
 	}
 
-	void Voice::setPitchBend(int pitchBendInSemitones)
+	void Voice::setPitchBend(int pitchBendValue)
 	{
-		_signalGenerator->setPitchBend(pitchBendInSemitones);
-		_subtractiveModule->setPitchBend(pitchBendInSemitones);
+		_lastPitchBendValue = pitchBendValue;
+
+		const auto pitch = _tuner->calculatePitch(_currentNote, _lastPitchBendValue);
+		setPitch(pitch);
 	}
 
 	bool Voice::isPlaying() const noexcept
@@ -101,7 +105,7 @@ namespace eden::synth
 		_currentNote = -1;
 	}
 
-		SampleType Voice::gainValue() const noexcept
+	constexpr SampleType Voice::gainValue() noexcept
 	{
 		return SampleType(0.2);
 	}

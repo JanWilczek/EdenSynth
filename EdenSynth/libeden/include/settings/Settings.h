@@ -9,6 +9,7 @@
 #include "settings/SubtractiveModuleSettings.h"
 #include "settings/WaveshapingModuleSettings.h"
 #include "eden/OscillatorParameters.h"
+#include "settings/Tuner.h"
 
 namespace eden
 {
@@ -57,6 +58,12 @@ namespace eden::settings
 
 		/// <returns>currently stored sample rate</returns>
 		float storedSampleRate() const noexcept;
+
+		std::shared_ptr<Tuner> tuner() const noexcept;
+
+		void setFrequencyOfA4(float frequencyOfA4);
+
+		void setPitchBendRange(std::pair<float, float> transposeDownTransposeUp);
 
 		/// <summary>
 		/// Registers a SignalGenerator module. Each voice should register its generator in settings.
@@ -181,6 +188,11 @@ namespace eden::settings
 		/// The only default sample rate value in the whole project.
 		/// </summary>
 		float _sampleRate = 48000.f;
+
+		/// <summary>
+		/// Tuner contains information about global pitch settings, i.e. frequency of A4 note and pitch bend.
+		/// </summary>
+		std::shared_ptr<Tuner> _tuner;
 
 		/// <summary>
 		/// Particular synthesis modules which actually handle all the settings.
