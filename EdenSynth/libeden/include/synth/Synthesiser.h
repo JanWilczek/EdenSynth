@@ -53,6 +53,12 @@ namespace eden::synth
 		/// <param name="samplesPerBlock"></param>
 		void setBlockLength(unsigned samplesPerBlock);
 
+		/// <summary>
+		/// Sets the overall volume of the synthesiser.
+		/// </summary>
+		/// <param name="volume">volume in range [0; 1]</param>
+		void setVolume(float volume);
+
 	private:
 		/// <summary>
 		/// Changes internal state based on received MIDI message. E.g. starts playing a note after note on message.
@@ -105,6 +111,14 @@ namespace eden::synth
 		Voice* getVoicePlayingNote(const int midiNoteNumber);
 
 		/// <summary>
+		/// Applies global volume to the buffer in range [<paramref name="startSample">; <paramref name="startSample"> + <paramref name="numSamples">).
+		/// </summary>
+		/// <param name="bufferToFill"></param>
+		/// <param name="startSample"></param>
+		/// <param name="numSamples"></param>
+		void applyVolume(AudioBuffer& bufferToFill, int startSample, int numSamples);
+
+		/// <summary>
 		/// Container with voices.
 		/// </summary>
 		std::vector<std::unique_ptr<Voice>> _voices;
@@ -113,5 +127,10 @@ namespace eden::synth
 		/// Size of the inner audio channel of each voice.
 		/// </summary>
 		unsigned _blockLength = 480u;
+
+		/// <summary>
+		/// Current synthesiser volume. Range: [0; 1].
+		/// </summary>
+		float _volume = 1.0f;
 	};
 }

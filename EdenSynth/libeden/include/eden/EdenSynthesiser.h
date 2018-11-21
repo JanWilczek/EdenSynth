@@ -48,8 +48,23 @@ namespace eden
 		/// <param name="samplesPerBlock"></param>
 		void setBlockLength(int samplesPerBlock);
 
+		/// <summary>
+		/// Sets the overall volume of the synthesiser.
+		/// </summary>
+		/// <param name="volume">volume in range [0; 1]</param>
+		void setVolume(float volume);
+
+		/// <summary>
+		/// Sets the frequency which should correspond to MIDI note 69.
+		/// </summary>
+		/// <param name="frequencyOfA4"></param>
 		void setFrequencyOfA4(float frequencyOfA4);
 
+		/// <summary>
+		/// Sets the pitch bend range: how much in semitones can the pitch wheel transpose a sound.
+		/// E.g. pair {-12, 2} transposes the pitch by a tone up, when pitch wheel's value is maximum and by an octave down, when pitch wheel's value is minimum.
+		/// </summary>
+		/// <param name="transposeDownTransposeUp">first element indicates the number of semitones corresponding to maximum down-bend, second the number of semitones corresponding to maximum up-bend</param>
 		void setPitchBendRange(std::pair<int, int> transposeDownTransposeUp);
 
 		/// <summary>
@@ -98,7 +113,6 @@ namespace eden
 		/// </summary>
 		/// <param name="resonance"></param>
 		void setResonance(float resonance);
-
 
 	private:
 		/// <summary>

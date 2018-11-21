@@ -61,6 +61,9 @@ namespace eden::synth
 
 		// 7. Clear the MIDI buffer, so that there is no MIDI output.
 		midiBuffer.clear();
+
+		// 8. Apply global volume.
+		applyVolume(bufferToFill, startSample, numSamples);
 	}
 	
 	void Synthesiser::setBlockLength(unsigned samplesPerBlock)
@@ -73,6 +76,11 @@ namespace eden::synth
 				voice->setBlockLength(_blockLength);
 			}
 		}
+	}
+
+	void Synthesiser::setVolume(float volume)
+	{
+		_volume = volume;
 	}
 
 	void Synthesiser::handleMidiMessage(MidiMessage& midiMessage)
@@ -160,5 +168,16 @@ namespace eden::synth
 	{
 		const auto result = std::find_if(_voices.begin(), _voices.end(), [&midiNoteNumber](std::unique_ptr<Voice>& voice) { return voice->isPlayingNote(midiNoteNumber); });
 		return result != _voices.end() ? result->get() : nullptr;
+	}
+
+	void Synthesiser::applyVolume(AudioBuffer& bufferToFill, int startSample, int numSamples)
+	{
+		bufferToFill.forEachChannel([&](SampleType* channel)
+		{
+			for (auto sample = startSample; sample < startSample + numSamples; ++sample)
+			{
+				channel[sample] *= _volume;
+			}
+		});
 	}
 }

@@ -97,7 +97,7 @@ void EdenSynthAudioProcessor::changeProgramName(int /*index*/, const String& /*n
 //==============================================================================
 void EdenSynthAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-	_edenSynthesiser.setSampleRate(sampleRate);
+	_edenSynthesiser.setSampleRate(static_cast<float>(sampleRate));
 	_edenSynthesiser.setBlockLength(samplesPerBlock);
 }
 

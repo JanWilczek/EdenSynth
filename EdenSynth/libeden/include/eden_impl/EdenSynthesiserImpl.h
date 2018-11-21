@@ -33,6 +33,8 @@ namespace eden
 
 		void setBlockLength(int samplesPerBlock);
 
+		void setVolume(float volume);
+
 		void setFrequencyOfA4(float frequencyOfA4);
 
 		void setPitchBendRange(std::pair<int, int> transposeDownTransposeUp);

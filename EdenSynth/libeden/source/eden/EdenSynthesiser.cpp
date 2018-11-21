@@ -33,6 +33,11 @@ namespace eden
 		_impl->setBlockLength(samplesPerBlock);
 	}
 
+	void EdenSynthesiser::setVolume(float volume)
+	{
+		_impl->setVolume(volume);
+	}
+
 	void EdenSynthesiser::setFrequencyOfA4(float frequencyOfA4)
 	{
 		_impl->setFrequencyOfA4(frequencyOfA4);
