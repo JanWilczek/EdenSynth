@@ -45,7 +45,7 @@ namespace eden_vst
 				eden::MidiMessage edenMessage(m.getChannel(), eden::MidiMessage::MidiMessageType::PitchBendChange);
 				edenMessage.setPitchWheelPosition(m.getPitchWheelValue());
 				edenMidiBuffer.addEvent(std::move(edenMessage), midiEventPos);
-;			}
+			}
 		}
 
 		return edenMidiBuffer;

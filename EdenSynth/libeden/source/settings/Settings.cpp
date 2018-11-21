@@ -37,7 +37,7 @@ namespace eden::settings
 		_tuner->setFrequencyOfA4(frequencyOfA4);
 	}
 
-	void Settings::setPitchBendRange(std::pair<float, float>  transposeDownTransposeUp)
+	void Settings::setPitchBendRange(std::pair<int, int>  transposeDownTransposeUp)
 	{
 		_tuner->setPitchBendRange(transposeDownTransposeUp);
 	}

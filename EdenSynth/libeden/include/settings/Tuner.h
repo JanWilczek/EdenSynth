@@ -18,10 +18,10 @@ namespace eden::settings
 		void setFrequencyOfA4(float frequencyOfA4);
 
 		float calculatePitch(int midiNoteNumber, int pitchBendValue);
-		int getPitchBendInSemitones(int pitchBendValue);
+		float getPitchBendInSemitones(int pitchBendValue);
 
 	private:
 		float _frequencyOfA4 = 440.f;
-		std::pair<int, int> _pitchBendRange = {-2, 2};
+		std::pair<int, int> _pitchBendRange = {-12, 2};
 	};
 }

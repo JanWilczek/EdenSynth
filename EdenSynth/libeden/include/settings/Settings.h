@@ -63,7 +63,7 @@ namespace eden::settings
 
 		void setFrequencyOfA4(float frequencyOfA4);
 
-		void setPitchBendRange(std::pair<float, float> transposeDownTransposeUp);
+		void setPitchBendRange(std::pair<int, int> transposeDownTransposeUp);
 
 		/// <summary>
 		/// Registers a SignalGenerator module. Each voice should register its generator in settings.
