@@ -76,13 +76,13 @@ namespace eden::synth::wavetable
 		return _id;
 	}
 
-	SampleType SynthOscillator::getSample()
+	float SynthOscillator::getSample()
 	{
 		if (_isOn)
 		{
-			return static_cast<SampleType>(_volume) * _oscillatorSource->getSample();
+			return static_cast<float>(_volume) * _oscillatorSource->getSample();
 		}
-		return SampleType(0);
+		return float(0);
 	}
 
 	void SynthOscillator::reset()

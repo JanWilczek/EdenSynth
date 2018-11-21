@@ -101,7 +101,7 @@ namespace eden::settings
 		/// </summary>
 		/// <param name="waveTable">one cycle of a waveform to replay</param>
 		/// <returns>unique id representing the createed oscillator source</returns>
-		OscillatorSourceId createWaveTableSource(std::vector<SampleType> waveTable);
+		OscillatorSourceId createWaveTableSource(std::vector<float> waveTable);
 
 		/// <summary>
 		/// Removes oscillator source with the given id.

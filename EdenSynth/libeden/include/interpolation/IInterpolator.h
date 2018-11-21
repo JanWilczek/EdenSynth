@@ -4,7 +4,6 @@
 /// \date 20.10.2018
 /// 
 #include <vector>
-#include "eden/SampleType.h"
 
 namespace eden::interpolation
 {
@@ -23,7 +22,7 @@ namespace eden::interpolation
 		/// <param name="discreteValues"></param>
 		/// <param name="index"></param>
 		/// <returns></returns>
-		virtual SampleType interpolate(const std::vector<SampleType>& discreteValues, double index) = 0;
+		virtual float interpolate(const std::vector<float>& discreteValues, float index) = 0;
 	};
 
 	inline IInterpolator::~IInterpolator()

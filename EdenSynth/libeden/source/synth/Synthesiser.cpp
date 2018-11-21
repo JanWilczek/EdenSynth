@@ -172,7 +172,7 @@ namespace eden::synth
 
 	void Synthesiser::applyVolume(AudioBuffer& bufferToFill, int startSample, int numSamples)
 	{
-		bufferToFill.forEachChannel([&](SampleType* channel)
+		bufferToFill.forEachChannel([&](float* channel)
 		{
 			for (auto sample = startSample; sample < startSample + numSamples; ++sample)
 			{

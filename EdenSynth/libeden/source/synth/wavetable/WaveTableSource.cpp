@@ -38,7 +38,7 @@ namespace eden::synth::wavetable
 		_phaseDeltaPerSample = 0.f;
 	}
 
-	SampleType WaveTableSource::getSample()
+	float WaveTableSource::getSample()
 	{
 		const auto sample = _waveform(_currentPhase);
 

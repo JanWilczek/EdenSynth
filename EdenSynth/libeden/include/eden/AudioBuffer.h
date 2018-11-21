@@ -4,7 +4,6 @@
 /// \date 27.08.2018
 /// 
 #include <functional>
-#include "eden/SampleType.h"
 
 namespace eden
 {
@@ -27,22 +26,22 @@ namespace eden
 		/// <param name="dataToUse">preallocated data</param>
 		/// <param name="numChannelsToUse">number of channels to use</param>
 		/// <param name="numSamplesToUse">length of buffer to use</param>
-		AudioBuffer(SampleType** dataToUse, int numChannelsToUse, unsigned numSamplesToUse);
+		AudioBuffer(float** dataToUse, int numChannelsToUse, unsigned numSamplesToUse);
 		
 		AudioBuffer(AudioBuffer&&) noexcept;
 		AudioBuffer& operator=(AudioBuffer&&) noexcept;
 
 		~AudioBuffer();
 
-		SampleType* getWritePointer(int channel) const;
+		float* getWritePointer(int channel) const;
 
 		/// <returns>array of pointers to inner mutable data block, each element in array being a pointer to a channel</returns>
-		SampleType** getArrayOfWritePointers() const noexcept;
+		float** getArrayOfWritePointers() const noexcept;
 
-		const SampleType* getReadPointer(int channel) const;
+		const float* getReadPointer(int channel) const;
 
 		/// <returns>array of pointers to inner immutable data block, each element in array being a pointer to a channel</returns>
-		const SampleType** getArrayOfReadPointers() const noexcept;
+		const float** getArrayOfReadPointers() const noexcept;
 
 		/// <summary>
 		/// Sets the number of used channels in the buffer. May need to allocate data.
@@ -66,13 +65,13 @@ namespace eden
 		/// <param name="destChannel">channel of the sample</param>
 		/// <param name="destSample">index of the sample</param>
 		/// <param name="valueToAdd"></param>
-		void addSample(int destChannel, unsigned destSample, SampleType valueToAdd);
+		void addSample(int destChannel, unsigned destSample, float valueToAdd);
 
 		/// <summary>
 		/// Fills whole currently used buffer with the given value.
 		/// </summary>
 		/// <param name="value"></param>
-		void fill(SampleType value);
+		void fill(float value);
 
 		/// <summary>
 		/// Fills the buffer on all channels with given <paramref name="value"> in range [<paramref name="begin">, <paramref name="end">).
@@ -80,19 +79,19 @@ namespace eden
 		/// <param name="value"></param>
 		/// <param name="begin"></param>
 		/// <param name="end"></param>
-		void fillFromTo(SampleType value, unsigned begin, unsigned end);
+		void fillFromTo(float value, unsigned begin, unsigned end);
 
 		/// <summary>
 		/// Performs given operation on each channel.
 		/// </summary>
 		/// <param name="callback">function to call on each channel (array of samples)</param>
-		void forEachChannel(std::function<void(SampleType*)> callback);
+		void forEachChannel(std::function<void(float*)> callback);
 
 		/// <summary>
 		/// Performs given operation on each sample stored in the buffer.
 		/// </summary>
 		/// <param name="callback">function to call on each sample</param>
-		void forEachSample(std::function<void(SampleType&)> callback);
+		void forEachSample(std::function<void(float&)> callback);
 
 	private:
 		/// <summary>
@@ -108,7 +107,7 @@ namespace eden
 		int _numChannels;
 		unsigned _numSamples;
 		unsigned _allocatedNumSamples;
-		SampleType** _channels;
+		float** _channels;
 		bool _ownsChannels;
 	};
 }

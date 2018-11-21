@@ -9,14 +9,14 @@
 
 namespace eden::synth::envelope
 {
-	Decay::Decay(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel)
+	Decay::Decay(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
 		: EnvelopeSegment(sampleRate, std::move(envelopeGain), duration, initialLevel, finalLevel)
 		, _accurateFinalLevel(std::max(finalLevel + 1e-6f, math_constants::THRESHOLD_OF_HEARING))
 	{
 		EDEN_ASSERT(initialLevel > finalLevel);
 	}
 
-	bool Decay::hasEnded(SampleType currentGain)
+	bool Decay::hasEnded(float currentGain)
 	{
 		return currentGain <= _accurateFinalLevel;
 	}

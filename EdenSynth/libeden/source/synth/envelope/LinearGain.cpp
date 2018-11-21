@@ -7,21 +7,21 @@
 
 namespace eden::synth::envelope
 {
-	void LinearGain::applyAndUpdateGain(SampleType& currentLevel)
+	void LinearGain::applyAndUpdateGain(float& currentLevel)
 	{
 		currentLevel += _gainPerSample;
 
-		if (currentLevel > SampleType(1.0))
+		if (currentLevel > float(1.0))
 		{
-			currentLevel = SampleType(1.0);
+			currentLevel = float(1.0);
 		}
-		else if (currentLevel < SampleType(0.0))
+		else if (currentLevel < float(0.0))
 		{
-			currentLevel = SampleType(0.0);
+			currentLevel = float(0.0);
 		}
 	}
 
-	void LinearGain::calculateGain(double sampleRate, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel)
+	void LinearGain::calculateGain(double sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
 	{
 		const auto durationInSamples = utility::TimeSampleConverter::timeToSamples(duration, sampleRate);
 		_gainPerSample = (finalLevel - initialLevel) / durationInSamples;

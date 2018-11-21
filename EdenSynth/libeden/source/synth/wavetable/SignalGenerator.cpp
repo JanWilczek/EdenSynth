@@ -7,7 +7,7 @@
 
 namespace eden::synth::wavetable
 {
-	void SignalGenerator::generateSignal(SampleType* audioChannel, int startSample, int samplesToGenerate)
+	void SignalGenerator::generateSignal(float* audioChannel, int startSample, int samplesToGenerate)
 	{
 		for (int sample = startSample; sample < startSample + samplesToGenerate; ++sample)
 		{
@@ -76,7 +76,7 @@ namespace eden::synth::wavetable
 		_oscillators[oscillatorId].setOn(isOn);
 	}
 
-	void SignalGenerator::setSampleRate(double sampleRate)
+	void SignalGenerator::setSampleRate(float sampleRate)
 	{
 		for (auto& oscillatorPair : _oscillators)
 		{
@@ -84,13 +84,13 @@ namespace eden::synth::wavetable
 		}
 	}
 
-	void SignalGenerator::generateSample(SampleType* audioChannel, int sampleIndex)
+	void SignalGenerator::generateSample(float* audioChannel, int sampleIndex)
 	{
 		for (auto& oscillatorPair : _oscillators)
 		{
 			audioChannel[sampleIndex] += oscillatorPair.second.getSample();
 		}
 
-		audioChannel[sampleIndex] /= static_cast<SampleType>(_oscillators.size());
+		audioChannel[sampleIndex] /= static_cast<float>(_oscillators.size());
 	}
 }

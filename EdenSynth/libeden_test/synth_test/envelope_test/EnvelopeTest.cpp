@@ -15,16 +15,16 @@ namespace libeden_test
 		std::unique_ptr<eden::synth::envelope::Envelope> envelope = std::make_unique<eden::synth::envelope::ADBDR>(48000.0, eden::ADBDRParameters(10ms, eden::EnvelopeSegmentCurve::Exponential, 
 			10ms, eden::EnvelopeSegmentCurve::Exponential, 10000ms, eden::EnvelopeSegmentCurve::Exponential, 8000ms, eden::EnvelopeSegmentCurve::Exponential, 0.7f));
 		constexpr auto channelLength = 480u;
-		eden::SampleType audioChannel[channelLength] = { eden::SampleType(0) };
+		float audioChannel[channelLength] = { float(0) };
 
 		envelope->keyOn();
 		for (auto i = 0; i < 2; ++i)
 		{
-			TestUtils::fillChannel(audioChannel, eden::SampleType(1), 0, channelLength);
+			TestUtils::fillChannel(audioChannel, float(1), 0, channelLength);
 			envelope->apply(audioChannel, 0, channelLength);
 		}
 
-		EXPECT_NEAR(audioChannel[channelLength - 1], eden::SampleType(0.7f), 1e-2f);
+		EXPECT_NEAR(audioChannel[channelLength - 1], float(0.7f), 1e-2f);
 
 		envelope->setSampleRate(44100.0);
 		envelope->keyOff();
@@ -33,16 +33,16 @@ namespace libeden_test
 		// Therefore it should take 352,800 / 44,100 = 8 seconds with this sample rate for the envelope to reach 0.
 		for (auto i = 0u; i < 735; ++i)
 		{
-			TestUtils::fillChannel(audioChannel, eden::SampleType(1), 0, channelLength);
+			TestUtils::fillChannel(audioChannel, float(1), 0, channelLength);
 			envelope->apply(audioChannel, 0, channelLength);
 
 			// Due to near 0 value, the envelope may end sooner - therefore don't check the last hundred of iterations.
 			if (i < 635)
 			{
-				EXPECT_NE(audioChannel[0], eden::SampleType(0));
+				EXPECT_NE(audioChannel[0], float(0));
 			}
 		}
 
-		EXPECT_NEAR(audioChannel[channelLength - 1], eden::SampleType(0), 1e-3);
+		EXPECT_NEAR(audioChannel[channelLength - 1], float(0), 1e-3);
 	}
 }

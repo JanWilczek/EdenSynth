@@ -164,7 +164,6 @@
     <ClInclude Include="include\eden\Oscillator.h" />
     <ClInclude Include="include\eden\OscillatorParameters.h" />
     <ClInclude Include="include\eden\OscillatorSource.h" />
-    <ClInclude Include="include\eden\SampleType.h" />
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
     <ClInclude Include="include\eden_impl\OscillatorImpl.h" />
     <ClInclude Include="include\eden_impl\OscillatorSourceImpl.h" />

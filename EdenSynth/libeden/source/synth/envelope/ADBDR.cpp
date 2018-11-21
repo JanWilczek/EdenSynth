@@ -44,7 +44,7 @@ namespace eden::synth::envelope
 		_segments[static_cast<int>(segment)]->setGainCurve(SegmentGainFactory::createSegmentGain(curve));
 	}
 
-	void ADBDR::setBreakLevel(SampleType breakLevel)
+	void ADBDR::setBreakLevel(float breakLevel)
 	{
 		_decay1.setFinalLevel(breakLevel);
 		_decay2.setInitialLevel(breakLevel);

@@ -57,7 +57,7 @@ namespace eden
 		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, generatorName));
 	}
 
-	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createWaveTableOscillatorSource(std::vector<SampleType> waveTable)
+	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createWaveTableOscillatorSource(std::vector<float> waveTable)
 	{
 		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, waveTable));
 	}

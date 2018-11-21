@@ -4,7 +4,6 @@
 /// \date 12.11.2018
 /// 
 #include <memory>
-#include "eden/SampleType.h"
 #include "eden/OscillatorParameters.h"
 #include "synth/wavetable/IOscillatorSource.h"
 
@@ -30,7 +29,7 @@ namespace eden::synth::wavetable
 		/// Generates and returns one sample.
 		/// </summary>
 		/// <returns>generated sample</returns>
-		SampleType getSample();
+		float getSample();
 
 		/// <summary>
 		/// Resets the note being played. Should be called when the voice has ended.

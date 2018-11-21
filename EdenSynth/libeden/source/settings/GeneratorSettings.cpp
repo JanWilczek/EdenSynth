@@ -27,7 +27,7 @@ namespace eden::settings
 		throw std::logic_error("Generators not implemented.");
 	}
 
-	OscillatorSourceId GeneratorSettings::createWaveTableSource(float sampleRate, std::vector<SampleType> waveTable)
+	OscillatorSourceId GeneratorSettings::createWaveTableSource(float sampleRate, std::vector<float> waveTable)
 	{
 		const auto id = _firstAvailableSourceId++;
 

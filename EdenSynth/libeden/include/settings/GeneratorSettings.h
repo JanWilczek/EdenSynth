@@ -7,7 +7,6 @@
 #include <vector>
 #include <map>
 #include "eden/OscillatorParameters.h"
-#include "eden/SampleType.h"
 
 namespace eden::synth::wavetable
 {
@@ -25,7 +24,7 @@ namespace eden::settings
 		
 		void setSampleRate(float sampleRate);
 		OscillatorSourceId createGeneratorSource(float sampleRate, WaveformGenerators generatorName);
-		OscillatorSourceId createWaveTableSource(float sampleRate, std::vector<SampleType> waveTable);
+		OscillatorSourceId createWaveTableSource(float sampleRate, std::vector<float> waveTable);
 		void removeOscillatorSource(OscillatorSourceId sourceId);
 		OscillatorId addOscillator(OscillatorSourceId sourceId);
 		void removeOscillator(OscillatorId oscillatorToRemove);

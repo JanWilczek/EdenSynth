@@ -4,7 +4,6 @@
 /// \date 12.11.2018
 /// 
 #include <memory>
-#include "eden/SampleType.h"
 
 namespace eden::synth::wavetable
 {
@@ -17,7 +16,7 @@ namespace eden::synth::wavetable
 		virtual void reset() = 0;
 		virtual void setPitch(float pitch) = 0;
 		virtual void setSampleRate(float sampleRate) = 0;
-		virtual SampleType getSample() = 0;
+		virtual float getSample() = 0;
 	};
 
 	inline IOscillatorSource::~IOscillatorSource()

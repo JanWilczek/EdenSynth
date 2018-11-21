@@ -6,11 +6,11 @@
 
 namespace eden::synth::envelope
 {
-	void NoGain::applyAndUpdateGain(SampleType& currentLevel)
+	void NoGain::applyAndUpdateGain(float& currentLevel)
 	{
 	}
 
-	void NoGain::calculateGain(double sampleRate, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel)
+	void NoGain::calculateGain(double sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
 	{
 	}
 }

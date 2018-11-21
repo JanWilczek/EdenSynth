@@ -30,7 +30,7 @@ namespace eden::synth
 	void Voice::startNote(int midiNoteNumber, float velocity)
 	{
 		_currentNote = midiNoteNumber;
-		_velocity = static_cast<SampleType>(velocity);
+		_velocity = static_cast<float>(velocity);
 
 		const auto pitch = _tuner->calculatePitch(_currentNote, _lastPitchBendValue);
 		setPitch(pitch);
@@ -92,9 +92,9 @@ namespace eden::synth
 		_currentNote = -1;
 	}
 
-	constexpr SampleType Voice::gainValue() noexcept
+	constexpr float Voice::gainValue() noexcept
 	{
-		return SampleType(0.2);
+		return float(0.2);
 	}
 
 	void Voice::setPitch(float newPitch)
@@ -104,7 +104,7 @@ namespace eden::synth
 		_subtractiveModule->setPitch(newPitch);
 	}
 
-	void Voice::applyVelocity(SampleType* channel, int startSample, int samplesToRender)
+	void Voice::applyVelocity(float* channel, int startSample, int samplesToRender)
 	{
 		for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
 		{
@@ -117,7 +117,7 @@ namespace eden::synth
 
 	void Voice::mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix)
 	{
-		outputBuffer.forEachChannel([this, &startSample, &samplesToMix](SampleType* channel)
+		outputBuffer.forEachChannel([this, &startSample, &samplesToMix](float* channel)
 		{
 			for (auto sample = startSample; sample < startSample + samplesToMix; ++sample)
 			{
@@ -132,7 +132,7 @@ namespace eden::synth
 
 	void Voice::prepareToRender(int startSample, int samplesToRender)
 	{
-		_innerBuffer.fillFromTo(SampleType(0), startSample, startSample + samplesToRender);
+		_innerBuffer.fillFromTo(float(0), startSample, startSample + samplesToRender);
 		_innerBuffer.setNumSamples(samplesToRender);
 	}
 

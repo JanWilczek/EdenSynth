@@ -4,7 +4,7 @@
 /// \date 04.11.2018
 /// 
 #include <chrono>
-#include "SampleType.h"
+#include "float.h"
 
 namespace eden
 {
@@ -56,7 +56,7 @@ namespace eden
 			std::chrono::milliseconds _decay1Time, EnvelopeSegmentCurve _decay1Curve,
 			std::chrono::milliseconds _decay2Time, EnvelopeSegmentCurve _decay2Curve,
 			std::chrono::milliseconds _releaseTime, EnvelopeSegmentCurve _releaseCurve,
-			SampleType _breakLevel) 
+			float _breakLevel) 
 			: EnvelopeParameters(EnvelopeType::ADBDR)
 			, attackTime(_attackTime), attackCurve(_attackCurve),
 		decay1Time(_decay1Time), decay1Curve(_decay1Curve), decay2Time(_decay2Time), decay2Curve(_decay2Curve),
@@ -77,6 +77,6 @@ namespace eden
 		std::chrono::milliseconds releaseTime = 1000ms;
 		EnvelopeSegmentCurve releaseCurve = EnvelopeSegmentCurve::Exponential;
 
-		SampleType breakLevel = SampleType(0.8f);
+		float breakLevel = float(0.8f);
 	};
 }

@@ -17,7 +17,7 @@ namespace libeden_test
 		ms decay1Time;
 		ms decay2Time;
 		ms releaseTime;
-		eden::SampleType breakLevel;
+		float breakLevel;
 	};
 
 	class ADBDRTest : public ::testing::TestWithParam<ADBDRTestData>
@@ -25,13 +25,13 @@ namespace libeden_test
 	protected:
 		const unsigned NUM_SAMPLES = 10000;
 		const double SAMPLE_RATE = 48000.0;
-		std::unique_ptr<eden::SampleType[]> _channel = std::make_unique<eden::SampleType[]>(NUM_SAMPLES);
+		std::unique_ptr<float[]> _channel = std::make_unique<float[]>(NUM_SAMPLES);
 		std::unique_ptr<eden::synth::envelope::Envelope> _envelope;
 		ADBDRTestData _data;
 
 		void SetUp() override
 		{
-			fillChannel(eden::SampleType(1.0));
+			fillChannel(1.f);
 			_data = GetParam();
 			eden::ADBDRParameters envelopeParameters( _data.attackTime, eden::EnvelopeSegmentCurve::Exponential,
 				_data.decay1Time, eden::EnvelopeSegmentCurve::Exponential,
@@ -41,19 +41,16 @@ namespace libeden_test
 			_envelope = std::make_unique<eden::synth::envelope::ADBDR>(SAMPLE_RATE, envelopeParameters);
 		}
 
-		void fillChannel(const eden::SampleType value)
+		void fillChannel(const float value)
 		{
-			for (auto i = 0u; i < NUM_SAMPLES; ++i)
-			{
-				_channel[i] = eden::SampleType(1.0);
-			}
+			fillChannel(value, 0, NUM_SAMPLES - 1);
 		}
 
-		void fillChannel(const eden::SampleType value, unsigned fromSample, unsigned toSample)
+		void fillChannel(const float value, unsigned fromSample, unsigned toSample)
 		{
 			for (; fromSample <= toSample; ++fromSample)
 			{
-				_channel[fromSample] = eden::SampleType(1.0);
+				_channel[fromSample] = value;
 			}
 		}
 
@@ -73,7 +70,7 @@ namespace libeden_test
 			if (toSample < NUM_SAMPLES)
 			{
 				const auto samplesToProcess = toSample - fromSample + 1;
-				fillChannel(eden::SampleType(1.0), fromSample, toSample);
+				fillChannel(float(1.0), fromSample, toSample);
 				_envelope->apply(_channel.get(), fromSample, samplesToProcess);
 				return samplesToProcess;
 			}
@@ -81,7 +78,7 @@ namespace libeden_test
 			auto processedSamples = 0u;
 			const auto initialSamplesToProcess = NUM_SAMPLES - fromSample;
 
-			fillChannel(eden::SampleType(1.0), fromSample, NUM_SAMPLES - 1);
+			fillChannel(float(1.0), fromSample, NUM_SAMPLES - 1);
 			_envelope->apply(_channel.get(), fromSample, initialSamplesToProcess);
 
 			processedSamples += initialSamplesToProcess;
@@ -89,7 +86,7 @@ namespace libeden_test
 
 			while (toSample > NUM_SAMPLES - 1)
 			{
-				fillChannel(eden::SampleType(1.0));
+				fillChannel(float(1.0));
 				_envelope->apply(_channel.get(), 0, NUM_SAMPLES);
 
 				processedSamples += NUM_SAMPLES;
@@ -97,7 +94,7 @@ namespace libeden_test
 			}
 			const auto finalSamplesToProcess = toSample + 1;
 
-			fillChannel(eden::SampleType(1.0), 0, finalSamplesToProcess - 1);
+			fillChannel(float(1.0), 0, finalSamplesToProcess - 1);
 			_envelope->apply(_channel.get(), 0, finalSamplesToProcess);
 			processedSamples += finalSamplesToProcess;
 
@@ -149,7 +146,7 @@ namespace libeden_test
 
 		processSamplesRange(0, attackEndSample);
 		ASSERT_TRUE(attackEndSample < NUM_SAMPLES - 1);
-		EXPECT_NEAR(_channel[attackEndSample], eden::SampleType(1.0), 2e-3);
+		EXPECT_NEAR(_channel[attackEndSample], float(1.0), 2e-3);
 
 		const auto decay1Samples = eden::utility::TimeSampleConverter::timeToSamples(_data.decay1Time, SAMPLE_RATE);
 		auto breakSample = decay1Samples + attackEndSample;
@@ -160,7 +157,7 @@ namespace libeden_test
 
 		auto endChannel = NUM_SAMPLES - 1;
 		processSamplesRange(breakSample + 1, endChannel);
-		const auto endSample = findFirstSample(breakSample, [](eden::SampleType sample) { return std::abs(sample - eden::SampleType(0.0)) < 1e-6; });
+		const auto endSample = findFirstSample(breakSample, [](float sample) { return std::abs(sample - float(0.0)) < 1e-6; });
 
 		shapeTest(breakSample, endSample > 0u ? endSample : NUM_SAMPLES - 1);
 	}
@@ -193,7 +190,7 @@ namespace libeden_test
 			releaseStartOnChannel = decay1EndSample;
 		}
 
-		auto foundEndSample = findFirstSample(releaseStartOnChannel, [](eden::SampleType sample) { return std::abs(sample - eden::SampleType(0.0)) < 1e-6; });
+		auto foundEndSample = findFirstSample(releaseStartOnChannel, [](float sample) { return std::abs(sample - float(0.0)) < 1e-6; });
 		EXPECT_LE(foundEndSample, endSample);
 
 		shapeTest(releaseStartOnChannel, foundEndSample - 1);
@@ -201,9 +198,9 @@ namespace libeden_test
 
 	constexpr ADBDRTestData testData[] =
 	{
-		{ 10ms, 30ms, 400ms, 100ms, eden::SampleType(0.6)},
-		{ 200ms, 50ms, 10000ms, 300ms, eden::SampleType(0.9)},
-		{ 1000ms, 100ms, 5000ms, 1000ms, eden::SampleType(0.8)},
+		{ 10ms, 30ms, 400ms, 100ms, float(0.6)},
+		{ 200ms, 50ms, 10000ms, 300ms, float(0.9)},
+		{ 1000ms, 100ms, 5000ms, 1000ms, float(0.8)},
 	};
 
 	INSTANTIATE_TEST_CASE_P(Envelope, ADBDRTest, ::testing::ValuesIn(std::begin(testData), std::end(testData)));

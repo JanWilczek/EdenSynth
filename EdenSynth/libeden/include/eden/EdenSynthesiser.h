@@ -79,7 +79,7 @@ namespace eden
 		/// </summary>
 		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
 		/// <returns>handle to the source</returns>
-		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<SampleType> waveTable);
+		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<float> waveTable);
 		
 		/// <summary>
 		/// Creates an oscillator source which generates samples by interpolating values given in the wave file <paramref name="pathToWaveFile">.

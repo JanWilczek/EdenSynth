@@ -3,7 +3,6 @@
 ///	\author Jan Wilczek 
 ///	 \date 08.10.2018
 ///
-#include "eden/SampleType.h"
 
 namespace eden::synth
 {
@@ -21,7 +20,7 @@ namespace eden::synth
 		/// <param name="audioBuffer"></param>
 		/// <param name="startSample"></param>
 		/// <param name="samplesToRender"></param>
-		virtual void process(SampleType* audioChannel, int startSample, int samplesToProcess) = 0;
+		virtual void process(float* audioChannel, int startSample, int samplesToProcess) = 0;
 	};
 
 	inline IMonoModule::~IMonoModule()

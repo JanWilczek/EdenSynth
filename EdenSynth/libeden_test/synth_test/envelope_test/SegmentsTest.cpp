@@ -16,8 +16,8 @@ namespace libeden_test
 	struct SegmentTestParam
 	{
 		std::chrono::milliseconds duration;
-		eden::SampleType initialLevel;
-		eden::SampleType finalLevel;
+		float initialLevel;
+		float finalLevel;
 	};
 
 	class SegmentTest : public ::testing::Test
@@ -25,10 +25,10 @@ namespace libeden_test
 	protected:
 		const double SAMPLE_RATE = 48000.0;
 
-		void testSegment(eden::synth::envelope::EnvelopeSegment& segment, SegmentTestParam testData, double durationTolerance, eden::SampleType& lastLevel)
+		void testSegment(eden::synth::envelope::EnvelopeSegment& segment, SegmentTestParam testData, double durationTolerance, float& lastLevel)
 		{
 			unsigned iterationCount = 0u;
-			eden::SampleType currentLevel(testData.initialLevel);
+			float currentLevel(testData.initialLevel);
 
 			while (!segment.hasEnded(currentLevel))
 			{
@@ -50,7 +50,7 @@ namespace libeden_test
 
 	TEST_P(AttackTest, LinearGain)
 	{
-		eden::SampleType lastLevel;
+		float lastLevel;
 		auto data = GetParam();
 
 		eden::synth::envelope::Attack segmentLinear(SAMPLE_RATE, std::make_unique<eden::synth::envelope::LinearGain>(), data.duration, data.initialLevel, data.finalLevel);
@@ -60,7 +60,7 @@ namespace libeden_test
 
 	TEST_P(AttackTest, ExponentialGain)
 	{
-		eden::SampleType lastLevel;
+		float lastLevel;
 		auto data = GetParam();
 
 		eden::synth::envelope::Attack segmentExponential(SAMPLE_RATE, std::make_unique<eden::synth::envelope::ExponentialGain>(), data.duration, data.initialLevel, data.finalLevel);
@@ -70,11 +70,11 @@ namespace libeden_test
 
 	const std::vector<SegmentTestParam> attackTestParameters =
 	{
-		{ 480ms, eden::SampleType(0.0), eden::SampleType(1.0)},
-		{ 10ms, eden::SampleType(0.0), eden::SampleType(1.0)},
-		{ 100ms, eden::SampleType(0.1), eden::SampleType(0.9)},
-		{1000ms, eden::SampleType(0.4), eden::SampleType(0.7)},
-		{10000ms, eden::SampleType(0.33), eden::SampleType(1.0)}
+		{ 480ms, float(0.0), float(1.0)},
+		{ 10ms, float(0.0), float(1.0)},
+		{ 100ms, float(0.1), float(0.9)},
+		{1000ms, float(0.4), float(0.7)},
+		{10000ms, float(0.33), float(1.0)}
 	};
 
 	INSTANTIATE_TEST_CASE_P(Usage, AttackTest, ::testing::ValuesIn(attackTestParameters));
@@ -85,7 +85,7 @@ namespace libeden_test
 
 	TEST_P(DecayTest, LinearGain)
 	{
-		eden::SampleType lastLevel;
+		float lastLevel;
 		auto data = GetParam();
 
 		eden::synth::envelope::Decay segmentLinear(SAMPLE_RATE, std::make_unique<eden::synth::envelope::LinearGain>(), data.duration, data.initialLevel, data.finalLevel);
@@ -95,7 +95,7 @@ namespace libeden_test
 
 	TEST_P(DecayTest, ExponentialGain)
 	{
-		eden::SampleType lastLevel;
+		float lastLevel;
 		auto data = GetParam();
 
 		eden::synth::envelope::Decay segmentExponential(SAMPLE_RATE, std::make_unique<eden::synth::envelope::ExponentialGain>(), data.duration, data.initialLevel, data.finalLevel);
@@ -105,17 +105,17 @@ namespace libeden_test
 
 	const std::vector<SegmentTestParam> decayTestParameters =
 	{
-		{ 250ms, eden::SampleType(1.0), eden::SampleType(0.0)},
-		{ 50ms, eden::SampleType(1.0), eden::SampleType(0.0)},
-		{ 1000ms, eden::SampleType(0.8), eden::SampleType(0.3)},
-		{20000ms, eden::SampleType(0.5), eden::SampleType(0.0)}
+		{ 250ms, float(1.0), float(0.0)},
+		{ 50ms, float(1.0), float(0.0)},
+		{ 1000ms, float(0.8), float(0.3)},
+		{20000ms, float(0.5), float(0.0)}
 	};
 
 	INSTANTIATE_TEST_CASE_P(Usage, DecayTest, ::testing::ValuesIn(decayTestParameters));
 
 	TEST(SegmentsTest, Sustain)
 	{
-		constexpr eden::SampleType levels[] = { 0.44f, 0.33f, 0.6f, 0.55f, 0.98f, 1.0f, 0.0f, 0.0001f };
+		constexpr float levels[] = { 0.44f, 0.33f, 0.6f, 0.55f, 0.98f, 1.0f, 0.0f, 0.0001f };
 
 		eden::synth::envelope::Sustain sustain{};
 		for (auto level : levels)

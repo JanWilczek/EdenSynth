@@ -31,7 +31,7 @@ namespace libeden_test
 	{
 		synthesiser.processBlock(audioBuffer, midiBuffer, BUFFER_LENGTH);
 
-		audioBuffer.forEachChannel([&](eden::SampleType* channel)
+		audioBuffer.forEachChannel([&](float* channel)
 		{
 			for (auto i = 0u; i < BUFFER_LENGTH; ++i)
 			{

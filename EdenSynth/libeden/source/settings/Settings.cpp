@@ -74,7 +74,7 @@ namespace eden::settings
 		return _generatorSettings->createGeneratorSource(sampleRate(), generatorName);
 	}
 
-	OscillatorSourceId Settings::createWaveTableSource(std::vector<SampleType> waveTable)
+	OscillatorSourceId Settings::createWaveTableSource(std::vector<float> waveTable)
 	{
 		return _generatorSettings->createWaveTableSource(sampleRate(), waveTable);
 	}

@@ -11,7 +11,7 @@ namespace libeden_test
 	{
 		std::unique_ptr<eden::interpolation::IInterpolator> interpolator = std::make_unique<eden::interpolation::LinearInterpolator>();
 
-		const std::vector<eden::SampleType> signal = { 0.f, 1.f, 2.f, 3.f, 5.f, 6.f };
+		const std::vector<float> signal = { 0.f, 1.f, 2.f, 3.f, 5.f, 6.f };
 		
 		const auto result1 = interpolator->interpolate(signal, 0.5);
 		EXPECT_FLOAT_EQ(result1, 0.5f);

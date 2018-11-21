@@ -77,7 +77,7 @@ namespace eden::synth
 		void finalizeVoice();
 
 		/// <returns>current gain value by which every voice is scaled</returns>
-		constexpr SampleType gainValue() noexcept;
+		constexpr float gainValue() noexcept;
 
 	private:
 		/// <summary>
@@ -92,7 +92,7 @@ namespace eden::synth
 		/// <param name="channel"></param>
 		/// <param name="startSample"></param>
 		/// <param name="samplesToRender"></param>
-		void applyVelocity(SampleType* channel, int startSample, int samplesToRender);
+		void applyVelocity(float* channel, int startSample, int samplesToRender);
 
 		/// <summary>
 		/// Mixes the contentt of the inner rendered block to the output buffer.
@@ -160,6 +160,6 @@ namespace eden::synth
 		/// <summary>
 		/// Velocity with which the key was pressed.
 		/// </summary>
-		SampleType _velocity = 0.f;
+		float _velocity = 0.f;
 	};
 }

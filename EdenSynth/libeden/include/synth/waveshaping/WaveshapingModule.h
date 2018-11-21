@@ -12,6 +12,6 @@ namespace eden::synth::waveshaping
 	public:
 		~WaveshapingModule() override;
 
-		void process(SampleType* audioChannel, int startSample, int samplesToProcess) override;
+		void process(float* audioChannel, int startSample, int samplesToProcess) override;
 	};
 }

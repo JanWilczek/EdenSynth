@@ -41,7 +41,7 @@ namespace eden
 
 		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
 
-		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<SampleType> waveTable);
+		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<float> waveTable);
 
 		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile);
 		

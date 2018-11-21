@@ -17,7 +17,7 @@ namespace eden
 		allocateChannels();
 	}
 
-	AudioBuffer::AudioBuffer(SampleType** dataToUse, int numChannelsToUse, unsigned numSamplesToUse)
+	AudioBuffer::AudioBuffer(float** dataToUse, int numChannelsToUse, unsigned numSamplesToUse)
 		: _numChannels(numChannelsToUse)
 		, _numSamples(numSamplesToUse)
 		, _channels(dataToUse)
@@ -62,28 +62,28 @@ namespace eden
 		freeAllChannels();
 	}
 
-	SampleType* AudioBuffer::getWritePointer(int channel) const
+	float* AudioBuffer::getWritePointer(int channel) const
 	{
 		EDEN_ASSERT(channel < _numChannels);
 
 		return _channels[channel];
 	}
 
-	SampleType** AudioBuffer::getArrayOfWritePointers() const noexcept
+	float** AudioBuffer::getArrayOfWritePointers() const noexcept
 	{
 		return _channels;
 	}
 
-	const SampleType* AudioBuffer::getReadPointer(int channel) const
+	const float* AudioBuffer::getReadPointer(int channel) const
 	{
 		EDEN_ASSERT(channel < _numChannels);
 
-		return const_cast<const SampleType*>(_channels[channel]);
+		return const_cast<const float*>(_channels[channel]);
 	}
 
-	const SampleType** AudioBuffer::getArrayOfReadPointers() const noexcept
+	const float** AudioBuffer::getArrayOfReadPointers() const noexcept
 	{
-		return const_cast<const SampleType**>(_channels);
+		return const_cast<const float**>(_channels);
 	}
 
 	int AudioBuffer::getNumChannels() const noexcept
@@ -111,17 +111,17 @@ namespace eden
 		return _numSamples;
 	}
 
-	void AudioBuffer::addSample(int destChannel, unsigned destSample, SampleType valueToAdd)
+	void AudioBuffer::addSample(int destChannel, unsigned destSample, float valueToAdd)
 	{
 		_channels[destChannel][destSample] += valueToAdd;
 	}
 
-	void AudioBuffer::fill(SampleType value)
+	void AudioBuffer::fill(float value)
 	{
 		fillFromTo(value, 0, _numSamples);
 	}
 
-	void AudioBuffer::fillFromTo(SampleType value, unsigned begin, unsigned end)
+	void AudioBuffer::fillFromTo(float value, unsigned begin, unsigned end)
 	{
 		for (int channel = 0; channel < _numChannels; ++channel)
 		{
@@ -132,7 +132,7 @@ namespace eden
 		}
 	}
 
-	void AudioBuffer::forEachChannel(std::function<void(SampleType*)> callback)
+	void AudioBuffer::forEachChannel(std::function<void(float*)> callback)
 	{
 		for (auto channel = 0; channel < _numChannels; ++channel)
 		{
@@ -140,7 +140,7 @@ namespace eden
 		}
 	}
 
-	void AudioBuffer::forEachSample(std::function<void(SampleType&)> callback)
+	void AudioBuffer::forEachSample(std::function<void(float&)> callback)
 	{
 		for (int channel = 0; channel < _numChannels; ++channel)
 		{
@@ -165,10 +165,10 @@ namespace eden
 
 	void AudioBuffer::allocateChannels()
 	{
-		_channels = new SampleType*[_numChannels];
+		_channels = new float*[_numChannels];
 		for (int channel = 0; channel < _numChannels; ++channel)
 		{
-			_channels[channel] = new SampleType[_allocatedNumSamples];
+			_channels[channel] = new float[_allocatedNumSamples];
 		}
 	}
 }

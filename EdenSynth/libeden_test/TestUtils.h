@@ -4,7 +4,6 @@
 /// \date 02.11.2018
 /// 
 #include "pch.h"
-#include <eden/SampleType.h>
 
 namespace libeden_test
 {
@@ -19,7 +18,7 @@ namespace libeden_test
 		/// <param name="value"></param>
 		/// <param name="begin"></param>
 		/// <param name="end"></param>
-		static void fillChannel(eden::SampleType* channel, eden::SampleType value, int begin, int end)
+		static void fillChannel(float* channel, float value, int begin, int end)
 		{
 			for (auto i = begin; i < end; ++i)
 			{
@@ -34,7 +33,7 @@ namespace libeden_test
 		/// <param name="bufferSize"></param>
 		/// <param name="sampleRate"></param>
 		/// <returns>detected frequency in Hz, 0 if no period has been found</returns>
-		static double detectFrequency(const eden::SampleType* channel, int bufferSize, double sampleRate)
+		static double detectFrequency(const float* channel, int bufferSize, double sampleRate)
 		{
 			unsigned zeroCrossingsCount = 0u;
 			int startIndex, stopIndex;

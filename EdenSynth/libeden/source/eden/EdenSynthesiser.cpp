@@ -53,7 +53,7 @@ namespace eden
 		return _impl->createRealtimeOscillatorSource(generatorName);
 	}
 
-	std::unique_ptr<OscillatorSource> EdenSynthesiser::createWaveTableOscillatorSource(std::vector<SampleType> waveTable)
+	std::unique_ptr<OscillatorSource> EdenSynthesiser::createWaveTableOscillatorSource(std::vector<float> waveTable)
 	{
 		return _impl->createWaveTableOscillatorSource(waveTable);
 	}

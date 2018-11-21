@@ -13,7 +13,7 @@ namespace eden
 	{
 	}
 
-	OscillatorSourceImpl::OscillatorSourceImpl(settings::Settings& settings, std::vector<SampleType> waveTable)
+	OscillatorSourceImpl::OscillatorSourceImpl(settings::Settings& settings, std::vector<float> waveTable)
 		: _ext_settings(settings)
 		, _id(settings.createWaveTableSource(waveTable))
 	{

@@ -24,7 +24,7 @@ namespace eden::synth::wavetable
 
 		std::unique_ptr<IOscillatorSource> clone() override;
 		void reset() override;
-		SampleType getSample() override;
+		float getSample() override;
 		void setPitch(float pitch) override;
 		void setSampleRate(float sampleRate) override;
 

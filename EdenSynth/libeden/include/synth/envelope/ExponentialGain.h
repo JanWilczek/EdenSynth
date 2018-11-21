@@ -15,10 +15,10 @@ namespace eden::synth::envelope
 	public:
 		~ExponentialGain() = default;
 
-		void calculateGain(double sampleRate, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel) override;
-		void applyAndUpdateGain(SampleType& currentGain) override;
+		void calculateGain(double sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel) override;
+		void applyAndUpdateGain(float& currentGain) override;
 
 	private:
-		SampleType _multiplier = SampleType(1);
+		float _multiplier = float(1);
 	};
 }

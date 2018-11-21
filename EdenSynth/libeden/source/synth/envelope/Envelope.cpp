@@ -11,7 +11,7 @@ namespace eden::synth::envelope
 	{
 	}
 
-	void Envelope::apply(SampleType* channel, int startSample, int samplesToApply)
+	void Envelope::apply(float* channel, int startSample, int samplesToApply)
 	{
 		for (auto sample = startSample; sample < startSample + samplesToApply; ++sample)
 		{

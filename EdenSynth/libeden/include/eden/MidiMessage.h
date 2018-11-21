@@ -30,7 +30,7 @@ namespace eden
 		/// <param name="midiNoteNumber"></param>
 		/// <param name="frequencyOfA"></param>
 		/// <returns>calculated frequency in Hz</returns>
-		static double getMidiNoteInHertz(int midiNoteNumber, const double frequencyOfA = 440.0) noexcept;
+		static float getMidiNoteInHertz(int midiNoteNumber, const float frequencyOfA = 440.0) noexcept;
 
 		MidiMessage() = default;
 

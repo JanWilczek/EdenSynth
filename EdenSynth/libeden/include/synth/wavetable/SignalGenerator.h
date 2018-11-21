@@ -31,7 +31,7 @@ namespace eden::synth::wavetable
 		/// <param name="audioChannel">channel to fill in specified range</param>
 		/// <param name="startSample">the first index to fill</param>
 		/// <param name="samplesToGenerate">number of samples to generate</param>
-		void generateSignal(SampleType* audioChannel, int startSample, int samplesToGenerate);
+		void generateSignal(float* audioChannel, int startSample, int samplesToGenerate);
 
 		/// <summary>
 		/// Stops generating the signal - all subsequent calls to <c>generateSignal</c> will fill the channel
@@ -56,7 +56,7 @@ namespace eden::synth::wavetable
 		void setOscillatorVolume(OscillatorId oscillatorId, float volume);
 		void setOscillatorOn(OscillatorId oscillatorId, bool isOn);
 
-		void setSampleRate(double sampleRate);
+		void setSampleRate(float sampleRate);
 
 	private:
 		/// <summary>
@@ -65,7 +65,7 @@ namespace eden::synth::wavetable
 		/// </summary>
 		/// <param name="audioChannel"></param>
 		/// <param name="sampleIndex"></param>
-		void generateSample(SampleType* audioChannel, int sampleIndex);
+		void generateSample(float* audioChannel, int sampleIndex);
 
 		std::map<OscillatorId, SynthOscillator> _oscillators;
 		std::pair<float, float> _pitchBendRange;

@@ -114,9 +114,6 @@
     <ClInclude Include="include\synth\envelope\EnvelopeSegment.h">
       <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
-    <ClInclude Include="include\eden\SampleType.h">
-      <Filter>Header Files\eden</Filter>
-    </ClInclude>
     <ClInclude Include="include\synth\envelope\Envelope.h">
       <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>

@@ -12,7 +12,7 @@ namespace eden::interpolation
 	{
 	}
 
-	SampleType LinearInterpolator::interpolate(const std::vector<SampleType>& discreteValues, double index)
+	float LinearInterpolator::interpolate(const std::vector<float>& discreteValues, float index)
 	{
 		EDEN_ASSERT(index >= 0 && index < discreteValues.size());
 

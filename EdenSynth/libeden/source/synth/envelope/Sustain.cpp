@@ -12,7 +12,7 @@ namespace eden::synth::envelope
 	{
 	}
 
-	bool Sustain::hasEnded(SampleType currentGain)
+	bool Sustain::hasEnded(float currentGain)
 	{
 		return false;
 	}

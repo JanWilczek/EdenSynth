@@ -4,7 +4,6 @@
 /// \date 20.10.2018
 /// 
 #include <memory>
-#include "eden/SampleType.h"
 #include "synth/wavetable/WaveTable.h"
 #include "interpolation/IInterpolator.h"
 
@@ -24,7 +23,7 @@ namespace eden::synth::wavetable
 
 		/// <param name="phase"></param>
 		/// <returns>interpolated function's value at specified <paramref name="phase"></returns>
-		SampleType operator()(double phase) const;
+		float operator()(double phase) const;
 
 		/// <param name="waveTable">discrete values to interpolate from upon the calls to <c>operator()</c></param>
 		void setWaveTable(WaveTable waveTable);

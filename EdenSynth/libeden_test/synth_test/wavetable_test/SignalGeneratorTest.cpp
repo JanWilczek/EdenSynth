@@ -22,13 +22,13 @@ namespace libeden_test
 
 			for (auto i = 0u; i < CHANNEL_LENGTH; ++i)
 			{
-				_audioChannel[i] = eden::SampleType(0);
+				_audioChannel[i] = float(0);
 			}
 		}
 
 		const float SAMPLE_RATE = 48000.f;
 		constexpr static unsigned CHANNEL_LENGTH = 480u;
-		eden::SampleType _audioChannel[CHANNEL_LENGTH];
+		float _audioChannel[CHANNEL_LENGTH];
 
 		constexpr static eden::OscillatorId _oscillatorId = 0u;
 		std::unique_ptr<eden::synth::wavetable::SignalGenerator> _signalGenerator;
@@ -40,7 +40,7 @@ namespace libeden_test
 
 		for (auto i = 0u; i < CHANNEL_LENGTH; ++i)
 		{
-			EXPECT_FLOAT_EQ(_audioChannel[i], eden::SampleType(0));
+			EXPECT_FLOAT_EQ(_audioChannel[i], float(0));
 		}
 	}
 
@@ -54,35 +54,35 @@ namespace libeden_test
 		// not processed samples and the first processed sample should be 0
 		for (auto i = 0u; i <= start; ++i)
 		{
-			EXPECT_FLOAT_EQ(_audioChannel[i], eden::SampleType(0));
+			EXPECT_FLOAT_EQ(_audioChannel[i], float(0));
 		}
 
 		// processed samples beyond the first should be different than 0
 		for (auto i = start + 1; i < start + length; ++i)
 		{
-			EXPECT_NE(_audioChannel[i], eden::SampleType(0));
+			EXPECT_NE(_audioChannel[i], float(0));
 		}
 
 		// not processed samples at the end of the buffer should be 0
 		for (auto i = start + length; i < CHANNEL_LENGTH; ++i)
 		{
-			EXPECT_FLOAT_EQ(_audioChannel[i], eden::SampleType(0));
+			EXPECT_FLOAT_EQ(_audioChannel[i], float(0));
 		}
 
-		TestUtils::fillChannel(_audioChannel, eden::SampleType(0), 0, CHANNEL_LENGTH);
+		TestUtils::fillChannel(_audioChannel, float(0), 0, CHANNEL_LENGTH);
 		
 		_signalGenerator->stop();
 		_signalGenerator->generateSignal(_audioChannel, 0, CHANNEL_LENGTH);
 
 		for (auto i = 0u; i < CHANNEL_LENGTH; ++i)
 		{
-			EXPECT_FLOAT_EQ(_audioChannel[i], eden::SampleType(0));
+			EXPECT_FLOAT_EQ(_audioChannel[i], float(0));
 		}
 	}
 
 	TEST_F(SignalGeneratorTest, WaveTableManipulation)
 	{
-		const std::vector<eden::SampleType> waveTable = { eden::SampleType(1.0), eden::SampleType(0.0) };
+		const std::vector<float> waveTable = { float(1.0), float(0.0) };
 		auto source = std::make_unique<eden::synth::wavetable::WaveTableSource>(SAMPLE_RATE);
 		source->setWaveTable(waveTable);
 		_signalGenerator->setOscillatorSource(_oscillatorId, std::move(source));
@@ -92,7 +92,7 @@ namespace libeden_test
 		
 		for (auto i = 0u; i < 10; ++i)
 		{
-			EXPECT_NEAR(_audioChannel[i], eden::SampleType(1 - (i % 2)), 1e-6f);
+			EXPECT_NEAR(_audioChannel[i], float(1 - (i % 2)), 1e-6f);
 		}
 	}
 
@@ -101,8 +101,8 @@ namespace libeden_test
 		_signalGenerator->setPitch(100.0);
 		_signalGenerator->generateSignal(_audioChannel, 0, CHANNEL_LENGTH);
 
-		EXPECT_FLOAT_EQ(_audioChannel[0], eden::SampleType(0));
-		EXPECT_LT(_audioChannel[CHANNEL_LENGTH - 1], eden::SampleType(0));
+		EXPECT_FLOAT_EQ(_audioChannel[0], float(0));
+		EXPECT_LT(_audioChannel[CHANNEL_LENGTH - 1], float(0));
 
 		auto nbZeroCrossings = 0u;
 

@@ -4,7 +4,6 @@
 /// \date 14.10.18
 /// 
 #include <chrono>
-#include "eden/SampleType.h"
 
 namespace eden::synth::envelope
 {
@@ -23,13 +22,13 @@ namespace eden::synth::envelope
 		/// <param name="duration"></param>
 		/// <param name="initialLevel"></param>
 		/// <param name="finalLevel"></param>
-		virtual void calculateGain(double sampleRate, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel) = 0;
+		virtual void calculateGain(double sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel) = 0;
 
 		/// <summary>
 		/// Changes current level according to the precalculated parameters.
 		/// </summary>
 		/// <param name="currentLevel"></param>
-		virtual void applyAndUpdateGain(SampleType& currentLevel) = 0;
+		virtual void applyAndUpdateGain(float& currentLevel) = 0;
 	};
 
 	inline ISegmentGain::~ISegmentGain()
