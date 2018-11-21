@@ -33,6 +33,10 @@ namespace eden
 
 		void setBlockLength(int samplesPerBlock);
 
+		void setFrequencyOfA4(float frequencyOfA4);
+
+		void setPitchBendRange(std::pair<int, int> transposeDownTransposeUp);
+
 		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
 
 		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<SampleType> waveTable);

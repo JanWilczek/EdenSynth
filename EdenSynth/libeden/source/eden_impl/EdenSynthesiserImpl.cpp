@@ -41,6 +41,16 @@ namespace eden
 		_synthesiser.setBlockLength(samplesPerBlock);
 	}
 
+	void EdenSynthesiserImpl::setFrequencyOfA4(float frequencyOfA4)
+	{
+		_settings.setFrequencyOfA4(frequencyOfA4);
+	}
+
+	void EdenSynthesiserImpl::setPitchBendRange(std::pair<int, int> transposeDownTransposeUp)
+	{
+		_settings.setPitchBendRange(transposeDownTransposeUp);
+	}
+
 	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createRealtimeOscillatorSource(WaveformGenerators generatorName)
 	{
 		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, generatorName));

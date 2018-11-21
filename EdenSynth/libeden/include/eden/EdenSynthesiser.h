@@ -48,6 +48,10 @@ namespace eden
 		/// <param name="samplesPerBlock"></param>
 		void setBlockLength(int samplesPerBlock);
 
+		void setFrequencyOfA4(float frequencyOfA4);
+
+		void setPitchBendRange(std::pair<int, int> transposeDownTransposeUp);
+
 		/// <summary>
 		/// Creates an oscillator source which generates samples in realtime, i.e. calculates actual function values.
 		/// </summary>
