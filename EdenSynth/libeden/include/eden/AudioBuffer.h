@@ -33,11 +33,15 @@ namespace eden
 
 		~AudioBuffer();
 
+		/// <param name="channel">channel of samples to get a write pointer to</param>
+		/// <returns>write pointer to an array of float samples</returns>
 		float* getWritePointer(int channel) const;
 
 		/// <returns>array of pointers to inner mutable data block, each element in array being a pointer to a channel</returns>
 		float** getArrayOfWritePointers() const noexcept;
 
+		/// <param name="channel">channel of samples to get a read pointer to</param>
+		/// <returns>a pointer to a read-only array of float samples</returns>
 		const float* getReadPointer(int channel) const;
 
 		/// <returns>array of pointers to inner immutable data block, each element in array being a pointer to a channel</returns>

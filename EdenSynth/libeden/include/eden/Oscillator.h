@@ -16,7 +16,13 @@ namespace eden
 	public:
 		Oscillator(std::unique_ptr<OscillatorImpl> impl);
 
+		/// <returns>unique id assigned to this oscillator</returns>
 		OscillatorId getId() const noexcept;
+
+		/// <summary>
+		/// Sets the source (timbre, waveform) of this oscillator.
+		/// </summary>
+		/// <param name="source">oscillator source created by one of the <c>EdenSynthesiser</c>'s methods.</param>
 		void setSource(std::unique_ptr<OscillatorSource> source);
 
 		void setOctaveTransposition(int octaveShift);
