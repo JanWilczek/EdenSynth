@@ -11,6 +11,11 @@ namespace eden
 {
 	class OscillatorSource;
 
+	/// <summary>
+	/// Class representing an oscillator - a single waveform generator capable of generating
+	/// continuous signals at particular frequency. Oscillators can be stacked so that they produce
+	/// complex timbres.
+	/// </summary>
 	class Oscillator
 	{
 	public:
