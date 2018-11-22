@@ -10,6 +10,13 @@ namespace eden_vst
 		: _synthesiser(synthesiser)
 		, _pathProvider(std::move(pathProvider))
 	{
+		if (_pathProvider.size() == 0)
+		{
+			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon, "Assets error", 
+				"Assets folder not found. The assets folder should be in the same directory as the plugin. The synthesiser won't play.", "OK");
+			return;
+		}
+
 		const std::string prefix = "oscillator";
 
 		for (auto i = 1u; i <= numOscillators; ++i)

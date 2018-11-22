@@ -121,7 +121,6 @@ namespace eden::synth
 		{
 			for (auto sample = startSample; sample < startSample + samplesToMix; ++sample)
 			{
-				//channel[sample] += _innerBlock[sample];
 				channel[sample] += _innerBuffer.getReadPointer(0)[sample];
 
 				// check for clipping

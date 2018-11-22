@@ -68,6 +68,11 @@ namespace eden
 
 	void OscillatorImpl::setVolume(float volume)
 	{
+		if (volume < 0.f || volume > 1.f)
+		{
+			throw std::invalid_argument("Oscillator's volume should be in range [0; 1].");
+		}
+
 		if (volume != _volume)
 		{
 			_volume = volume;

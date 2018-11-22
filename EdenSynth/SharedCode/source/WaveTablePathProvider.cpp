@@ -9,12 +9,15 @@ namespace eden_vst
 	WaveTablePathProvider::WaveTablePathProvider(std::experimental::filesystem::path assetsPath)
 	{
 		const auto path = assetsPath / "wavetables";
-		
-		for (auto& file : std::experimental::filesystem::directory_iterator(path))
+
+		if (exists(path))
 		{
-			auto name = file.path().filename().string();
-			name = name.substr(0u, name.length() - 4u);	// remove ".wav" ending
-			_waveTablePaths[name] = file.path();
+			for (auto& file : std::experimental::filesystem::directory_iterator(path))
+			{
+				auto name = file.path().filename().string();
+				name = name.substr(0u, name.length() - 4u);	// remove ".wav" ending
+				_waveTablePaths[name] = file.path();
+			}
 		}
 	}
 

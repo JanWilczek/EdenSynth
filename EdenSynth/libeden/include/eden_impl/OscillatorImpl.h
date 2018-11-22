@@ -27,7 +27,7 @@ namespace eden
 		void setOctaveTransposition(int octaveShift);
 		void setSemitoneTransposition(int semitoneShift);
 		void setCentTransposition(int centShift);
-		void setVolume(float volume);
+		void setVolume(float volume) noexcept(false);
 		void setOn(bool isOn);
 
 	private:
