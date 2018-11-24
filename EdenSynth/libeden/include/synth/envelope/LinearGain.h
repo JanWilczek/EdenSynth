@@ -15,10 +15,10 @@ namespace eden::synth::envelope
 	public:
 		virtual ~LinearGain() = default;
 
-		void calculateGain(double sampleRate, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel) override;
-		void applyAndUpdateGain(SampleType& currentLevel) override;
+		void calculateGain(double sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel) override;
+		void applyAndUpdateGain(float& currentLevel) override;
 
 	private:
-		SampleType _gainPerSample = SampleType(0);
+		float _gainPerSample = float(0);
 	};
 }

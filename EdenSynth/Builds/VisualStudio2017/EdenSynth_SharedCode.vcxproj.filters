@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="EdenSynth\Source">
-      <UniqueIdentifier>{BDB4FB97-41A6-605F-6F88-58CECA547092}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EdenSynth">
       <UniqueIdentifier>{CC0E03B1-3D94-F7FB-3372-D5647B3F3B32}</UniqueIdentifier>
     </Filter>
@@ -388,14 +385,14 @@
     <Filter Include="JUCE Library Code">
       <UniqueIdentifier>{7ED5A90E-41AF-A1EF-659B-37CEEAB9BA61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EdenSynth\Header Files">
+      <UniqueIdentifier>{be00146c-ebb9-485e-9599-bf1f9ea1dbe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EdenSynth\Source Files">
+      <UniqueIdentifier>{BDB4FB97-41A6-605F-6F88-58CECA547092}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\PluginProcessor.cpp">
-      <Filter>EdenSynth\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\PluginEditor.cpp">
-      <Filter>EdenSynth\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <Filter>JUCE Modules\juce_audio_basics\buffers</Filter>
     </ClCompile>
@@ -2160,17 +2157,53 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\EdenAdapter.cpp">
-      <Filter>EdenSynth\Source</Filter>
+    <ClCompile Include="..\..\SharedCode\source\EdenAdapter.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\PluginEditor.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\PluginProcessor.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\GeneratorComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\ModifierComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\FilterComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\WaveshaperComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\EnvelopeComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\EnvelopeSegmentComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\WaveTablePathProvider.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\OscillatorsComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\OscillatorComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\OscillatorContainer.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\GeneralSettingsComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\OutputSettingsComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\PluginProcessor.h">
-      <Filter>EdenSynth\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PluginEditor.h">
-      <Filter>EdenSynth\Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
     </ClInclude>
@@ -4172,8 +4205,50 @@
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h">
       <Filter>JUCE Library Code</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\EdenAdapter.h">
-      <Filter>EdenSynth\Source</Filter>
+    <ClInclude Include="..\..\SharedCode\include\EdenAdapter.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\PluginEditor.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\PluginProcessor.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\GeneratorComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\ModifierComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\FilterComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\WaveshaperComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\EnvelopeComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\EnvelopeSegmentComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\WaveTablePathProvider.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\OscillatorsComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\OscillatorComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\OscillatorContainer.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\GeneralSettingsComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\OutputSettingsComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

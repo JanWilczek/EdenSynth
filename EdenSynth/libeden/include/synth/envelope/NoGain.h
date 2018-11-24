@@ -15,7 +15,7 @@ namespace eden::synth::envelope
 	public:
 		~NoGain() = default;
 
-		void calculateGain(double sampleRate, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel) override;
-		void applyAndUpdateGain(SampleType& currentGain) override;
+		void calculateGain(double sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel) override;
+		void applyAndUpdateGain(float& currentGain) override;
 	};
 }

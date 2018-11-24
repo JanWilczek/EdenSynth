@@ -6,6 +6,7 @@
 #include <eden/AudioBuffer.h>
 #include <synth/Synthesiser.h>
 #include "eden/MidiBuffer.h"
+#include "settings/Settings.h"
 
 namespace libeden_test
 {
@@ -18,7 +19,8 @@ namespace libeden_test
 		}
 
 		const double SAMPLE_RATE = 48000;
-		eden::synth::Synthesiser synthesiser{ SAMPLE_RATE };
+		eden::settings::Settings _settings{};
+		eden::synth::Synthesiser synthesiser{_settings};
 		const int NUM_CHANNELS = 2;
 		const unsigned BUFFER_LENGTH = 1024;
 		eden::AudioBuffer audioBuffer{ NUM_CHANNELS, BUFFER_LENGTH };
@@ -29,7 +31,7 @@ namespace libeden_test
 	{
 		synthesiser.processBlock(audioBuffer, midiBuffer, BUFFER_LENGTH);
 
-		audioBuffer.forEachChannel([&](eden::SampleType* channel)
+		audioBuffer.forEachChannel([&](float* channel)
 		{
 			for (auto i = 0u; i < BUFFER_LENGTH; ++i)
 			{

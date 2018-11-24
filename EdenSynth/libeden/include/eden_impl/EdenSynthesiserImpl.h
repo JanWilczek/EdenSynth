@@ -3,12 +3,18 @@
 /// \author Jan Wilczek
 /// \date 29.08.2018
 /// 
+#include <filesystem>
+#include <vector>
+#include <memory>
 #include "synth/Synthesiser.h"
+#include "settings/Settings.h"
 
 namespace eden
 {
 	class AudioBuffer;
 	class MidiBuffer;
+	class OscillatorSource;
+	class Oscillator;
 	struct EnvelopeParameters;
 
 	/// <summary>
@@ -19,45 +25,43 @@ namespace eden
 	public:
 		EdenSynthesiserImpl();
 
-		/// <summary>
-		/// Fills the given audio buffer with samples according to messages stored in the MIDI buffer
-		/// and previous synthesiser state. The audio buffer does not need to be empty, but its
-		/// contents may be completetly overwritten.
-		/// </summary>
-		/// <param name="bufferToFill"></param>
-		/// <param name="midiBuffer"></param>
 		void processInputBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer);
 
-		/// <summary>
-		/// Sets new sample rate of synthesiser.
-		/// </summary>
-		/// <param name="sampleRate"></param>
-		void setSampleRate(double sampleRate);
+		void setSampleRate(float sampleRate);
 
-		/// <returns>currently used sample rate</returns>
-		double sampleRate() const noexcept;
+		float sampleRate() const noexcept;
 
-		/// <summary>
-		/// Sets the expected length of processing block - use it to allocate memory beforehand.
-		/// </summary>
-		/// <param name="samplesPerBlock"></param>
 		void setBlockLength(int samplesPerBlock);
 
-		/// <summary>
-		/// Sets the wave table to be played - one cycle of a waveform. From that cycle all pitches will be created.
-		/// </summary>
-		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
-		void setWaveTable(std::vector<SampleType> waveTable);
+		void setVolume(float volume);
 
-		/// <summary>
-		/// Sets new envelope of sound - the information about volume change in time in relation
-		/// to keyboard events.
-		/// </summary>
-		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
-		void setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters);
+		void setFrequencyOfA4(float frequencyOfA4);
+
+		void setPitchBendRange(std::pair<int, int> transposeDownTransposeUp);
+
+		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
+
+		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<float> waveTable);
+
+		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile);
+		
+		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource);
+
+		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
+
+		void setCutoff(float cutoff);
+
+		void setResonance(float resonance);
 
 	private:
-		double _sampleRate = 48000;
-		std::unique_ptr<synth::Synthesiser> _synthesiser;
+		/// <summary>
+		/// Library's settings.
+		/// </summary>
+		settings::Settings _settings;
+
+		/// <summary>
+		/// The main synthesis class.
+		/// </summary>
+		synth::Synthesiser _synthesiser;
 	};
 }

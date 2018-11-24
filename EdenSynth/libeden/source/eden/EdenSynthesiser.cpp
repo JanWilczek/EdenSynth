@@ -18,12 +18,12 @@ namespace eden
 		_impl->processInputBlock(bufferToFill, midiBuffer);
 	}
 
-	void EdenSynthesiser::setSampleRate(double sampleRate)
+	void EdenSynthesiser::setSampleRate(float sampleRate)
 	{
 		_impl->setSampleRate(sampleRate);
 	}
 
-	double EdenSynthesiser::sampleRate() const noexcept
+	float EdenSynthesiser::sampleRate() const noexcept
 	{
 		return _impl->sampleRate();
 	}
@@ -33,13 +33,53 @@ namespace eden
 		_impl->setBlockLength(samplesPerBlock);
 	}
 
-	void EdenSynthesiser::setWaveTable(std::vector<SampleType> waveTable)
+	void EdenSynthesiser::setVolume(float volume)
 	{
-		_impl->setWaveTable(waveTable);
+		_impl->setVolume(volume);
 	}
 
-	void EdenSynthesiser::setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters)
+	void EdenSynthesiser::setFrequencyOfA4(float frequencyOfA4)
 	{
-		_impl->setEnvelope(envelopeParameters);
+		_impl->setFrequencyOfA4(frequencyOfA4);
+	}
+
+	void EdenSynthesiser::setPitchBendRange(std::pair<int, int> transposeDownTransposeUp)
+	{
+		_impl->setPitchBendRange(transposeDownTransposeUp);
+	}
+
+	std::unique_ptr<OscillatorSource> EdenSynthesiser::createRealtimeOscillatorSource(WaveformGenerators generatorName)
+	{
+		return _impl->createRealtimeOscillatorSource(generatorName);
+	}
+
+	std::unique_ptr<OscillatorSource> EdenSynthesiser::createWaveTableOscillatorSource(std::vector<float> waveTable)
+	{
+		return _impl->createWaveTableOscillatorSource(waveTable);
+	}
+
+	std::unique_ptr<OscillatorSource> EdenSynthesiser::createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile)
+	{
+		return _impl->createWaveTableOscillatorSource(pathToWaveFile);
+	}
+
+	std::unique_ptr<Oscillator> EdenSynthesiser::createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource)
+	{
+		return _impl->createAndAddOscillator(std::move(oscillatorSource));
+	}
+
+	void EdenSynthesiser::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
+	{
+		_impl->setEnvelopeParameters(envelopeParameters);
+	}
+
+	void EdenSynthesiser::setCutoff(float cutoff)
+	{
+		_impl->setCutoff(cutoff);
+	}
+
+	void EdenSynthesiser::setResonance(float resonance)
+	{
+		_impl->setResonance(resonance);
 	}
 }

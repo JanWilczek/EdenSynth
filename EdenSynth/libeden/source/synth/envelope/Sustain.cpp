@@ -12,8 +12,16 @@ namespace eden::synth::envelope
 	{
 	}
 
-	bool Sustain::hasEnded(SampleType currentGain)
+	bool Sustain::hasEnded(float currentGain)
 	{
 		return false;
+	}
+
+	void Sustain::setDuration(std::chrono::milliseconds duration)
+	{	
+	}
+
+	void Sustain::setGainCurve(std::unique_ptr<ISegmentGain> envelopeGain)
+	{
 	}
 }

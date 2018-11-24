@@ -57,10 +57,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(OutDir)..\;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)libeden\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)SharedCode\include;$(SolutionDir)libeden\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)libeden\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)SharedCode\include;$(SolutionDir)libeden\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(OutDir)..\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -153,9 +153,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\EdenAdapter.cpp" />
-    <ClCompile Include="..\..\Source\PluginProcessor.cpp" />
-    <ClCompile Include="..\..\Source\PluginEditor.cpp" />
     <ClCompile Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1890,11 +1887,23 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\EdenAdapter.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\EnvelopeComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\EnvelopeSegmentComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\FilterComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\GeneralSettingsComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\GeneratorComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\ModifierComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\OscillatorComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\OscillatorContainer.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\OscillatorsComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\OutputSettingsComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\PluginEditor.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\PluginProcessor.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\WaveshaperComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\WaveTablePathProvider.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\EdenAdapter.h" />
-    <ClInclude Include="..\..\Source\PluginProcessor.h" />
-    <ClInclude Include="..\..\Source\PluginEditor.h" />
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h" />
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h" />
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h" />
@@ -2562,6 +2571,21 @@
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_video\juce_video.h" />
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
+    <ClInclude Include="..\..\SharedCode\include\EdenAdapter.h" />
+    <ClInclude Include="..\..\SharedCode\include\EnvelopeComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\EnvelopeSegmentComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\FilterComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\GeneralSettingsComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\ModifierComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\GeneratorComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\OscillatorComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\OscillatorContainer.h" />
+    <ClInclude Include="..\..\SharedCode\include\OscillatorsComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\OutputSettingsComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\PluginEditor.h" />
+    <ClInclude Include="..\..\SharedCode\include\PluginProcessor.h" />
+    <ClInclude Include="..\..\SharedCode\include\WaveshaperComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\WaveTablePathProvider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_formats\codecs\flac\Flac Licence.txt" />

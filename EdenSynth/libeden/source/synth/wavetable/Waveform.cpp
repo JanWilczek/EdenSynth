@@ -14,7 +14,13 @@ namespace eden::synth::wavetable
 	{
 	}
 
-	SampleType Waveform::operator()(double phase) const
+	Waveform::Waveform(const Waveform& other)
+		: _waveTable(other._waveTable)
+		, _interpolator(other._interpolator)
+	{
+	}
+
+	float Waveform::operator()(double phase) const
 	{
 		const int num2PI = static_cast<int>(phase / (2 * math_constants::PI));
 		phase -= num2PI * 2 * math_constants::PI;

@@ -102,12 +102,12 @@
       <AdditionalDependencies>EdenSynth.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>SET link = $(OutDir)assets
-IF EXIST link (
- rmdir link
+      <Command>SET "link=$(OutDir)assets"
+IF EXIST %link% (
+ rmdir %link%
 )
 
-mklink /D link  $(SolutionDir)assets</Command>
+mklink /D %link%  $(SolutionDir)assets</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,12 +156,12 @@ mklink /D link  $(SolutionDir)assets</Command>
       <AdditionalDependencies>EdenSynth.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>SET link = $(OutDir)assets
-IF EXIST link (
- rmdir link
+      <Command>SET "link=$(OutDir)assets"
+IF EXIST %link% (
+ rmdir %link%
 )
 
-mklink /D link  $(SolutionDir)assets</Command>
+mklink /D %link%  $(SolutionDir)assets</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -12,7 +12,7 @@ namespace eden::synth::waveshaping
 		
 	}
 
-	void WaveshapingModule::process(SampleType* audioChannel, int startSample, int samplesToProcess)
+	void WaveshapingModule::process(float* audioChannel, int startSample, int samplesToProcess)
 	{
 		
 	}

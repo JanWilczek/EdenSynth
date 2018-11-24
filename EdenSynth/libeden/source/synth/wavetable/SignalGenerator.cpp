@@ -4,18 +4,10 @@
 /// 
 #include "synth/wavetable/SignalGenerator.h"
 #include "synth/wavetable/SineWaveTable.h"
-#include "utility/MathConstants.h"
-#include "interpolation/LinearInterpolator.h"
 
 namespace eden::synth::wavetable
 {
-	SignalGenerator::SignalGenerator(double sampleRate)
-		: _sampleRate(sampleRate)
-		, _signalSource(SineWaveTable, std::make_shared<interpolation::LinearInterpolator>())
-	{
-	}
-
-	void SignalGenerator::generateSignal(SampleType* audioChannel, int startSample, int samplesToGenerate)
+	void SignalGenerator::generateSignal(float* audioChannel, int startSample, int samplesToGenerate)
 	{
 		for (int sample = startSample; sample < startSample + samplesToGenerate; ++sample)
 		{
@@ -25,30 +17,83 @@ namespace eden::synth::wavetable
 
 	void SignalGenerator::stop()
 	{
-		_currentPhase = 0.0;
-		_phaseDeltaPerSample = 0.0;
+		for (auto& oscillatorPair : _oscillators)
+		{
+			oscillatorPair.second.reset();
+		}
 	}
 
-	void SignalGenerator::setWaveTable(WaveTable waveTable)
+	void SignalGenerator::setPitch(float pitch)
 	{
-		_signalSource.setWaveTable(waveTable);
+		for (auto& oscillatorPair : _oscillators)
+		{
+			oscillatorPair.second.setPitch(pitch);
+		}
 	}
 
-	void SignalGenerator::setPitch(double pitch)
+	void SignalGenerator::addOscillator(SynthOscillator oscillator)
 	{
-		const auto omega = 2.0 * math_constants::PI * pitch;
-		_phaseDeltaPerSample = omega / _sampleRate;
+		_oscillators[oscillator.getId()] = std::move(oscillator);
 	}
 
-	void SignalGenerator::setSampleRate(double sampleRate)
+	void SignalGenerator::removeOscillator(OscillatorId oscillatorToRemove)
 	{
-		_phaseDeltaPerSample = _phaseDeltaPerSample * _sampleRate / sampleRate;
-		_sampleRate = sampleRate;
+		const auto erased = _oscillators.erase(oscillatorToRemove);
+
+		if (erased == 0)
+		{
+			throw std::runtime_error("Tried to remove invalid oscillator ID.");
+		}
 	}
 
-	void SignalGenerator::generateSample(SampleType* audioChannel, int sampleIndex)
+	void SignalGenerator::setOscillatorSource(OscillatorId oscillatorId, std::unique_ptr<IOscillatorSource> source)
 	{
-		audioChannel[sampleIndex] = _signalSource(_currentPhase);
-		_currentPhase += _phaseDeltaPerSample;
+		_oscillators[oscillatorId].setSource(std::move(source));
+	}
+
+	void SignalGenerator::setOctaveTransposition(OscillatorId oscillatorId, int octaveShift)
+	{
+		_oscillators[oscillatorId].setOctaveTransposition(octaveShift);
+	}
+
+	void SignalGenerator::setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift)
+	{
+		_oscillators[oscillatorId].setSemitoneTransposition(semitoneShift);
+	}
+
+	void SignalGenerator::setCentTransposition(OscillatorId oscillatorId, int centShift)
+	{
+		_oscillators[oscillatorId].setCentTransposition(centShift);
+	}
+
+	void SignalGenerator::setOscillatorVolume(OscillatorId oscillatorId, float volume)
+	{
+		_oscillators[oscillatorId].setVolume(volume);
+	}
+
+	void SignalGenerator::setOscillatorOn(OscillatorId oscillatorId, bool isOn)
+	{
+		_oscillators[oscillatorId].setOn(isOn);
+	}
+
+	void SignalGenerator::setSampleRate(float sampleRate)
+	{
+		for (auto& oscillatorPair : _oscillators)
+		{
+			oscillatorPair.second.setSampleRate(sampleRate);
+		}
+	}
+
+	void SignalGenerator::generateSample(float* audioChannel, int sampleIndex)
+	{
+		for (auto& oscillatorPair : _oscillators)
+		{
+			audioChannel[sampleIndex] += oscillatorPair.second.getSample();
+		}
+
+		if (_oscillators.size() > 0)
+		{
+			audioChannel[sampleIndex] /= static_cast<float>(_oscillators.size());
+		}
 	}
 }

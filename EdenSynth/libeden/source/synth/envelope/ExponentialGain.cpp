@@ -6,10 +6,11 @@
 #include "synth/envelope/ExponentialGain.h"
 #include <algorithm>
 #include "utility/TimeSampleConverter.h"
+#include "utility/MathConstants.h"
 
 namespace eden::synth::envelope
 {
-	void ExponentialGain::calculateGain(double sampleRate, std::chrono::milliseconds duration, SampleType initialLevel, SampleType finalLevel)
+	void ExponentialGain::calculateGain(double sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
 	{
 		/* 
 		 * This gain should be 'exponentially linear', which means that plot in dB scale should be linear.
@@ -40,26 +41,26 @@ namespace eden::synth::envelope
 
 		const auto durationInSamples = utility::TimeSampleConverter::timeToSamples(duration, sampleRate);
 
-		initialLevel = std::max(initialLevel, MINIMUM_LEVEL);
-		finalLevel = std::max(finalLevel, MINIMUM_LEVEL);
+		initialLevel = std::max(initialLevel, math_constants::THRESHOLD_OF_HEARING);
+		finalLevel = std::max(finalLevel, math_constants::THRESHOLD_OF_HEARING);
 
 		const auto exponent = (1.0 / durationInSamples) * std::log10(finalLevel / initialLevel);	// = a / 20
-		_multiplier = static_cast<SampleType>(std::pow(10, exponent));
+		_multiplier = static_cast<float>(std::pow(10, exponent));
 	}
 
-	void ExponentialGain::applyAndUpdateGain(SampleType& currentGain)
+	void ExponentialGain::applyAndUpdateGain(float& currentGain)
 	{
-		if (currentGain < MINIMUM_LEVEL)
+		if (currentGain < math_constants::THRESHOLD_OF_HEARING)
 		{
-			currentGain = MINIMUM_LEVEL;
+			currentGain = math_constants::THRESHOLD_OF_HEARING;
 		}
 		else
 		{
 			currentGain *= _multiplier;
 
-			if (currentGain > SampleType(1.0))
+			if (currentGain > float(1.0))
 			{
-				currentGain = SampleType(1.0);
+				currentGain = float(1.0);
 			}
 		}
 	}

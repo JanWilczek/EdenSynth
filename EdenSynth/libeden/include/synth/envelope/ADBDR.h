@@ -10,6 +10,7 @@
 
 namespace eden
 {
+	enum class EnvelopeSegmentCurve;
 	struct ADBDRParameters;
 }
 
@@ -22,11 +23,24 @@ namespace eden::synth::envelope
 	class ADBDR : public Envelope
 	{
 	public:
+		enum class ADBDRSegments
+		{
+			Attack = 0,
+			Decay1 = 1,
+			Decay2 = 2,
+			Release = 3,
+			Silence = 4
+		};
+
 		ADBDR(double sampleRate, ADBDRParameters parameters);
 		~ADBDR() override = default;
 
 		void keyOn() override;
 		void keyOff() override;
+
+		void setSegmentTime(ADBDRSegments segment, std::chrono::milliseconds time);
+		void setSegmentCurve(ADBDRSegments segment, EnvelopeSegmentCurve curve);
+		void setBreakLevel(float breakLevel); 
 
 	protected:
 		void checkForEnd(unsigned currentSampleIndex) override;
@@ -35,7 +49,7 @@ namespace eden::synth::envelope
 		/// <summary>
 		/// Value of envelope at which segments change from Decay 1 to Decay 2.
 		/// </summary>
-		SampleType _breakLevel;
+		float _breakLevel;
 
 		/// <summary>
 		/// ADBDR envelope's segments.

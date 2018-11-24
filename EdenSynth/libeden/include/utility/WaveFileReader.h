@@ -5,7 +5,6 @@
 /// 
 #include <vector>
 #include <fstream>
-#include "eden/SampleType.h"
 
 namespace eden::utility
 {
@@ -46,8 +45,8 @@ namespace eden::utility
 		/// <returns>number of samples stored in wave file</returns>
 		int getNumSamples() const;
 
-		/// <returns>samples from decoded wave file in SampleType format</returns>
-		std::vector<SampleType> readSamples();
+		/// <returns>samples from decoded wave file in float format</returns>
+		std::vector<float> readSamples();
 
 	private:
 		/// <summary>
@@ -56,7 +55,7 @@ namespace eden::utility
 		void readHeader();
 
 		/// <summary>
-		/// Converts the given <paramref name="sample"> to SampleType and adds it at the end of samples vector.
+		/// Converts the given <paramref name="sample"/> to float and adds it at the end of samples vector.
 		/// </summary>
 		/// <param name="sample"></param>
 		void addSample(int sample);
@@ -74,6 +73,6 @@ namespace eden::utility
 		/// <summary>
 		/// Samples read from wave file.
 		/// </summary>
-		std::vector<SampleType> _samples;
+		std::vector<float> _samples;
 	};
 }

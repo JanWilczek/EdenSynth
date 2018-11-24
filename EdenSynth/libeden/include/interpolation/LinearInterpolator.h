@@ -15,6 +15,6 @@ namespace eden::interpolation
 	public:
 		~LinearInterpolator() override;
 
-		SampleType interpolate(const std::vector<SampleType>& discreteValues, double index) override;
+		float interpolate(const std::vector<float>& discreteValues, float index) override;
 	};
 }

@@ -20,7 +20,7 @@ namespace eden::synth::envelope
 	{
 	public:
 		/// <summary>
-		/// Creates envelope in a polymorphic way depending on the passed <paramref name="parameters">.
+		/// Creates envelope in a polymorphic way depending on the passed <paramref name="parameters"/>.
 		/// </summary>
 		/// <param name="sampleRate"></param>
 		/// <param name="parameters">polymorphic parameters on which the created envelope is 

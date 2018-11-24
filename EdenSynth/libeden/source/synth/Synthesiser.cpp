@@ -4,21 +4,19 @@
 /// 
 #include <algorithm>
 #include "synth/Synthesiser.h"
-
 #include "eden/AudioBuffer.h"
 #include "eden/MidiBuffer.h"
 #include "eden/MidiMessage.h"
-#include "eden/EnvelopeParameters.h"
 #include "utility/EdenAssert.h"
 #include "synth/envelope/EnvelopeFactory.h"
+#include "settings/Settings.h"
 
 namespace eden::synth
 {
-	Synthesiser::Synthesiser(double sampleRate)
-		: _sampleRate(sampleRate)
+	Synthesiser::Synthesiser(settings::Settings& settings)
 	{
 		constexpr unsigned VOICES_TO_ADD = 16;
-		addVoices(VOICES_TO_ADD);
+		addVoices(settings, VOICES_TO_ADD);
 	}
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int numSamples)
@@ -28,8 +26,11 @@ namespace eden::synth
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples)
 	{
+		const auto firstSampleIndex = startSample;
+		const auto blockLength = numSamples;
+
 		// 1. Empty the buffer - it may contain garbage.
-		bufferToFill.fill(0);
+		bufferToFill.fillFromTo(0, startSample, startSample + blockLength);
 		
 		auto midiIterator = midiBuffer.begin();
 
@@ -63,22 +64,11 @@ namespace eden::synth
 
 		// 7. Clear the MIDI buffer, so that there is no MIDI output.
 		midiBuffer.clear();
+
+		// 8. Apply global volume.
+		applyVolume(bufferToFill, firstSampleIndex, blockLength);
 	}
 	
-	double Synthesiser::getSampleRate() const noexcept
-	{
-		return _sampleRate;
-	}
-
-	void Synthesiser::setSampleRate(double newSampleRate)
-	{
-		_sampleRate = newSampleRate;
-		for (auto& voice : _voices)
-		{
-			voice->setSampleRate(_sampleRate);
-		}
-	}
-
 	void Synthesiser::setBlockLength(unsigned samplesPerBlock)
 	{
 		if (samplesPerBlock != _blockLength)
@@ -91,20 +81,9 @@ namespace eden::synth
 		}
 	}
 
-	void Synthesiser::setWaveTable(std::vector<SampleType> waveTable)
+	void Synthesiser::setVolume(float volume)
 	{
-		for (auto& voice : _voices)
-		{
-			voice->setWaveTable(waveTable);
-		}
-	}
-
-	void Synthesiser::setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters)
-	{
-		for (auto& voice : _voices)
-		{
-			voice->setEnvelope(envelope::EnvelopeFactory::createEnvelope(_sampleRate, envelopeParameters));
-		}
+		_volume = volume;
 	}
 
 	void Synthesiser::handleMidiMessage(MidiMessage& midiMessage)
@@ -119,6 +98,9 @@ namespace eden::synth
 			break;
 		case MidiMessage::MidiMessageType::NoteOff:
 			noteOff(channel, midiMessage.getNoteNumber(), midiMessage.getVelocity());
+			break;
+		case MidiMessage::MidiMessageType::PitchBendChange:
+			pitchBendChange(channel, midiMessage.getPitchWheelPosition());
 			break;
 		default:
 			break;
@@ -148,7 +130,7 @@ namespace eden::synth
 			voice = getFreeVoice();
 			if (voice)
 			{
-				voice->startNote(midiNoteNumber, velocity);	// TODO: handle pitch wheel
+				voice->startNote(midiNoteNumber, velocity);
 			}
 		}
 	}
@@ -163,11 +145,19 @@ namespace eden::synth
 		}
 	}
 
-	void Synthesiser::addVoices(unsigned numVoicesToAdd)
+	void Synthesiser::pitchBendChange(const int midiChannel, const int pitchBendValue)
+	{
+		for (auto& voice : _voices)
+		{
+			voice->setPitchBend(pitchBendValue);
+		}
+	}
+
+	void Synthesiser::addVoices(settings::Settings& settings, unsigned numVoicesToAdd)
 	{
 		for (unsigned i = 0; i < numVoicesToAdd; ++i)
 		{
-			_voices.emplace_back(std::make_unique<Voice>(_sampleRate));
+			_voices.emplace_back(std::make_unique<Voice>(settings));
 		}
 	}
 
@@ -181,5 +171,16 @@ namespace eden::synth
 	{
 		const auto result = std::find_if(_voices.begin(), _voices.end(), [&midiNoteNumber](std::unique_ptr<Voice>& voice) { return voice->isPlayingNote(midiNoteNumber); });
 		return result != _voices.end() ? result->get() : nullptr;
+	}
+
+	void Synthesiser::applyVolume(AudioBuffer& bufferToFill, int startSample, int numSamples)
+	{
+		bufferToFill.forEachChannel([&](float* channel)
+		{
+			for (auto sample = startSample; sample < startSample + numSamples; ++sample)
+			{
+				channel[sample] *= _volume;
+			}
+		});
 	}
 }

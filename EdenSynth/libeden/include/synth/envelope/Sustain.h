@@ -16,6 +16,10 @@ namespace eden::synth::envelope
 		explicit Sustain();
 		~Sustain() override = default;
 
-		bool hasEnded(SampleType currentLevel) override;
+		bool hasEnded(float currentLevel) override;
+
+		void setDuration(std::chrono::milliseconds duration) override;
+
+		void setGainCurve(std::unique_ptr<ISegmentGain> envelopeGain) override;
 	};
 }

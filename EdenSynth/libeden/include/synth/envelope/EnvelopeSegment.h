@@ -5,7 +5,6 @@
 /// 
 #include <chrono>
 #include <memory>
-#include "eden/SampleType.h" 
 #include "synth/envelope/ISegmentGain.h"
 
 using namespace std::chrono_literals;
@@ -20,25 +19,36 @@ namespace eden::synth::envelope
 	class EnvelopeSegment
 	{
 	public:
-		EnvelopeSegment(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration = 0ms, SampleType initialLevel = 0, SampleType finalLevel = 0);
+		EnvelopeSegment(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration = 0ms, float initialLevel = 0, float finalLevel = 0);
 		virtual ~EnvelopeSegment() = 0;
 
 		/// <summary>
 		/// Changes the current envelope level.
 		/// </summary>
 		/// <param name="currentLevel"></param>
-		virtual void applyAndUpdateGain(SampleType& currentLevel);
+		virtual void applyAndUpdateGain(float& currentLevel);
 
 		/// <returns>true if current value of envelope means that current segment has ended, false otherwise</returns>
-		virtual bool hasEnded(SampleType currentLevel) = 0;
+		virtual bool hasEnded(float currentLevel) = 0;
+
+		virtual void setDuration(std::chrono::milliseconds duration);
+
+		virtual void setGainCurve(std::unique_ptr<ISegmentGain> envelopeGain);
+
+		virtual void setInitialLevel(float initialLevel);
+
+		virtual void setFinalLevel(float finalLevel);
 
 		virtual void setSampleRate(double sampleRate);
+
+	private:
+		void calculateGain();
 
 	protected:
 		double _sampleRate;
 		std::unique_ptr<ISegmentGain> _envelopeGain;
 		std::chrono::milliseconds _duration;
-		SampleType _initialLevel;
-		SampleType _finalLevel;
+		float _initialLevel;
+		float _finalLevel;
 	};
 }

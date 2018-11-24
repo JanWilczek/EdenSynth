@@ -11,12 +11,22 @@ namespace eden::synth::subtractive
 		
 	}
 
-	void SubtractiveModule::process(SampleType* audioChannel, int startSample, int samplesToProcess)
+	void SubtractiveModule::process(float* audioChannel, int startSample, int samplesToProcess)
+	{
+		
+	}
+
+	void SubtractiveModule::setSampleRate(float sampleRate)
 	{
 		
 	}
 
 	void SubtractiveModule::setPitch(double pitch)
+	{
+		
+	}
+
+	void SubtractiveModule::setPitchBend(int pitchBendInSemitones)
 	{
 		
 	}

@@ -5,7 +5,6 @@
 /// 
 #include <vector>
 #include <functional>
-#include "eden/SampleType.h"
 
 namespace eden::synth::envelope
 {
@@ -33,7 +32,7 @@ namespace eden::synth::envelope
 		/// <param name="channel"></param>
 		/// <param name="startSample"></param>
 		/// <param name="samplesToApply"></param>
-		virtual void apply(SampleType* channel, int startSample, int samplesToApply);
+		virtual void apply(float* channel, int startSample, int samplesToApply);
 
 		/// <summary>
 		/// Handles note on event - typically starts attack segment.
@@ -79,7 +78,7 @@ namespace eden::synth::envelope
 		/// <summary>
 		/// Current envelope value (linear).
 		/// </summary>
-		SampleType _currentLevel = 0.0;
+		float _currentLevel = 0.0;
 
 		/// <summary>
 		/// Envelope's segments.

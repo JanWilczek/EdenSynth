@@ -13,6 +13,11 @@ namespace eden
 	class MidiBuffer;
 	class MidiMessage;
 	struct EnvelopeParameters;
+
+	namespace settings
+	{
+		class Settings;
+	}
 }
 
 namespace eden::synth
@@ -23,7 +28,7 @@ namespace eden::synth
 	class Synthesiser
 	{
 	public:
-		explicit Synthesiser(double sampleRate);
+		explicit Synthesiser(settings::Settings& settings);
 
 		/// <summary>
 		/// Fills the given audio buffer with samples in full based on internal state.
@@ -34,22 +39,13 @@ namespace eden::synth
 		void processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int numSamples);
 
 		/// <summary>
-		/// Fills the given audio buffer with samples from <paramref name="startSample"> (including) to <paramref name="startSample"> + <paramref name="numSamples"> (excluding).
+		/// Fills the given audio buffer with samples from <paramref name="startSample"/> (including) to <paramref name="startSample"/> + <paramref name="numSamples"/> (excluding).
 		/// </summary>
 		/// <param name="bufferToFill"></param>
 		/// <param name="midiBuffer"></param>
 		/// <param name="startSample"></param>
 		/// <param name="numSamples"></param>
 		void processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int startSample, int numSamples);
-
-		/// <returns>currently used sample rate</returns>
-		double getSampleRate() const noexcept;
-
-		/// <summary>
-		/// Sets internal sample rate. May be costly due to filters' parameters recalculation.
-		/// </summary>
-		/// <param name="newSampleRate"></param>
-		void setSampleRate(double newSampleRate);
 
 		/// <summary>
 		/// Sets the expected length of processing block - use it to allocate memory beforehand.
@@ -58,17 +54,10 @@ namespace eden::synth
 		void setBlockLength(unsigned samplesPerBlock);
 
 		/// <summary>
-		/// Sets the wave table to be played - one cycle of a waveform. From that cycle all pitches will be created.
+		/// Sets the overall volume of the synthesiser.
 		/// </summary>
-		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
-		void setWaveTable(std::vector<SampleType> waveTable);
-
-		/// <summary>
-		/// Sets new envelope of sound - the information about volume change in time in relation
-		/// to keyboard events.
-		/// </summary>
-		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
-		void setEnvelope(std::shared_ptr<EnvelopeParameters> envelopeParameters);
+		/// <param name="volume">volume in range [0; 1]</param>
+		void setVolume(float volume);
 
 	private:
 		/// <summary>
@@ -102,10 +91,17 @@ namespace eden::synth
 		void noteOff(const int midiChannel, const int midiNoteNumber, const float velocity);
 
 		/// <summary>
+		/// Handles changes of value of the pitch bend wheel.
+		/// </summary>
+		/// <param name="midiChannel"></param>
+		/// <param name="pitchBendValue"></param>
+		void pitchBendChange(const int midiChannel, const int pitchBendValue);
+
+		/// <summary>
 		/// Adds voices given number of voices to the synthesiser. More voices means, that more notes can be played at once.
 		/// </summary>
 		/// <param name="numVoicesToAdd"></param>
-		void addVoices(unsigned numVoicesToAdd);
+		void addVoices(settings::Settings& settings, unsigned numVoicesToAdd);
 
 		/// <returns>first free voice</returns>
 		Voice* getFreeVoice();
@@ -115,15 +111,26 @@ namespace eden::synth
 		Voice* getVoicePlayingNote(const int midiNoteNumber);
 
 		/// <summary>
+		/// Applies global volume to the buffer in range [<paramref name="startSample"/>; <paramref name="startSample"/> + <paramref name="numSamples"/>).
+		/// </summary>
+		/// <param name="bufferToFill"></param>
+		/// <param name="startSample"></param>
+		/// <param name="numSamples"></param>
+		void applyVolume(AudioBuffer& bufferToFill, int startSample, int numSamples);
+
+		/// <summary>
 		/// Container with voices.
 		/// </summary>
 		std::vector<std::unique_ptr<Voice>> _voices;
-
-		double _sampleRate;
 
 		/// <summary>
 		/// Size of the inner audio channel of each voice.
 		/// </summary>
 		unsigned _blockLength = 480u;
+
+		/// <summary>
+		/// Current synthesiser volume. Range: [0; 1].
+		/// </summary>
+		float _volume = 1.0f;
 	};
 }

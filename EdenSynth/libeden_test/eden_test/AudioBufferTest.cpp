@@ -11,12 +11,12 @@ namespace libeden_test
 	TEST(AudioBufferTest, PassMemoryBlock)
 	{
 		constexpr int numChannels = 2;
-		eden::SampleType** data = new eden::SampleType*[numChannels];
+		float** data = new float*[numChannels];
 
 		constexpr unsigned numSamples = 1024;
 		for (int i = 0; i < numChannels; ++i)
 		{
-			data[i] = new eden::SampleType[numSamples];
+			data[i] = new float[numSamples];
 		}
 
 		for (int i = 0; i < numChannels; ++i)
@@ -70,13 +70,13 @@ namespace libeden_test
 
 		for (size_t k = 0; k < testValues.size(); k++)
 		{
-			testBuffer.fill(static_cast<eden::SampleType>(testValues[k]));
+			testBuffer.fill(static_cast<float>(testValues[k]));
 
 			for (auto i = 0; i < testBuffer.getNumChannels(); ++i)
 			{
 				for (auto j = 0u; j < testBuffer.getNumSamples(); ++j)
 				{
-					EXPECT_FLOAT_EQ(testBuffer.getArrayOfReadPointers()[i][j], static_cast<eden::SampleType>(testValues[k]));
+					EXPECT_FLOAT_EQ(testBuffer.getArrayOfReadPointers()[i][j], static_cast<float>(testValues[k]));
 				}
 			}
 		}
@@ -94,12 +94,12 @@ namespace libeden_test
 
 		for (auto i = 0u; i < testBuffer.getNumSamples(); ++i)
 		{
-			testBuffer.addSample(0, i, static_cast<eden::SampleType>(std::sin(2 * FREQUENCY1 * eden::math_constants::PI * i / SAMPLE_RATE)));
-			testBuffer.addSample(0, i, static_cast<eden::SampleType>(std::sin(2 * FREQUENCY2 * eden::math_constants::PI * i / SAMPLE_RATE)));
+			testBuffer.addSample(0, i, static_cast<float>(std::sin(2 * FREQUENCY1 * eden::math_constants::PI * i / SAMPLE_RATE)));
+			testBuffer.addSample(0, i, static_cast<float>(std::sin(2 * FREQUENCY2 * eden::math_constants::PI * i / SAMPLE_RATE)));
 		}
 		for (auto j = 0u; j < testBuffer.getNumSamples(); ++j)
 		{
-			const auto expectedValue = static_cast<eden::SampleType>(std::sin(2 * FREQUENCY1 * eden::math_constants::PI * j / SAMPLE_RATE) + std::sin(2 * FREQUENCY2 * eden::math_constants::PI * j / SAMPLE_RATE));
+			const auto expectedValue = static_cast<float>(std::sin(2 * FREQUENCY1 * eden::math_constants::PI * j / SAMPLE_RATE) + std::sin(2 * FREQUENCY2 * eden::math_constants::PI * j / SAMPLE_RATE));
 			EXPECT_NEAR(testBuffer.getArrayOfReadPointers()[0][j], expectedValue, ACCURACY_THRESHOLD);
 		}
 	}
@@ -112,7 +112,7 @@ namespace libeden_test
 		ASSERT_EQ(testBuffer.getNumSamples(), 300);
 
 		testBuffer.forEachChannel(
-			[&](eden::SampleType* channel)
+			[&](float* channel)
 		{
 			for (auto i = 0u; i < testBuffer.getNumSamples(); ++i)
 			{
@@ -131,7 +131,7 @@ namespace libeden_test
 		{
 			for (auto sample = 0u; sample < testBuffer.getNumSamples(); ++sample)
 			{
-				const auto expectedValue = static_cast<eden::SampleType>(sample % 2 == 0 ? 1 : -1);
+				const auto expectedValue = static_cast<float>(sample % 2 == 0 ? 1 : -1);
 				EXPECT_FLOAT_EQ(testBuffer.getArrayOfReadPointers()[channel][sample], expectedValue);
 			}
 		}

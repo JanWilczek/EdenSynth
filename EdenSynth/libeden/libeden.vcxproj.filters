@@ -67,6 +67,12 @@
     <Filter Include="Source Files\interpolation">
       <UniqueIdentifier>{a30fea81-2eb8-4d0d-bf8d-cbf60ad04689}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\settings">
+      <UniqueIdentifier>{a69ce1b5-340a-4160-9b8a-ed987e839200}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\settings">
+      <UniqueIdentifier>{cb3afa4a-2f68-481e-b209-27ae74cd886f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h">
@@ -108,9 +114,6 @@
     <ClInclude Include="include\synth\envelope\EnvelopeSegment.h">
       <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
-    <ClInclude Include="include\eden\SampleType.h">
-      <Filter>Header Files\eden</Filter>
-    </ClInclude>
     <ClInclude Include="include\synth\envelope\Envelope.h">
       <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
@@ -137,9 +140,6 @@
     </ClInclude>
     <ClInclude Include="include\utility\TimeSampleConverter.h">
       <Filter>Header Files\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\synth\wavetable\Waveform.h">
-      <Filter>Header Files\synth\wavetable</Filter>
     </ClInclude>
     <ClInclude Include="include\synth\wavetable\WaveTable.h">
       <Filter>Header Files\synth\wavetable</Filter>
@@ -170,6 +170,51 @@
     </ClInclude>
     <ClInclude Include="include\synth\envelope\ISegmentGain.h">
       <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings\Settings.h">
+      <Filter>Header Files\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings\GeneratorSettings.h">
+      <Filter>Header Files\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings\SubtractiveModuleSettings.h">
+      <Filter>Header Files\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings\WaveshapingModuleSettings.h">
+      <Filter>Header Files\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings\EnvelopeSettings.h">
+      <Filter>Header Files\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\Oscillator.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden_impl\OscillatorImpl.h">
+      <Filter>Header Files\eden_impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\OscillatorSource.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\OscillatorParameters.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\SynthOscillator.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\IOscillatorSource.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\Waveform.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\WaveTableSource.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden_impl\OscillatorSourceImpl.h">
+      <Filter>Header Files\eden_impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings\Tuner.h">
+      <Filter>Header Files\settings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -236,9 +281,6 @@
     <ClCompile Include="source\interpolation\LinearInterpolator.cpp">
       <Filter>Source Files\interpolation</Filter>
     </ClCompile>
-    <ClCompile Include="source\synth\wavetable\Waveform.cpp">
-      <Filter>Source Files\synth\wavetable</Filter>
-    </ClCompile>
     <ClCompile Include="source\utility\WaveFileReader.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
@@ -247,6 +289,45 @@
     </ClCompile>
     <ClCompile Include="source\synth\envelope\SegmentGainFactory.cpp">
       <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\settings\Settings.cpp">
+      <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\settings\GeneratorSettings.cpp">
+      <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\settings\SubtractiveModuleSettings.cpp">
+      <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\settings\WaveshapingModuleSettings.cpp">
+      <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\settings\EnvelopeSettings.cpp">
+      <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\SynthOscillator.cpp">
+      <Filter>Source Files\synth\wavetable</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\Waveform.cpp">
+      <Filter>Source Files\synth\wavetable</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp">
+      <Filter>Source Files\synth\wavetable</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden_impl\OscillatorImpl.cpp">
+      <Filter>Source Files\eden_impl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden\Oscillator.cpp">
+      <Filter>Source Files\eden</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden\OscillatorSource.cpp">
+      <Filter>Source Files\eden</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden_impl\OscillatorSourceImpl.cpp">
+      <Filter>Source Files\eden_impl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\settings\Tuner.cpp">
+      <Filter>Source Files\settings</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

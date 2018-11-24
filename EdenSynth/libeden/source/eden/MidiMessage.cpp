@@ -8,9 +8,9 @@
 
 namespace eden
 {
-	double MidiMessage::getMidiNoteInHertz(int midiNoteNumber, const double frequencyOfA) noexcept
+	float MidiMessage::getMidiNoteInHertz(int midiNoteNumber, const float frequencyOfA) noexcept
 	{
-		return frequencyOfA * std::pow(2.0, (midiNoteNumber - 69) / 12.0);
+		return frequencyOfA * std::pow(2.f, (midiNoteNumber - 69) / 12.f);
 	}
 
 	MidiMessage::MidiMessage(int channel, MidiMessageType messageType)

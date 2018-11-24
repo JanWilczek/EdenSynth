@@ -34,7 +34,7 @@ namespace eden::utility
 		return _header.Subchunk2Size * 8 / (_header.NumChannels * _header.BitsPerSample);
 	}
 
-	std::vector<SampleType> WaveFileReader::readSamples()
+	std::vector<float> WaveFileReader::readSamples()
 	{
 		if (_samples.size() > 0)
 		{
@@ -72,16 +72,16 @@ namespace eden::utility
 		switch (_header.BitsPerSample)
 		{
 		case 8:
-			_samples.push_back(static_cast<SampleType>(static_cast<double>(sample) / std::numeric_limits<char>::max()));
+			_samples.push_back(static_cast<float>(static_cast<double>(sample) / std::numeric_limits<char>::max()));
 			break;
 		case 16:
-			_samples.push_back(static_cast<SampleType>(static_cast<double>(sample) / std::numeric_limits<short>::max()));
+			_samples.push_back(static_cast<float>(static_cast<double>(sample) / std::numeric_limits<short>::max()));
 			break;
 		case 32:
-			_samples.push_back(static_cast<SampleType>(static_cast<double>(sample) / std::numeric_limits<int>::max()));
+			_samples.push_back(static_cast<float>(static_cast<double>(sample) / std::numeric_limits<int>::max()));
 			break;
 		case 64:
-			_samples.push_back(static_cast<SampleType>(static_cast<double>(sample) / std::numeric_limits<long>::max()));
+			_samples.push_back(static_cast<float>(static_cast<double>(sample) / std::numeric_limits<long>::max()));
 			break;
 		default:
 			throw std::runtime_error("Unsupported number of bits. Currently only 8-, 16- and 32-bit PCM samples are supported.");
