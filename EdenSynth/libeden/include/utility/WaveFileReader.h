@@ -55,7 +55,7 @@ namespace eden::utility
 		void readHeader();
 
 		/// <summary>
-		/// Converts the given <paramref name="sample"> to float and adds it at the end of samples vector.
+		/// Converts the given <paramref name="sample"/> to float and adds it at the end of samples vector.
 		/// </summary>
 		/// <param name="sample"></param>
 		void addSample(int sample);

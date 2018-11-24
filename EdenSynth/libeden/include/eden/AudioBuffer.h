@@ -64,7 +64,7 @@ namespace eden
 		unsigned getNumSamples() const noexcept;
 
 		/// <summary>
-		/// Adds <paramref="valueToAdd"> at a specified position.
+		/// Adds <paramref name="valueToAdd"/> at a specified position.
 		/// </summary>
 		/// <param name="destChannel">channel of the sample</param>
 		/// <param name="destSample">index of the sample</param>
@@ -78,7 +78,7 @@ namespace eden
 		void fill(float value);
 
 		/// <summary>
-		/// Fills the buffer on all channels with given <paramref name="value"> in range [<paramref name="begin">, <paramref name="end">).
+		/// Fills the buffer on all channels with given <paramref name="value"/> in range [<paramref name="begin"/>, <paramref name="end"/>).
 		/// </summary>
 		/// <param name="value"></param>
 		/// <param name="begin"></param>

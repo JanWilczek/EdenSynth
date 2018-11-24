@@ -110,7 +110,7 @@ namespace eden::settings
 		void removeOscillatorSource(OscillatorSourceId sourceId);
 
 		/// <summary>
-		/// Adds an oscillator to each voice using the source as pointed by <paramref name="sourceId">.
+		/// Adds an oscillator to each voice using the source as pointed by <paramref name="sourceId"/>.
 		/// </summary>
 		/// <param name="sourceId">id of the oscillator sound to create the oscillator with (can be later changed)</param>
 		/// <returns>unique id representing the created oscillator</returns>
@@ -123,28 +123,28 @@ namespace eden::settings
 		void removeOscillator(OscillatorId oscillatorToRemove);
 
 		/// <summary>
-		/// Sets the source represented by <paramref name="sourceId"> of the oscillator represented by <paramref name="oscillatorId">.
+		/// Sets the source represented by <paramref name="sourceId"/> of the oscillator represented by <paramref name="oscillatorId"/>.
 		/// </summary>
 		/// <param name="oscillatorId"></param>
 		/// <param name="sourceId"></param>
 		void setOscillatorSource(OscillatorId oscillatorId, OscillatorSourceId sourceId);
 
 		/// <summary>
-		/// Sets octave transposition of the given oscillator. E.g. -1 means that the oscillator will play a pitch octave lower than with <paramref name="octaveShift"> equal to 0.
+		/// Sets octave transposition of the given oscillator. E.g. -1 means that the oscillator will play a pitch octave lower than with <paramref name="octaveShift"/> equal to 0.
 		/// </summary>
 		/// <param name="oscillatorId"></param>
 		/// <param name="octaveShift"></param>
 		void setOctaveTransposition(OscillatorId oscillatorId, int octaveShift);
 
 		/// <summary>
-		/// Sets semitone transposition of the given oscillator. E.g. +2 means that the oscillator will play a tone higher than with <paramref name="semitoneShift"> equal to 0.
+		/// Sets semitone transposition of the given oscillator. E.g. +2 means that the oscillator will play a tone higher than with <paramref name="semitoneShift"/> equal to 0.
 		/// </summary>
 		/// <param name="oscillatorId"></param>
 		/// <param name="semitoneShift"></param>
 		void setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift);
 
 		/// <summary>
-		/// Sets cent transposition of the given oscillator. E.g. +50 means that the oscillator will play a quarter tone higher than with <paramref name="centShift"> equal to 0.
+		/// Sets cent transposition of the given oscillator. E.g. +50 means that the oscillator will play a quarter tone higher than with <paramref name="centShift"/> equal to 0.
 		/// </summary>
 		/// <param name="oscillatorId"></param>
 		/// <param name="centShift"></param>
@@ -165,13 +165,13 @@ namespace eden::settings
 		void setOscillatorOn(OscillatorId oscillatorId, bool isOn);
 
 		/// <summary>
-		/// Sets the cutoff frequency of the lowpass filter.
+		/// Sets the cutoff frequency of the low-pass filter.
 		/// </summary>
 		/// <param name="cutoff">cutoff frequency in range [0; 0,5]</param>
 		void setCutoff(float cutoff);
 
 		/// <summary>
-		/// Sets the resonance or Q of the lowpass filter.
+		/// Sets the resonance or Q of the low-pass filter.
 		/// </summary>
 		/// <param name="resonance"></param>
 		void setResonance(float resonance);

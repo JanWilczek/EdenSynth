@@ -82,7 +82,7 @@ namespace libeden_test
 		constexpr auto A4 = 440.f;
 
 		tuner->setFrequencyOfA4(A4);
-		EXPECT_FLOAT_EQ(tuner->calculatePitch(69, 0), A4);
+		EXPECT_FLOAT_EQ(tuner->calculatePitch(69, eden::settings::Tuner::PITCH_BEND_NEUTRAL_VALUE), A4);
 	}
 
 	TEST_F(VoiceTest, VariousParameters)

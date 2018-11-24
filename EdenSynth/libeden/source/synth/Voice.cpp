@@ -5,7 +5,6 @@
 #include "synth/Voice.h"
 
 #include "eden/AudioBuffer.h"
-#include "eden/MidiMessage.h"
 #include "synth/envelope/ADBDR.h"
 #include "utility/EdenAssert.h"
 #include "eden/EnvelopeParameters.h"

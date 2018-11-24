@@ -23,8 +23,8 @@ namespace eden::synth::wavetable
 		SignalGenerator() = default;
 
 		/// <summary>
-		/// Fills the <paramref name="audioChannel"> from <paramref name="startSample">
-		/// to <paramref name="startSample"> + <paramref name="samplesToGenerate">(excluding)
+		/// Fills the <paramref name="audioChannel"/> from <paramref name="startSample"/>
+		/// to <paramref name="startSample"/> + <paramref name="samplesToGenerate"/> (excluding)
 		/// with currently set timbre at currently set pitch.
 		/// Whatever has been on the channel before will be overwritten.
 		/// </summary>
@@ -46,14 +46,58 @@ namespace eden::synth::wavetable
 		/// <param name="pitch"></param>
 		void setPitch(float pitch);
 
+		/// <summary>
+		/// Adds given <paramref name="oscillator"/> to the sound generators. It will be used to generate sound upon the calls to the <see cref="generateSignal"/>.
+		/// </summary>
+		/// <param name="oscillator"></param>
 		void addOscillator(SynthOscillator oscillator);
+
+		/// <summary>
+		/// Removes oscillator with the given id from sound generation.
+		/// </summary>
+		/// <param name="oscillatorToRemove">id of the oscillator to remove</param>
 		void removeOscillator(OscillatorId oscillatorToRemove);
 
+		/// <summary>
+		/// Sets oscillator source of the oscillator with the given id.
+		/// </summary>
+		/// <param name="oscillatorId"></param>
+		/// <param name="source"></param>
 		void setOscillatorSource(OscillatorId oscillatorId, std::unique_ptr<IOscillatorSource> source);
+
+		/// <summary>
+		/// Sets octave transposition of the oscillator with the given id.
+		/// </summary>
+		/// <param name="oscillatorId"></param>
+		/// <param name="octaveShift"></param>
 		void setOctaveTransposition(OscillatorId oscillatorId, int octaveShift);
+
+		/// <summary>
+		/// Sets semitone transposition of the oscillator with the given id.
+		/// </summary>
+		/// <param name="oscillatorId"></param>
+		/// <param name="semitoneShift"></param>
 		void setSemitoneTransposition(OscillatorId oscillatorId, int semitoneShift);
+
+		/// <summary>
+		/// Sets cent transposition of the oscillator with the given id.
+		/// </summary>
+		/// <param name="oscillatorId"></param>
+		/// <param name="centShift"></param>
 		void setCentTransposition(OscillatorId oscillatorId, int centShift);
+
+		/// <summary>
+		/// Sets volume of the oscillator with the given id.
+		/// </summary>
+		/// <param name="oscillatorId"></param>
+		/// <param name="volume"></param>
 		void setOscillatorVolume(OscillatorId oscillatorId, float volume);
+
+		/// <summary>
+		/// Sets on or off the oscillator with the given id.
+		/// </summary>
+		/// <param name="oscillatorId"></param>
+		/// <param name="isOn">true to turn the oscillator on, false to turn it off</param>
 		void setOscillatorOn(OscillatorId oscillatorId, bool isOn);
 
 		void setSampleRate(float sampleRate);
@@ -68,6 +112,5 @@ namespace eden::synth::wavetable
 		void generateSample(float* audioChannel, int sampleIndex);
 
 		std::map<OscillatorId, SynthOscillator> _oscillators;
-		std::pair<float, float> _pitchBendRange;
 	};
 }

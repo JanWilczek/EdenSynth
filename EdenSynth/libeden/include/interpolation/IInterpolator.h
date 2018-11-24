@@ -16,12 +16,12 @@ namespace eden::interpolation
 		virtual ~IInterpolator() = 0;
 
 		/// <summary>
-		/// Interpolate the value at the <paramref name="index"> using the <paramref name="discreteValues"> as the function to interpolate.
+		/// Interpolate the value at the <paramref name="index"/> using the <paramref name="discreteValues"/> as the function to interpolate.
 		/// The method may access any of the supplied points.
 		/// </summary>
 		/// <param name="discreteValues"></param>
 		/// <param name="index"></param>
-		/// <returns></returns>
+		/// <returns>approximated value</returns>
 		virtual float interpolate(const std::vector<float>& discreteValues, float index) = 0;
 	};
 

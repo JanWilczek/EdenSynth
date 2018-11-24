@@ -75,21 +75,21 @@ namespace eden
 		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
 
 		/// <summary>
-		/// Creates an oscillator source which generates samples by interpolating values given in the <paramref name="waveTable">.
+		/// Creates an oscillator source which generates samples by interpolating values given in the <paramref name="waveTable"/>.
 		/// </summary>
 		/// <param name="waveTable">one cycle of a waveform to be replayed</param>
 		/// <returns>handle to the source</returns>
 		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<float> waveTable);
 		
 		/// <summary>
-		/// Creates an oscillator source which generates samples by interpolating values given in the wave file <paramref name="pathToWaveFile">.
+		/// Creates an oscillator source which generates samples by interpolating values given in the wave file in path <paramref name="pathToWaveFile"/>.
 		/// </summary>
 		/// <param name="pathToWaveFile">path to the wave file containing one cycle of a waveform to replay</param>
 		/// <returns>handl to the source</returns>
 		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile);
 		
 		/// <summary>
-		/// Creates and oscillator based on the given <paramref name="oscillatorSource">. The source can be later altered.
+		/// Creates and oscillator based on the given <paramref name="oscillatorSource"/>. The source can be later altered.
 		/// </summary>
 		/// <param name="oscillatorSource">source of the waveform to be controlled by this oscillator</param>
 		/// <returns>handle to the oscillator</returns>

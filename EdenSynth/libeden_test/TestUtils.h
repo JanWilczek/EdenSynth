@@ -11,8 +11,8 @@ namespace libeden_test
 	{
 	public:
 		/// <summary>
-		/// Fills audio <paramref name="channel"> with given <paramref name="value"> from <paramref name="begin">
-		/// (including) to <paramref name="end"> (excluding).
+		/// Fills audio <paramref name="channel"/> with given <paramref name="value"/> from <paramref name="begin"/>
+		/// (including) to <paramref name="end"/> (excluding).
 		/// </summary>
 		/// <param name="channel"></param>
 		/// <param name="value"></param>
@@ -27,7 +27,7 @@ namespace libeden_test
 		}
 
 		/// <summary>
-		/// Calculates frequency of a signal in <paramref name="channel"> using zero crossings method.
+		/// Calculates frequency of a signal in <paramref name="channel"/> using zero crossings method.
 		/// </summary>
 		/// <param name="channel"></param>
 		/// <param name="bufferSize"></param>

@@ -87,7 +87,7 @@ namespace eden::synth
 		void setPitch(float newPitch);
 
 		/// <summary>
-		/// Applies current velocity to the given <paramref name="channel">.
+		/// Applies current velocity to the given <paramref name="channel"/>.
 		/// </summary>
 		/// <param name="channel"></param>
 		/// <param name="startSample"></param>
@@ -110,7 +110,7 @@ namespace eden::synth
 		void prepareToRender(int startSample, int samplesToRender);
 
 		/// <summary>
-		/// Registers all internal modules in <paramref name="settings">.
+		/// Registers all internal modules in <paramref name="settings"/>.
 		/// </summary>
 		/// <param name="settings"></param>
 		void registerModules(settings::Settings& settings);

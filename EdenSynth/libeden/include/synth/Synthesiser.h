@@ -39,7 +39,7 @@ namespace eden::synth
 		void processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int numSamples);
 
 		/// <summary>
-		/// Fills the given audio buffer with samples from <paramref name="startSample"> (including) to <paramref name="startSample"> + <paramref name="numSamples"> (excluding).
+		/// Fills the given audio buffer with samples from <paramref name="startSample"/> (including) to <paramref name="startSample"/> + <paramref name="numSamples"/> (excluding).
 		/// </summary>
 		/// <param name="bufferToFill"></param>
 		/// <param name="midiBuffer"></param>
@@ -111,7 +111,7 @@ namespace eden::synth
 		Voice* getVoicePlayingNote(const int midiNoteNumber);
 
 		/// <summary>
-		/// Applies global volume to the buffer in range [<paramref name="startSample">; <paramref name="startSample"> + <paramref name="numSamples">).
+		/// Applies global volume to the buffer in range [<paramref name="startSample"/>; <paramref name="startSample"/> + <paramref name="numSamples"/>).
 		/// </summary>
 		/// <param name="bufferToFill"></param>
 		/// <param name="startSample"></param>
