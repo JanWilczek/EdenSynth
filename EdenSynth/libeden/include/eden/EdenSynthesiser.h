@@ -114,6 +114,8 @@ namespace eden
 		/// <param name="resonance"></param>
 		void setResonance(float resonance);
 
+		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
+
 	private:
 		/// <summary>
 		/// Internal implementation.

@@ -15,7 +15,7 @@ namespace eden::synth
 	Voice::Voice(settings::Settings& settings)
 		: _innerBuffer(1, 480u)
 		, _signalGenerator(std::make_shared<wavetable::SignalGenerator>())
-		, _subtractiveModule(std::make_shared<subtractive::SubtractiveModule>())
+		, _subtractiveModule(std::make_shared<subtractive::SubtractiveModule>(settings.sampleRate()))
 		, _waveshapingModule(std::make_shared<waveshaping::WaveshapingModule>())
 		, _envelopeGenerator(std::make_shared<envelope::ADBDR>(settings.sampleRate(), ADBDRParameters{}))
 		, _tuner(settings.tuner())

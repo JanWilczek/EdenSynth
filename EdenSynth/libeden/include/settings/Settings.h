@@ -9,6 +9,7 @@
 #include "settings/SubtractiveModuleSettings.h"
 #include "settings/WaveshapingModuleSettings.h"
 #include "eden/OscillatorParameters.h"
+#include "eden/FilterParameters.h"
 #include "settings/Tuner.h"
 
 namespace eden
@@ -175,6 +176,8 @@ namespace eden::settings
 		/// </summary>
 		/// <param name="resonance"></param>
 		void setResonance(float resonance);
+
+		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
 
 		/// <summary>
 		/// Sets the envelope parameters of the envelope generator.

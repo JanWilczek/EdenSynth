@@ -10,6 +10,10 @@ namespace eden::settings
 	void SubtractiveModuleSettings::registerSubtractiveModule(std::shared_ptr<synth::subtractive::SubtractiveModule> subtractiveModule)
 	{
 		_subtractiveModules.push_back(subtractiveModule);
+
+		subtractiveModule->setCutoffFrequency(_cutoff);
+		subtractiveModule->setResonance(_resonance);
+		subtractiveModule->setPassbandAttenuation(_passbandAttenuation);
 	}
 
 	void SubtractiveModuleSettings::setSampleRate(float sampleRate)
@@ -24,7 +28,11 @@ namespace eden::settings
 	{
 		if (cutoff != _cutoff)
 		{
-			// TODO: Set cutoff in all subtractive modules.
+			_cutoff = cutoff;
+			for (auto subtractiveModule : _subtractiveModules)
+			{
+				subtractiveModule->setCutoffFrequency(cutoff);
+			}
 		}
 	}
 
@@ -32,7 +40,23 @@ namespace eden::settings
 	{
 		if (resonance != _resonance)
 		{
-			// TODO: Set resonance in all subtractive modules;
+			_resonance = resonance;
+			for (auto subtractiveModule : _subtractiveModules)
+			{
+				subtractiveModule->setResonance(resonance);
+			}
+		}
+	}
+
+	void SubtractiveModuleSettings::setPassbandAttenuation(PassbandAttenuation passbandAttenuation)
+	{
+		if (passbandAttenuation != _passbandAttenuation)
+		{
+			_passbandAttenuation = passbandAttenuation;
+			for (auto subtractiveModule : _subtractiveModules)
+			{
+				subtractiveModule->setPassbandAttenuation(_passbandAttenuation);
+			}
 		}
 	}
 }

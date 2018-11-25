@@ -82,4 +82,9 @@ namespace eden
 	{
 		_impl->setResonance(resonance);
 	}
+
+	void EdenSynthesiser::setPassbandAttenuation(PassbandAttenuation passbandAttenuation)
+	{
+		_impl->setPassbandAttenuation(passbandAttenuation);
+	}
 }

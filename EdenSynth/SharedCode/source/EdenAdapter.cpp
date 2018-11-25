@@ -62,8 +62,8 @@ namespace eden_vst
 		_oscillators.addOscillatorParameters(pluginParameters);
 
 		// filter parameters
-		pluginParameters.createAndAddParameter("filter.cutoff", "Cutoff", String(), NormalisableRange<float>(0.f, 0.5f, 0.01f), 0.49f, nullptr, nullptr);
-		pluginParameters.createAndAddParameter("filter.resonance", "Resonance", String(), NormalisableRange<float>(0.5f, 5.0f, 0.01f), 1.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("filter.cutoff", "Cutoff", String(), NormalisableRange<float>(100.f, 20000.f, 0.5f), 20000.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("filter.resonance", "Resonance", String(), NormalisableRange<float>(0.f, 0.9f, 0.001f), 0.f, nullptr, nullptr);
 
 		// ADBDR envelope parameters
 		pluginParameters.createAndAddParameter("envelope.adbdr.attack.time", "Attack time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 30.f, nullptr, nullptr);
@@ -94,8 +94,8 @@ namespace eden_vst
 		_oscillators.updateOscillatorParameters(pluginParameters);
 
 		// filter parameters
-		_synthesiser.setCutoff(pluginParameters.getParameterAsValue("filter.cutoff").getValue());
-		_synthesiser.setResonance(pluginParameters.getParameterAsValue("filter.resonance").getValue());
+		_synthesiser.setCutoff(*pluginParameters.getRawParameterValue("filter.cutoff"));
+		_synthesiser.setResonance(*pluginParameters.getRawParameterValue("filter.resonance"));
 
 		// ADBDR envelope parameters
 		{

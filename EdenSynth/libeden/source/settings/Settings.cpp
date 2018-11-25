@@ -134,6 +134,11 @@ namespace eden::settings
 		_subtractiveModuleSettings->setResonance(resonance);
 	}
 
+	void Settings::setPassbandAttenuation(PassbandAttenuation passbandAttenuation)
+	{
+		_subtractiveModuleSettings->setPassbandAttenuation(passbandAttenuation);
+	}
+
 	void Settings::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
 		_envelopeSettings->setEnvelopeParameters(envelopeParameters);

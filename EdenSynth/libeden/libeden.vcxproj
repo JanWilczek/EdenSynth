@@ -159,6 +159,7 @@
     <ClInclude Include="include\eden\AudioBuffer.h" />
     <ClInclude Include="include\eden\EdenSynthesiser.h" />
     <ClInclude Include="include\eden\EnvelopeParameters.h" />
+    <ClInclude Include="include\eden\FilterParameters.h" />
     <ClInclude Include="include\eden\MidiBuffer.h" />
     <ClInclude Include="include\eden\MidiMessage.h" />
     <ClInclude Include="include\eden\Oscillator.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="include\synth\envelope\SegmentGainFactory.h" />
     <ClInclude Include="include\synth\envelope\Sustain.h" />
     <ClInclude Include="include\synth\IMonoModule.h" />
+    <ClInclude Include="include\synth\subtractive\MoogFilter.h" />
     <ClInclude Include="include\synth\subtractive\OnePoleLowPassFilter.h" />
     <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
     <ClInclude Include="include\synth\Synthesiser.h" />
@@ -233,6 +235,7 @@
     <ClCompile Include="source\synth\envelope\NoGain.cpp" />
     <ClCompile Include="source\synth\envelope\SegmentGainFactory.cpp" />
     <ClCompile Include="source\synth\envelope\Sustain.cpp" />
+    <ClCompile Include="source\synth\subtractive\MoogFilter.cpp" />
     <ClCompile Include="source\synth\subtractive\OnePoleLowPassFilter.cpp" />
     <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp" />
     <ClCompile Include="source\synth\Synthesiser.cpp" />

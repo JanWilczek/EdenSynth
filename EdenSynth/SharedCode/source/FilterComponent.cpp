@@ -13,11 +13,13 @@ FilterComponent::FilterComponent(AudioProcessorValueTreeState& valueTreeState)
 {
 	_cutoffLabel.setJustificationType(Justification::horizontallyCentred);
 	addAndMakeVisible(_cutoffLabel);
+	_cutoff.setPopupDisplayEnabled(true, false, this);
 	addAndMakeVisible(_cutoff);
 	_cutoffAttachment = std::make_unique<SliderAttachment>(valueTreeState, "filter.cutoff", _cutoff);
 
 	_resonanceLabel.setJustificationType(Justification::horizontallyCentred);
 	addAndMakeVisible(_resonanceLabel);
+	_resonance.setPopupDisplayEnabled(true, false, this);
 	addAndMakeVisible(_resonance);
 	_resonanceAttachment = std::make_unique<SliderAttachment>(valueTreeState, "filter.resonance", _resonance);
 }

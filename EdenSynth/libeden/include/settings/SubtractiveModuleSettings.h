@@ -5,6 +5,7 @@
 /// 
 #include <memory>
 #include <vector>
+#include "eden/FilterParameters.h"
 
 namespace eden::synth::subtractive
 {
@@ -21,10 +22,12 @@ namespace eden::settings
 		void setSampleRate(float sampleRate);
 		void setCutoff(float cutoff);
 		void setResonance(float resonance);
+		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
 
 	private:
 		std::vector<std::shared_ptr<synth::subtractive::SubtractiveModule>> _subtractiveModules;
-		float _cutoff;
-		float _resonance;
+		float _cutoff = 20000.f;
+		float _resonance = 0.f;
+		PassbandAttenuation _passbandAttenuation = PassbandAttenuation::dB12;
 	};
 }

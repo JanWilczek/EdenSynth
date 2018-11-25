@@ -53,6 +53,8 @@ namespace eden
 
 		void setResonance(float resonance);
 
+		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
+
 	private:
 		/// <summary>
 		/// Library's settings.

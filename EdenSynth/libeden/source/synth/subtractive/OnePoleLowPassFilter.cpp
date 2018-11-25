@@ -34,6 +34,10 @@ namespace eden::synth::subtractive
 		const float output = afterG + _feedbackSample;
 
 		_feedbackSample = output;
+		if (std::isnan(_feedbackSample))
+		{
+			_feedbackSample = 0.f;
+		}
 
 		return output;
 	}
