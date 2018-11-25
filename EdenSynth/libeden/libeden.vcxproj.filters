@@ -216,6 +216,9 @@
     <ClInclude Include="include\settings\Tuner.h">
       <Filter>Header Files\settings</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\subtractive\OnePoleLowPassFilter.h">
+      <Filter>Header Files\synth\subtractive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -328,6 +331,9 @@
     </ClCompile>
     <ClCompile Include="source\settings\Tuner.cpp">
       <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\subtractive\OnePoleLowPassFilter.cpp">
+      <Filter>Source Files\synth\subtractive</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
