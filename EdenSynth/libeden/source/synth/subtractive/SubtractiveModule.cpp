@@ -2,12 +2,15 @@
 ///	\author Jan Wilczek 
 ///	 \date 08.10.2018
 ///
+#include <cmath>
 #include "synth/subtractive/SubtractiveModule.h"
 
 namespace eden::synth::subtractive
 {
 	SubtractiveModule::SubtractiveModule(float sampleRate)
 		: _filter(sampleRate)
+		, _cutoff(0.f)
+		, _pitch(0.f)
 	{
 	}
 
@@ -19,9 +22,10 @@ namespace eden::synth::subtractive
 		}
 	}
 
-	void SubtractiveModule::setCutoffFrequency(float cutoffFrequency)
+	void SubtractiveModule::setCutoff(float cutoff)
 	{
-		_filter.setCutoffFrequency(cutoffFrequency);
+		_cutoff = cutoff;
+		setCutoffFrequency();
 	}
 
 	void SubtractiveModule::setResonance(float resonance)
@@ -39,13 +43,15 @@ namespace eden::synth::subtractive
 		_filter.setSampleRate(sampleRate);
 	}
 
-	void SubtractiveModule::setPitch(double pitch)
+	void SubtractiveModule::setPitch(float pitch)
 	{
-		// TODO: No pitch follow implemented yet.
+		_pitch = pitch;
+		setCutoffFrequency();
 	}
 
-	void SubtractiveModule::setPitchBend(int pitchBendInSemitones)
+	void SubtractiveModule::setCutoffFrequency()
 	{
-		// TODO: No pitch follow implemented yet.
+		const auto newCutoffFrequency = _pitch * _cutoff;
+		_filter.setCutoffFrequency(newCutoffFrequency);
 	}
 }

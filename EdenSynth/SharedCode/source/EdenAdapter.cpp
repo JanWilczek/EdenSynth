@@ -62,8 +62,8 @@ namespace eden_vst
 		_oscillators.addOscillatorParameters(pluginParameters);
 
 		// filter parameters
-		pluginParameters.createAndAddParameter("filter.cutoff", "Cutoff", String(), NormalisableRange<float>(100.f, 20000.f, 0.5f), 20000.f, nullptr, nullptr);
-		pluginParameters.createAndAddParameter("filter.resonance", "Resonance", String(), NormalisableRange<float>(0.f, 0.9f, 0.001f), 0.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("filter.cutoff", "Cutoff", String(), NormalisableRange<float>(0.1f, 75.f, 0.001f, 0.3f), 1.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("filter.resonance", "Resonance", String(), NormalisableRange<float>(0.f, 0.9f, 0.0001f), 0.f, nullptr, nullptr);
 
 		// ADBDR envelope parameters
 		pluginParameters.createAndAddParameter("envelope.adbdr.attack.time", "Attack time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 30.f, nullptr, nullptr);
@@ -75,7 +75,7 @@ namespace eden_vst
 		pluginParameters.createAndAddParameter("envelope.adbdr.decay2.time", "Decay2 time", "ms", NormalisableRange<float>(1.f, 100000.f, 1.f, 0.3f), 20000.f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("envelope.adbdr.decay2.curve", "Decay2 curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
-		pluginParameters.createAndAddParameter("envelope.adbdr.release.time", "Release time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 300.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("envelope.adbdr.release.time", "Release time", "ms", NormalisableRange<float>(1.f, 40000.f, 1.f, 0.3f), 300.f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("envelope.adbdr.release.curve", "Release curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
 		pluginParameters.createAndAddParameter("envelope.adbdr.breakLevel", "Break level", String(), NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 0.6f, nullptr, nullptr);

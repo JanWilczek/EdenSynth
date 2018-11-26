@@ -103,17 +103,21 @@ namespace eden
 		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
 		/// <summary>
-		/// Set cutoff of the lowpass filter.
+		/// Set cutoff of the pitch-follow low-pass filter.
 		/// </summary>
-		/// <param name="cutoff">cutoff in range [0; 0,5]</param>
+		/// <param name="cutoff">number of harmonic to set the cutoff frequency at (1 is the fundamental), may be non-integer</param>
 		void setCutoff(float cutoff);
 
 		/// <summary>
-		/// Set resonance or Q of the lowpass filter.
+		/// Set resonance or Q of the low-pass filter.
 		/// </summary>
 		/// <param name="resonance"></param>
 		void setResonance(float resonance);
 
+		/// <summary>
+		/// Sets the attenuation of the filter in the pass-band. May be 12 dB per octave or 24 dB per octave.
+		/// </summary>
+		/// <param name="passbandAttenuation"></param>
 		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
 
 	private:

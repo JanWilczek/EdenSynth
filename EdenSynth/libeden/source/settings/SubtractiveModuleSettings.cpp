@@ -11,7 +11,7 @@ namespace eden::settings
 	{
 		_subtractiveModules.push_back(subtractiveModule);
 
-		subtractiveModule->setCutoffFrequency(_cutoff);
+		subtractiveModule->setCutoff(_cutoff);
 		subtractiveModule->setResonance(_resonance);
 		subtractiveModule->setPassbandAttenuation(_passbandAttenuation);
 	}
@@ -31,7 +31,7 @@ namespace eden::settings
 			_cutoff = cutoff;
 			for (auto subtractiveModule : _subtractiveModules)
 			{
-				subtractiveModule->setCutoffFrequency(cutoff);
+				subtractiveModule->setCutoff(cutoff);
 			}
 		}
 	}

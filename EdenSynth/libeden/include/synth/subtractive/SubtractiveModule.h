@@ -21,14 +21,17 @@ namespace eden::synth::subtractive
 
 		void process(float* audioChannel, int startSample, int samplesToProcess) override;
 
-		void setCutoffFrequency(float cutoffFrequency);
+		void setCutoff(float cutoff);
 		void setResonance(float resonance);
 		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
 		void setSampleRate(float sampleRate);
-		void setPitch(double pitch);
-		void setPitchBend(int pitchBendInSemitones);
-
+		void setPitch(float pitch);
+		
 	private:
+		void setCutoffFrequency();
+
 		MoogFilter _filter;
+		float _cutoff;
+		float _pitch;
 	};
 }

@@ -6,6 +6,7 @@
 #include "synth/subtractive/MoogFilter.h"
 #include "utility/EdenAssert.h"
 #include "utility/MathConstants.h"
+#include <algorithm>
 
 namespace eden::synth::subtractive
 {
@@ -61,7 +62,7 @@ namespace eden::synth::subtractive
 
 	void MoogFilter::setCutoffFrequency(float cutoffFrequency)
 	{
-		_cutoffFrequency = cutoffFrequency;
+		_cutoffFrequency = std::min(cutoffFrequency, _sampleRate / 2.f);
 		_afterA.setCutoffFrequency(_cutoffFrequency);
 		_afterB.setCutoffFrequency(_cutoffFrequency);
 		_afterC.setCutoffFrequency(_cutoffFrequency);
@@ -102,6 +103,7 @@ namespace eden::synth::subtractive
 		_afterC.setSampleRate(_sampleRate);
 		_afterD.setSampleRate(_sampleRate);
 
+		setCutoffFrequency(_cutoffFrequency);
 		calculateGRes();
 	}
 
