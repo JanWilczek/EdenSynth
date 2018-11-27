@@ -9,7 +9,7 @@
 
 namespace eden::synth::envelope
 {
-	class Envelope;
+	class EnvelopeGenerator;
 }
 
 namespace eden::settings
@@ -20,13 +20,13 @@ namespace eden::settings
 	class EnvelopeSettings
 	{
 	public:
-		EnvelopeSettings();
+		EnvelopeSettings(float sampleRate);
 
 		/// <summary>
 		/// Registers an envelope for settings' control.
 		/// </summary>
 		/// <param name="envelope"></param>
-		void registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope);
+		void registerEnvelope(std::shared_ptr<synth::envelope::EnvelopeGenerator> envelope);
 
 		/// <summary>
 		/// Sets sample rate of all registered envelopes.
@@ -50,11 +50,13 @@ namespace eden::settings
 		/// <summary>
 		/// All envelopes registered.
 		/// </summary>
-		std::vector<std::shared_ptr<synth::envelope::Envelope>> _envelopes;
+		std::vector<std::shared_ptr<synth::envelope::EnvelopeGenerator>> _envelopeGenerators;
 
 		/// <summary>
 		/// Currently set envelope parameters.
 		/// </summary>
 		std::shared_ptr<EnvelopeParameters> _currentParameters;
+
+		float _sampleRate;
 	};
 }

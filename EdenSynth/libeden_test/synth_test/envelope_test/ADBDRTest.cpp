@@ -71,7 +71,7 @@ namespace libeden_test
 			{
 				const auto samplesToProcess = toSample - fromSample + 1;
 				fillChannel(float(1.0), fromSample, toSample);
-				_envelope->apply(_channel.get(), fromSample, samplesToProcess);
+				_envelope->applyInRange(_channel.get(), fromSample, samplesToProcess);
 				return samplesToProcess;
 			}
 
@@ -79,7 +79,7 @@ namespace libeden_test
 			const auto initialSamplesToProcess = NUM_SAMPLES - fromSample;
 
 			fillChannel(float(1.0), fromSample, NUM_SAMPLES - 1);
-			_envelope->apply(_channel.get(), fromSample, initialSamplesToProcess);
+			_envelope->applyInRange(_channel.get(), fromSample, initialSamplesToProcess);
 
 			processedSamples += initialSamplesToProcess;
 			toSample -= NUM_SAMPLES;
@@ -87,7 +87,7 @@ namespace libeden_test
 			while (toSample > NUM_SAMPLES - 1)
 			{
 				fillChannel(float(1.0));
-				_envelope->apply(_channel.get(), 0, NUM_SAMPLES);
+				_envelope->applyInRange(_channel.get(), 0, NUM_SAMPLES);
 
 				processedSamples += NUM_SAMPLES;
 				toSample -= NUM_SAMPLES;
@@ -95,7 +95,7 @@ namespace libeden_test
 			const auto finalSamplesToProcess = toSample + 1;
 
 			fillChannel(float(1.0), 0, finalSamplesToProcess - 1);
-			_envelope->apply(_channel.get(), 0, finalSamplesToProcess);
+			_envelope->applyInRange(_channel.get(), 0, finalSamplesToProcess);
 			processedSamples += finalSamplesToProcess;
 
 			return processedSamples;

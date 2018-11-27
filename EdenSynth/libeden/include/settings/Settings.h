@@ -36,7 +36,7 @@ namespace eden
 
 		namespace envelope
 		{
-			class Envelope;
+			class EnvelopeGenerator;
 		}
 	}
 }
@@ -88,7 +88,7 @@ namespace eden::settings
 		/// Registers an envelope. Each voice should register its envelope in settings.
 		/// </summary>
 		/// <param name="envelope"></param>
-		void registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope);
+		void registerEnvelope(std::shared_ptr<synth::envelope::EnvelopeGenerator> envelope);
 
 		/// <summary>
 		/// Creates and registers a realtime oscillator source.

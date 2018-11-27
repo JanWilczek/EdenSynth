@@ -13,7 +13,7 @@ namespace eden::settings
 		, _generatorSettings(std::make_unique<GeneratorSettings>())
 		, _subtractiveModuleSettings(std::make_unique<SubtractiveModuleSettings>())
 		, _waveshapingModuleSettings(std::make_unique<WaveshapingModuleSettings>())
-		, _envelopeSettings(std::make_unique<EnvelopeSettings>())
+		, _envelopeSettings(std::make_unique<EnvelopeSettings>(_sampleRate))
 	{
 	}
 
@@ -64,7 +64,7 @@ namespace eden::settings
 		_waveshapingModuleSettings->registerWaveshapingModule(waveshapingModule);
 	}
 
-	void Settings::registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope)
+	void Settings::registerEnvelope(std::shared_ptr<synth::envelope::EnvelopeGenerator> envelope)
 	{
 		_envelopeSettings->registerEnvelope(envelope);
 	}

@@ -180,6 +180,7 @@
     <ClInclude Include="include\synth\envelope\Decay.h" />
     <ClInclude Include="include\synth\envelope\Envelope.h" />
     <ClInclude Include="include\synth\envelope\EnvelopeFactory.h" />
+    <ClInclude Include="include\synth\envelope\EnvelopeGenerator.h" />
     <ClInclude Include="include\synth\envelope\EnvelopeSegment.h" />
     <ClInclude Include="include\synth\envelope\Attack.h" />
     <ClInclude Include="include\synth\envelope\ExponentialGain.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="source\synth\envelope\Decay.cpp" />
     <ClCompile Include="source\synth\envelope\Envelope.cpp" />
     <ClCompile Include="source\synth\envelope\EnvelopeFactory.cpp" />
+    <ClCompile Include="source\synth\envelope\EnvelopeGenerator.cpp" />
     <ClCompile Include="source\synth\envelope\EnvelopeSegment.cpp" />
     <ClCompile Include="source\synth\envelope\ExponentialGain.cpp" />
     <ClCompile Include="source\synth\envelope\LinearGain.cpp" />

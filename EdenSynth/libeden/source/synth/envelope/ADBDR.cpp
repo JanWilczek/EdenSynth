@@ -51,12 +51,12 @@ namespace eden::synth::envelope
 		_release.setInitialLevel(breakLevel);
 	}
 
-	void ADBDR::checkForEnd(unsigned currentSampleIndex)
+	void ADBDR::checkForEnd()
 	{
 		if (_currentSegment >= _segments.size() - 1)
 		{
 			_currentLevel = 0.0;
-			_onEnvelopeEndedCallback(currentSampleIndex);
+			_onEnvelopeEndedCallback();
 		}
 	}
 }

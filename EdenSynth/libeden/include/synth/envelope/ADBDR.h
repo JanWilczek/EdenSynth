@@ -43,7 +43,7 @@ namespace eden::synth::envelope
 		void setBreakLevel(float breakLevel); 
 
 	protected:
-		void checkForEnd(unsigned currentSampleIndex) override;
+		void checkForEnd() override;
 
 	private:
 		/// <summary>

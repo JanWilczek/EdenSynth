@@ -17,11 +17,11 @@ namespace eden::synth
 		, _signalGenerator(std::make_shared<wavetable::SignalGenerator>())
 		, _subtractiveModule(std::make_shared<subtractive::SubtractiveModule>(settings.sampleRate()))
 		, _waveshapingModule(std::make_shared<waveshaping::WaveshapingModule>())
-		, _envelopeGenerator(std::make_shared<envelope::ADBDR>(settings.sampleRate(), ADBDRParameters{}))
+		, _envelopeGenerator(std::make_shared<envelope::EnvelopeGenerator>(std::make_shared<envelope::ADBDR>(settings.sampleRate(), ADBDRParameters{})))
 		, _tuner(settings.tuner())
 		, _lastPitchBendValue(settings::Tuner::PITCH_BEND_NEUTRAL_VALUE)
 	{
-		_envelopeGenerator->setOnEnvelopeEndedCallback([this](unsigned) { finalizeVoice(); });
+		_envelopeGenerator->setOnEnvelopeEndedCallback([this]() { finalizeVoice(); });
 
 		registerModules(settings);
 	}

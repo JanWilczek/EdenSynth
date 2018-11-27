@@ -22,17 +22,17 @@ namespace eden::synth::envelope
 		/// Type of function invoked when the envelope has ended (i.e. gain is 0 again).
 		/// The sample index of envelope's end should be passed to it.
 		/// </summary>
-		typedef std::function<void(unsigned)> OnEnvelopeEnded;
+		typedef std::function<void()> OnEnvelopeEnded;
 
 		virtual ~Envelope() = 0;
 
 		/// <summary>
-		/// Applies envelope on samples in channel in range [startSample, samplesToApply] (closed).
+		/// Applies envelope to the given sample.
 		/// </summary>
-		/// <param name="channel"></param>
-		/// <param name="startSample"></param>
-		/// <param name="samplesToApply"></param>
-		virtual void apply(float* channel, int startSample, int samplesToApply);
+		/// <param name="sample"></param>
+		virtual void apply(float& sample);
+
+		virtual void applyInRange(float* samples, int startSample, int samplesToApply);
 
 		/// <summary>
 		/// Handles note on event - typically starts attack segment.
@@ -48,7 +48,7 @@ namespace eden::synth::envelope
 		/// Checks if the envelope has ended and applies appropriate actions if it did.
 		/// </summary>
 		/// <param name="currentSampleIndex"></param>
-		virtual void checkForEnd(unsigned currentSampleIndex) = 0;
+		virtual void checkForEnd() = 0;
 
 		/// <summary>
 		/// Sets sample rate.
@@ -93,6 +93,6 @@ namespace eden::synth::envelope
 		/// <summary>
 		/// Callback to call after envelope has ended.
 		/// </summary>
-		OnEnvelopeEnded _onEnvelopeEndedCallback = [](unsigned){};
+		OnEnvelopeEnded _onEnvelopeEndedCallback = [](){};
 	};
 }

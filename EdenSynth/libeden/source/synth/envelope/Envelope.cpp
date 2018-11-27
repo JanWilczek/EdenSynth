@@ -11,18 +11,23 @@ namespace eden::synth::envelope
 	{
 	}
 
-	void Envelope::apply(float* channel, int startSample, int samplesToApply)
+	void Envelope::apply(float& sample)
+	{
+		sample *= _currentLevel;
+		updateGain();
+
+		if (_segments[_currentSegment]->hasEnded(_currentLevel))
+		{
+			switchToSegment(_currentSegment + 1);
+			checkForEnd();
+		}
+	}
+
+	void Envelope::applyInRange(float* samples, int startSample, int samplesToApply)
 	{
 		for (auto sample = startSample; sample < startSample + samplesToApply; ++sample)
 		{
-			channel[sample] *= _currentLevel;
-			updateGain();
-
-			if (_segments[_currentSegment]->hasEnded(_currentLevel))
-			{
-				switchToSegment(_currentSegment + 1);
-				checkForEnd(sample);
-			}
+			apply(samples[sample]);
 		}
 	}
 
