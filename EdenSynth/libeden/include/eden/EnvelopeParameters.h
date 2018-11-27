@@ -91,7 +91,7 @@ namespace eden
 			: EnvelopeParameters(EnvelopeType::ADSR)
 		{}
 
-		std::chrono::milliseconds attackTime = 50ms;
+		std::chrono::milliseconds attackTime = 5000ms;
 		EnvelopeSegmentCurve attackCurve = EnvelopeSegmentCurve::Exponential;
 
 		std::chrono::milliseconds decayTime = 100ms;

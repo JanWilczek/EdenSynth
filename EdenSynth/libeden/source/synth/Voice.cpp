@@ -34,11 +34,13 @@ namespace eden::synth
 		const auto pitch = _tuner->calculatePitch(_currentNote, _lastPitchBendValue);
 		setPitch(pitch);
 
+		_subtractiveModule->keyOn();
 		_envelopeGenerator->keyOn();
 	}
 
 	void Voice::stopNote(float /* velocity */)
 	{
+		_subtractiveModule->keyOff();
 		_envelopeGenerator->keyOff();
 	}
 

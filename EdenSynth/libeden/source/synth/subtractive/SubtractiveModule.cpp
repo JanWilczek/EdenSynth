@@ -4,11 +4,14 @@
 ///
 #include <cmath>
 #include "synth/subtractive/SubtractiveModule.h"
+#include "synth/envelope/ADSR.h"
+#include "eden/EnvelopeParameters.h"
 
 namespace eden::synth::subtractive
 {
 	SubtractiveModule::SubtractiveModule(float sampleRate)
 		: _filter(sampleRate)
+		, _filterEnvelope(std::make_shared<envelope::ADSR>(sampleRate, ADSRParameters{}))
 		, _cutoff(0.f)
 		, _pitch(0.f)
 	{
@@ -18,8 +21,19 @@ namespace eden::synth::subtractive
 	{
 		for (auto sample = startSample; sample < startSample + samplesToProcess; ++sample)
 		{
+			setCutoffFrequency();
 			audioChannel[sample] = _filter.processSample(audioChannel[sample]);
 		}
+	}
+
+	void SubtractiveModule::keyOn()
+	{
+		_filterEnvelope->keyOn();
+	}
+
+	void SubtractiveModule::keyOff()
+	{
+		_filterEnvelope->keyOff();
 	}
 
 	void SubtractiveModule::setCutoff(float cutoff)
@@ -51,7 +65,8 @@ namespace eden::synth::subtractive
 
 	void SubtractiveModule::setCutoffFrequency()
 	{
-		const auto newCutoffFrequency = _pitch * _cutoff;
+		auto newCutoffFrequency = _pitch * _cutoff;
+		_filterEnvelope->apply(newCutoffFrequency);
 		_filter.setCutoffFrequency(newCutoffFrequency);
 	}
 }

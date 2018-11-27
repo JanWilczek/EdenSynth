@@ -5,6 +5,7 @@
 ///
 #include "synth/IMonoModule.h"
 #include "synth/subtractive/MoogFilter.h"
+#include "synth/envelope/Envelope.h"
 
 namespace eden 
 {
@@ -21,6 +22,9 @@ namespace eden::synth::subtractive
 
 		void process(float* audioChannel, int startSample, int samplesToProcess) override;
 
+		void keyOn();
+		void keyOff();
+
 		void setCutoff(float cutoff);
 		void setResonance(float resonance);
 		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
@@ -31,6 +35,7 @@ namespace eden::synth::subtractive
 		void setCutoffFrequency();
 
 		MoogFilter _filter;
+		std::shared_ptr<envelope::Envelope> _filterEnvelope;
 		float _cutoff;
 		float _pitch;
 	};
