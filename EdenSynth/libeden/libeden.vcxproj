@@ -177,6 +177,7 @@
     <ClInclude Include="include\settings\Tuner.h" />
     <ClInclude Include="include\settings\WaveshapingModuleSettings.h" />
     <ClInclude Include="include\synth\envelope\ADBDR.h" />
+    <ClInclude Include="include\synth\envelope\ADSR.h" />
     <ClInclude Include="include\synth\envelope\Decay.h" />
     <ClInclude Include="include\synth\envelope\Envelope.h" />
     <ClInclude Include="include\synth\envelope\EnvelopeFactory.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="source\settings\Tuner.cpp" />
     <ClCompile Include="source\settings\WaveshapingModuleSettings.cpp" />
     <ClCompile Include="source\synth\envelope\ADBDR.cpp" />
+    <ClCompile Include="source\synth\envelope\ADSR.cpp" />
     <ClCompile Include="source\synth\envelope\Attack.cpp" />
     <ClCompile Include="source\synth\envelope\Decay.cpp" />
     <ClCompile Include="source\synth\envelope\Envelope.cpp" />

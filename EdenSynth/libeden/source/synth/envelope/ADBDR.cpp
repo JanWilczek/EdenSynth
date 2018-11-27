@@ -9,29 +9,27 @@
 namespace eden::synth::envelope
 {
 	ADBDR::ADBDR(double sampleRate, ADBDRParameters parameters)
-		: Envelope()
-		, _breakLevel(parameters.breakLevel)
-		, _attack(sampleRate, SegmentGainFactory::createSegmentGain(parameters.attackCurve), parameters.attackTime, 0.0, 1.0)
-		, _decay1(sampleRate, SegmentGainFactory::createSegmentGain(parameters.decay1Curve), parameters.decay1Time, 1.0, _breakLevel)
-		, _decay2(sampleRate, SegmentGainFactory::createSegmentGain(parameters.decay2Curve), parameters.decay2Time, _breakLevel, 0.0)
-		, _release(sampleRate, SegmentGainFactory::createSegmentGain(parameters.releaseCurve), parameters.releaseTime, _breakLevel, 0.0)
-		, _silence()
+		//: _breakLevel(parameters.breakLevel)
+		: _attack(sampleRate, SegmentGainFactory::createSegmentGain(parameters.attackCurve), parameters.attackTime, 0.0, 1.0)
+		, _decay1(sampleRate, SegmentGainFactory::createSegmentGain(parameters.decay1Curve), parameters.decay1Time, 1.0, parameters.breakLevel)
+		, _decay2(sampleRate, SegmentGainFactory::createSegmentGain(parameters.decay2Curve), parameters.decay2Time, parameters.breakLevel, 0.0)
+		, _release(sampleRate, SegmentGainFactory::createSegmentGain(parameters.releaseCurve), parameters.releaseTime, parameters.breakLevel, 0.0)
 	{
-		_segments.push_back(&_attack);
-		_segments.push_back(&_decay1);
-		_segments.push_back(&_decay2);
-		_segments.push_back(&_release);
-		_segments.push_back(&_silence);
+		_segments.insert(_segments.begin() + static_cast<int>(ADBDRSegments::Attack), &_attack);
+		_segments.insert(_segments.begin() + static_cast<int>(ADBDRSegments::Decay1), &_decay1);
+		_segments.insert(_segments.begin() + static_cast<int>(ADBDRSegments::Decay2), &_decay2);
+		_segments.insert(_segments.begin() + static_cast<int>(ADBDRSegments::Release), &_release);
+		_segments.insert(_segments.begin() + static_cast<int>(ADBDRSegments::Silence), &_silence);
 	}
 
 	void ADBDR::keyOn()
 	{
-		switchToSegment(static_cast<int>(ADBDRSegments::Attack));;
+		switchToSegment(static_cast<int>(ADBDRSegments::Attack));
 	}
 
 	void ADBDR::keyOff()
 	{
-		switchToSegment(static_cast<int>(ADBDRSegments::Release));;
+		switchToSegment(static_cast<int>(ADBDRSegments::Release));
 	}
 
 	void ADBDR::setSegmentTime(ADBDRSegments segment, std::chrono::milliseconds time)
@@ -51,12 +49,8 @@ namespace eden::synth::envelope
 		_release.setInitialLevel(breakLevel);
 	}
 
-	void ADBDR::checkForEnd()
+	bool ADBDR::hasEnded()
 	{
-		if (_currentSegment >= _segments.size() - 1)
-		{
-			_currentLevel = 0.0;
-			_onEnvelopeEndedCallback();
-		}
+		return _currentSegment >= static_cast<int>(ADBDRSegments::Silence);
 	}
 }

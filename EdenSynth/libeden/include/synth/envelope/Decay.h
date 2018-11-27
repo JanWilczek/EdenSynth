@@ -17,11 +17,5 @@ namespace eden::synth::envelope
 		~Decay() override = default;
 
 		bool hasEnded(float currentLevel) override;
-
-	private:
-		/// <summary>
-		/// Value to check in hasEnded - can be a little more than passed finalLevel, otherwise decay could never end (e.g. when the exponential gain is used).
-		/// </summary>
-		float _accurateFinalLevel;
 	};
 }

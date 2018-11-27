@@ -19,7 +19,11 @@ namespace eden::synth::envelope
 		if (_segments[_currentSegment]->hasEnded(_currentLevel))
 		{
 			switchToSegment(_currentSegment + 1);
-			checkForEnd();
+			if (hasEnded())
+			{
+				_currentLevel = 0.0;
+				_onEnvelopeEndedCallback();
+			}
 		}
 	}
 

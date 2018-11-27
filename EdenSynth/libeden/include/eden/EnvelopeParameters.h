@@ -12,7 +12,8 @@ namespace eden
 
 	enum class EnvelopeType
 	{
-		ADBDR
+		ADBDR,
+		ADSR
 	};
 
 	/// <summary>
@@ -35,10 +36,14 @@ namespace eden
 			: type(_type)
 		{}
 
-		virtual ~EnvelopeParameters(){}
+		virtual ~EnvelopeParameters() = 0;
+		EnvelopeType getType() const { return type; }
 
+	protected:
 		EnvelopeType type;
 	};
+	inline EnvelopeParameters::~EnvelopeParameters(){}
+
 
 	/// <summary>
 	/// Parameters necessary to control an Attack Decay1 Break Decay2 Release envelope. Such an envelope is 
@@ -46,7 +51,7 @@ namespace eden
 	/// The break level parameter specifies at what amplitude the envelope should pass from
 	/// Decay1 to Decay2 segment.
 	/// </summary>
-	struct ADBDRParameters : EnvelopeParameters
+	struct ADBDRParameters final : public EnvelopeParameters
 	{
 		ADBDRParameters()
 			: EnvelopeParameters(EnvelopeType::ADBDR)
@@ -78,5 +83,23 @@ namespace eden
 		EnvelopeSegmentCurve releaseCurve = EnvelopeSegmentCurve::Exponential;
 
 		float breakLevel = float(0.8f);
+	};
+
+	struct ADSRParameters final : public EnvelopeParameters
+	{
+		ADSRParameters()
+			: EnvelopeParameters(EnvelopeType::ADSR)
+		{}
+
+		std::chrono::milliseconds attackTime = 50ms;
+		EnvelopeSegmentCurve attackCurve = EnvelopeSegmentCurve::Exponential;
+
+		std::chrono::milliseconds decayTime = 100ms;
+		EnvelopeSegmentCurve decayCurve = EnvelopeSegmentCurve::Exponential;
+
+		float sustainLevel = 0.7f;
+
+		std::chrono::milliseconds releaseTime = 1000ms;
+		EnvelopeSegmentCurve releaseCurve = EnvelopeSegmentCurve::Exponential;
 	};
 }

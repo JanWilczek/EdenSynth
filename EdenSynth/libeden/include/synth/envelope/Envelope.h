@@ -47,8 +47,7 @@ namespace eden::synth::envelope
 		/// <summary>
 		/// Checks if the envelope has ended and applies appropriate actions if it did.
 		/// </summary>
-		/// <param name="currentSampleIndex"></param>
-		virtual void checkForEnd() = 0;
+		virtual bool hasEnded() = 0;
 
 		/// <summary>
 		/// Sets sample rate.

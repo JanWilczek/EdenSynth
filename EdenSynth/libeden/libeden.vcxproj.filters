@@ -228,6 +228,9 @@
     <ClInclude Include="include\synth\envelope\EnvelopeGenerator.h">
       <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\envelope\ADSR.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -348,6 +351,9 @@
       <Filter>Source Files\synth\subtractive</Filter>
     </ClCompile>
     <ClCompile Include="source\synth\envelope\EnvelopeGenerator.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\ADSR.cpp">
       <Filter>Source Files\synth\envelope</Filter>
     </ClCompile>
   </ItemGroup>

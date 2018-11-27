@@ -36,9 +36,9 @@ namespace eden::settings
 
 	void EnvelopeSettings::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
-		if (envelopeParameters->type == _currentParameters->type)
+		if (envelopeParameters->getType() == _currentParameters->getType())
 		{
-			switch (_currentParameters->type)
+			switch (_currentParameters->getType())
 			{
 			case EnvelopeType::ADBDR:
 				setADBDRParameters(std::dynamic_pointer_cast<ADBDRParameters>(envelopeParameters));
