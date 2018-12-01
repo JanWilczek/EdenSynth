@@ -58,9 +58,9 @@ namespace eden::synth::envelope
 		{
 			currentGain *= _multiplier;
 
-			if (currentGain > float(1.0))
+			if (currentGain > 1.0f)
 			{
-				currentGain = float(1.0);
+				currentGain = 1.0f;
 			}
 		}
 	}

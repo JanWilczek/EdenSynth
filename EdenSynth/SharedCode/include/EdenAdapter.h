@@ -7,6 +7,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "WaveTablePathProvider.h"
 #include "OscillatorContainer.h"
+#include "EdenFilterParameters.h"
 
 namespace eden 
 {
@@ -38,5 +39,6 @@ namespace eden_vst
 	private:
 		eden::EdenSynthesiser& _synthesiser;
 		OscillatorContainer _oscillators;
+		EdenFilterParameters _filterParameters;
 	};
 }

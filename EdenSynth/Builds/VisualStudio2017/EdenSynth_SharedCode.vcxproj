@@ -1888,6 +1888,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp" />
     <ClCompile Include="..\..\SharedCode\source\EdenAdapter.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\EdenFilterParameters.cpp" />
     <ClCompile Include="..\..\SharedCode\source\EnvelopeComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\EnvelopeSegmentComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\FilterComponent.cpp" />
@@ -2575,6 +2576,7 @@
     <ClInclude Include="..\..\SharedCode\include\EnvelopeComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\EnvelopeSegmentComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\FilterComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\EdenFilterParameters.h" />
     <ClInclude Include="..\..\SharedCode\include\GeneralSettingsComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\ModifierComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\GeneratorComponent.h" />

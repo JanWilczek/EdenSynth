@@ -13,11 +13,11 @@ namespace eden::synth::envelope
 		, _decay(sampleRate, SegmentGainFactory::createSegmentGain(parameters.decayCurve), parameters.decayTime, 1.0f, parameters.sustainLevel)
 		, _release(sampleRate, SegmentGainFactory::createSegmentGain(parameters.releaseCurve), parameters.releaseTime, parameters.sustainLevel, 0.f)
 	{
-		_segments.insert(_segments.cbegin() + static_cast<int>(ADSRSegments::Attack), &_attack);
-		_segments.insert(_segments.cbegin() + static_cast<int>(ADSRSegments::Decay), &_decay);
-		_segments.insert(_segments.cbegin() + static_cast<int>(ADSRSegments::Sustain), &_sustain);
-		_segments.insert(_segments.cbegin() + static_cast<int>(ADSRSegments::Release), &_release);
-		_segments.insert(_segments.cbegin() + static_cast<int>(ADSRSegments::Silence), &_silence);
+		_segments.insert(_segments.begin() + static_cast<int>(ADSRSegments::Attack), &_attack);
+		_segments.insert(_segments.begin() + static_cast<int>(ADSRSegments::Decay), &_decay);
+		_segments.insert(_segments.begin() + static_cast<int>(ADSRSegments::Sustain), &_sustain);
+		_segments.insert(_segments.begin() + static_cast<int>(ADSRSegments::Release), &_release);
+		_segments.insert(_segments.begin() + static_cast<int>(ADSRSegments::Silence), &_silence);
 	}
 
 	void ADSR::keyOn()

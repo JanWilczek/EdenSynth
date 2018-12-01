@@ -12,6 +12,7 @@ namespace eden_vst
 	EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser, std::experimental::filesystem::path assetsPath)
  		: _synthesiser(synthesiser)
 		, _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u)
+		, _filterParameters(_synthesiser)
 	{
 	}
 
@@ -62,8 +63,7 @@ namespace eden_vst
 		_oscillators.addOscillatorParameters(pluginParameters);
 
 		// filter parameters
-		pluginParameters.createAndAddParameter("filter.cutoff", "Cutoff", String(), NormalisableRange<float>(0.1f, 75.f, 0.001f, 0.3f), 1.f, nullptr, nullptr);
-		pluginParameters.createAndAddParameter("filter.resonance", "Resonance", String(), NormalisableRange<float>(0.f, 0.9f, 0.0001f), 0.f, nullptr, nullptr);
+		_filterParameters.addFilterParameters(pluginParameters);
 
 		// ADBDR envelope parameters
 		pluginParameters.createAndAddParameter("envelope.adbdr.attack.time", "Attack time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 30.f, nullptr, nullptr);
@@ -94,8 +94,7 @@ namespace eden_vst
 		_oscillators.updateOscillatorParameters(pluginParameters);
 
 		// filter parameters
-		_synthesiser.setCutoff(*pluginParameters.getRawParameterValue("filter.cutoff"));
-		_synthesiser.setResonance(*pluginParameters.getRawParameterValue("filter.resonance"));
+		_filterParameters.updateFilterParameters(pluginParameters);
 
 		// ADBDR envelope parameters
 		{

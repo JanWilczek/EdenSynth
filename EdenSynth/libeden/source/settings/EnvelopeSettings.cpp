@@ -54,6 +54,7 @@ namespace eden::settings
 		else
 		{
 			// switch to new envelope 
+			_currentParameters = envelopeParameters;
 			for (auto envelopeGenerator : _envelopeGenerators)
 			{
 				envelopeGenerator->setEnvelope(synth::envelope::EnvelopeFactory::createEnvelope(_sampleRate, envelopeParameters));
