@@ -185,6 +185,7 @@
     <ClInclude Include="include\synth\envelope\EnvelopeSegment.h" />
     <ClInclude Include="include\synth\envelope\Attack.h" />
     <ClInclude Include="include\synth\envelope\ExponentialGain.h" />
+    <ClInclude Include="include\synth\envelope\IEnvelopeHolder.h" />
     <ClInclude Include="include\synth\envelope\ISegmentGain.h" />
     <ClInclude Include="include\synth\envelope\LinearGain.h" />
     <ClInclude Include="include\synth\envelope\NoGain.h" />

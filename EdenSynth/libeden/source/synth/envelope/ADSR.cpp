@@ -30,6 +30,22 @@ namespace eden::synth::envelope
 		switchToSegment(static_cast<int>(ADSRSegments::Release));
 	}
 
+	void ADSR::setSegmentTime(ADSRSegments segment, std::chrono::milliseconds time)
+	{
+		_segments[static_cast<int>(segment)]->setDuration(time);
+	}
+
+	void ADSR::setSegmentCurve(ADSRSegments segment, EnvelopeSegmentCurve curve)
+	{
+		_segments[static_cast<int>(segment)]->setGainCurve(SegmentGainFactory::createSegmentGain(curve));
+	}
+
+	void ADSR::setSustainLevel(float sustainLevel)
+	{
+		_decay.setFinalLevel(sustainLevel);
+		_release.setInitialLevel(sustainLevel);
+	}
+
 	bool ADSR::hasEnded()
 	{
 		return _currentSegment >= static_cast<int>(ADSRSegments::Silence);

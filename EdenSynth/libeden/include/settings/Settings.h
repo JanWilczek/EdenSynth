@@ -36,7 +36,7 @@ namespace eden
 
 		namespace envelope
 		{
-			class EnvelopeGenerator;
+			class IEnvelopeHolder;
 		}
 	}
 }
@@ -88,7 +88,7 @@ namespace eden::settings
 		/// Registers an envelope. Each voice should register its envelope in settings.
 		/// </summary>
 		/// <param name="envelope"></param>
-		void registerEnvelope(std::shared_ptr<synth::envelope::EnvelopeGenerator> envelope);
+		void registerEnvelope(std::shared_ptr<synth::envelope::IEnvelopeHolder> envelope);
 
 		/// <summary>
 		/// Creates and registers a realtime oscillator source.
@@ -176,12 +176,16 @@ namespace eden::settings
 		/// </summary>
 		/// <param name="resonance"></param>
 		void setResonance(float resonance);
+		
+		void setContourAmount(float contourAmount);
 
 		/// <summary>
 		/// Sets the attenuation of the filter in the pass-band. May be 12 dB per octave or 24 dB per octave.
 		/// </summary>
 		/// <param name="passbandAttenuation"></param>
 		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
+
+		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
 
 		/// <summary>
 		/// Sets the envelope parameters of the envelope generator.

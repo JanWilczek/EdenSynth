@@ -9,6 +9,7 @@ namespace eden
 {
 	struct EnvelopeParameters;
 	struct ADBDRParameters;
+	struct ADSRParameters;
 }
 
 namespace eden::synth::envelope
@@ -33,5 +34,7 @@ namespace eden::synth::envelope
 		/// <param name="parameters"></param>
 		/// <returns>the ADBDR envelope created with the supplied parameters</returns>
 		static std::unique_ptr<Envelope> createADBDREnvelope(double sampleRate, std::shared_ptr<ADBDRParameters> parameters);
+
+		static std::unique_ptr<Envelope> createADSREnvelope(double sampleRate, std::shared_ptr<ADSRParameters> parameters);
 	};
 }

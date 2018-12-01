@@ -6,6 +6,7 @@
 #include "synth/IMonoModule.h"
 #include "synth/subtractive/MoogFilter.h"
 #include "synth/envelope/Envelope.h"
+#include "synth/Envelope/IEnvelopeHolder.h"
 
 namespace eden 
 {
@@ -14,7 +15,7 @@ namespace eden
 
 namespace eden::synth::subtractive
 {
-	class SubtractiveModule : public IMonoModule
+	class SubtractiveModule : public IMonoModule, public envelope::IEnvelopeHolder
 	{
 	public:
 		explicit SubtractiveModule(float sampleRate);
@@ -27,7 +28,10 @@ namespace eden::synth::subtractive
 
 		void setCutoff(float cutoff);
 		void setResonance(float resonance);
+		void setContourAmount(float contourAmount);
 		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
+		void setEnvelope(std::shared_ptr<envelope::Envelope> envelope) override;
+		std::shared_ptr<envelope::Envelope> getEnvelope() const noexcept override;
 		void setSampleRate(float sampleRate);
 		void setPitch(float pitch);
 		
@@ -36,7 +40,18 @@ namespace eden::synth::subtractive
 
 		MoogFilter _filter;
 		std::shared_ptr<envelope::Envelope> _filterEnvelope;
+		
+		/// <summary>
+		/// Number of harmonic to set the cutoff frequency at.
+		/// </summary>
 		float _cutoff;
+
+		/// <summary>
+		/// Determines the factor by which transform the filter envelope. 
+		/// If envelope's minimum is 0 and maximum is 1 then after transformation the minimum will be
+		/// (1 - <c>_contourAmount</c>) and maximum 1. The factor is thus responsible for amplitude scale of the envelope.
+		/// </summary>
+		float _contourAmount;
 		float _pitch;
 	};
 }

@@ -2,7 +2,6 @@
 ///	\author Jan Wilczek 
 ///	 \date 08.10.2018
 ///
-#include <cmath>
 #include "synth/subtractive/SubtractiveModule.h"
 #include "synth/envelope/ADSR.h"
 #include "eden/EnvelopeParameters.h"
@@ -13,6 +12,7 @@ namespace eden::synth::subtractive
 		: _filter(sampleRate)
 		, _filterEnvelope(std::make_shared<envelope::ADSR>(sampleRate, ADSRParameters{}))
 		, _cutoff(0.f)
+		, _contourAmount(1.f)
 		, _pitch(0.f)
 	{
 	}
@@ -47,9 +47,24 @@ namespace eden::synth::subtractive
 		_filter.setResonance(resonance);
 	}
 
+	void SubtractiveModule::setContourAmount(float contourAmount)
+	{
+		_contourAmount = contourAmount;
+	}
+
 	void SubtractiveModule::setPassbandAttenuation(PassbandAttenuation passbandAttenuation)
 	{
 		_filter.setPassbandAttenuation(passbandAttenuation);
+	}
+
+	void SubtractiveModule::setEnvelope(std::shared_ptr<envelope::Envelope> envelope)
+	{
+		_filterEnvelope = envelope;
+	}
+
+	std::shared_ptr<envelope::Envelope> SubtractiveModule::getEnvelope() const noexcept
+	{
+		return _filterEnvelope;
 	}
 
 	void SubtractiveModule::setSampleRate(float sampleRate)
@@ -66,7 +81,12 @@ namespace eden::synth::subtractive
 	void SubtractiveModule::setCutoffFrequency()
 	{
 		auto newCutoffFrequency = _pitch * _cutoff;
-		_filterEnvelope->apply(newCutoffFrequency);
+
+		// apply squeezed envelope
+		float envelopeValue = 1.f;
+		_filterEnvelope->apply(envelopeValue);
+		newCutoffFrequency *= (_contourAmount * envelopeValue + 1.f - _contourAmount);
+
 		_filter.setCutoffFrequency(newCutoffFrequency);
 	}
 }

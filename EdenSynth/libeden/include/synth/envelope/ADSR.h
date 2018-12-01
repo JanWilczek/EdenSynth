@@ -10,6 +10,7 @@
 
 namespace eden
 {
+	enum class EnvelopeSegmentCurve;
 	struct ADSRParameters;
 }
 
@@ -32,6 +33,10 @@ namespace eden::synth::envelope
 
 		void keyOn() override;
 		void keyOff() override;
+
+		void setSegmentTime(ADSRSegments segment, std::chrono::milliseconds time);
+		void setSegmentCurve(ADSRSegments segment, EnvelopeSegmentCurve curve);
+		void setSustainLevel(float sustainLevel);
 
 	protected:
 		bool hasEnded() override;

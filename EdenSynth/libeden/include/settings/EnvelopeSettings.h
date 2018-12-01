@@ -9,7 +9,7 @@
 
 namespace eden::synth::envelope
 {
-	class EnvelopeGenerator;
+	class IEnvelopeHolder;
 }
 
 namespace eden::settings
@@ -26,7 +26,7 @@ namespace eden::settings
 		/// Registers an envelope for settings' control.
 		/// </summary>
 		/// <param name="envelope"></param>
-		void registerEnvelope(std::shared_ptr<synth::envelope::EnvelopeGenerator> envelope);
+		void registerEnvelope(std::shared_ptr<synth::envelope::IEnvelopeHolder> envelope);
 
 		/// <summary>
 		/// Sets sample rate of all registered envelopes.
@@ -47,10 +47,12 @@ namespace eden::settings
 		/// <param name="adbdrParameters"></param>
 		void setADBDRParameters(std::shared_ptr<ADBDRParameters> adbdrParameters);
 
+		void setADSRParameters(std::shared_ptr<ADSRParameters> adsrParameters);
+
 		/// <summary>
 		/// All envelopes registered.
 		/// </summary>
-		std::vector<std::shared_ptr<synth::envelope::EnvelopeGenerator>> _envelopeGenerators;
+		std::vector<std::shared_ptr<synth::envelope::IEnvelopeHolder>> _envelopeGenerators;
 
 		/// <summary>
 		/// Currently set envelope parameters.

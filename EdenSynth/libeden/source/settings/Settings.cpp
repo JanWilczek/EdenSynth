@@ -11,7 +11,7 @@ namespace eden::settings
 	Settings::Settings()
 		: _tuner(std::make_shared<Tuner>())
 		, _generatorSettings(std::make_unique<GeneratorSettings>())
-		, _subtractiveModuleSettings(std::make_unique<SubtractiveModuleSettings>())
+		, _subtractiveModuleSettings(std::make_unique<SubtractiveModuleSettings>(_sampleRate))
 		, _waveshapingModuleSettings(std::make_unique<WaveshapingModuleSettings>())
 		, _envelopeSettings(std::make_unique<EnvelopeSettings>(_sampleRate))
 	{
@@ -64,7 +64,7 @@ namespace eden::settings
 		_waveshapingModuleSettings->registerWaveshapingModule(waveshapingModule);
 	}
 
-	void Settings::registerEnvelope(std::shared_ptr<synth::envelope::EnvelopeGenerator> envelope)
+	void Settings::registerEnvelope(std::shared_ptr<synth::envelope::IEnvelopeHolder> envelope)
 	{
 		_envelopeSettings->registerEnvelope(envelope);
 	}
@@ -134,9 +134,19 @@ namespace eden::settings
 		_subtractiveModuleSettings->setResonance(resonance);
 	}
 
+	void Settings::setContourAmount(float contourAmount)
+	{
+		_subtractiveModuleSettings->setContourAmount(contourAmount);
+	}
+
 	void Settings::setPassbandAttenuation(PassbandAttenuation passbandAttenuation)
 	{
 		_subtractiveModuleSettings->setPassbandAttenuation(passbandAttenuation);
+	}
+
+	void Settings::setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters)
+	{
+		_subtractiveModuleSettings->setEnvelopeParameters(filterEnvelopeParameters);
 	}
 
 	void Settings::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)

@@ -96,13 +96,6 @@ namespace eden
 		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource);
 
 		/// <summary>
-		/// Sets new envelope of sound - the information about volume change in time in relation
-		/// to keyboard events.
-		/// </summary>
-		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
-		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
-
-		/// <summary>
 		/// Set cutoff of the pitch-follow low-pass filter.
 		/// </summary>
 		/// <param name="cutoff">number of harmonic to set the cutoff frequency at (1 is the fundamental), may be non-integer</param>
@@ -114,11 +107,22 @@ namespace eden
 		/// <param name="resonance"></param>
 		void setResonance(float resonance);
 
+		void setContourAmount(float contourAmount);
+
 		/// <summary>
 		/// Sets the attenuation of the filter in the pass-band. May be 12 dB per octave or 24 dB per octave.
 		/// </summary>
 		/// <param name="passbandAttenuation"></param>
 		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
+
+		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
+
+		/// <summary>
+		/// Sets new envelope of sound - the information about volume change in time in relation
+		/// to keyboard events.
+		/// </summary>
+		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
+		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
 	private:
 		/// <summary>

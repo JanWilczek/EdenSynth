@@ -231,6 +231,9 @@
     <ClInclude Include="include\synth\envelope\ADSR.h">
       <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\envelope\IEnvelopeHolder.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">

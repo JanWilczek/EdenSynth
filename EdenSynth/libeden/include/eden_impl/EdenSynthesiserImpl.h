@@ -47,13 +47,17 @@ namespace eden
 		
 		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource);
 
-		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
-
 		void setCutoff(float cutoff);
 
 		void setResonance(float resonance);
 
+		void setContourAmount(float contourAmount);
+
 		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
+		
+		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
+
+		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
 	private:
 		/// <summary>

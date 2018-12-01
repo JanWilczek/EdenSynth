@@ -4,10 +4,11 @@
 /// \date 27.11.2018
 /// 
 #include "synth/envelope/Envelope.h"
+#include "synth/envelope/IEnvelopeHolder.h"
 
 namespace eden::synth::envelope
 {
-	class EnvelopeGenerator
+	class EnvelopeGenerator : public IEnvelopeHolder
 	{
 	public:
 		EnvelopeGenerator(std::shared_ptr<Envelope> envelope);
@@ -23,9 +24,9 @@ namespace eden::synth::envelope
 		void keyOn();
 		void keyOff();
 
-		std::shared_ptr<Envelope> getEnvelope() const noexcept;
+		std::shared_ptr<Envelope> getEnvelope() const noexcept override;
 
-		void setEnvelope(std::shared_ptr<Envelope> envelope);
+		void setEnvelope(std::shared_ptr<Envelope> envelope) override;
 		/// <summary>
 		/// Sets the function to be called when the envelope has ended.
 		/// Sample index at which the envelope has ended is passed to it.
