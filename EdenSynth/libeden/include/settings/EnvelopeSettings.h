@@ -16,6 +16,7 @@ namespace eden::settings
 {
 	/// <summary>
 	/// Class responsible for changing settings of note envelopes belonging to all voices.
+	/// All registered envelopes will have the same envelope parameters and thus have to be of the same type.
 	/// </summary>
 	class EnvelopeSettings
 	{
@@ -47,10 +48,14 @@ namespace eden::settings
 		/// <param name="adbdrParameters"></param>
 		void setADBDRParameters(std::shared_ptr<ADBDRParameters> adbdrParameters);
 
+		/// <summary>
+		/// Sets envelope settings with knowledge that they are parameters of an ADSR envelope.
+		/// </summary>
+		/// <param name="adsrParameters"></param>
 		void setADSRParameters(std::shared_ptr<ADSRParameters> adsrParameters);
 
 		/// <summary>
-		/// All envelopes registered.
+		/// All registered envelopes.
 		/// </summary>
 		std::vector<std::shared_ptr<synth::envelope::IEnvelopeHolder>> _envelopeGenerators;
 

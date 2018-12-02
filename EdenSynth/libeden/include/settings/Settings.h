@@ -60,10 +60,20 @@ namespace eden::settings
 		/// <returns>currently stored sample rate</returns>
 		float sampleRate() const noexcept;
 
+		/// <returns>an instance of the tuner containing all necessary tuning parameters</returns>
 		std::shared_ptr<Tuner> tuner() const noexcept;
 
+		/// <summary>
+		/// Sets the frequency which should correspond to MIDI note 69.
+		/// </summary>
+		/// <param name="frequencyOfA4">A4 frequency in Hz</param>
 		void setFrequencyOfA4(float frequencyOfA4);
 
+		/// <summary>
+		/// Sets the pitch bend range: how much in semitones can the pitch wheel transpose a sound.
+		/// E.g. pair {-12, 2} transposes the pitch by a tone up, when pitch wheel's value is maximum and by an octave down, when pitch wheel's value is minimum.
+		/// </summary>
+		/// <param name="transposeDownTransposeUp">first element indicates the number of semitones corresponding to maximum down-bend, second the number of semitones corresponding to maximum up-bend</param>
 		void setPitchBendRange(std::pair<int, int> transposeDownTransposeUp);
 
 		/// <summary>
@@ -176,7 +186,13 @@ namespace eden::settings
 		/// </summary>
 		/// <param name="resonance"></param>
 		void setResonance(float resonance);
-		
+
+		/// <summary>
+		/// Sets the range in which filter's envelope affects its cutoff frequency.
+		/// E.g. 1 means that the cutoff frequency will sweep through all frequencies from 0 to cutoff frequency during attack,
+		/// while 0 means that filter's cutoff frequency will be steady (determined solely by the cutoff parameter, pitch and possibly modulation).
+		/// </summary>
+		/// <param name="contourAmount">scale in range [0, 1]</param>
 		void setContourAmount(float contourAmount);
 
 		/// <summary>
@@ -185,6 +201,11 @@ namespace eden::settings
 		/// <param name="passbandAttenuation"></param>
 		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
 
+		/// <summary>
+		/// Sets new envelope of the filter's cutoff frequency.
+		/// E.g. long attack times create a feeling of the note 'opening up' as the cutoff frequency gradually increases.
+		/// </summary>
+		/// <param name="filterEnvelopeParameters">parameters of the filter's envelope to set - <c>ADSRParameters</c> struct instance for example</param>
 		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
 
 		/// <summary>
