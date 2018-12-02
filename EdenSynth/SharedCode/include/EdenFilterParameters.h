@@ -17,7 +17,7 @@ namespace eden_vst
 	public:
 		explicit EdenFilterParameters(eden::EdenSynthesiser& synthesiser);
 		void addFilterParameters(AudioProcessorValueTreeState& pluginParameters);
-		void updateFilterParameters(const AudioProcessorValueTreeState& pluginParameters);
+		void updateFilterParameters();
 
 	private:
 		eden::EdenSynthesiser& _synthesiser;

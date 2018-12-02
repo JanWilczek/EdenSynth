@@ -23,31 +23,31 @@ namespace eden_vst
 		_resonance = pluginParameters.getRawParameterValue(resonanceParameterName);
 
 		const std::string contourAmountParameterName = "filter.contourAmount";
-		pluginParameters.createAndAddParameter(contourAmountParameterName, "Contour amount", String(), NormalisableRange<float>(0.f, 1.0f, 0.001f, 0.4f), 1.0f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter(contourAmountParameterName, "Contour amount", String(), NormalisableRange<float>(0.f, 1.0f, 0.001f, 0.3f), 1.0f, nullptr, nullptr);
 		_contourAmount = pluginParameters.getRawParameterValue(contourAmountParameterName);
 
 		const std::string passbandAttenuationParameterName = "filter.passbandAttenuation";
 		pluginParameters.createAndAddParameter(passbandAttenuationParameterName, "Passband attenuation", String(), NormalisableRange(0.f, 1.f, 1.f), 0.f, nullptr, nullptr);
 		_passbandAttenuation = pluginParameters.getRawParameterValue(passbandAttenuationParameterName);
 
-		const std::string attackTimeParameterName = "filter.envelope.attackTime";
+		const std::string attackTimeParameterName = "filter.envelope.adsr.attack.time";
 		pluginParameters.createAndAddParameter(attackTimeParameterName, "Filter attack time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 50.f, nullptr, nullptr);
 		_attackTime = pluginParameters.getRawParameterValue(attackTimeParameterName);
 
-		const std::string decayTimeParameterName = "filter.envelope.decayTime";
+		const std::string decayTimeParameterName = "filter.envelope.adsr.decay.time";
 		pluginParameters.createAndAddParameter(decayTimeParameterName, "Filter decay time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 20.f, nullptr, nullptr);
 		_decayTime = pluginParameters.getRawParameterValue(decayTimeParameterName);
 
-		const std::string sustainLevelParameterName = "filter.envelope.sustainLevel";
+		const std::string sustainLevelParameterName = "filter.envelope.adsr.sustain.level";
 		pluginParameters.createAndAddParameter(sustainLevelParameterName, "Filter sustain level", String(), NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 0.9f, nullptr, nullptr);
 		_sustainLevel = pluginParameters.getRawParameterValue(sustainLevelParameterName);
 		
-		const std::string releaseTimeParameterName = "filter.envelope.releaseTime";
+		const std::string releaseTimeParameterName = "filter.envelope.adsr.release.time";
 		pluginParameters.createAndAddParameter(releaseTimeParameterName, "Filter release time", "ms", NormalisableRange<float>(1.f, 40000.f, 1.f, 0.3f), 300.f, nullptr, nullptr);
 		_releaseTime = pluginParameters.getRawParameterValue(releaseTimeParameterName);
 	}
 
-	void EdenFilterParameters::updateFilterParameters(const AudioProcessorValueTreeState& pluginParameters)
+	void EdenFilterParameters::updateFilterParameters()
 	{
 		_synthesiser.setCutoff(*_cutoff);
 		_synthesiser.setResonance(*_resonance);

@@ -5,6 +5,7 @@
 /// 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "FilterControlsComponent.h"
+#include "FilterEnvelopeComponent.h"
 
 class FilterComponent : public Component
 {
@@ -16,4 +17,5 @@ public:
 
 private:
 	FilterControlsComponent _filterControls;
+	FilterEnvelopeComponent _filterEnvelope;
 };

@@ -94,7 +94,7 @@ namespace eden_vst
 		_oscillators.updateOscillatorParameters(pluginParameters);
 
 		// filter parameters
-		_filterParameters.updateFilterParameters(pluginParameters);
+		_filterParameters.updateFilterParameters();
 
 		// ADBDR envelope parameters
 		{
