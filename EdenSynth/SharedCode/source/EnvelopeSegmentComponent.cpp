@@ -4,7 +4,6 @@
 /// 
 #include "EnvelopeSegmentComponent.h"
 #include "EnvelopeComponent.h"
-#include "eden/EnvelopeParameters.h"
 
 EnvelopeSegmentComponent::EnvelopeSegmentComponent(AudioProcessorValueTreeState& valueTreeState, String segmentLabel, String timeParameterID, String curveParameterID)
 	: _segmentName(segmentLabel.toLowerCase().removeCharacters(" "), segmentLabel)

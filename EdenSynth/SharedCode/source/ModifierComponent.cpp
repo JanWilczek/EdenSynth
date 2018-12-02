@@ -12,14 +12,8 @@ ModifierComponent::ModifierComponent(AudioProcessorValueTreeState& valueTreeStat
 	addAndMakeVisible(_waveshaperComponent);
 }
 
-void ModifierComponent::paint(Graphics& g)
-{
-	g.setColour(getLookAndFeel().findColour(Slider::ColourIds::rotarySliderOutlineColourId));
-	g.drawRect(getBounds(), 2);
-}
-
 void ModifierComponent::resized()
 {
-	_filterComponent.setBounds(0, 0, getWidth(), 120);
-	_waveshaperComponent.setBounds(0, _filterComponent.getHeight(), getWidth(), 380);
+	_filterComponent.setBounds(0, 0, getWidth(), 200);
+	_waveshaperComponent.setBounds(0, _filterComponent.getHeight(), getWidth(), getHeight() - _filterComponent.getHeight());
 }

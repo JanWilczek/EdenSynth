@@ -3,25 +3,11 @@
 /// \date 06.11.2018
 /// 
 #include "FilterComponent.h"
-#include <memory>
 
 FilterComponent::FilterComponent(AudioProcessorValueTreeState& valueTreeState)
-	: _cutoffLabel("cutoffLabel", "Cutoff")
-	, _cutoff(Slider::SliderStyle::Rotary, Slider::TextEntryBoxPosition::NoTextBox)
-	, _resonanceLabel("resonanceLabel", "Resonance")
-	, _resonance(Slider::SliderStyle::Rotary, Slider::TextEntryBoxPosition::NoTextBox)
+	: _filterControls(valueTreeState)
 {
-	_cutoffLabel.setJustificationType(Justification::horizontallyCentred);
-	addAndMakeVisible(_cutoffLabel);
-	_cutoff.setPopupDisplayEnabled(true, false, this);
-	addAndMakeVisible(_cutoff);
-	_cutoffAttachment = std::make_unique<SliderAttachment>(valueTreeState, "filter.cutoff", _cutoff);
-
-	_resonanceLabel.setJustificationType(Justification::horizontallyCentred);
-	addAndMakeVisible(_resonanceLabel);
-	_resonance.setPopupDisplayEnabled(true, false, this);
-	addAndMakeVisible(_resonance);
-	_resonanceAttachment = std::make_unique<SliderAttachment>(valueTreeState, "filter.resonance", _resonance);
+	addAndMakeVisible(_filterControls);
 }
 
 void FilterComponent::paint(Graphics& g)
@@ -32,9 +18,5 @@ void FilterComponent::paint(Graphics& g)
 
 void FilterComponent::resized()
 {
-	_cutoffLabel.setBounds(5, 5, 80, 20);
-	_cutoff.setBounds(5, 25, 80, 80);
-
-	_resonanceLabel.setBounds(150, 5, 80, 20);
-	_resonance.setBounds(150, 25, 80, 80);
+	_filterControls.setBounds(5, 5, getWidth() - 10, (getHeight() - 10) / 2);
 }
