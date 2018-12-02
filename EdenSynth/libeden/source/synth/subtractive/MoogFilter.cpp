@@ -33,8 +33,7 @@ namespace eden::synth::subtractive
 		const auto afterFirstSummation = sample - 4.f * _gRes * (_feedbackSample - sample * _gComp);
 
 		// 2. Hyperbolic tangent transfer function.
-		// TODO
-		const auto transformed = afterFirstSummation;
+		const auto transformed = std::tanh(afterFirstSummation);
 
 		// 3. One-pole filters processing
 		output += transformed * _a;
@@ -50,11 +49,6 @@ namespace eden::synth::subtractive
 		const auto afterFourthLP = _afterD.processSample(afterThirdLP);
 
 		_feedbackSample = afterFourthLP;
-		if (std::isnan(_feedbackSample))
-		{
-			_feedbackSample = 0.f;
-		}
-
 		output += afterFourthLP * _e;
 
 		return output;

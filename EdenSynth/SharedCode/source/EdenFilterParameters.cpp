@@ -19,11 +19,11 @@ namespace eden_vst
 		_cutoff = pluginParameters.getRawParameterValue(cutoffParameterName);
 
 		const std::string resonanceParameterName = "filter.resonance";
-		pluginParameters.createAndAddParameter(resonanceParameterName, "Resonance", String(), NormalisableRange<float>(0.f, 0.9f, 0.0001f), 0.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter(resonanceParameterName, "Resonance", String(), NormalisableRange<float>(0.f, 1.f, 0.0001f), 0.f, nullptr, nullptr);
 		_resonance = pluginParameters.getRawParameterValue(resonanceParameterName);
 
 		const std::string contourAmountParameterName = "filter.contourAmount";
-		pluginParameters.createAndAddParameter(contourAmountParameterName, "Contour amount", String(), NormalisableRange<float>(0.f, 1.0f, 0.001f, 0.3f), 1.0f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter(contourAmountParameterName, "Contour amount", String(), NormalisableRange<float>(0.f, 1.0f, 0.001f, 1.6f), 1.0f, nullptr, nullptr);
 		_contourAmount = pluginParameters.getRawParameterValue(contourAmountParameterName);
 
 		const std::string passbandAttenuationParameterName = "filter.passbandAttenuation";
