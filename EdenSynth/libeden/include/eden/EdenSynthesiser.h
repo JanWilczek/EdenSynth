@@ -102,9 +102,9 @@ namespace eden
 		void setCutoff(float cutoff);
 
 		/// <summary>
-		/// Set resonance or Q of the low-pass filter.
+		/// Set resonance or Q of the low-pass filter.Resonance boosts gain at cutoff frequency of the filter changing into ringing when the value is near 1.
 		/// </summary>
-		/// <param name="resonance"></param>
+		/// <param name="resonance">boost at cutoff frequency in range [0, 1]</param>
 		void setResonance(float resonance);
 
 		/// <summary>

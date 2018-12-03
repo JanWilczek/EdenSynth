@@ -10,7 +10,7 @@ namespace eden::synth::subtractive
 {
 	SubtractiveModule::SubtractiveModule(float sampleRate)
 		: _filter(sampleRate)
-		, _filterEnvelope(std::make_shared<envelope::ADSR>(sampleRate, ADSRParameters{}))
+		, _cutoffFrequencyEnvelope(std::make_shared<envelope::ADSR>(sampleRate, ADSRParameters{}))
 		, _cutoff(0.f)
 		, _contourAmount(1.f)
 		, _pitch(0.f)
@@ -28,12 +28,12 @@ namespace eden::synth::subtractive
 
 	void SubtractiveModule::keyOn()
 	{
-		_filterEnvelope->keyOn();
+		_cutoffFrequencyEnvelope->keyOn();
 	}
 
 	void SubtractiveModule::keyOff()
 	{
-		_filterEnvelope->keyOff();
+		_cutoffFrequencyEnvelope->keyOff();
 	}
 
 	void SubtractiveModule::setCutoff(float cutoff)
@@ -59,12 +59,12 @@ namespace eden::synth::subtractive
 
 	void SubtractiveModule::setEnvelope(std::shared_ptr<envelope::Envelope> envelope)
 	{
-		_filterEnvelope = envelope;
+		_cutoffFrequencyEnvelope = envelope;
 	}
 
 	std::shared_ptr<envelope::Envelope> SubtractiveModule::getEnvelope() const noexcept
 	{
-		return _filterEnvelope;
+		return _cutoffFrequencyEnvelope;
 	}
 
 	void SubtractiveModule::setSampleRate(float sampleRate)
@@ -84,7 +84,7 @@ namespace eden::synth::subtractive
 
 		// apply squeezed envelope
 		float envelopeValue = 1.f;
-		_filterEnvelope->apply(envelopeValue);
+		_cutoffFrequencyEnvelope->apply(envelopeValue);
 		newCutoffFrequency *= (_contourAmount * envelopeValue + 1.f - _contourAmount);
 
 		_filter.setCutoffFrequency(newCutoffFrequency);
