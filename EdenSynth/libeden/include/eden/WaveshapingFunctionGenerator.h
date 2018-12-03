@@ -5,6 +5,7 @@
 /// 
 #include <vector>
 #include <memory>
+#include <functional>
 
 namespace eden
 {
@@ -13,15 +14,11 @@ namespace eden
 	class WaveshapingFunctionGenerator
 	{
 	public:
-		enum class TransferFunctions
-		{
-			Identity,
-			HyperbolicTangent,
-		};
-
 		WaveshapingFunctionGenerator();
 
-		std::vector<float> generateTransferFunction(TransferFunctions functionName, unsigned int length = 48000) const noexcept(false);
+		std::vector<float> generateIdentity(unsigned length) const;
+
+		std::vector<float> generateTransferFunction(std::function<float(float)> generator, unsigned int length = 48000) const;
 
 		std::vector<float> generateChebyshevPolynomial(unsigned int order, unsigned int length = 48000) const;
 

@@ -3,21 +3,33 @@
 /// \date 03.12.2018
 /// 
 #include "eden_impl/WaveshapingFunctionGeneratorImpl.h"
-#include <cmath>
+#include <algorithm>
 
 namespace eden
 {
-	std::vector<float> WaveshapingFunctionGeneratorImpl::generateTransferFunction(WaveshapingFunctionGenerator::TransferFunctions functionName, unsigned length) const noexcept(false)
+	std::vector<float> WaveshapingFunctionGeneratorImpl::generateIdentity(const unsigned length) const
 	{
-		switch(functionName)
+		return generateTransferFunction([](const float x) { return x; }, length);
+	}
+
+	std::vector<float> WaveshapingFunctionGeneratorImpl::generateTransferFunction(std::function<float(float)> generator, unsigned length) const
+	{
+		std::vector<float> output(length);
+
+		constexpr auto lowerBoundary = -1.f;
+		constexpr auto upperBoundary = 1.f;
+
+		const auto dx = (upperBoundary - lowerBoundary) / (length - 1);
+		auto x = lowerBoundary;
+
+		for (auto i = 0u; i < length; ++i)
 		{
-		case TransferFunctions::Identity:
-			return generateIdentity(length);
-		case TransferFunctions::HyperbolicTangent:
-			return generateHyperbolicTangent(length);
-		default:
-			throw std::invalid_argument("Invalid transfer function name.");
+			output[i] = std::clamp(generator(x), -1.f, 1.f);
+
+			x += dx;
 		}
+
+		return output;
 	}
 
 	std::vector<float> WaveshapingFunctionGeneratorImpl::generateChebyshevPolynomial(unsigned order, const unsigned length) const
@@ -54,39 +66,5 @@ namespace eden
 		}
 
 		return Tn;
-	}
-
-	std::vector<float> WaveshapingFunctionGeneratorImpl::generateIdentity(const unsigned length) const
-	{
-		std::vector<float> output(length);
-
-		const float dx = 2.f / (length - 1u);
-		output[0] = -1.f;
-		for (auto i = 1u; i < length; ++i)
-		{
-			output[i] = output[i - 1u] + dx;
-		}
-
-		return output;
-	}
-
-	std::vector<float> WaveshapingFunctionGeneratorImpl::generateHyperbolicTangent(const unsigned length) const
-	{
-		std::vector<float> output(length);
-		
-		const auto lowerBoundary = -2.f;
-		const auto upperBoundary = 2.f;
-
-		const auto dx = (upperBoundary - lowerBoundary) / (length - 1);
-		auto x = lowerBoundary;
-		
-		for (auto i = 0u; i < length; ++i)
-		{
-			output[i] = std::tanh(x);
-
-			x += dx;
-		}
-
-		return output;
 	}
 }
