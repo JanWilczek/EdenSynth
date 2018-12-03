@@ -171,7 +171,7 @@ namespace libeden_test
 		processSamplesRange(0, decay1EndSample);
 		_envelope->keyOff();
 
-		const auto releaseSamples = eden::utility::TimeSampleConverter::timeToSamples(_data.releaseTime, SAMPLE_RATE);
+		const auto releaseSamples = eden::utility::TimeSampleConverter::timeToSamples(_data.releaseTime, SAMPLE_RATE) + 10; // small offset is given, because exponential gain is not precise.
 		auto endSample = releaseSamples + decay1EndSample;
 		auto processedSamples = processSamplesRange(decay1EndSample, endSample);
 		auto endChannel = NUM_SAMPLES - endSample;

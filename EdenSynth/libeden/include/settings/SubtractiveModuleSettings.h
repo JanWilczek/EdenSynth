@@ -72,7 +72,7 @@ namespace eden::settings
 		std::vector<std::shared_ptr<synth::subtractive::SubtractiveModule>> _subtractiveModules;
 		float _cutoff = 100.f;
 		float _resonance = 0.f;
-		float _contourAmount = 1.f;
+		float _contourAmount = 0.f;
 		PassbandAttenuation _passbandAttenuation = PassbandAttenuation::dB12;
 
 		/// <summary>
