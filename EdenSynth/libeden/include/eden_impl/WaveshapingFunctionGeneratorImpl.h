@@ -4,17 +4,17 @@
 /// \date 03.12.2018
 /// 
 #include <vector>
-#include "eden/WaveshapingFunctionGenerator.h"
+#include <functional>
 
 namespace eden
 {
 	class WaveshapingFunctionGeneratorImpl
 	{
 	public:
-		std::vector<float> generateIdentity(unsigned length) const;
+		static std::vector<float> generateIdentity(unsigned length);
 
-		std::vector<float> generateTransferFunction(std::function<float(float)> generator, unsigned int length) const;
+		static std::vector<float> generateTransferFunction(std::function<float(float)> generator, unsigned int length);
 
-		std::vector<float> generateChebyshevPolynomial(unsigned int order, unsigned int length) const;
+		static std::vector<float> generateChebyshevPolynomial(unsigned int order, unsigned int length);
 	};
 }

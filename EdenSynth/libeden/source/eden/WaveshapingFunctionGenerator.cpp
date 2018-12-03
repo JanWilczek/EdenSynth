@@ -7,23 +7,18 @@
 
 namespace eden
 {
-	WaveshapingFunctionGenerator::WaveshapingFunctionGenerator()
-		: _impl(std::make_unique<WaveshapingFunctionGeneratorImpl>())
+	std::vector<float> WaveshapingFunctionGenerator::generateIdentity(unsigned length)
 	{
+		return WaveshapingFunctionGeneratorImpl::generateIdentity(length);
 	}
 
-	std::vector<float> WaveshapingFunctionGenerator::generateIdentity(unsigned length) const
+	std::vector<float> WaveshapingFunctionGenerator::generateTransferFunction(std::function<float(float)> generator, unsigned length)
 	{
-		return _impl->generateIdentity(length);
+		return WaveshapingFunctionGeneratorImpl::generateTransferFunction(generator, length);
 	}
 
-	std::vector<float> WaveshapingFunctionGenerator::generateTransferFunction(std::function<float(float)> generator, unsigned length) const
+	std::vector<float> WaveshapingFunctionGenerator::generateChebyshevPolynomial(unsigned order, unsigned length)
 	{
-		return _impl->generateTransferFunction(generator, length);
-	}
-
-	std::vector<float> WaveshapingFunctionGenerator::generateChebyshevPolynomial(unsigned order, unsigned length) const
-	{
-		return _impl->generateChebyshevPolynomial(order, length);
+		return WaveshapingFunctionGeneratorImpl::generateChebyshevPolynomial(order, length);
 	}
 }
