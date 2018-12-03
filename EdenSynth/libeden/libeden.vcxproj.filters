@@ -234,6 +234,9 @@
     <ClInclude Include="include\synth\envelope\IEnvelopeHolder.h">
       <Filter>Header Files\synth\envelope</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\waveshaping\Waveshaper.h">
+      <Filter>Header Files\synth\waveshaping</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -358,6 +361,9 @@
     </ClCompile>
     <ClCompile Include="source\synth\envelope\ADSR.cpp">
       <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\waveshaping\Waveshaper.cpp">
+      <Filter>Source Files\synth\waveshaping</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
