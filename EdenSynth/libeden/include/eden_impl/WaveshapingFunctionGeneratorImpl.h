@@ -11,8 +11,16 @@ namespace eden
 	class WaveshapingFunctionGeneratorImpl
 	{
 	public:
-		std::vector<float> generateTransferFunction(WaveshapingFunctionGenerator::TransferFunctions functionName, unsigned int length);
+		using TransferFunctions = WaveshapingFunctionGenerator::TransferFunctions;
 
-		std::vector<float> generateChebyshevPolynomial(unsigned int order, unsigned int length);
+		std::vector<float> generateTransferFunction(WaveshapingFunctionGenerator::TransferFunctions functionName, unsigned int length) const noexcept(false);
+
+		std::vector<float> generateChebyshevPolynomial(unsigned int order, unsigned int length) const;
+
+	private:
+		std::vector<float> generateIdentity(unsigned length) const;
+
+		std::vector<float> generateHyperbolicTangent(unsigned length) const;
+
 	};
 }

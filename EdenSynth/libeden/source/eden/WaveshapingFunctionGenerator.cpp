@@ -12,12 +12,12 @@ namespace eden
 	{
 	}
 
-	std::vector<float> WaveshapingFunctionGenerator::generateTransferFunction(TransferFunctions functionName, unsigned length)
+	std::vector<float> WaveshapingFunctionGenerator::generateTransferFunction(TransferFunctions functionName, unsigned length) const noexcept(false)
 	{
 		return _impl->generateTransferFunction(functionName, length);
 	}
 
-	std::vector<float> WaveshapingFunctionGenerator::generateChebyshevPolynomial(unsigned order, unsigned length)
+	std::vector<float> WaveshapingFunctionGenerator::generateChebyshevPolynomial(unsigned order, unsigned length) const
 	{
 		return _impl->generateChebyshevPolynomial(order, length);
 	}

@@ -16,19 +16,16 @@ namespace eden
 		enum class TransferFunctions
 		{
 			Identity,
-			LightDistortion,
-			HeavyDistortion,
 			HyperbolicTangent,
 		};
 
 		WaveshapingFunctionGenerator();
 
-		std::vector<float> generateTransferFunction(TransferFunctions functionName, unsigned int length = 48000);
+		std::vector<float> generateTransferFunction(TransferFunctions functionName, unsigned int length = 48000) const noexcept(false);
 
-		std::vector<float> generateChebyshevPolynomial(unsigned int order, unsigned int length = 48000);
+		std::vector<float> generateChebyshevPolynomial(unsigned int order, unsigned int length = 48000) const;
 
 	private:
-
 		std::unique_ptr<WaveshapingFunctionGeneratorImpl> _impl;
 	};
 }
