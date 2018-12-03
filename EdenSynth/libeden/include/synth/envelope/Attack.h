@@ -13,7 +13,7 @@ namespace eden::synth::envelope
 	class Attack : public EnvelopeSegment
 	{
 	public:
-		Attack(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, float initialLevel = 0, float finalLevel = 1.0);
+		Attack(float sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, float initialLevel = 0, float finalLevel = 1.0);
 		~Attack() override = default;
 
 		bool hasEnded(float currentLevel) override;

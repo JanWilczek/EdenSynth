@@ -35,7 +35,7 @@ namespace eden::synth::envelope
 		}
 	}
 
-	void Envelope::setSampleRate(double sampleRate)
+	void Envelope::setSampleRate(float sampleRate)
 	{
 		for (auto& segment : _segments)
 		{

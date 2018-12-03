@@ -8,7 +8,7 @@
 
 namespace eden::synth::envelope
 {
-	ADBDR::ADBDR(double sampleRate, ADBDRParameters parameters)
+	ADBDR::ADBDR(float sampleRate, ADBDRParameters parameters)
 		//: _breakLevel(parameters.breakLevel)
 		: _attack(sampleRate, SegmentGainFactory::createSegmentGain(parameters.attackCurve), parameters.attackTime, 0.0, 1.0)
 		, _decay1(sampleRate, SegmentGainFactory::createSegmentGain(parameters.decay1Curve), parameters.decay1Time, 1.0, parameters.breakLevel)

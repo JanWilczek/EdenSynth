@@ -53,7 +53,7 @@ namespace eden::synth::envelope
 		/// Sets sample rate.
 		/// </summary>
 		/// <param name="sampleRate"></param>
-		virtual void setSampleRate(double sampleRate);
+		virtual void setSampleRate(float sampleRate);
 
 		/// <summary>
 		/// Sets the function to be called when the envelope has ended.

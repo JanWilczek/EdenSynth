@@ -9,7 +9,7 @@
 
 namespace eden::synth::envelope
 {
-	Decay::Decay(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
+	Decay::Decay(float sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
 		: EnvelopeSegment(sampleRate, std::move(envelopeGain), duration, initialLevel, finalLevel)
 	{
 		EDEN_ASSERT(initialLevel > finalLevel);

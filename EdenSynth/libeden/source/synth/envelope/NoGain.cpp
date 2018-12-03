@@ -10,7 +10,7 @@ namespace eden::synth::envelope
 	{
 	}
 
-	void NoGain::calculateGain(double sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
+	void NoGain::calculateGain(float sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
 	{
 	}
 }

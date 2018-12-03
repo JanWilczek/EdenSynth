@@ -23,12 +23,12 @@ namespace libeden_test
 	class SegmentTest : public ::testing::Test
 	{
 	protected:
-		const double SAMPLE_RATE = 48000.0;
+		const float SAMPLE_RATE = 48000.f;
 
 		void testSegment(eden::synth::envelope::EnvelopeSegment& segment, SegmentTestParam testData, double durationTolerance, float& lastLevel)
 		{
 			unsigned iterationCount = 0u;
-			float currentLevel(testData.initialLevel);
+			float currentLevel = testData.initialLevel;
 
 			while (!segment.hasEnded(currentLevel))
 			{

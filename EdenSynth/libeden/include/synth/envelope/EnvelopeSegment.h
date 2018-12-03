@@ -19,7 +19,7 @@ namespace eden::synth::envelope
 	class EnvelopeSegment
 	{
 	public:
-		EnvelopeSegment(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration = 0ms, float initialLevel = 0, float finalLevel = 0);
+		EnvelopeSegment(float sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration = 0ms, float initialLevel = 0, float finalLevel = 0);
 		virtual ~EnvelopeSegment() = 0;
 
 		/// <summary>
@@ -39,13 +39,13 @@ namespace eden::synth::envelope
 
 		virtual void setFinalLevel(float finalLevel);
 
-		virtual void setSampleRate(double sampleRate);
+		virtual void setSampleRate(float sampleRate);
 
 	private:
 		void calculateGain();
 
 	protected:
-		double _sampleRate;
+		float _sampleRate;
 		std::unique_ptr<ISegmentGain> _envelopeGain;
 		std::chrono::milliseconds _duration;
 		float _initialLevel;

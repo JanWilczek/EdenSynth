@@ -32,7 +32,7 @@ namespace eden::synth::envelope
 			Silence = 4
 		};
 
-		ADBDR(double sampleRate, ADBDRParameters parameters);
+		ADBDR(float sampleRate, ADBDRParameters parameters);
 		~ADBDR() override = default;
 
 		void keyOn() override;

@@ -27,14 +27,14 @@ namespace eden::synth::envelope
 		/// <param name="parameters">polymorphic parameters on which the created envelope is 
 		/// based - e.g. pointer to ADBDRParameters class to create an ADBDR envelope</param>
 		/// <returns>the created concrete envelope</returns>
-		static std::unique_ptr<Envelope> createEnvelope(double sampleRate, std::shared_ptr<EnvelopeParameters> parameters);
+		static std::unique_ptr<Envelope> createEnvelope(float sampleRate, std::shared_ptr<EnvelopeParameters> parameters);
 
 	private:
 		/// <param name="sampleRate"></param>
 		/// <param name="parameters"></param>
 		/// <returns>the ADBDR envelope created with the supplied parameters</returns>
-		static std::unique_ptr<Envelope> createADBDREnvelope(double sampleRate, std::shared_ptr<ADBDRParameters> parameters);
+		static std::unique_ptr<Envelope> createADBDREnvelope(float sampleRate, std::shared_ptr<ADBDRParameters> parameters);
 
-		static std::unique_ptr<Envelope> createADSREnvelope(double sampleRate, std::shared_ptr<ADSRParameters> parameters);
+		static std::unique_ptr<Envelope> createADSREnvelope(float sampleRate, std::shared_ptr<ADSRParameters> parameters);
 	};
 }

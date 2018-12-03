@@ -12,7 +12,7 @@ namespace libeden_test
 {
 	TEST(EnvelopeTest, SetSampleRate)
 	{
-		std::unique_ptr<eden::synth::envelope::Envelope> envelope = std::make_unique<eden::synth::envelope::ADBDR>(48000.0, eden::ADBDRParameters(10ms, eden::EnvelopeSegmentCurve::Exponential, 
+		std::unique_ptr<eden::synth::envelope::Envelope> envelope = std::make_unique<eden::synth::envelope::ADBDR>(48000.f, eden::ADBDRParameters(10ms, eden::EnvelopeSegmentCurve::Exponential, 
 			10ms, eden::EnvelopeSegmentCurve::Exponential, 10000ms, eden::EnvelopeSegmentCurve::Exponential, 8000ms, eden::EnvelopeSegmentCurve::Exponential, 0.7f));
 		constexpr auto channelLength = 480u;
 		float audioChannel[channelLength] = { float(0) };

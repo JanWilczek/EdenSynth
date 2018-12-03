@@ -24,7 +24,7 @@ namespace libeden_test
 	{
 	protected:
 		const unsigned NUM_SAMPLES = 10000;
-		const double SAMPLE_RATE = 48000.0;
+		const float SAMPLE_RATE = 48000.f;
 		std::unique_ptr<float[]> _channel = std::make_unique<float[]>(NUM_SAMPLES);
 		std::unique_ptr<eden::synth::envelope::Envelope> _envelope;
 		ADBDRTestData _data;
