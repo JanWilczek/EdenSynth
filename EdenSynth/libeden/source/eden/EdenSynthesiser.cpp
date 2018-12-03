@@ -93,6 +93,16 @@ namespace eden
 		_impl->setFilterEnvelopeParameters(filterEnvelopeParameters);
 	}
 
+	void EdenSynthesiser::setWaveshapingTransferFunction(std::vector<float> transferFunction)
+	{
+		_impl->setWaveshapingTransferFunction(std::move(transferFunction));
+	}
+
+	void EdenSynthesiser::setWaveshapingAutoMakeUpGain(bool makeUpGainEnabled)
+	{
+		_impl->setWaveshapingAutoMakeUpGain(makeUpGainEnabled);
+	}
+
 	void EdenSynthesiser::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
 		_impl->setEnvelopeParameters(envelopeParameters);

@@ -11,4 +11,20 @@ namespace eden::settings
 	{
 		_waveshapingModules.push_back(waveshapingModule);
 	}
+
+	void WaveshapingModuleSettings::setTransferFunction(std::vector<float> transferFunction)
+	{
+		for (auto waveshapingModule : _waveshapingModules)
+		{
+			waveshapingModule->setTransferFunction(transferFunction);
+		}
+	}
+
+	void WaveshapingModuleSettings::setAutoMakeUpGain(bool makeUpGainEnabled)
+	{
+		for (auto waveshapingModule : _waveshapingModules)
+		{
+			waveshapingModule->setAutoMakeUpGain(makeUpGainEnabled);
+		}
+	}
 }

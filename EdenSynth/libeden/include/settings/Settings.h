@@ -208,6 +208,10 @@ namespace eden::settings
 		/// <param name="filterEnvelopeParameters">parameters of the filter's envelope to set - <c>ADSRParameters</c> struct instance for example</param>
 		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
 
+		void setWaveshapingTransferFunction(std::vector<float> transferFunction);
+
+		void setWaveshapingAutoMakeUpGain(bool makeUpGainEnabled);
+
 		/// <summary>
 		/// Sets the envelope parameters of the envelope generator.
 		/// The envelope type is based on which instance of parameters the passed argument represents.

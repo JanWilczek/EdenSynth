@@ -128,6 +128,10 @@ namespace eden
 		/// <param name="filterEnvelopeParameters">parameters of the filter's envelope to set - <c>ADSRParameters</c> struct instance for example</param>
 		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
 
+		void setWaveshapingTransferFunction(std::vector<float> transferFunction);
+
+		void setWaveshapingAutoMakeUpGain(bool makeUpGainEnabled);
+
 		/// <summary>
 		/// Sets new envelope of sound - the information about volume change in time in relation
 		/// to keyboard events.

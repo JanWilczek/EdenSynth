@@ -57,6 +57,10 @@ namespace eden
 		
 		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
 
+		void setWaveshapingTransferFunction(std::vector<float> transferFunction);
+
+		void setWaveshapingAutoMakeUpGain(bool makeUpGainEnabled);
+
 		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
 	private:

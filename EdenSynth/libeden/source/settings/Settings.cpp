@@ -149,6 +149,16 @@ namespace eden::settings
 		_subtractiveModuleSettings->setEnvelopeParameters(filterEnvelopeParameters);
 	}
 
+	void Settings::setWaveshapingTransferFunction(std::vector<float> transferFunction)
+	{
+		_waveshapingModuleSettings->setTransferFunction(std::move(transferFunction));
+	}
+
+	void Settings::setWaveshapingAutoMakeUpGain(bool makeUpGainEnabled)
+	{
+		_waveshapingModuleSettings->setAutoMakeUpGain(makeUpGainEnabled);
+	}
+
 	void Settings::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
 	{
 		_envelopeSettings->setEnvelopeParameters(envelopeParameters);
