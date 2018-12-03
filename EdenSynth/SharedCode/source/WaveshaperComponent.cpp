@@ -6,10 +6,16 @@
 
 WaveshaperComponent::WaveshaperComponent(AudioProcessorValueTreeState& valueTreeState)
 {
-
+	addAndMakeVisible(_canvas);
 }
 
 void WaveshaperComponent::paint(Graphics& g)
 {
-	g.fillAll(Colours::green);
+	g.setColour(getLookAndFeel().findColour(Slider::ColourIds::textBoxOutlineColourId));
+	g.drawRect(0,0,getWidth(),getHeight(), 5);
+}
+
+void WaveshaperComponent::resized()
+{
+	_canvas.setBounds(10, 10, getHeight() - 20, getHeight() - 20);
 }

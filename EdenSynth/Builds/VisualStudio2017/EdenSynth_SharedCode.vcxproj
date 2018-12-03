@@ -1905,6 +1905,7 @@
     <ClCompile Include="..\..\SharedCode\source\PluginEditor.cpp" />
     <ClCompile Include="..\..\SharedCode\source\PluginProcessor.cpp" />
     <ClCompile Include="..\..\SharedCode\source\WaveshaperComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\WaveshapingCanvas.cpp" />
     <ClCompile Include="..\..\SharedCode\source\WaveTablePathProvider.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -2593,6 +2594,7 @@
     <ClInclude Include="..\..\SharedCode\include\PluginEditor.h" />
     <ClInclude Include="..\..\SharedCode\include\PluginProcessor.h" />
     <ClInclude Include="..\..\SharedCode\include\WaveshaperComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\WaveshapingCanvas.h" />
     <ClInclude Include="..\..\SharedCode\include\WaveTablePathProvider.h" />
   </ItemGroup>
   <ItemGroup>
