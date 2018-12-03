@@ -165,9 +165,11 @@
     <ClInclude Include="include\eden\Oscillator.h" />
     <ClInclude Include="include\eden\OscillatorParameters.h" />
     <ClInclude Include="include\eden\OscillatorSource.h" />
+    <ClInclude Include="include\eden\WaveshapingFunctionGenerator.h" />
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
     <ClInclude Include="include\eden_impl\OscillatorImpl.h" />
     <ClInclude Include="include\eden_impl\OscillatorSourceImpl.h" />
+    <ClInclude Include="include\eden_impl\WaveshapingFunctionGeneratorImpl.h" />
     <ClInclude Include="include\interpolation\IInterpolator.h" />
     <ClInclude Include="include\interpolation\LinearInterpolator.h" />
     <ClInclude Include="include\settings\EnvelopeSettings.h" />
@@ -218,9 +220,11 @@
     <ClCompile Include="source\eden\MidiMessage.cpp" />
     <ClCompile Include="source\eden\Oscillator.cpp" />
     <ClCompile Include="source\eden\OscillatorSource.cpp" />
+    <ClCompile Include="source\eden\WaveshapingFunctionGenerator.cpp" />
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp" />
     <ClCompile Include="source\eden_impl\OscillatorImpl.cpp" />
     <ClCompile Include="source\eden_impl\OscillatorSourceImpl.cpp" />
+    <ClCompile Include="source\eden_impl\WaveshapingFunctionGeneratorImpl.cpp" />
     <ClCompile Include="source\interpolation\LinearInterpolator.cpp" />
     <ClCompile Include="source\settings\EnvelopeSettings.cpp" />
     <ClCompile Include="source\settings\GeneratorSettings.cpp" />

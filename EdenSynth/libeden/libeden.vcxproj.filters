@@ -237,6 +237,12 @@
     <ClInclude Include="include\synth\waveshaping\Waveshaper.h">
       <Filter>Header Files\synth\waveshaping</Filter>
     </ClInclude>
+    <ClInclude Include="include\eden_impl\WaveshapingFunctionGeneratorImpl.h">
+      <Filter>Header Files\eden_impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\WaveshapingFunctionGenerator.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -364,6 +370,12 @@
     </ClCompile>
     <ClCompile Include="source\synth\waveshaping\Waveshaper.cpp">
       <Filter>Source Files\synth\waveshaping</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden\WaveshapingFunctionGenerator.cpp">
+      <Filter>Source Files\eden</Filter>
+    </ClCompile>
+    <ClCompile Include="source\eden_impl\WaveshapingFunctionGeneratorImpl.cpp">
+      <Filter>Source Files\eden_impl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
