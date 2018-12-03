@@ -12,7 +12,6 @@ class ModifierComponent : public Component
 public:
 	ModifierComponent(AudioProcessorValueTreeState& valueTreeState);
 
-	void paint(Graphics& g) override;
 	void resized() override;
 
 private:

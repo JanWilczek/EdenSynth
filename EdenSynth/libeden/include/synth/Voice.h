@@ -5,11 +5,11 @@
 /// 
 #include <memory>
 #include "eden/AudioBuffer.h"
-#include "synth/envelope/Envelope.h"
 #include "synth/subtractive/SubtractiveModule.h"
 #include "synth/waveshaping/WaveshapingModule.h"
 #include "synth/wavetable/SignalGenerator.h"
 #include "settings/Tuner.h"
+#include "envelope/EnvelopeGenerator.h"
 
 namespace eden::settings
 {
@@ -20,7 +20,7 @@ namespace eden::synth
 {
 	/// <summary>
 	/// Class representing a synthesiser voice which can be thought of as a single note on the keyboard.
-	/// It contains all nevessary elements of a typical synthesizer:
+	/// It contains all necessary elements of a typical synthesizer:
 	/// 1. Source (i.e. waveform)
 	/// 2. Modifier (i.e. subtractive and waveshaping modules)
 	/// 3. Performance control
@@ -138,7 +138,7 @@ namespace eden::synth
 		/// <summary>
 		/// Responsible for applying envelope to the signal. It holds the information about the current level of rendered samples.
 		/// </summary>
-		std::shared_ptr<envelope::Envelope> _envelopeGenerator;
+		std::shared_ptr<envelope::EnvelopeGenerator> _envelopeGenerator;
 
 		/// <summary>
 		/// Tuner contains information about instrument pitch and pitch bend range.

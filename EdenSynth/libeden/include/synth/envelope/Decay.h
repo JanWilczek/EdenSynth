@@ -13,15 +13,9 @@ namespace eden::synth::envelope
 	class Decay : public EnvelopeSegment
 	{
 	public:
-		Decay(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, float initialLevel, float finalLevel);
+		Decay(float sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, float initialLevel, float finalLevel);
 		~Decay() override = default;
 
 		bool hasEnded(float currentLevel) override;
-
-	private:
-		/// <summary>
-		/// Value to check in hasEnded - can be a little more than passed finalLevel, otherwise decay could never end (e.g. when the exponential gain is used).
-		/// </summary>
-		float _accurateFinalLevel;
 	};
 }

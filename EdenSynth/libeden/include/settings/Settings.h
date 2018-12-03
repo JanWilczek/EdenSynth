@@ -9,6 +9,7 @@
 #include "settings/SubtractiveModuleSettings.h"
 #include "settings/WaveshapingModuleSettings.h"
 #include "eden/OscillatorParameters.h"
+#include "eden/FilterParameters.h"
 #include "settings/Tuner.h"
 
 namespace eden
@@ -35,7 +36,7 @@ namespace eden
 
 		namespace envelope
 		{
-			class Envelope;
+			class IEnvelopeHolder;
 		}
 	}
 }
@@ -59,10 +60,20 @@ namespace eden::settings
 		/// <returns>currently stored sample rate</returns>
 		float sampleRate() const noexcept;
 
+		/// <returns>an instance of the tuner containing all necessary tuning parameters</returns>
 		std::shared_ptr<Tuner> tuner() const noexcept;
 
+		/// <summary>
+		/// Sets the frequency which should correspond to MIDI note 69.
+		/// </summary>
+		/// <param name="frequencyOfA4">A4 frequency in Hz</param>
 		void setFrequencyOfA4(float frequencyOfA4);
 
+		/// <summary>
+		/// Sets the pitch bend range: how much in semitones can the pitch wheel transpose a sound.
+		/// E.g. pair {-12, 2} transposes the pitch by a tone up, when pitch wheel's value is maximum and by an octave down, when pitch wheel's value is minimum.
+		/// </summary>
+		/// <param name="transposeDownTransposeUp">first element indicates the number of semitones corresponding to maximum down-bend, second the number of semitones corresponding to maximum up-bend</param>
 		void setPitchBendRange(std::pair<int, int> transposeDownTransposeUp);
 
 		/// <summary>
@@ -87,7 +98,7 @@ namespace eden::settings
 		/// Registers an envelope. Each voice should register its envelope in settings.
 		/// </summary>
 		/// <param name="envelope"></param>
-		void registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope);
+		void registerEnvelope(std::shared_ptr<synth::envelope::IEnvelopeHolder> envelope);
 
 		/// <summary>
 		/// Creates and registers a realtime oscillator source.
@@ -167,14 +178,35 @@ namespace eden::settings
 		/// <summary>
 		/// Sets the cutoff frequency of the low-pass filter.
 		/// </summary>
-		/// <param name="cutoff">cutoff frequency in range [0; 0,5]</param>
+		/// <param name="cutoff">number of harmonic to set the cutoff frequency at (1 is the fundamental), may be non-integer</param>
 		void setCutoff(float cutoff);
 
 		/// <summary>
-		/// Sets the resonance or Q of the low-pass filter.
+		/// Set resonance or Q of the low-pass filter.Resonance boosts gain at cutoff frequency of the filter changing into ringing when the value is near 1.
 		/// </summary>
-		/// <param name="resonance"></param>
+		/// <param name="resonance">boost at cutoff frequency in range [0, 1]</param>
 		void setResonance(float resonance);
+
+		/// <summary>
+		/// Sets the range in which filter's envelope affects its cutoff frequency.
+		/// E.g. 1 means that the cutoff frequency will sweep through all frequencies from 0 to cutoff frequency during attack,
+		/// while 0 means that filter's cutoff frequency will be steady (determined solely by the cutoff parameter, pitch and possibly modulation).
+		/// </summary>
+		/// <param name="contourAmount">scale in range [0, 1]</param>
+		void setContourAmount(float contourAmount);
+
+		/// <summary>
+		/// Sets the attenuation of the filter in the pass-band. May be 12 dB per octave or 24 dB per octave.
+		/// </summary>
+		/// <param name="passbandAttenuation"></param>
+		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
+
+		/// <summary>
+		/// Sets new envelope of the filter's cutoff frequency.
+		/// E.g. long attack times create a feeling of the note 'opening up' as the cutoff frequency gradually increases.
+		/// </summary>
+		/// <param name="filterEnvelopeParameters">parameters of the filter's envelope to set - <c>ADSRParameters</c> struct instance for example</param>
+		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
 
 		/// <summary>
 		/// Sets the envelope parameters of the envelope generator.

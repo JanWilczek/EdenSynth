@@ -2202,6 +2202,18 @@
     <ClCompile Include="..\..\SharedCode\source\OutputSettingsComponent.cpp">
       <Filter>EdenSynth\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\EdenFilterParameters.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\FilterControlsComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\FilterEnvelopeComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\FilterEnvelopeSegmentComponent.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
@@ -4248,6 +4260,18 @@
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\SharedCode\include\OutputSettingsComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\EdenFilterParameters.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\FilterControlsComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\FilterEnvelopeComponent.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\FilterEnvelopeSegmentComponent.h">
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

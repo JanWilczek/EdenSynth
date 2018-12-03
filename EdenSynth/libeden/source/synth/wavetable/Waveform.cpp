@@ -20,14 +20,14 @@ namespace eden::synth::wavetable
 	{
 	}
 
-	float Waveform::operator()(double phase) const
+	float Waveform::operator()(float phase) const
 	{
 		const int num2PI = static_cast<int>(phase / (2 * math_constants::PI));
-		phase -= num2PI * 2 * math_constants::PI;
+		phase -= num2PI * 2 * static_cast<float>(math_constants::PI);
 
 		EDEN_ASSERT(phase >= 0 && phase < 2 * math_constants::PI);
 
-		const double index = (phase / (2 * math_constants::PI)) * _waveTable.size();
+		const auto index = (phase / (2 * static_cast<float>(math_constants::PI))) * _waveTable.size();
 
 		return _interpolator->interpolate(_waveTable, index);
 	}

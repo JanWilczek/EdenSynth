@@ -12,8 +12,7 @@
 namespace eden
 {
 	EdenSynthesiserImpl::EdenSynthesiserImpl()
-		: _settings()
-		, _synthesiser(_settings)
+		: _synthesiser(_settings)
 	{
 	}
 
@@ -74,11 +73,6 @@ namespace eden
 		return std::make_unique<Oscillator>(std::make_unique<OscillatorImpl>(_settings, std::move(oscillatorSource)));
 	}
 
-	void EdenSynthesiserImpl::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
-	{
-		_settings.setEnvelopeParameters(envelopeParameters);
-	}
-
 	void EdenSynthesiserImpl::setCutoff(float cutoff)
 	{
 		_settings.setCutoff(cutoff);
@@ -87,5 +81,25 @@ namespace eden
 	void EdenSynthesiserImpl::setResonance(float resonance)
 	{
 		_settings.setResonance(resonance);
+	}
+
+	void EdenSynthesiserImpl::setContourAmount(float contourAmount)
+	{
+		_settings.setContourAmount(contourAmount);
+	}
+
+	void EdenSynthesiserImpl::setPassbandAttenuation(PassbandAttenuation passbandAttenuation)
+	{
+		_settings.setPassbandAttenuation(passbandAttenuation);
+	}
+
+	void EdenSynthesiserImpl::setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters)
+	{
+		_settings.setFilterEnvelopeParameters(filterEnvelopeParameters);
+	}
+
+	void EdenSynthesiserImpl::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
+	{
+		_settings.setEnvelopeParameters(envelopeParameters);
 	}
 }

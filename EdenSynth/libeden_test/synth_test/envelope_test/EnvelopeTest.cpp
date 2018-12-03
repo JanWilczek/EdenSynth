@@ -12,7 +12,7 @@ namespace libeden_test
 {
 	TEST(EnvelopeTest, SetSampleRate)
 	{
-		std::unique_ptr<eden::synth::envelope::Envelope> envelope = std::make_unique<eden::synth::envelope::ADBDR>(48000.0, eden::ADBDRParameters(10ms, eden::EnvelopeSegmentCurve::Exponential, 
+		std::unique_ptr<eden::synth::envelope::Envelope> envelope = std::make_unique<eden::synth::envelope::ADBDR>(48000.f, eden::ADBDRParameters(10ms, eden::EnvelopeSegmentCurve::Exponential, 
 			10ms, eden::EnvelopeSegmentCurve::Exponential, 10000ms, eden::EnvelopeSegmentCurve::Exponential, 8000ms, eden::EnvelopeSegmentCurve::Exponential, 0.7f));
 		constexpr auto channelLength = 480u;
 		float audioChannel[channelLength] = { float(0) };
@@ -21,7 +21,7 @@ namespace libeden_test
 		for (auto i = 0; i < 2; ++i)
 		{
 			TestUtils::fillChannel(audioChannel, float(1), 0, channelLength);
-			envelope->apply(audioChannel, 0, channelLength);
+			envelope->applyInRange(audioChannel, 0, channelLength);
 		}
 
 		EXPECT_NEAR(audioChannel[channelLength - 1], float(0.7f), 1e-2f);
@@ -34,7 +34,7 @@ namespace libeden_test
 		for (auto i = 0u; i < 735; ++i)
 		{
 			TestUtils::fillChannel(audioChannel, float(1), 0, channelLength);
-			envelope->apply(audioChannel, 0, channelLength);
+			envelope->applyInRange(audioChannel, 0, channelLength);
 
 			// Due to near 0 value, the envelope may end sooner - therefore don't check the last hundred of iterations.
 			if (i < 635)

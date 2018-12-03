@@ -14,13 +14,13 @@ OscillatorComponent::OscillatorComponent(AudioProcessorValueTreeState& valueTree
 	, _volume(Slider::SliderStyle::Rotary, Slider::TextEntryBoxPosition::NoTextBox)
 	, _auxParameterName("generator." + oscillatorName + ".")
 {
-	_octaveLabel.setJustificationType(Justification::horizontallyCentred);
+	_octaveLabel.setJustificationType(Justification::centred);
 	addAndMakeVisible(_octaveLabel);
 	_octaveTransposition.setPopupDisplayEnabled(true, false, this);
 	addAndMakeVisible(_octaveTransposition);
 	_octaveTranspositionAttachment = std::make_unique<SliderAttachment>(valueTreeState, _auxParameterName + "octaveTransposition", _octaveTransposition);
 
-	_transposeLabel.setJustificationType(Justification::horizontallyCentred);
+	_transposeLabel.setJustificationType(Justification::centred);
 	addAndMakeVisible(_transposeLabel);
 	_semitoneTransposition.setPopupDisplayEnabled(true, false, this);
 	addAndMakeVisible(_semitoneTransposition);
@@ -29,7 +29,7 @@ OscillatorComponent::OscillatorComponent(AudioProcessorValueTreeState& valueTree
 	const auto oscillator1Name = "oscillator1";
 	if (oscillatorName != oscillator1Name)
 	{
-		_fineTuneLabel.setJustificationType(Justification::horizontallyCentred);
+		_fineTuneLabel.setJustificationType(Justification::centred);
 		addAndMakeVisible(_fineTuneLabel);
 		_centTransposition.setPopupDisplayEnabled(true, false, this);
 		addAndMakeVisible(_centTransposition);
@@ -53,7 +53,7 @@ OscillatorComponent::OscillatorComponent(AudioProcessorValueTreeState& valueTree
 		_onAttachment = std::make_unique<ButtonAttachment>(valueTreeState, _auxParameterName + "on", _on);
 	}
 
-	_volumeLabel.setJustificationType(Justification::horizontallyCentred);
+	_volumeLabel.setJustificationType(Justification::centred);
 	addAndMakeVisible(_volumeLabel);
 	_volume.setPopupDisplayEnabled(true, false, this);
 	addAndMakeVisible(_volume);
@@ -63,8 +63,8 @@ OscillatorComponent::OscillatorComponent(AudioProcessorValueTreeState& valueTree
 void OscillatorComponent::resized()
 {
 	const auto segmentWidth = getWidth() / 6;
-	const auto labelHeight = 20;
-	const auto knobDim = getHeight() - labelHeight - 10;
+	const auto labelHeight = 30;
+	const auto knobDim = getHeight() - labelHeight;
 
 	_octaveLabel.setBounds(0, 0, segmentWidth, labelHeight);
 	_octaveTransposition.setBounds((segmentWidth - knobDim) / 2, labelHeight, knobDim, knobDim);

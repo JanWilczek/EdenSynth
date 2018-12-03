@@ -21,7 +21,7 @@ namespace eden::synth::envelope
 		}
 	}
 
-	void LinearGain::calculateGain(double sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
+	void LinearGain::calculateGain(float sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
 	{
 		const auto durationInSamples = utility::TimeSampleConverter::timeToSamples(duration, sampleRate);
 		_gainPerSample = (finalLevel - initialLevel) / durationInSamples;

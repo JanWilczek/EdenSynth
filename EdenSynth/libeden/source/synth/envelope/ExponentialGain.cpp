@@ -10,7 +10,7 @@
 
 namespace eden::synth::envelope
 {
-	void ExponentialGain::calculateGain(double sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
+	void ExponentialGain::calculateGain(float sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
 	{
 		/* 
 		 * This gain should be 'exponentially linear', which means that plot in dB scale should be linear.
@@ -58,9 +58,9 @@ namespace eden::synth::envelope
 		{
 			currentGain *= _multiplier;
 
-			if (currentGain > float(1.0))
+			if (currentGain > 1.0f)
 			{
-				currentGain = float(1.0);
+				currentGain = 1.0f;
 			}
 		}
 	}

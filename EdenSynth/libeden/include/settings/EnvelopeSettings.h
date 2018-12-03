@@ -9,24 +9,25 @@
 
 namespace eden::synth::envelope
 {
-	class Envelope;
+	class IEnvelopeHolder;
 }
 
 namespace eden::settings
 {
 	/// <summary>
 	/// Class responsible for changing settings of note envelopes belonging to all voices.
+	/// All registered envelopes will have the same envelope parameters and thus have to be of the same type.
 	/// </summary>
 	class EnvelopeSettings
 	{
 	public:
-		EnvelopeSettings();
+		EnvelopeSettings(float sampleRate);
 
 		/// <summary>
 		/// Registers an envelope for settings' control.
 		/// </summary>
 		/// <param name="envelope"></param>
-		void registerEnvelope(std::shared_ptr<synth::envelope::Envelope> envelope);
+		void registerEnvelope(std::shared_ptr<synth::envelope::IEnvelopeHolder> envelope);
 
 		/// <summary>
 		/// Sets sample rate of all registered envelopes.
@@ -48,13 +49,21 @@ namespace eden::settings
 		void setADBDRParameters(std::shared_ptr<ADBDRParameters> adbdrParameters);
 
 		/// <summary>
-		/// All envelopes registered.
+		/// Sets envelope settings with knowledge that they are parameters of an ADSR envelope.
 		/// </summary>
-		std::vector<std::shared_ptr<synth::envelope::Envelope>> _envelopes;
+		/// <param name="adsrParameters"></param>
+		void setADSRParameters(std::shared_ptr<ADSRParameters> adsrParameters);
+
+		/// <summary>
+		/// All registered envelopes.
+		/// </summary>
+		std::vector<std::shared_ptr<synth::envelope::IEnvelopeHolder>> _envelopeGenerators;
 
 		/// <summary>
 		/// Currently set envelope parameters.
 		/// </summary>
 		std::shared_ptr<EnvelopeParameters> _currentParameters;
+
+		float _sampleRate;
 	};
 }

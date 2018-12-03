@@ -30,7 +30,7 @@ private:
 	Slider _semitoneTransposition;
 	std::unique_ptr<SliderAttachment> _semitoneTranspositionAttachment;
 
-	Label _fineTuneLabel{ "fineTuneLabel", "Fine tune" };
+	Label _fineTuneLabel{ "fineTuneLabel", "Fine\ntune" };
 	Slider _centTransposition;
 	std::unique_ptr<SliderAttachment> _centTranspositionAttachment;
 

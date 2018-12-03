@@ -12,6 +12,7 @@ namespace eden_vst
 	EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser, std::experimental::filesystem::path assetsPath)
  		: _synthesiser(synthesiser)
 		, _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u)
+		, _filterParameters(_synthesiser)
 	{
 	}
 
@@ -62,8 +63,7 @@ namespace eden_vst
 		_oscillators.addOscillatorParameters(pluginParameters);
 
 		// filter parameters
-		pluginParameters.createAndAddParameter("filter.cutoff", "Cutoff", String(), NormalisableRange<float>(0.f, 0.5f, 0.01f), 0.49f, nullptr, nullptr);
-		pluginParameters.createAndAddParameter("filter.resonance", "Resonance", String(), NormalisableRange<float>(0.5f, 5.0f, 0.01f), 1.f, nullptr, nullptr);
+		_filterParameters.addFilterParameters(pluginParameters);
 
 		// ADBDR envelope parameters
 		pluginParameters.createAndAddParameter("envelope.adbdr.attack.time", "Attack time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 30.f, nullptr, nullptr);
@@ -75,7 +75,7 @@ namespace eden_vst
 		pluginParameters.createAndAddParameter("envelope.adbdr.decay2.time", "Decay2 time", "ms", NormalisableRange<float>(1.f, 100000.f, 1.f, 0.3f), 20000.f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("envelope.adbdr.decay2.curve", "Decay2 curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
-		pluginParameters.createAndAddParameter("envelope.adbdr.release.time", "Release time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 300.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("envelope.adbdr.release.time", "Release time", "ms", NormalisableRange<float>(1.f, 40000.f, 1.f, 0.3f), 300.f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("envelope.adbdr.release.curve", "Release curve", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 
 		pluginParameters.createAndAddParameter("envelope.adbdr.breakLevel", "Break level", String(), NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 0.6f, nullptr, nullptr);
@@ -94,8 +94,7 @@ namespace eden_vst
 		_oscillators.updateOscillatorParameters(pluginParameters);
 
 		// filter parameters
-		_synthesiser.setCutoff(pluginParameters.getParameterAsValue("filter.cutoff").getValue());
-		_synthesiser.setResonance(pluginParameters.getParameterAsValue("filter.resonance").getValue());
+		_filterParameters.updateFilterParameters();
 
 		// ADBDR envelope parameters
 		{

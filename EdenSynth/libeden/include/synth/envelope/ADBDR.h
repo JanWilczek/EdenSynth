@@ -6,7 +6,7 @@
 #include "synth/envelope/Envelope.h"
 #include "synth/envelope/Attack.h"
 #include "synth/envelope/Decay.h"
-#include "Sustain.h"
+#include "synth/envelope/Sustain.h"
 
 namespace eden
 {
@@ -32,7 +32,7 @@ namespace eden::synth::envelope
 			Silence = 4
 		};
 
-		ADBDR(double sampleRate, ADBDRParameters parameters);
+		ADBDR(float sampleRate, ADBDRParameters parameters);
 		~ADBDR() override = default;
 
 		void keyOn() override;
@@ -43,13 +43,13 @@ namespace eden::synth::envelope
 		void setBreakLevel(float breakLevel); 
 
 	protected:
-		void checkForEnd(unsigned currentSampleIndex) override;
+		bool hasEnded() override;
 
 	private:
 		/// <summary>
 		/// Value of envelope at which segments change from Decay 1 to Decay 2.
 		/// </summary>
-		float _breakLevel;
+		//float _breakLevel;
 
 		/// <summary>
 		/// ADBDR envelope's segments.

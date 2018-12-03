@@ -23,7 +23,7 @@ namespace eden::synth::wavetable
 
 		/// <param name="phase"></param>
 		/// <returns>interpolated function's value at specified <paramref name="phase"/></returns>
-		float operator()(double phase) const;
+		float operator()(float phase) const;
 
 		/// <param name="waveTable">discrete values to interpolate from upon the calls to <see cref="operator()"/></c></param>
 		void setWaveTable(WaveTable waveTable);

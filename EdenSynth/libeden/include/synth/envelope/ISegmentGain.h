@@ -22,7 +22,7 @@ namespace eden::synth::envelope
 		/// <param name="duration"></param>
 		/// <param name="initialLevel"></param>
 		/// <param name="finalLevel"></param>
-		virtual void calculateGain(double sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel) = 0;
+		virtual void calculateGain(float sampleRate, std::chrono::milliseconds duration, float initialLevel, float finalLevel) = 0;
 
 		/// <summary>
 		/// Changes current level according to the precalculated parameters.

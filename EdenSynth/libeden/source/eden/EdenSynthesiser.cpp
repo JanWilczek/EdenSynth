@@ -68,11 +68,6 @@ namespace eden
 		return _impl->createAndAddOscillator(std::move(oscillatorSource));
 	}
 
-	void EdenSynthesiser::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
-	{
-		_impl->setEnvelopeParameters(envelopeParameters);
-	}
-
 	void EdenSynthesiser::setCutoff(float cutoff)
 	{
 		_impl->setCutoff(cutoff);
@@ -81,5 +76,25 @@ namespace eden
 	void EdenSynthesiser::setResonance(float resonance)
 	{
 		_impl->setResonance(resonance);
+	}
+
+	void EdenSynthesiser::setContourAmount(float contourAmount)
+	{
+		_impl->setContourAmount(contourAmount);
+	}
+
+	void EdenSynthesiser::setPassbandAttenuation(PassbandAttenuation passbandAttenuation)
+	{
+		_impl->setPassbandAttenuation(passbandAttenuation);
+	}
+
+	void EdenSynthesiser::setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters)
+	{
+		_impl->setFilterEnvelopeParameters(filterEnvelopeParameters);
+	}
+
+	void EdenSynthesiser::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)
+	{
+		_impl->setEnvelopeParameters(envelopeParameters);
 	}
 }

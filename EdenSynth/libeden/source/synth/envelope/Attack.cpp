@@ -8,7 +8,7 @@
 
 namespace eden::synth::envelope
 {
-	Attack::Attack(double sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
+	Attack::Attack(float sampleRate, std::unique_ptr<ISegmentGain> envelopeGain, std::chrono::milliseconds duration, float initialLevel, float finalLevel)
 		: EnvelopeSegment(sampleRate, std::move(envelopeGain), duration, initialLevel, finalLevel)
 	{
 		EDEN_ASSERT(initialLevel <= finalLevel);

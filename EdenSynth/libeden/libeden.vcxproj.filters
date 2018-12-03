@@ -216,6 +216,24 @@
     <ClInclude Include="include\settings\Tuner.h">
       <Filter>Header Files\settings</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\subtractive\OnePoleLowPassFilter.h">
+      <Filter>Header Files\synth\subtractive</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\subtractive\MoogFilter.h">
+      <Filter>Header Files\synth\subtractive</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eden\FilterParameters.h">
+      <Filter>Header Files\eden</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\EnvelopeGenerator.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\ADSR.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\envelope\IEnvelopeHolder.h">
+      <Filter>Header Files\synth\envelope</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -328,6 +346,18 @@
     </ClCompile>
     <ClCompile Include="source\settings\Tuner.cpp">
       <Filter>Source Files\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\subtractive\OnePoleLowPassFilter.cpp">
+      <Filter>Source Files\synth\subtractive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\subtractive\MoogFilter.cpp">
+      <Filter>Source Files\synth\subtractive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\EnvelopeGenerator.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\envelope\ADSR.cpp">
+      <Filter>Source Files\synth\envelope</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

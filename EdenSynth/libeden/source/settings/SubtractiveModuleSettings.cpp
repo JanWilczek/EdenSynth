@@ -7,9 +7,20 @@
 
 namespace eden::settings
 {
+	SubtractiveModuleSettings::SubtractiveModuleSettings(float sampleRate)
+		: _filterEnvelopeSettings(std::make_unique<EnvelopeSettings>(sampleRate))
+	{
+	}
+
 	void SubtractiveModuleSettings::registerSubtractiveModule(std::shared_ptr<synth::subtractive::SubtractiveModule> subtractiveModule)
 	{
 		_subtractiveModules.push_back(subtractiveModule);
+		_filterEnvelopeSettings->registerEnvelope(subtractiveModule);
+
+		subtractiveModule->setCutoff(_cutoff);
+		subtractiveModule->setResonance(_resonance);
+		subtractiveModule->setPassbandAttenuation(_passbandAttenuation);
+		subtractiveModule->setContourAmount(_contourAmount);
 	}
 
 	void SubtractiveModuleSettings::setSampleRate(float sampleRate)
@@ -18,13 +29,18 @@ namespace eden::settings
 		{
 			subtractiveModule->setSampleRate(sampleRate);
 		}
+		_filterEnvelopeSettings->setSampleRate(sampleRate);
 	}
 
 	void SubtractiveModuleSettings::setCutoff(float cutoff)
 	{
 		if (cutoff != _cutoff)
 		{
-			// TODO: Set cutoff in all subtractive modules.
+			_cutoff = cutoff;
+			for (auto subtractiveModule : _subtractiveModules)
+			{
+				subtractiveModule->setCutoff(_cutoff);
+			}
 		}
 	}
 
@@ -32,7 +48,40 @@ namespace eden::settings
 	{
 		if (resonance != _resonance)
 		{
-			// TODO: Set resonance in all subtractive modules;
+			_resonance = resonance;
+			for (auto subtractiveModule : _subtractiveModules)
+			{
+				subtractiveModule->setResonance(_resonance);
+			}
 		}
+	}
+
+	void SubtractiveModuleSettings::setContourAmount(float contourAmount)
+	{
+		if (contourAmount != _contourAmount)
+		{
+			_contourAmount = contourAmount;
+			for (auto subtractiveModule : _subtractiveModules)
+			{
+				subtractiveModule->setContourAmount(_contourAmount);
+			}
+		}
+	}
+
+	void SubtractiveModuleSettings::setPassbandAttenuation(PassbandAttenuation passbandAttenuation)
+	{
+		if (passbandAttenuation != _passbandAttenuation)
+		{
+			_passbandAttenuation = passbandAttenuation;
+			for (auto subtractiveModule : _subtractiveModules)
+			{
+				subtractiveModule->setPassbandAttenuation(_passbandAttenuation);
+			}
+		}
+	}
+
+	void SubtractiveModuleSettings::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> parameters)
+	{
+		_filterEnvelopeSettings->setEnvelopeParameters(parameters);
 	}
 }

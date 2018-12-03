@@ -24,7 +24,7 @@ namespace libeden_test
 	{
 	protected:
 		const unsigned NUM_SAMPLES = 10000;
-		const double SAMPLE_RATE = 48000.0;
+		const float SAMPLE_RATE = 48000.f;
 		std::unique_ptr<float[]> _channel = std::make_unique<float[]>(NUM_SAMPLES);
 		std::unique_ptr<eden::synth::envelope::Envelope> _envelope;
 		ADBDRTestData _data;
@@ -71,7 +71,7 @@ namespace libeden_test
 			{
 				const auto samplesToProcess = toSample - fromSample + 1;
 				fillChannel(float(1.0), fromSample, toSample);
-				_envelope->apply(_channel.get(), fromSample, samplesToProcess);
+				_envelope->applyInRange(_channel.get(), fromSample, samplesToProcess);
 				return samplesToProcess;
 			}
 
@@ -79,7 +79,7 @@ namespace libeden_test
 			const auto initialSamplesToProcess = NUM_SAMPLES - fromSample;
 
 			fillChannel(float(1.0), fromSample, NUM_SAMPLES - 1);
-			_envelope->apply(_channel.get(), fromSample, initialSamplesToProcess);
+			_envelope->applyInRange(_channel.get(), fromSample, initialSamplesToProcess);
 
 			processedSamples += initialSamplesToProcess;
 			toSample -= NUM_SAMPLES;
@@ -87,7 +87,7 @@ namespace libeden_test
 			while (toSample > NUM_SAMPLES - 1)
 			{
 				fillChannel(float(1.0));
-				_envelope->apply(_channel.get(), 0, NUM_SAMPLES);
+				_envelope->applyInRange(_channel.get(), 0, NUM_SAMPLES);
 
 				processedSamples += NUM_SAMPLES;
 				toSample -= NUM_SAMPLES;
@@ -95,7 +95,7 @@ namespace libeden_test
 			const auto finalSamplesToProcess = toSample + 1;
 
 			fillChannel(float(1.0), 0, finalSamplesToProcess - 1);
-			_envelope->apply(_channel.get(), 0, finalSamplesToProcess);
+			_envelope->applyInRange(_channel.get(), 0, finalSamplesToProcess);
 			processedSamples += finalSamplesToProcess;
 
 			return processedSamples;
@@ -171,7 +171,7 @@ namespace libeden_test
 		processSamplesRange(0, decay1EndSample);
 		_envelope->keyOff();
 
-		const auto releaseSamples = eden::utility::TimeSampleConverter::timeToSamples(_data.releaseTime, SAMPLE_RATE);
+		const auto releaseSamples = eden::utility::TimeSampleConverter::timeToSamples(_data.releaseTime, SAMPLE_RATE) + 10; // small offset is given, because exponential gain is not precise.
 		auto endSample = releaseSamples + decay1EndSample;
 		auto processedSamples = processSamplesRange(decay1EndSample, endSample);
 		auto endChannel = NUM_SAMPLES - endSample;

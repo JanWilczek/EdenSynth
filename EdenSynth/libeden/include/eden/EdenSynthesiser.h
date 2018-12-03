@@ -27,7 +27,7 @@ namespace eden
 		/// <summary>
 		/// Fills the given audio buffer with samples according to messages stored in the MIDI buffer
 		/// and previous synthesiser state. The audio buffer does not need to be empty, but its
-		/// contents will be completetly overwritten.
+		/// contents will be completely overwritten.
 		/// </summary>
 		/// <param name="bufferToFill"></param>
 		/// <param name="midiBuffer"></param>
@@ -57,7 +57,7 @@ namespace eden
 		/// <summary>
 		/// Sets the frequency which should correspond to MIDI note 69.
 		/// </summary>
-		/// <param name="frequencyOfA4"></param>
+		/// <param name="frequencyOfA4">A4 frequency in Hz</param>
 		void setFrequencyOfA4(float frequencyOfA4);
 
 		/// <summary>
@@ -96,23 +96,44 @@ namespace eden
 		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource);
 
 		/// <summary>
+		/// Set cutoff of the pitch-follow low-pass filter.
+		/// </summary>
+		/// <param name="cutoff">number of harmonic to set the cutoff frequency at (1 is the fundamental), may be non-integer</param>
+		void setCutoff(float cutoff);
+
+		/// <summary>
+		/// Set resonance or Q of the low-pass filter.Resonance boosts gain at cutoff frequency of the filter changing into ringing when the value is near 1.
+		/// </summary>
+		/// <param name="resonance">boost at cutoff frequency in range [0, 1]</param>
+		void setResonance(float resonance);
+
+		/// <summary>
+		/// Sets the range in which filter's envelope affects its cutoff frequency.
+		/// E.g. 1 means that the cutoff frequency will sweep through all frequencies from 0 to cutoff frequency during attack,
+		/// while 0 means that filter's cutoff frequency will be steady (determined solely by the cutoff parameter, pitch and possibly modulation).
+		/// </summary>
+		/// <param name="contourAmount">scale in range [0, 1]</param>
+		void setContourAmount(float contourAmount);
+
+		/// <summary>
+		/// Sets the attenuation of the filter in the pass-band. May be 12 dB per octave (gentle) or 24 dB per octave (steep).
+		/// </summary>
+		/// <param name="passbandAttenuation"></param>
+		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
+
+		/// <summary>
+		/// Sets new envelope of the filter's cutoff frequency.
+		/// E.g. long attack times create a feeling of the note 'opening up' as the cutoff frequency gradually increases.
+		/// </summary>
+		/// <param name="filterEnvelopeParameters">parameters of the filter's envelope to set - <c>ADSRParameters</c> struct instance for example</param>
+		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
+
+		/// <summary>
 		/// Sets new envelope of sound - the information about volume change in time in relation
 		/// to keyboard events.
 		/// </summary>
 		/// <param name="envelopeParameters">parameters of the envelope to set - <c>ADBDRParameters</c> struct instance for example</param>
 		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
-
-		/// <summary>
-		/// Set cutoff of the lowpass filter.
-		/// </summary>
-		/// <param name="cutoff">cutoff in range [0; 0,5]</param>
-		void setCutoff(float cutoff);
-
-		/// <summary>
-		/// Set resonance or Q of the lowpass filter.
-		/// </summary>
-		/// <param name="resonance"></param>
-		void setResonance(float resonance);
 
 	private:
 		/// <summary>
