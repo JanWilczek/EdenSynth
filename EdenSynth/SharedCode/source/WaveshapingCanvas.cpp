@@ -22,6 +22,13 @@ void WaveshapingCanvas::paint(Graphics& g)
 	drawTransferFunction(g);
 }
 
+void WaveshapingCanvas::setTransferFunction(std::vector<float> transferFunction)
+{
+	_points = std::move(transferFunction);
+	OnTransferFunctionChanged(_points);
+	repaint();
+}
+
 void WaveshapingCanvas::drawPlotAxes(Graphics& g)
 {
 	g.setColour(Colours::lightgrey);

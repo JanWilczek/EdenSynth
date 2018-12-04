@@ -149,7 +149,7 @@ bool EdenSynthAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* EdenSynthAudioProcessor::createEditor()
 {
-	return new EdenSynthAudioProcessorEditor(*this, _pluginParameters, _edenAdapter.getPathProvider());
+	return new EdenSynthAudioProcessorEditor(*this, _pluginParameters, _edenAdapter);
 }
 
 //==============================================================================

@@ -60,7 +60,7 @@ namespace eden_vst
 		}
 	}
 
-	WaveTablePathProvider& OscillatorContainer::getPathProvider()
+	const WaveTablePathProvider& OscillatorContainer::getPathProvider() const
 	{
 		return _pathProvider;
 	}

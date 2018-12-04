@@ -1889,6 +1889,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp" />
     <ClCompile Include="..\..\SharedCode\source\EdenAdapter.cpp" />
     <ClCompile Include="..\..\SharedCode\source\EdenFilterParameters.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\EdenWaveshapingParameters.cpp" />
     <ClCompile Include="..\..\SharedCode\source\EnvelopeComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\EnvelopeSegmentComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\FilterComponent.cpp" />
@@ -1906,6 +1907,7 @@
     <ClCompile Include="..\..\SharedCode\source\PluginProcessor.cpp" />
     <ClCompile Include="..\..\SharedCode\source\WaveshaperComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\WaveshapingCanvas.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\WaveshapingTransferFunctionContainer.cpp" />
     <ClCompile Include="..\..\SharedCode\source\WaveTablePathProvider.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -2577,6 +2579,7 @@
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
     <ClInclude Include="..\..\SharedCode\include\EdenAdapter.h" />
+    <ClInclude Include="..\..\SharedCode\include\EdenWaveshapingParameters.h" />
     <ClInclude Include="..\..\SharedCode\include\EnvelopeComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\EnvelopeSegmentComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\FilterComponent.h" />
@@ -2595,6 +2598,7 @@
     <ClInclude Include="..\..\SharedCode\include\PluginProcessor.h" />
     <ClInclude Include="..\..\SharedCode\include\WaveshaperComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\WaveshapingCanvas.h" />
+    <ClInclude Include="..\..\SharedCode\include\WaveshapingTransferFunctionContainer.h" />
     <ClInclude Include="..\..\SharedCode\include\WaveTablePathProvider.h" />
   </ItemGroup>
   <ItemGroup>

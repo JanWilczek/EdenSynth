@@ -9,7 +9,7 @@
 class EdenSynthAudioProcessorEditor : public AudioProcessorEditor
 {
 public:
-	EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor&, AudioProcessorValueTreeState&, const eden_vst::WaveTablePathProvider&);
+	EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor&, AudioProcessorValueTreeState&, const eden_vst::EdenAdapter&);
 	~EdenSynthAudioProcessorEditor();
 
 	void paint(Graphics&) override;

@@ -8,8 +8,12 @@
 class WaveshapingCanvas : public Component
 {
 public:
+	std::function<void(std::vector<float>)> OnTransferFunctionChanged = [](std::vector<float>) {};
+
 	void paint(Graphics& g) override;
 	void resized() override;
+
+	void setTransferFunction(std::vector<float> transferFunction);
 
 private:
 	void drawPlotAxes(Graphics& g);

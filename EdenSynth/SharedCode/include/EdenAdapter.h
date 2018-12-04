@@ -8,6 +8,7 @@
 #include "WaveTablePathProvider.h"
 #include "OscillatorContainer.h"
 #include "EdenFilterParameters.h"
+#include "EdenWaveshapingParameters.h"
 
 namespace eden 
 {
@@ -34,11 +35,14 @@ namespace eden_vst
 
 		void addEdenParameters(AudioProcessorValueTreeState& pluginParameters);
 		void updateEdenParameters(const AudioProcessorValueTreeState& pluginParameters);
-		WaveTablePathProvider& getPathProvider();
+
+		const WaveTablePathProvider& getPathProvider() const;
+		std::shared_ptr<WaveshapingTransferFunctionContainer> getWaveshapingTransferFunction() const noexcept;
 
 	private:
 		eden::EdenSynthesiser& _synthesiser;
 		OscillatorContainer _oscillators;
 		EdenFilterParameters _filterParameters;
+		EdenWaveshapingParameters _waveshapingParameters;
 	};
 }

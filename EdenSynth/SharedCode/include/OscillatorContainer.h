@@ -18,7 +18,7 @@ namespace eden_vst
 
 		void addOscillatorParameters(AudioProcessorValueTreeState& pluginParameters);
 		void updateOscillatorParameters(const AudioProcessorValueTreeState& pluginParameters);
-		WaveTablePathProvider& getPathProvider();
+		const WaveTablePathProvider& getPathProvider() const;
 
 	private:
 		eden::EdenSynthesiser& _synthesiser;

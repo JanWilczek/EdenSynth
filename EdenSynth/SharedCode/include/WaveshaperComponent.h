@@ -5,15 +5,34 @@
 /// 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "WaveshapingCanvas.h"
+#include "WaveshapingTransferFunctionContainer.h"
 
-class WaveshaperComponent : public Component
+class WaveshaperComponent : public Component, public ComboBox::Listener
 {
 public:
-	WaveshaperComponent(AudioProcessorValueTreeState& valueTreeState);
+	enum class AvailableCurves
+	{
+		Identity = 1,
+		HyperbolicTangent = 2,
+		ChebyshevPolynomial = 3,
+		Custom = 4
+	};
+
+	WaveshaperComponent(AudioProcessorValueTreeState& valueTreeState, std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer> transferFunction);
 
 	void paint(Graphics& g) override;
 	void resized() override;
 
+	void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
+
 private:
+	std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer> _transferFunction;
+
 	WaveshapingCanvas _canvas;
+
+	Label _curveLabel {"transferFunctionLabel", "Transfer function"};
+	ComboBox _curve{"transferFunctionCurveComboBox"};
+
+	Label _chebyshevPolynomialOrderLabel{"orderLabel", "Order: "};
+	Label _chebyshevPolynomialOrder{"order","2"};
 };

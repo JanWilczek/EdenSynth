@@ -2217,6 +2217,12 @@
     <ClCompile Include="..\..\SharedCode\source\WaveshapingCanvas.cpp">
       <Filter>EdenSynth\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\WaveshapingTransferFunctionContainer.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SharedCode\source\EdenWaveshapingParameters.cpp">
+      <Filter>EdenSynth\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\..\Programy\Libraries\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
@@ -4278,6 +4284,12 @@
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\SharedCode\include\WaveshapingCanvas.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\WaveshapingTransferFunctionContainer.h">
+      <Filter>EdenSynth\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedCode\include\EdenWaveshapingParameters.h">
       <Filter>EdenSynth\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
