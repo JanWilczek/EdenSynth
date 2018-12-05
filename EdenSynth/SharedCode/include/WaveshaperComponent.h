@@ -7,7 +7,7 @@
 #include "WaveshapingCanvas.h"
 #include "WaveshapingTransferFunctionContainer.h"
 
-class WaveshaperComponent : public Component, public ComboBox::Listener, public Label::Listener
+class WaveshaperComponent : public Component, public ComboBox::Listener, public Label::Listener, public Slider::Listener
 {
 public:
 	enum class AvailableCurves
@@ -15,7 +15,6 @@ public:
 		Identity = 1,
 		HyperbolicTangent = 2,
 		ChebyshevPolynomial = 3,
-		Custom = 4
 	};
 
 	WaveshaperComponent(AudioProcessorValueTreeState& valueTreeState, std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer> transferFunction);
@@ -25,8 +24,12 @@ public:
 
 	void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
 	void labelTextChanged(Label* labelThatHasChanged) override;
+	void sliderValueChanged(Slider* slider) override;
 
 private:
+	void setTransferFunction();
+	static std::vector<float> generateCurve(AvailableCurves curveName, unsigned length, float spread, unsigned chebyshevPolynomialOrder);
+
 	std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer> _transferFunction;
 
 	WaveshapingCanvas _canvas;
@@ -36,4 +39,7 @@ private:
 
 	Label _chebyshevPolynomialOrderLabel{"orderLabel", "Order: "};
 	Label _chebyshevPolynomialOrder{"order","2"};
+
+	Label _spreadLabel{ "spreadlabel", "Spread" };
+	Slider _spread{ Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox };
 };

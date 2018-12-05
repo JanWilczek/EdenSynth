@@ -21,4 +21,9 @@ namespace eden
 	{
 		return WaveshapingFunctionGeneratorImpl::generateChebyshevPolynomial(order, length);
 	}
+
+	void WaveshapingFunctionGenerator::spreadValuesRandomly(std::vector<float>& function, float spreadRange)
+	{
+		WaveshapingFunctionGeneratorImpl::spreadValuesRandomly(function, spreadRange);
+	}
 }

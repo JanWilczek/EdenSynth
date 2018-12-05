@@ -16,5 +16,7 @@ namespace eden
 		static std::vector<float> generateTransferFunction(std::function<float(float)> generator, unsigned int length);
 
 		static std::vector<float> generateChebyshevPolynomial(unsigned int order, unsigned int length);
+
+		static void spreadValuesRandomly(std::vector<float>& function, float spreadRange);
 	};
 }

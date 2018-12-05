@@ -4,6 +4,7 @@
 /// 
 #include "eden_impl/WaveshapingFunctionGeneratorImpl.h"
 #include <algorithm>
+#include <cstdlib>
 
 namespace eden
 {
@@ -66,5 +67,14 @@ namespace eden
 		}
 
 		return Tn;
+	}
+
+	void WaveshapingFunctionGeneratorImpl::spreadValuesRandomly(std::vector<float>& function, float spreadRange)
+	{
+		for (auto& value : function)
+		{
+			value += 2.f * spreadRange * std::rand() / static_cast<float>(RAND_MAX) - spreadRange;
+			value = std::clamp(value, -1.f, 1.f);
+		}
 	}
 }

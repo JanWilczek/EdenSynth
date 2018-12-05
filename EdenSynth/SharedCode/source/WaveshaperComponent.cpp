@@ -21,7 +21,6 @@ WaveshaperComponent::WaveshaperComponent(AudioProcessorValueTreeState&, std::sha
 	_curve.addItem("Identity", static_cast<int>(AvailableCurves::Identity));
 	_curve.addItem("Hyperbolic tangent", static_cast<int>(AvailableCurves::HyperbolicTangent));
 	_curve.addItem("Chebyshev polynomial", static_cast<int>(AvailableCurves::ChebyshevPolynomial));
-	_curve.addItem("Custom", static_cast<int>(AvailableCurves::Custom));
 	_curve.setSelectedId(static_cast<int>(AvailableCurves::Identity));
 	_curve.addListener(this);
 	addAndMakeVisible(_curve);
@@ -32,6 +31,12 @@ WaveshaperComponent::WaveshaperComponent(AudioProcessorValueTreeState&, std::sha
 	_chebyshevPolynomialOrder.setEditable(true);
 	addAndMakeVisible(_chebyshevPolynomialOrder);
 	_chebyshevPolynomialOrder.setEnabled(false);
+
+	_spreadLabel.setJustificationType(Justification::centred);
+	addAndMakeVisible(_spreadLabel);
+	_spread.setRange(0.0, 1.0, 0.0001);
+	addAndMakeVisible(_spread);
+	_spread.addListener(this);
 }
 
 void WaveshaperComponent::paint(Graphics& g)
@@ -53,29 +58,16 @@ void WaveshaperComponent::resized()
 	constexpr int orderLabelWidth = 60;
 	_chebyshevPolynomialOrderLabel.setBounds(_curve.getX(), _curve.getY() + labelHeight, orderLabelWidth, labelHeight);
 	_chebyshevPolynomialOrder.setBounds(_chebyshevPolynomialOrderLabel.getX() + orderLabelWidth, _chebyshevPolynomialOrderLabel.getY(), rightColumnWidth - orderLabelWidth, labelHeight);
+
+	_spreadLabel.setBounds(_chebyshevPolynomialOrder.getX(), _chebyshevPolynomialOrder.getY() + labelHeight, _chebyshevPolynomialOrder.getWidth(), labelHeight);
+	_spread.setBounds(_spreadLabel.getX(), _spreadLabel.getY() + labelHeight, _spreadLabel.getWidth(), getHeight() - _spreadLabel.getY() - labelHeight - 10);
 }
 
 void WaveshaperComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
 {
-	const auto curve = static_cast<AvailableCurves>(comboBoxThatHasChanged->getSelectedId());
+	const auto curveName = static_cast<AvailableCurves>(comboBoxThatHasChanged->getSelectedId());
 
-	switch(curve)
-	{
-	case AvailableCurves::Identity:
-		_canvas.setTransferFunction(eden::WaveshapingFunctionGenerator::generateIdentity(_canvas.getWidth()));
-		break;
-	case AvailableCurves::HyperbolicTangent:
-		_canvas.setTransferFunction(eden::WaveshapingFunctionGenerator::generateTransferFunction([](float x) { return std::tanh(2 * x); }, _canvas.getWidth()));
-		break;
-	case AvailableCurves::ChebyshevPolynomial:
-		_canvas.setTransferFunction(eden::WaveshapingFunctionGenerator::generateChebyshevPolynomial(std::stoul(_chebyshevPolynomialOrder.getText().toStdString()), _canvas.getWidth()));
-		break;
-	case AvailableCurves::Custom:
-	default:
-		break;
-	}
-
-	if (curve == AvailableCurves::ChebyshevPolynomial)
+	if (curveName == AvailableCurves::ChebyshevPolynomial)
 	{
 		_chebyshevPolynomialOrderLabel.setEnabled(true);
 		_chebyshevPolynomialOrder.setEnabled(true);
@@ -85,6 +77,8 @@ void WaveshaperComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
 		_chebyshevPolynomialOrderLabel.setEnabled(false);
 		_chebyshevPolynomialOrder.setEnabled(false);
 	}
+
+	setTransferFunction();
 }
 
 void WaveshaperComponent::labelTextChanged(Label* labelThatHasChanged)
@@ -101,7 +95,46 @@ void WaveshaperComponent::labelTextChanged(Label* labelThatHasChanged)
 			labelThatHasChanged->setText(std::to_string(order), dontSendNotification);
 		}
 
-		_canvas.setTransferFunction(eden::WaveshapingFunctionGenerator::generateChebyshevPolynomial(order, _canvas.getWidth()));
+		setTransferFunction();
 	}
 }
 
+void WaveshaperComponent::sliderValueChanged(Slider*)
+{
+	setTransferFunction();
+}
+
+void WaveshaperComponent::setTransferFunction()
+{
+	const auto spreadValue = static_cast<float>(_spread.getValue());
+	const auto chebyshevPolynomialOrder = std::stoul(_chebyshevPolynomialOrder.getText().toStdString());
+	const auto curveName = static_cast<AvailableCurves>(_curve.getSelectedId());
+
+	auto curve = generateCurve(curveName, _canvas.getWidth(), spreadValue, chebyshevPolynomialOrder);
+
+	_canvas.setTransferFunction(curve);
+}
+
+std::vector<float> WaveshaperComponent::generateCurve(AvailableCurves curveName, unsigned length, float spread, unsigned chebyshevPolynomialOrder)
+{
+	std::vector<float> curve;
+
+	switch (curveName)
+	{
+	case AvailableCurves::Identity:
+		curve = eden::WaveshapingFunctionGenerator::generateIdentity(length);
+		break;
+	case AvailableCurves::HyperbolicTangent:
+		curve = eden::WaveshapingFunctionGenerator::generateTransferFunction([](float x) { return std::tanh(2 * x); }, length);
+		break;
+	case AvailableCurves::ChebyshevPolynomial:
+		curve = eden::WaveshapingFunctionGenerator::generateChebyshevPolynomial(chebyshevPolynomialOrder, length);
+		break;
+	default:
+		break;
+	}
+
+	eden::WaveshapingFunctionGenerator::spreadValuesRandomly(curve, spread);
+
+	return curve;
+}
