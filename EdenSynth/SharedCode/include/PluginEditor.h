@@ -10,7 +10,7 @@ class EdenSynthAudioProcessorEditor : public AudioProcessorEditor
 {
 public:
 	EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor&, AudioProcessorValueTreeState&, const eden_vst::EdenAdapter&);
-	~EdenSynthAudioProcessorEditor();
+	~EdenSynthAudioProcessorEditor() = default;
 
 	void paint(Graphics&) override;
 	void resized() override;

@@ -7,7 +7,7 @@
 #include "WaveshapingCanvas.h"
 #include "WaveshapingTransferFunctionContainer.h"
 
-class WaveshaperComponent : public Component, public ComboBox::Listener
+class WaveshaperComponent : public Component, public ComboBox::Listener, public Label::Listener
 {
 public:
 	enum class AvailableCurves
@@ -24,6 +24,7 @@ public:
 	void resized() override;
 
 	void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
+	void labelTextChanged(Label* labelThatHasChanged) override;
 
 private:
 	std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer> _transferFunction;

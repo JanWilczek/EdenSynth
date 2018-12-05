@@ -95,7 +95,7 @@ namespace eden::synth
 
 	constexpr float Voice::gainValue() noexcept
 	{
-		return float(0.2);
+		return 0.3f;
 	}
 
 	void Voice::setPitch(float newPitch)

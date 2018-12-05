@@ -4,6 +4,7 @@
 /// 
 #include "WaveshaperComponent.h"
 #include "eden/WaveshapingFunctionGenerator.h"
+#include <string>
 
 WaveshaperComponent::WaveshaperComponent(AudioProcessorValueTreeState&, std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer> transferFunction)
 	: _transferFunction(std::move(transferFunction))
@@ -26,7 +27,11 @@ WaveshaperComponent::WaveshaperComponent(AudioProcessorValueTreeState&, std::sha
 	addAndMakeVisible(_curve);
 
 	addAndMakeVisible(_chebyshevPolynomialOrderLabel);
+	_chebyshevPolynomialOrder.addListener(this);
+	_chebyshevPolynomialOrder.setJustificationType(Justification::right);
+	_chebyshevPolynomialOrder.setEditable(true);
 	addAndMakeVisible(_chebyshevPolynomialOrder);
+	_chebyshevPolynomialOrder.setEnabled(false);
 }
 
 void WaveshaperComponent::paint(Graphics& g)
@@ -48,7 +53,6 @@ void WaveshaperComponent::resized()
 	constexpr int orderLabelWidth = 60;
 	_chebyshevPolynomialOrderLabel.setBounds(_curve.getX(), _curve.getY() + labelHeight, orderLabelWidth, labelHeight);
 	_chebyshevPolynomialOrder.setBounds(_chebyshevPolynomialOrderLabel.getX() + orderLabelWidth, _chebyshevPolynomialOrderLabel.getY(), rightColumnWidth - orderLabelWidth, labelHeight);
-
 }
 
 void WaveshaperComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
@@ -64,10 +68,40 @@ void WaveshaperComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
 		_canvas.setTransferFunction(eden::WaveshapingFunctionGenerator::generateTransferFunction([](float x) { return std::tanh(2 * x); }, _canvas.getWidth()));
 		break;
 	case AvailableCurves::ChebyshevPolynomial:
-		_canvas.setTransferFunction(eden::WaveshapingFunctionGenerator::generateChebyshevPolynomial(2u, _canvas.getWidth()));
+		_canvas.setTransferFunction(eden::WaveshapingFunctionGenerator::generateChebyshevPolynomial(std::stoul(_chebyshevPolynomialOrder.getText().toStdString()), _canvas.getWidth()));
 		break;
 	case AvailableCurves::Custom:
 	default:
 		break;
 	}
+
+	if (curve == AvailableCurves::ChebyshevPolynomial)
+	{
+		_chebyshevPolynomialOrderLabel.setEnabled(true);
+		_chebyshevPolynomialOrder.setEnabled(true);
+	}
+	else
+	{
+		_chebyshevPolynomialOrderLabel.setEnabled(false);
+		_chebyshevPolynomialOrder.setEnabled(false);
+	}
 }
+
+void WaveshaperComponent::labelTextChanged(Label* labelThatHasChanged)
+{
+	if (const auto curve = static_cast<AvailableCurves>(_curve.getSelectedId()); curve == AvailableCurves::ChebyshevPolynomial)
+	{
+		unsigned order = 2u;
+		try
+		{
+			order = std::stoul(labelThatHasChanged->getText().toStdString());
+		}
+		catch(...)
+		{
+			labelThatHasChanged->setText(std::to_string(order), dontSendNotification);
+		}
+
+		_canvas.setTransferFunction(eden::WaveshapingFunctionGenerator::generateChebyshevPolynomial(order, _canvas.getWidth()));
+	}
+}
+

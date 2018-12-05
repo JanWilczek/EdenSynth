@@ -31,14 +31,14 @@ namespace eden_vst
 	{
 		for (auto& oscillator : _oscillators)
 		{
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".waveTable", "Wave table", String(), NormalisableRange<float>(0.f, static_cast<float>(_pathProvider.size() - 1u), 1.0f), static_cast<float>(_waveTableIndices[oscillator.first]),
+			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".waveTable", String(oscillator.first).toUpperCase() + " wave table", String(), NormalisableRange<float>(0.f, static_cast<float>(_pathProvider.size() - 1u), 1.0f), static_cast<float>(_waveTableIndices[oscillator.first]),
 				[this](float index) { return String(_pathProvider.indexToName(static_cast<size_t>(index))); },
 				[this](String name) { return static_cast<float>(_pathProvider.nameToIndex(name.toStdString())); });
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".octaveTransposition", "Octave transposition", "oct", NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f, nullptr, nullptr);
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".semitoneTransposition", "Semitone transposition", "semit.", NormalisableRange<float>(-6.0f, 6.0f, 1.0f), 0.f, nullptr, nullptr);
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".centTransposition", "Cent transposition", "ct.", NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f, nullptr, nullptr);
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".volume", "Volume", String(), NormalisableRange<float>(0.f, 1.0f, 0.0001f, 0.4f), 1.f, nullptr, nullptr);
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".on", "On/Off", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".octaveTransposition", String(oscillator.first).toUpperCase() + " octave transposition", "oct", NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".semitoneTransposition", String(oscillator.first).toUpperCase() + " semitone transposition", "semit.", NormalisableRange<float>(-6.0f, 6.0f, 1.0f), 0.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".centTransposition", String(oscillator.first).toUpperCase() + " cent transposition", "ct.", NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".volume", String(oscillator.first).toUpperCase() + " volume", String(), NormalisableRange<float>(0.f, 1.0f, 0.0001f, 0.4f), 1.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".on", String(oscillator.first).toUpperCase() + " on/off", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 		}
 	}
 
