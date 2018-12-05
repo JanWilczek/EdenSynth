@@ -35,8 +35,9 @@ WaveshaperComponent::WaveshaperComponent(AudioProcessorValueTreeState&, std::sha
 	_spreadLabel.setJustificationType(Justification::centred);
 	addAndMakeVisible(_spreadLabel);
 	_spread.setRange(0.0, 1.0, 0.0001);
-	addAndMakeVisible(_spread);
+	_spread.setPopupDisplayEnabled(true, false, this);
 	_spread.addListener(this);
+	addAndMakeVisible(_spread);
 }
 
 void WaveshaperComponent::paint(Graphics& g)

@@ -95,7 +95,7 @@ namespace eden::synth
 
 	constexpr float Voice::gainValue() noexcept
 	{
-		return 0.3f;
+		return 0.7f;
 	}
 
 	void Voice::setPitch(float newPitch)
@@ -107,9 +107,12 @@ namespace eden::synth
 
 	void Voice::applyVelocity(float* channel, int startSample, int samplesToRender)
 	{
+		// TODO: temporary volume recalculation;
+		const auto volume = gainValue() * (_velocity + 0.5f) / 1.5f;
+
 		for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
 		{
-			channel[sample] *= gainValue() * _velocity;
+			channel[sample] *= volume;
 
 			// check for clipping
 			EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
