@@ -5,11 +5,13 @@
 #include "synth/waveshaping/Waveshaper.h"
 #include <algorithm>
 #include "interpolation/LinearInterpolator.h"
+#include "eden/WaveshapingFunctionGenerator.h"
 
 namespace eden::synth::waveshaping
 {
 	Waveshaper::Waveshaper()
 		: _makeUpGainEnabled(false)
+		, _transferFunction(WaveshapingFunctionGenerator::generateIdentity(400u))
 		, _makeUpGainFactor(1.f)
 		, _interpolator(std::make_unique<interpolation::LinearInterpolator>())
 	{
