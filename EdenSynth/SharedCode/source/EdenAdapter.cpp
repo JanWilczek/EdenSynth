@@ -58,7 +58,7 @@ namespace eden_vst
 		// general parameters
 		pluginParameters.createAndAddParameter("pitchBend.semitonesDown", "Pitch bend semitones down", String(), NormalisableRange<float>(-24.f, 0.f, 1.f), -12.f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("pitchBend.semitonesUp", "Pitch bend semitones up", String(), NormalisableRange<float>(0.f, 24.f, 1.f), 2.f, nullptr, nullptr);
-		pluginParameters.createAndAddParameter("frequencyOfA4", "Frequency of A4", "Hz", NormalisableRange<float>(420.f, 450.f, 0.1f), 440.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("frequencyOfA4", "Frequency of A4", "Hz", NormalisableRange<float>(400.f, 500.f, 0.1f), 440.f, nullptr, nullptr);
 
 		// oscillator parameters
 		_oscillators.addOscillatorParameters(pluginParameters);

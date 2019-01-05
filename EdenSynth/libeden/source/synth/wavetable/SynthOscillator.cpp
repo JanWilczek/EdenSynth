@@ -124,6 +124,11 @@ namespace eden::synth::wavetable
 		_isOn = isOn;
 	}
 
+	bool SynthOscillator::isOn() const noexcept
+	{
+		return _isOn;
+	}
+
 	void SynthOscillator::setPitch(float pitch)
 	{
 		_originalPitch = pitch;

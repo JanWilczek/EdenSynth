@@ -94,6 +94,8 @@ namespace eden::synth
 		/// <param name="samplesToRender"></param>
 		void applyVelocity(float* channel, int startSample, int samplesToRender);
 
+		void applyGain(float* channel, int startSample, int samplesToRender);
+
 		/// <summary>
 		/// Mixes the contentt of the inner rendered block to the output buffer.
 		/// </summary>

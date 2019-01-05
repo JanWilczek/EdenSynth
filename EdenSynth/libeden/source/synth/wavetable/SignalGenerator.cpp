@@ -91,7 +91,7 @@ namespace eden::synth::wavetable
 			audioChannel[sampleIndex] += oscillatorPair.second.getSample();
 		}
 
-		if (_oscillators.size() > 0)
+		if (!_oscillators.empty())
 		{
 			audioChannel[sampleIndex] /= static_cast<float>(_oscillators.size());
 		}

@@ -54,11 +54,13 @@ namespace eden::synth
 
 			_subtractiveModule->process(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
+			applyVelocity(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
+
 			_waveshapingModule->process(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
 			_envelopeGenerator->apply(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
-			applyVelocity(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
+			applyGain(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
 			mixTo(outputBuffer, startSample, samplesToRender);
 		}
@@ -107,12 +109,23 @@ namespace eden::synth
 
 	void Voice::applyVelocity(float* channel, int startSample, int samplesToRender)
 	{
-		// TODO: temporary volume recalculation;
-		const auto volume = gainValue() * (_velocity + 0.5f) / 1.5f;
+		// TODO: temporary velocity recalculation;
+		const auto velocity = (_velocity + 0.5f) / 1.5f;
 
 		for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
 		{
-			channel[sample] *= volume;
+			channel[sample] *= velocity;
+
+			// check for clipping
+			EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
+		}
+	}
+
+	void Voice::applyGain(float* channel, int startSample, int samplesToRender)
+	{
+		for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
+		{
+			channel[sample] *= gainValue();
 
 			// check for clipping
 			EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);

@@ -19,7 +19,8 @@ namespace eden::synth::waveshaping
 
 	float Waveshaper::transform(float sample)
 	{
-		const auto index = sample * (_transferFunction.size() - 1u) / 2.f + (_transferFunction.size() - 1u) / 2.f;
+		const auto halfShapingFunctionLength = (_transferFunction.size() - 1u) / 2.f;
+		const auto index = sample * halfShapingFunctionLength + halfShapingFunctionLength;
 
 		auto output = _interpolator->interpolate(_transferFunction, index);
 

@@ -60,15 +60,18 @@ namespace eden::synth::wavetable
 		/// <param name="pitch">frequency in Hz</param>
 		void setPitch(float pitch);
 
+
 		/// <param name="volume">volume in range [0, 1]</param>
 		void setVolume(float volume);
 
 		/// <param name="isOn">true to turn the oscillator on, false to turn it off - after the latter <c>getSample()</c> will return zero at each call</param>
 		void setOn(bool isOn);
 
+		bool isOn() const noexcept;
+
 		void setSampleRate(float sampleRate);
 
-		/// <returns>actual pitch played (i.e. set ptich after transposition)</returns>
+		/// <returns>actual pitch played (i.e. set pitch after transposition)</returns>
 		float pitch();
 
 	private:
