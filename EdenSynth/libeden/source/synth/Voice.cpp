@@ -117,7 +117,7 @@ namespace eden::synth
 			channel[sample] *= velocity;
 
 			// check for clipping
-			EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
+			//EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
 		}
 	}
 
@@ -128,7 +128,7 @@ namespace eden::synth
 			channel[sample] *= gainValue();
 
 			// check for clipping
-			EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
+			//EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
 		}
 	}
 
@@ -141,7 +141,7 @@ namespace eden::synth
 				channel[sample] += _innerBuffer.getReadPointer(0)[sample];
 
 				// check for clipping
-				EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
+				//EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
 			}
 		});
 	}

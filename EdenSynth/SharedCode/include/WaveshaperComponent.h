@@ -37,7 +37,7 @@ private:
 	Label _curveLabel {"transferFunctionLabel", "Transfer function"};
 	ComboBox _curve{"transferFunctionCurveComboBox"};
 
-	Label _chebyshevPolynomialOrderLabel{"orderLabel", "Order: "};
+	Label _chebyshevPolynomialOrderLabel{"orderLabel", "Degree: "};
 	Label _chebyshevPolynomialOrder{"order","2"};
 
 	Label _spreadLabel{ "spreadlabel", "Spread" };

@@ -77,7 +77,7 @@ namespace eden::synth::envelope
 		/// <summary>
 		/// Current envelope value (linear).
 		/// </summary>
-		float _currentLevel = 0.0;
+		float _currentLevel = 0.f;
 
 		/// <summary>
 		/// Envelope's segments.
@@ -87,7 +87,7 @@ namespace eden::synth::envelope
 		/// <summary>
 		/// Current envelope segment.
 		/// </summary>
-		size_t _currentSegment = 0;
+		size_t _currentSegment = 0u;
 
 		/// <summary>
 		/// Callback to call after envelope has ended.

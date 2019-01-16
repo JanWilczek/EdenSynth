@@ -10,7 +10,6 @@ OscillatorComponent::OscillatorComponent(AudioProcessorValueTreeState& valueTree
 	, _semitoneTransposition(Slider::SliderStyle::Rotary, Slider::TextEntryBoxPosition::NoTextBox)
 	, _centTransposition(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 	, _waveform("Waveform")
-	, _on("ON")
 	, _volume(Slider::SliderStyle::Rotary, Slider::TextEntryBoxPosition::NoTextBox)
 	, _auxParameterName("generator." + oscillatorName + ".")
 {

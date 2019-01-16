@@ -15,7 +15,7 @@ namespace eden::synth
 {
 	Synthesiser::Synthesiser(settings::Settings& settings)
 	{
-		constexpr unsigned VOICES_TO_ADD = 16;
+		constexpr unsigned VOICES_TO_ADD = 32;
 		addVoices(settings, VOICES_TO_ADD);
 	}
 
