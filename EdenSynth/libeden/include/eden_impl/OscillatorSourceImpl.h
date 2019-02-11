@@ -16,7 +16,7 @@ namespace eden
 	class OscillatorSourceImpl
 	{
 	public:
-		OscillatorSourceImpl(settings::Settings& settings, WaveformGenerators generatorName);
+		OscillatorSourceImpl(settings::Settings& settings, WaveformGenerator generatorName);
 		OscillatorSourceImpl(settings::Settings& settings, std::vector<float> waveTable);
 		~OscillatorSourceImpl();
 

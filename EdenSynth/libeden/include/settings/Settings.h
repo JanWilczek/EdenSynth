@@ -105,7 +105,7 @@ namespace eden::settings
 		/// </summary>
 		/// <param name="generatorName">name of the generator to create</param>
 		/// <returns>unique id representing the createed oscillator source</returns>
-		OscillatorSourceId createGeneratorSource(WaveformGenerators generatorName);
+		OscillatorSourceId createGeneratorSource(WaveformGenerator generatorName);
 
 		/// <summary>
 		/// Creates and registers a wavetable oscillator source.

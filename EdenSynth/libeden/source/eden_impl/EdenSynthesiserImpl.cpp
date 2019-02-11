@@ -51,7 +51,7 @@ namespace eden
 		_settings.setPitchBendRange(transposeDownTransposeUp);
 	}
 
-	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createRealtimeOscillatorSource(WaveformGenerators generatorName)
+	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createRealtimeOscillatorSource(WaveformGenerator generatorName)
 	{
 		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, generatorName));
 	}

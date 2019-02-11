@@ -9,13 +9,9 @@ namespace eden
 	/// <summary>
 	/// Currently available realtime generators.
 	/// </summary>
-	enum class WaveformGenerators
+	enum class WaveformGenerator
 	{
-		Sine,
-		Triangle,
-		SawtoothRampUp,
-		Square,
-		WhiteNoise
+		SawtoothRampUp
 	};
 
 	/// <summary>

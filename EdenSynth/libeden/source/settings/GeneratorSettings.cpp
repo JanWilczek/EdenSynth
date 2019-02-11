@@ -5,6 +5,7 @@
 #include "settings/GeneratorSettings.h"
 #include "synth/wavetable/SignalGenerator.h"
 #include "synth/wavetable/WaveTableSource.h"
+#include "synth/wavetable/va_sources/SawtoothVASource.h"
 
 namespace eden::settings
 {
@@ -21,10 +22,24 @@ namespace eden::settings
 		}
 	}
 
-	OscillatorSourceId GeneratorSettings::createGeneratorSource(float sampleRate, WaveformGenerators generatorName)
+	OscillatorSourceId GeneratorSettings::createGeneratorSource(float sampleRate, WaveformGenerator generatorName)
 	{
-		// TODO: Not implemented.
-		throw std::logic_error("Generators not implemented.");
+		std::unique_ptr<synth::wavetable::SawtoothVASource> source;
+
+		switch (generatorName)
+		{
+		case WaveformGenerator::SawtoothRampUp:
+			source = std::make_unique<synth::wavetable::SawtoothVASource>(sampleRate);
+			break;
+		default:
+			throw std::logic_error("Generator not implemented.");
+		}
+
+		const auto id = _firstAvailableSourceId++;
+
+		_oscillatorSources[id] = std::move(source);
+
+		return id;
 	}
 
 	OscillatorSourceId GeneratorSettings::createWaveTableSource(float sampleRate, std::vector<float> waveTable)

@@ -31,14 +31,19 @@ namespace eden_vst
 	{
 		for (auto& oscillator : _oscillators)
 		{
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".waveTable", String(oscillator.first).toUpperCase() + " wave table", String(), NormalisableRange<float>(0.f, static_cast<float>(_pathProvider.size() - 1u), 1.0f), static_cast<float>(_waveTableIndices[oscillator.first]),
+			const auto parameterPrefix = "generator." + oscillator.first;
+			const auto namePrefix = String(oscillator.first).toUpperCase();
+
+			pluginParameters.createAndAddParameter(parameterPrefix + ".isRealTime", namePrefix + " is real time", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 0.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter(parameterPrefix + ".waveTable", namePrefix + " wave table", String(), NormalisableRange<float>(0.f, static_cast<float>(_pathProvider.size() - 1u), 1.0f), static_cast<float>(_waveTableIndices[oscillator.first]),
 				[this](float index) { return String(_pathProvider.indexToName(static_cast<size_t>(index))); },
 				[this](String name) { return static_cast<float>(_pathProvider.nameToIndex(name.toStdString())); });
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".octaveTransposition", String(oscillator.first).toUpperCase() + " octave transposition", "oct", NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f, nullptr, nullptr);
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".semitoneTransposition", String(oscillator.first).toUpperCase() + " semitone transposition", "semit.", NormalisableRange<float>(-6.0f, 6.0f, 1.0f), 0.f, nullptr, nullptr);
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".centTransposition", String(oscillator.first).toUpperCase() + " cent transposition", "ct.", NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f, nullptr, nullptr);
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".volume", String(oscillator.first).toUpperCase() + " volume", String(), NormalisableRange<float>(0.f, 1.0f, 0.0001f, 0.4f), 1.f, nullptr, nullptr);
-			pluginParameters.createAndAddParameter("generator." + oscillator.first + ".on", String(oscillator.first).toUpperCase() + " on/off", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter(parameterPrefix + ".generatorName", namePrefix + " generator name", String(), NormalisableRange<float>(0.f, 0.f, 1.f), 0.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter(parameterPrefix + ".octaveTransposition", namePrefix + " octave transposition", "oct", NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter(parameterPrefix + ".semitoneTransposition", namePrefix + " semitone transposition", "semit.", NormalisableRange<float>(-6.0f, 6.0f, 1.0f), 0.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter(parameterPrefix + ".centTransposition", namePrefix + " cent transposition", "ct.", NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter(parameterPrefix + ".volume", namePrefix + " volume", String(), NormalisableRange<float>(0.f, 1.0f, 0.0001f, 0.4f), 1.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter(parameterPrefix + ".on", namePrefix + " on/off", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
 		}
 	}
 
@@ -46,17 +51,38 @@ namespace eden_vst
 	{
 		for (auto& oscillator : _oscillators)
 		{
-			const auto waveTableIndex = static_cast<size_t>(*pluginParameters.getRawParameterValue("generator." + oscillator.first + ".waveTable"));
-			if (waveTableIndex != _waveTableIndices[oscillator.first])
+			const auto parameterPrefix = "generator." + oscillator.first;
+
+			const auto isRealTime = static_cast<bool>(*pluginParameters.getRawParameterValue(parameterPrefix + ".isRealTime"));
+			const auto waveTableIndex = static_cast<size_t>(*pluginParameters.getRawParameterValue(parameterPrefix + ".waveTable"));
+
+			if (isRealTime)
 			{
-				_waveTableIndices[oscillator.first] = waveTableIndex;
-				oscillator.second->setSource(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_pathProvider.indexToName(_waveTableIndices[oscillator.first]))));
+				if (_waveTableIndices[oscillator.first] == _pathProvider.size())
+				{
+					//const auto generatorIndex = static_cast<size_t>(*pluginParameters.getRawParameterValue(parameterPrefix + ".generatorName"));
+					// TODO: add handling of a generator change
+				}
+				else
+				{
+					_waveTableIndices[oscillator.first] = _pathProvider.size();	// marks the oscillator as real time
+					oscillator.second->setSource(_synthesiser.createRealtimeOscillatorSource(eden::WaveformGenerator::SawtoothRampUp));
+				}
 			}
-			oscillator.second->setOctaveTransposition(*pluginParameters.getRawParameterValue("generator." + oscillator.first + ".octaveTransposition"));
-			oscillator.second->setSemitoneTransposition(*pluginParameters.getRawParameterValue("generator." + oscillator.first + ".semitoneTransposition"));
-			oscillator.second->setCentTransposition(*pluginParameters.getRawParameterValue("generator." + oscillator.first + ".centTransposition"));
-			oscillator.second->setVolume(*pluginParameters.getRawParameterValue("generator." + oscillator.first + ".volume"));
-			oscillator.second->setOn(static_cast<bool>(*pluginParameters.getRawParameterValue("generator." + oscillator.first + ".on")));
+			else
+			{
+				if (waveTableIndex != _waveTableIndices[oscillator.first])
+				{
+					_waveTableIndices[oscillator.first] = waveTableIndex;
+					oscillator.second->setSource(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_pathProvider.indexToName(_waveTableIndices[oscillator.first]))));
+				}
+			}
+
+			oscillator.second->setOctaveTransposition(*pluginParameters.getRawParameterValue(parameterPrefix + ".octaveTransposition"));
+			oscillator.second->setSemitoneTransposition(*pluginParameters.getRawParameterValue(parameterPrefix + ".semitoneTransposition"));
+			oscillator.second->setCentTransposition(*pluginParameters.getRawParameterValue(parameterPrefix + ".centTransposition"));
+			oscillator.second->setVolume(*pluginParameters.getRawParameterValue(parameterPrefix + ".volume"));
+			oscillator.second->setOn(static_cast<bool>(*pluginParameters.getRawParameterValue(parameterPrefix + ".on")));
 		}
 	}
 

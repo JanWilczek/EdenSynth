@@ -39,7 +39,7 @@ namespace eden
 
 		void setPitchBendRange(std::pair<int, int> transposeDownTransposeUp);
 
-		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
+		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerator generatorName);
 
 		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<float> waveTable);
 

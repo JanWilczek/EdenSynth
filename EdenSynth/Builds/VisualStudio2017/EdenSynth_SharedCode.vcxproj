@@ -1902,6 +1902,7 @@
     <ClCompile Include="..\..\SharedCode\source\OscillatorComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\OscillatorContainer.cpp" />
     <ClCompile Include="..\..\SharedCode\source\OscillatorsComponent.cpp" />
+    <ClCompile Include="..\..\SharedCode\source\OscillatorSourceComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\OutputSettingsComponent.cpp" />
     <ClCompile Include="..\..\SharedCode\source\PluginEditor.cpp" />
     <ClCompile Include="..\..\SharedCode\source\PluginProcessor.cpp" />
@@ -2593,6 +2594,7 @@
     <ClInclude Include="..\..\SharedCode\include\OscillatorComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\OscillatorContainer.h" />
     <ClInclude Include="..\..\SharedCode\include\OscillatorsComponent.h" />
+    <ClInclude Include="..\..\SharedCode\include\OscillatorSourceComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\OutputSettingsComponent.h" />
     <ClInclude Include="..\..\SharedCode\include\PluginEditor.h" />
     <ClInclude Include="..\..\SharedCode\include\PluginProcessor.h" />

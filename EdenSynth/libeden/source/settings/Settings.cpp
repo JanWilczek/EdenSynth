@@ -69,7 +69,7 @@ namespace eden::settings
 		_envelopeSettings->registerEnvelope(envelope);
 	}
 
-	OscillatorSourceId Settings::createGeneratorSource(WaveformGenerators generatorName)
+	OscillatorSourceId Settings::createGeneratorSource(WaveformGenerator generatorName)
 	{
 		return _generatorSettings->createGeneratorSource(sampleRate(), generatorName);
 	}

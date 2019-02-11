@@ -7,10 +7,14 @@
 
 namespace eden::synth::wavetable
 {
+	/// <summary>
+	/// Oscillator generating a Virtual Analog sawtooth waveform based on the 
+	/// Differential Parabolic Waveform (DPW) algorithm proposed by Valimaki and Huovilainen.
+	/// </summary>
 	class SawtoothVASource : public IOscillatorSource
 	{
 	public:
-		SawtoothVASource();
+		SawtoothVASource(float sampleRate);
 		~SawtoothVASource() override = default;
 		SawtoothVASource(const SawtoothVASource& other);
 

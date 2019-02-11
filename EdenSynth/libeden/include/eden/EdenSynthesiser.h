@@ -13,7 +13,7 @@ namespace eden
 {
 	class AudioBuffer;
 	class MidiBuffer;
-	enum class WaveformGenerators;
+	enum class WaveformGenerator;
 	struct EnvelopeParameters;
 
 	/// <summary>
@@ -72,7 +72,7 @@ namespace eden
 		/// </summary>
 		/// <param name="generatorName">name of the generator to base this source on</param>
 		/// <returns>handle to the source</returns>
-		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
+		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerator generatorName);
 
 		/// <summary>
 		/// Creates an oscillator source which generates samples by interpolating values given in the <paramref name="waveTable"/>.

@@ -7,8 +7,9 @@
 
 namespace eden::synth::wavetable
 {
-	SawtoothVASource::SawtoothVASource()
-		: _phase(0.f)
+	SawtoothVASource::SawtoothVASource(float sampleRate)
+		: _sampleRate(sampleRate)
+		, _phase(0.f)
 		, _z1(0.f)
 	{
 	}

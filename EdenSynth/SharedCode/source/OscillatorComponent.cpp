@@ -9,7 +9,7 @@ OscillatorComponent::OscillatorComponent(AudioProcessorValueTreeState& valueTree
 	: _octaveTransposition(Slider::SliderStyle::Rotary, Slider::TextEntryBoxPosition::NoTextBox)
 	, _semitoneTransposition(Slider::SliderStyle::Rotary, Slider::TextEntryBoxPosition::NoTextBox)
 	, _centTransposition(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
-	, _waveform("Waveform")
+	, _sourceComponent(valueTreeState, oscillatorName, pathProvider)
 	, _volume(Slider::SliderStyle::Rotary, Slider::TextEntryBoxPosition::NoTextBox)
 	, _auxParameterName("generator." + oscillatorName + ".")
 {
@@ -35,16 +35,7 @@ OscillatorComponent::OscillatorComponent(AudioProcessorValueTreeState& valueTree
 		_centTranspositionAttachment = std::make_unique<SliderAttachment>(valueTreeState, _auxParameterName + "centTransposition", _centTransposition);
 	}
 
-	auto it = pathProvider.cbegin();
-	auto i = 1;
-	while (it != pathProvider.cend())
-	{
-		_waveform.addItem(it->first, i);
-		++i;
-		++it;
-	}
-	addAndMakeVisible(_waveform);
-	_waveformAttachment = std::make_unique<ComboBoxAttachment>(valueTreeState, _auxParameterName + "waveTable", _waveform);
+	addAndMakeVisible(_sourceComponent);
 
 	if (oscillatorName != oscillator1Name)
 	{
@@ -74,9 +65,9 @@ void OscillatorComponent::resized()
 	_fineTuneLabel.setBounds(_transposeLabel.getX() + segmentWidth, _octaveLabel.getY(), segmentWidth, labelHeight);
 	_centTransposition.setBounds(_semitoneTransposition.getX() + segmentWidth, _octaveTransposition.getY(), knobDim, knobDim);
 
-	_waveform.setBounds(_fineTuneLabel.getX() + segmentWidth, getHeight() / 2, 1.5f * segmentWidth, labelHeight);
+	_sourceComponent.setBounds(_fineTuneLabel.getX() + segmentWidth, _fineTuneLabel.getY(), 1.5f * segmentWidth, getHeight());
 
-	_on.setBounds(_waveform.getX() + _waveform.getWidth(), _waveform.getY(), 0.5f * segmentWidth, _waveform.getHeight());
+	_on.setBounds(_sourceComponent.getX() + _sourceComponent.getWidth(), _sourceComponent.getY(), 0.5f * segmentWidth, _sourceComponent.getHeight());
 
 	_volumeLabel.setBounds(_on.getX() + _on.getWidth(), _octaveLabel.getY(), segmentWidth, labelHeight);
 	_volume.setBounds(_volumeLabel.getX(), _octaveTransposition.getY(), knobDim, knobDim);
