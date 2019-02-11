@@ -11,6 +11,7 @@ namespace eden::synth::wavetable
 		: _sampleRate(sampleRate)
 		, _phase(0.f)
 		, _z1(0.f)
+		, _z2(0.f)
 	{
 	}
 
@@ -19,6 +20,7 @@ namespace eden::synth::wavetable
 		, _phase(other._phase)
 		, _delta(other._delta)
 		, _z1(other._z1)
+		, _z2(other._z2)
 		, _c(other._c)
 		, _pitch(other._pitch)
 	{
@@ -46,7 +48,12 @@ namespace eden::synth::wavetable
 		_phase = std::fmod(_phase + _delta, 1.f);
 		const float bphase = 2 * _phase - 1.f;
 		const float sq = std::pow(bphase, 2.f);
-		const float dsq = sq - _z1;
+		
+		//const float dsq = sq - _z1;
+		//const float dsq = (sq - _z1) * (sq + _z1) / 2.f;
+		const float dsq = (sq - _z2) / 2.f;
+
+		_z2 = _z1;
 		_z1 = sq;
 		return _c * dsq;
 	}

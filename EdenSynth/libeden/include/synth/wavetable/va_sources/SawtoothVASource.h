@@ -33,6 +33,7 @@ namespace eden::synth::wavetable
 		float _phase;
 		float _delta;
 		float _z1;
+		float _z2;
 		float _c;
 		float _pitch;
 	};
