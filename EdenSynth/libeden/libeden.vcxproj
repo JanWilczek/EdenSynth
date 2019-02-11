@@ -205,6 +205,7 @@
     <ClInclude Include="include\synth\wavetable\SineWaveTable.h" />
     <ClInclude Include="include\synth\wavetable\SynthOscillator.h" />
     <ClInclude Include="include\synth\wavetable\IOscillatorSource.h" />
+    <ClInclude Include="include\synth\wavetable\va_sources\SawtoothVASource.h" />
     <ClInclude Include="include\synth\wavetable\Waveform.h" />
     <ClInclude Include="include\synth\wavetable\WaveTable.h" />
     <ClInclude Include="include\synth\wavetable\WaveTableSource.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="source\synth\waveshaping\WaveshapingModule.cpp" />
     <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp" />
     <ClCompile Include="source\synth\wavetable\SynthOscillator.cpp" />
+    <ClCompile Include="source\synth\wavetable\va_sources\SawtoothVASource.cpp" />
     <ClCompile Include="source\synth\wavetable\Waveform.cpp" />
     <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp" />
     <ClCompile Include="source\utility\TimeSampleConverter.cpp" />

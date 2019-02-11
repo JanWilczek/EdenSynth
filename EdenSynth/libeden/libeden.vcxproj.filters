@@ -73,6 +73,12 @@
     <Filter Include="Source Files\settings">
       <UniqueIdentifier>{cb3afa4a-2f68-481e-b209-27ae74cd886f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\synth\wavetable\va_sources">
+      <UniqueIdentifier>{0eee246e-ee1a-4e36-90f6-baf7f9a92aac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\synth\wavetable\va_sources">
+      <UniqueIdentifier>{9934ac8b-9b2e-4bcd-9e66-c7ff5a47d92b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h">
@@ -243,6 +249,9 @@
     <ClInclude Include="include\eden\WaveshapingFunctionGenerator.h">
       <Filter>Header Files\eden</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\wavetable\va_sources\SawtoothVASource.h">
+      <Filter>Header Files\synth\wavetable\va_sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -376,6 +385,9 @@
     </ClCompile>
     <ClCompile Include="source\eden_impl\WaveshapingFunctionGeneratorImpl.cpp">
       <Filter>Source Files\eden_impl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\va_sources\SawtoothVASource.cpp">
+      <Filter>Source Files\synth\wavetable\va_sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
