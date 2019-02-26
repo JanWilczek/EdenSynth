@@ -12,6 +12,7 @@ namespace eden::synth::wavetable
 		, _phase(0.f)
 		, _z1(0.f)
 		, _z2(0.f)
+		, _phaseShift(0.f)
 	{
 	}
 
@@ -23,7 +24,18 @@ namespace eden::synth::wavetable
 		, _z2(other._z2)
 		, _c(other._c)
 		, _pitch(other._pitch)
+		, _phaseShift(other._phaseShift)
 	{
+	}
+
+	void SawtoothVASource::setPhaseShift(float phaseShift)
+	{
+		_phaseShift = phaseShift;
+
+		if (_delta != 0.f)
+		{
+			setPitch(_pitch);
+		}
 	}
 
 	std::unique_ptr<IOscillatorSource> SawtoothVASource::clone()
@@ -34,6 +46,7 @@ namespace eden::synth::wavetable
 	void SawtoothVASource::reset()
 	{
 		_phase = 0.f;
+		_delta = 0.f;
 	}
 
 	void SawtoothVASource::setPitch(float pitch)
@@ -41,6 +54,8 @@ namespace eden::synth::wavetable
 		_pitch = pitch;
 		_delta = _pitch / _sampleRate;
 		_c = _sampleRate / (4 * _pitch * (1 - _delta));
+
+		_phase = _sampleRate / _pitch * _phaseShift;
 	}
 
 	float SawtoothVASource::getSample()
@@ -63,5 +78,4 @@ namespace eden::synth::wavetable
 		_sampleRate = sampleRate;
 		setPitch(_pitch);
 	}
-
 }

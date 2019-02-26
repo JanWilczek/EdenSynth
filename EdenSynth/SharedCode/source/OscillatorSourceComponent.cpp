@@ -27,6 +27,8 @@ OscillatorSourceComponent::OscillatorSourceComponent(AudioProcessorValueTreeStat
 	_waveformAttachment = std::make_unique<ComboBoxAttachment>(valueTreeState, auxParameterName + "waveTable", _waveform);
 
 	_generator.addItem("Sawtooth Ramp Up", 1);
+	_generator.addItem("Square", 2);
+
 	addAndMakeVisible(_generator);
 	_generatorAttachment = std::make_unique<ComboBoxAttachment>(valueTreeState, auxParameterName + "generatorName", _generator);
 	_generator.setVisible(false);

@@ -11,7 +11,8 @@ namespace eden
 	/// </summary>
 	enum class WaveformGenerator
 	{
-		SawtoothRampUp
+		SawtoothRampUp,
+		Square
 	};
 
 	/// <summary>

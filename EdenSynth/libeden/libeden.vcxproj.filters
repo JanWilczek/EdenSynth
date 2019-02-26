@@ -252,6 +252,9 @@
     <ClInclude Include="include\synth\wavetable\va_sources\SawtoothVASource.h">
       <Filter>Header Files\synth\wavetable\va_sources</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\wavetable\va_sources\PulseVASource.h">
+      <Filter>Header Files\synth\wavetable\va_sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -387,6 +390,9 @@
       <Filter>Source Files\eden_impl</Filter>
     </ClCompile>
     <ClCompile Include="source\synth\wavetable\va_sources\SawtoothVASource.cpp">
+      <Filter>Source Files\synth\wavetable\va_sources</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\va_sources\PulseVASource.cpp">
       <Filter>Source Files\synth\wavetable\va_sources</Filter>
     </ClCompile>
   </ItemGroup>

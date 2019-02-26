@@ -18,6 +18,13 @@ namespace eden::synth::wavetable
 		~SawtoothVASource() override = default;
 		SawtoothVASource(const SawtoothVASource& other);
 
+		/// <summary>
+		/// Sets phase shift in relation to the whole cycle. 
+		/// For example, 0.5 moves the waveform in phase by pi.
+		/// </summary>
+		/// <param name="phaseShift"></param>
+		void setPhaseShift(float phaseShift);
+
 		std::unique_ptr<IOscillatorSource> clone() override;
 
 		void reset() override;
@@ -36,5 +43,6 @@ namespace eden::synth::wavetable
 		float _z2;
 		float _c;
 		float _pitch;
+		float _phaseShift;
 	};
 }
