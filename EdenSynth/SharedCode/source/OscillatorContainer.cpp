@@ -23,6 +23,8 @@ namespace eden_vst
 		{
 			const auto name = prefix + std::to_string(i);
 			_waveTableIndices[name] = _pathProvider.nameToIndex("Sine");
+			_generatorNames[name] = eden::WaveformGenerator::SawtoothRampUp;
+			_isRealTime[name] = false;
 			_oscillators[name] = _synthesiser.createAndAddOscillator(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_waveTableIndices[name])));
 		}
 	}
@@ -51,30 +53,35 @@ namespace eden_vst
 	{
 		for (auto& oscillator : _oscillators)
 		{
-			const auto parameterPrefix = "generator." + oscillator.first;
+			const auto& oscillatorName = oscillator.first;
+
+			const auto parameterPrefix = "generator." + oscillatorName;
 
 			const auto isRealTime = static_cast<bool>(*pluginParameters.getRawParameterValue(parameterPrefix + ".isRealTime"));
 			const auto waveTableIndex = static_cast<size_t>(*pluginParameters.getRawParameterValue(parameterPrefix + ".waveTable"));
+			const auto generatorName = static_cast<eden::WaveformGenerator>(static_cast<int>(*pluginParameters.getRawParameterValue(parameterPrefix + ".generatorName")));
 
+			// handle the source of the oscillator
 			if (isRealTime)
 			{
-				if (_waveTableIndices[oscillator.first] == _pathProvider.size())
+				if (!_isRealTime[oscillatorName] // oscillator changed from wavetable to real-time
+					|| _generatorNames[oscillatorName] != generatorName) // generator's name changed
 				{
-					//const auto generatorIndex = static_cast<size_t>(*pluginParameters.getRawParameterValue(parameterPrefix + ".generatorName"));
-					// TODO: add handling of a generator change
-				}
-				else
-				{
-					_waveTableIndices[oscillator.first] = _pathProvider.size();	// marks the oscillator as real time
-					oscillator.second->setSource(_synthesiser.createRealtimeOscillatorSource(eden::WaveformGenerator::SawtoothRampUp));
+					_isRealTime[oscillatorName] = true;
+					_generatorNames[oscillatorName] = generatorName;
+
+					oscillator.second->setSource(_synthesiser.createRealtimeOscillatorSource(_generatorNames[oscillatorName]));
 				}
 			}
 			else
 			{
-				if (waveTableIndex != _waveTableIndices[oscillator.first])
+				if (_isRealTime[oscillatorName] // oscillator changed from real-time to wavetable
+					|| _waveTableIndices[oscillatorName] != waveTableIndex) // wavetable changed
 				{
-					_waveTableIndices[oscillator.first] = waveTableIndex;
-					oscillator.second->setSource(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_pathProvider.indexToName(_waveTableIndices[oscillator.first]))));
+					_isRealTime[oscillatorName] = false;
+					_waveTableIndices[oscillatorName] = waveTableIndex;
+
+					oscillator.second->setSource(_synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(_pathProvider.indexToName(_waveTableIndices[oscillatorName]))));
 				}
 			}
 
