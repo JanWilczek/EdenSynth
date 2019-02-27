@@ -255,6 +255,12 @@
     <ClInclude Include="include\synth\wavetable\va_sources\PulseVASource.h">
       <Filter>Header Files\synth\wavetable\va_sources</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\wavetable\va_sources\TriangleVASource.h">
+      <Filter>Header Files\synth\wavetable\va_sources</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synth\wavetable\va_sources\SineVASource.h">
+      <Filter>Header Files\synth\wavetable\va_sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -393,6 +399,12 @@
       <Filter>Source Files\synth\wavetable\va_sources</Filter>
     </ClCompile>
     <ClCompile Include="source\synth\wavetable\va_sources\PulseVASource.cpp">
+      <Filter>Source Files\synth\wavetable\va_sources</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\va_sources\SineVASource.cpp">
+      <Filter>Source Files\synth\wavetable\va_sources</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\va_sources\TriangleVASource.cpp">
       <Filter>Source Files\synth\wavetable\va_sources</Filter>
     </ClCompile>
   </ItemGroup>
