@@ -27,6 +27,9 @@ namespace eden::synth::wavetable
 		/// </summary>
 		virtual void reset() = 0;
 
+		/// <summary>
+		/// Activates the oscillator source by setting its pitch.
+		/// </summary>
 		/// <param name="pitch">frequency in Hz to generate</param>
 		virtual void setPitch(float pitch) = 0;
 

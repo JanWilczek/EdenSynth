@@ -31,11 +31,6 @@ namespace eden::synth::wavetable
 	void SawtoothVASource::setPhaseShift(float phaseShift)
 	{
 		_phaseShift = phaseShift;
-
-		if (_delta != 0.f)
-		{
-			setPitch(_pitch);
-		}
 	}
 
 	std::unique_ptr<IOscillatorSource> SawtoothVASource::clone()
@@ -55,7 +50,10 @@ namespace eden::synth::wavetable
 		_delta = _pitch / _sampleRate;
 		_c = _sampleRate / (4 * _pitch * (1 - _delta));
 
-		_phase = _sampleRate / _pitch * _phaseShift;
+		// phase in getSample() runs from 0 to 1 in the "unipolar sawtooth" generation, 
+		// hence phase shift in range [0, 1] directly corresponds to shift in phase relative to the whole period 
+		// (for example, 0.5 means shift by pi in phase)
+		_phase = _phaseShift;	
 	}
 
 	float SawtoothVASource::getSample()
@@ -64,8 +62,6 @@ namespace eden::synth::wavetable
 		const float bphase = 2 * _phase - 1.f;
 		const float sq = std::pow(bphase, 2.f);
 		
-		//const float dsq = sq - _z1;
-		//const float dsq = (sq - _z1) * (sq + _z1) / 2.f;
 		const float dsq = (sq - _z2) / 2.f;
 
 		_z2 = _z1;

@@ -19,8 +19,10 @@ namespace eden::synth::wavetable
 		SawtoothVASource(const SawtoothVASource& other);
 
 		/// <summary>
-		/// Sets phase shift in relation to the whole cycle. 
+		/// Sets the initial phase shift in relation to the whole cycle. 
 		/// For example, 0.5 moves the waveform in phase by pi.
+		/// Phase shift is set at the call to <c>setPitch()</c> - changing phase during rendering will not 
+		/// alter anything until the next call to <c>setPitch()</c>.
 		/// </summary>
 		/// <param name="phaseShift"></param>
 		void setPhaseShift(float phaseShift);
