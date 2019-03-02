@@ -40,7 +40,6 @@ namespace eden::synth::wavetable
 	{
 		_sine.setPitch(pitch);
 
-		// pitch must be doubled in the c coefficient calculation - otherwise the values spin out of the [-1, 1] range.
 		_c = _sampleRate / (4.f * pitch * (1.f - pitch / _sampleRate));
 
 		_isPlaying = true;
