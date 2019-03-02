@@ -13,6 +13,7 @@ namespace eden
 	{
 		SawtoothRampUp,
 		Square,
+		Triangle,
 		Sine
 	};
 

@@ -14,6 +14,8 @@ namespace eden::synth::wavetable
 		~SineVASource() = default;
 		SineVASource(const SineVASource& other);
 
+		float getPitch() const noexcept;
+
 		std::unique_ptr<IOscillatorSource> clone() override;
 		void reset() override;
 		void setPitch(float pitch) override;

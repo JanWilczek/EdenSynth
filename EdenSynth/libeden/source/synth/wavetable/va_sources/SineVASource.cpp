@@ -22,6 +22,11 @@ namespace eden::synth::wavetable
 		, _sign(other._sign)
 	{}
 
+	float SineVASource::getPitch() const noexcept
+	{
+		return _pitch;
+	}
+
 	std::unique_ptr<IOscillatorSource> SineVASource::clone()
 	{
 		return std::make_unique<SineVASource>(*this);
@@ -53,14 +58,19 @@ namespace eden::synth::wavetable
 		const auto bphase = 2 * _phase - 1.f;
 		const auto parabolic = std::powf(bphase, 2.f);
 		const auto reverted = 1.f - parabolic;
-		const auto parabolic_sine = reverted * _sign;
+		const auto parabolicSine = reverted * _sign;
 
-		return parabolic_sine;
+		return parabolicSine;
 	}
 
 	void SineVASource::setSampleRate(float sampleRate)
 	{
 		_sampleRate = sampleRate;
-		setPitch(_pitch);
+
+		// if source is playing recalculate coefficients
+		if (_delta != 0.f)
+		{
+			setPitch(_pitch);
+		}
 	}
 }

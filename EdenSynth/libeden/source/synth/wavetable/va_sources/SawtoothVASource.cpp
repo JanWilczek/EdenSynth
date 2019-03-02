@@ -66,12 +66,18 @@ namespace eden::synth::wavetable
 
 		_z2 = _z1;
 		_z1 = sq;
+
 		return _c * dsq;
 	}
 
 	void SawtoothVASource::setSampleRate(float sampleRate)
 	{
 		_sampleRate = sampleRate;
-		setPitch(_pitch);
+
+		// if source is playing recalculate coefficients
+		if (_delta != 0.f)
+		{
+			setPitch(_pitch);
+		}
 	}
 }

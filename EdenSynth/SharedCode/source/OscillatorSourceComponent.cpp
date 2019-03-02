@@ -28,13 +28,15 @@ OscillatorSourceComponent::OscillatorSourceComponent(AudioProcessorValueTreeStat
 
 	_generator.addItem("Sawtooth Ramp Up", 1);
 	_generator.addItem("Square", 2);
-	_generator.addItem("Sine", 3);
+	_generator.addItem("Triangle", 3);
+	_generator.addItem("Sine", 4);
 
 	addAndMakeVisible(_generator);
 	_generatorAttachment = std::make_unique<ComboBoxAttachment>(valueTreeState, auxParameterName + "generatorName", _generator);
-	_generator.setVisible(false);
 
 	_isRealTime.addListener(this);
+
+	buttonClicked(&_isRealTime);
 }
 
 void OscillatorSourceComponent::resized()

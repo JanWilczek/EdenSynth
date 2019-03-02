@@ -4,6 +4,7 @@
 /// \date 27.02.2019
 /// 
 #include "synth/wavetable/IOscillatorSource.h"
+#include "synth/wavetable/va_sources/SineVASource.h"
 
 namespace eden::synth::wavetable
 {
@@ -19,5 +20,12 @@ namespace eden::synth::wavetable
 		void setPitch(float pitch) override;
 		float getSample() override;
 		void setSampleRate(float sampleRate) override;
+
+	private:
+		float _sampleRate;
+		SineVASource _sine;
+		float _z1;
+		float _c;
+		bool _isPlaying;
 	};
 }
