@@ -12,7 +12,8 @@ namespace eden
 	enum class WaveformGenerator
 	{
 		SawtoothRampUp,
-		Square
+		Square,
+		Sine
 	};
 
 	/// <summary>

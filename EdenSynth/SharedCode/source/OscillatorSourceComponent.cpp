@@ -28,6 +28,7 @@ OscillatorSourceComponent::OscillatorSourceComponent(AudioProcessorValueTreeStat
 
 	_generator.addItem("Sawtooth Ramp Up", 1);
 	_generator.addItem("Square", 2);
+	_generator.addItem("Sine", 3);
 
 	addAndMakeVisible(_generator);
 	_generatorAttachment = std::make_unique<ComboBoxAttachment>(valueTreeState, auxParameterName + "generatorName", _generator);

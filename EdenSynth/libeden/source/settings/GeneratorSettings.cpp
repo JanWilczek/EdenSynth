@@ -7,6 +7,7 @@
 #include "synth/wavetable/WaveTableSource.h"
 #include "synth/wavetable/va_sources/SawtoothVASource.h"
 #include "synth/wavetable/va_sources/PulseVASource.h"
+#include "synth/wavetable/va_sources/SineVASource.h"
 
 namespace eden::settings
 {
@@ -34,6 +35,9 @@ namespace eden::settings
 			break;
 		case WaveformGenerator::Square:
 			source = std::make_unique<synth::wavetable::PulseVASource>(sampleRate);
+			break;
+		case WaveformGenerator::Sine:
+			source = std::make_unique<synth::wavetable::SineVASource>(sampleRate);
 			break;
 		default:
 			throw std::logic_error("Generator not implemented.");

@@ -40,7 +40,7 @@ namespace eden_vst
 			pluginParameters.createAndAddParameter(parameterPrefix + ".waveTable", namePrefix + " wave table", String(), NormalisableRange<float>(0.f, static_cast<float>(_pathProvider.size() - 1u), 1.0f), static_cast<float>(_waveTableIndices[oscillator.first]),
 				[this](float index) { return String(_pathProvider.indexToName(static_cast<size_t>(index))); },
 				[this](String name) { return static_cast<float>(_pathProvider.nameToIndex(name.toStdString())); });
-			pluginParameters.createAndAddParameter(parameterPrefix + ".generatorName", namePrefix + " generator name", String(), NormalisableRange<float>(0.f, 1.f, 1.f), 0.f, nullptr, nullptr);
+			pluginParameters.createAndAddParameter(parameterPrefix + ".generatorName", namePrefix + " generator name", String(), NormalisableRange<float>(0.f, 2.f, 1.f), 0.f, nullptr, nullptr);
 			pluginParameters.createAndAddParameter(parameterPrefix + ".octaveTransposition", namePrefix + " octave transposition", "oct", NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f, nullptr, nullptr);
 			pluginParameters.createAndAddParameter(parameterPrefix + ".semitoneTransposition", namePrefix + " semitone transposition", "semit.", NormalisableRange<float>(-6.0f, 6.0f, 1.0f), 0.f, nullptr, nullptr);
 			pluginParameters.createAndAddParameter(parameterPrefix + ".centTransposition", namePrefix + " cent transposition", "ct.", NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f, nullptr, nullptr);
