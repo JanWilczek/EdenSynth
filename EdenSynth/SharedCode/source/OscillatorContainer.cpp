@@ -85,9 +85,9 @@ namespace eden_vst
 				}
 			}
 
-			oscillator.second->setOctaveTransposition(*pluginParameters.getRawParameterValue(parameterPrefix + ".octaveTransposition"));
-			oscillator.second->setSemitoneTransposition(*pluginParameters.getRawParameterValue(parameterPrefix + ".semitoneTransposition"));
-			oscillator.second->setCentTransposition(*pluginParameters.getRawParameterValue(parameterPrefix + ".centTransposition"));
+			oscillator.second->setOctaveTransposition(static_cast<int>(*pluginParameters.getRawParameterValue(parameterPrefix + ".octaveTransposition")));
+			oscillator.second->setSemitoneTransposition(static_cast<int>(*pluginParameters.getRawParameterValue(parameterPrefix + ".semitoneTransposition")));
+			oscillator.second->setCentTransposition(static_cast<int>(*pluginParameters.getRawParameterValue(parameterPrefix + ".centTransposition")));
 			oscillator.second->setVolume(*pluginParameters.getRawParameterValue(parameterPrefix + ".volume"));
 			oscillator.second->setOn(static_cast<bool>(*pluginParameters.getRawParameterValue(parameterPrefix + ".on")));
 		}

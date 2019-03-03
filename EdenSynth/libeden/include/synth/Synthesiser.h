@@ -29,7 +29,7 @@ namespace eden::synth
 	class Synthesiser
 	{
 	public:
-		static constexpr unsigned NB_VOICES = 32u;
+		static constexpr unsigned NB_VOICES = 64u;
 
 		explicit Synthesiser(settings::Settings& settings);
 

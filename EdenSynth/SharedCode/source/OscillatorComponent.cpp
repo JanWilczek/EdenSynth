@@ -65,9 +65,9 @@ void OscillatorComponent::resized()
 	_fineTuneLabel.setBounds(_transposeLabel.getX() + segmentWidth, _octaveLabel.getY(), segmentWidth, labelHeight);
 	_centTransposition.setBounds(_semitoneTransposition.getX() + segmentWidth, _octaveTransposition.getY(), knobDim, knobDim);
 
-	_sourceComponent.setBounds(_fineTuneLabel.getX() + segmentWidth, _fineTuneLabel.getY(), 1.5f * segmentWidth, getHeight());
+	_sourceComponent.setBounds(_fineTuneLabel.getX() + segmentWidth, _fineTuneLabel.getY(), static_cast<int>(1.5f * segmentWidth), getHeight());
 
-	_on.setBounds(_sourceComponent.getX() + _sourceComponent.getWidth(), _sourceComponent.getY(), 0.5f * segmentWidth, _sourceComponent.getHeight());
+	_on.setBounds(_sourceComponent.getX() + _sourceComponent.getWidth(), _sourceComponent.getY(), static_cast<int>(0.5f * segmentWidth), _sourceComponent.getHeight());
 
 	_volumeLabel.setBounds(_on.getX() + _on.getWidth(), _octaveLabel.getY(), segmentWidth, labelHeight);
 	_volume.setBounds(_volumeLabel.getX(), _octaveTransposition.getY(), knobDim, knobDim);
