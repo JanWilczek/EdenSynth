@@ -267,6 +267,7 @@
     <ClCompile Include="source\synth\wavetable\va_sources\TriangleVASource.cpp" />
     <ClCompile Include="source\synth\wavetable\Waveform.cpp" />
     <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp" />
+    <ClCompile Include="source\utility\threading\JoinThreads.cpp" />
     <ClCompile Include="source\utility\threading\ThreadPool.cpp" />
     <ClCompile Include="source\utility\TimeSampleConverter.cpp" />
     <ClCompile Include="source\utility\WaveFileReader.cpp" />

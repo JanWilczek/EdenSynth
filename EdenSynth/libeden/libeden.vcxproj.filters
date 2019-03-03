@@ -425,5 +425,8 @@
     <ClCompile Include="source\utility\threading\ThreadPool.cpp">
       <Filter>Source Files\utility\threading</Filter>
     </ClCompile>
+    <ClCompile Include="source\utility\threading\JoinThreads.cpp">
+      <Filter>Source Files\utility\threading</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
