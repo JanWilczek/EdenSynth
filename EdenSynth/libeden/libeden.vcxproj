@@ -214,6 +214,9 @@
     <ClInclude Include="include\synth\wavetable\WaveTableSource.h" />
     <ClInclude Include="include\utility\EdenAssert.h" />
     <ClInclude Include="include\utility\MathConstants.h" />
+    <ClInclude Include="include\utility\threading\JoinThreads.h" />
+    <ClInclude Include="include\utility\threading\ThreadPool.h" />
+    <ClInclude Include="include\utility\threading\ThreadSafeQueue.h" />
     <ClInclude Include="include\utility\TimeSampleConverter.h" />
     <ClInclude Include="include\utility\WaveFileReader.h" />
   </ItemGroup>
@@ -264,6 +267,7 @@
     <ClCompile Include="source\synth\wavetable\va_sources\TriangleVASource.cpp" />
     <ClCompile Include="source\synth\wavetable\Waveform.cpp" />
     <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp" />
+    <ClCompile Include="source\utility\threading\ThreadPool.cpp" />
     <ClCompile Include="source\utility\TimeSampleConverter.cpp" />
     <ClCompile Include="source\utility\WaveFileReader.cpp" />
   </ItemGroup>

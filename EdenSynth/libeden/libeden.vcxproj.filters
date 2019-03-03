@@ -79,6 +79,12 @@
     <Filter Include="Source Files\synth\wavetable\va_sources">
       <UniqueIdentifier>{9934ac8b-9b2e-4bcd-9e66-c7ff5a47d92b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\utility\threading">
+      <UniqueIdentifier>{e7897270-ca52-40e8-9f94-8fde2d6c0393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utility\threading">
+      <UniqueIdentifier>{97c3c7b9-5403-4db6-8097-36184b020f9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h">
@@ -261,6 +267,15 @@
     <ClInclude Include="include\synth\wavetable\va_sources\SineVASource.h">
       <Filter>Header Files\synth\wavetable\va_sources</Filter>
     </ClInclude>
+    <ClInclude Include="include\utility\threading\ThreadPool.h">
+      <Filter>Header Files\utility\threading</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utility\threading\JoinThreads.h">
+      <Filter>Header Files\utility\threading</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utility\threading\ThreadSafeQueue.h">
+      <Filter>Header Files\utility\threading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -406,6 +421,9 @@
     </ClCompile>
     <ClCompile Include="source\synth\wavetable\va_sources\TriangleVASource.cpp">
       <Filter>Source Files\synth\wavetable\va_sources</Filter>
+    </ClCompile>
+    <ClCompile Include="source\utility\threading\ThreadPool.cpp">
+      <Filter>Source Files\utility\threading</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
