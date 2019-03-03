@@ -31,12 +31,6 @@ namespace eden::utility::threading
 		_done = true;
 	}
 
-	template <typename FunctionType>
-	void ThreadPool::submit(FunctionType f)
-	{
-		_workQueue.push(std::function<void()>(f));
-	}
-
 	void ThreadPool::workerThread()
 	{
 		while (!_done)

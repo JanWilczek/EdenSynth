@@ -14,10 +14,9 @@
 namespace eden::synth
 {
 	Synthesiser::Synthesiser(settings::Settings& settings)
-		: _voiceRenderer(std::make_unique<SynchronousVoiceRenderer>())
+		: _voiceRenderer(std::make_unique<AsynchronousVoiceRenderer>())
 	{
-		constexpr unsigned VOICES_TO_ADD = 32;
-		addVoices(settings, VOICES_TO_ADD);
+		addVoices(settings, NB_VOICES);
 	}
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int numSamples)
@@ -99,11 +98,11 @@ namespace eden::synth
 
 	void Synthesiser::AsynchronousVoiceRenderer::renderVoices(Synthesiser& synthesiser, AudioBuffer& outputBuffer, int startSample, int samplesToProcess)
 	{
-		auto voicesRendered = 0;
+		std::atomic<unsigned> voicesRendered = 0u;
 
 		for (auto& voice : synthesiser._voices)
 		{
-			_threadPool.submit([&]()
+			_threadPool.submit([&]
 			{
 				voice->renderBlock(outputBuffer, startSample, samplesToProcess);
 
@@ -111,7 +110,11 @@ namespace eden::synth
 			});
 		}
 
-		// wait for all the voices to render with conditional variable. 
+		// wait for all the voices to render
+		while (voicesRendered < NB_VOICES)
+		{
+			std::this_thread::yield();
+		}
 	}
 
 	void Synthesiser::handleMidiMessage(MidiMessage& midiMessage)

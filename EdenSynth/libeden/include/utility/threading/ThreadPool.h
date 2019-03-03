@@ -22,7 +22,10 @@ namespace eden::utility::threading
 		~ThreadPool();
 
 		template <typename FunctionType>
-		void submit(FunctionType f);
+		void submit(FunctionType f)
+		{
+			_workQueue.push(std::function<void()>(f));
+		}
 
 	private:
 		void workerThread();
