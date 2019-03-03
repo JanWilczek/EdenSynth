@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include "synth/Voice.h"
+#include "utility/threading/ThreadPool.h"
 
 namespace eden
 {
@@ -81,7 +82,7 @@ namespace eden::synth
 			void renderVoices(Synthesiser& synthesiser, AudioBuffer& outputBuffer, int startSample, int samplesToProcess) override;
 
 		private:
-			ThreadPool _threadPool;
+			utility::threading::ThreadPool _threadPool;
 		};
 
 		/// <summary>

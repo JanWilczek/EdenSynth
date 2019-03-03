@@ -28,7 +28,7 @@ namespace eden::utility::threading
 		void workerThread();
 
 		std::atomic<bool> _done;
-		ThreadSafeQueue _workQueue;
+		ThreadSafeQueue<std::function<void()>> _workQueue;
 		std::vector<std::thread> _threads;
 		JoinThreads _joiner;
 	};

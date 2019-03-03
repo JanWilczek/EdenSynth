@@ -42,13 +42,13 @@ namespace eden::utility::threading
 		while (!_done)
 		{
 			std::function<void()> task;
-			if (_workQueue.try_pop(task))
+			if (_workQueue.tryPop(task))
 			{
 				task();
 			}
 			else
 			{
-			std::this_thread::yield();
+				std::this_thread::yield();
 			}
 		}
 	}
