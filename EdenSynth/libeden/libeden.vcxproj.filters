@@ -276,6 +276,9 @@
     <ClInclude Include="include\utility\threading\ThreadSafeQueue.h">
       <Filter>Header Files\utility\threading</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\Mixer.h">
+      <Filter>Header Files\synth</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -430,6 +433,9 @@
     </ClCompile>
     <ClCompile Include="source\utility\threading\ThreadSafeQueue.cpp">
       <Filter>Source Files\utility\threading</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\Mixer.cpp">
+      <Filter>Source Files\synth</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

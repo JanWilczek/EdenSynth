@@ -194,6 +194,7 @@
     <ClInclude Include="include\synth\envelope\SegmentGainFactory.h" />
     <ClInclude Include="include\synth\envelope\Sustain.h" />
     <ClInclude Include="include\synth\IMonoModule.h" />
+    <ClInclude Include="include\synth\Mixer.h" />
     <ClInclude Include="include\synth\subtractive\MoogFilter.h" />
     <ClInclude Include="include\synth\subtractive\OnePoleLowPassFilter.h" />
     <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="source\synth\envelope\NoGain.cpp" />
     <ClCompile Include="source\synth\envelope\SegmentGainFactory.cpp" />
     <ClCompile Include="source\synth\envelope\Sustain.cpp" />
+    <ClCompile Include="source\synth\Mixer.cpp" />
     <ClCompile Include="source\synth\subtractive\MoogFilter.cpp" />
     <ClCompile Include="source\synth\subtractive\OnePoleLowPassFilter.cpp" />
     <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp" />

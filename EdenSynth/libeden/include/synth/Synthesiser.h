@@ -7,6 +7,7 @@
 #include <memory>
 #include "synth/Voice.h"
 #include "utility/threading/ThreadPool.h"
+#include "synth/Mixer.h"
 
 namespace eden
 {
@@ -151,6 +152,8 @@ namespace eden::synth
 		std::vector<std::unique_ptr<Voice>> _voices;
 
 		std::unique_ptr<IVoiceRenderer> _voiceRenderer;
+
+		Mixer _mixer;
 
 		/// <summary>
 		/// Size of the inner audio channel of each voice.
