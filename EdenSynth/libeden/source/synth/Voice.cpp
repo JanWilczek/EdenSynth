@@ -44,10 +44,12 @@ namespace eden::synth
 		_envelopeGenerator->keyOff();
 	}
 
-	const float* Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender)
+	const float* Voice::renderBlock(int samplesToRender)
 	{
 		if (isPlaying())
 		{
+			constexpr int startSample = 0;
+
 			prepareToRender(startSample, samplesToRender);
 
 			_signalGenerator->generateSignal(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
@@ -62,7 +64,6 @@ namespace eden::synth
 
 			applyGain(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
-			//mixTo(outputBuffer, startSample, samplesToRender);
 			return _innerBuffer.getReadPointer(0) + startSample;
 		}
 
@@ -133,20 +134,6 @@ namespace eden::synth
 			// check for clipping
 			//EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
 		}
-	}
-
-	void Voice::mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix)
-	{
-		outputBuffer.forEachChannel([this, &startSample, &samplesToMix](float* channel)
-		{
-			for (auto sample = startSample; sample < startSample + samplesToMix; ++sample)
-			{
-				channel[sample] += _innerBuffer.getReadPointer(0)[sample];
-
-				// check for clipping
-				//EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
-			}
-		});
 	}
 
 	void Voice::prepareToRender(int startSample, int samplesToRender)

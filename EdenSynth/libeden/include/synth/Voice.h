@@ -46,15 +46,11 @@ namespace eden::synth
 		void stopNote(float velocity);
 
 		/// <summary>
-		/// Renders played note to the given audio buffer. 
-		/// If the voice plays no note it does not perform any action. 
-		/// If the voice is active it adds its own segment (starting from <paramref name="startSample"/> to <paramref name="startSample"/> + <paramref name="samplesToRender"/> 
-		/// on top of previously rendered voices.
+		/// Renders given number of samples of the played note. 
 		/// </summary>
-		/// <param name="outputBuffer"></param>
-		/// <param name="startSample">sample index in the buffer to start rendering from</param>
 		/// <param name="samplesToRender">number of samples to render</param>
-		const float* renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
+		/// <returns>a pointer to the block of rendered samples, nullptr if no note is being played</returns>
+		const float* renderBlock(int samplesToRender);
 
 		/// <param name="pitchBendValue">pitch bend value as specified in the MIDI standard. <see cref="settings::Tuner::getPitchBendInSemitones(int)"> for predefined pitch bend values</param>
 		void setPitchBend(int pitchBendValue);
@@ -94,15 +90,13 @@ namespace eden::synth
 		/// <param name="samplesToRender"></param>
 		void applyVelocity(float* channel, int startSample, int samplesToRender);
 
-		void applyGain(float* channel, int startSample, int samplesToRender);
-
 		/// <summary>
-		/// Mixes the contentt of the inner rendered block to the output buffer.
+		/// Applies gain that is equal and constant for all voices.
 		/// </summary>
-		/// <param name="outputBuffer"></param>
+		/// <param name="channel"></param>
 		/// <param name="startSample"></param>
-		/// <param name="samplesToMix"></param>
-		void mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix);
+		/// <param name="samplesToRender"></param>
+		void applyGain(float* channel, int startSample, int samplesToRender);
 
 		/// <summary>
 		/// Performs all necessary actions before voice rendering.

@@ -11,9 +11,9 @@ namespace eden::synth
 		: _renderedVoices(nb_voices)
 	{}
 
-	const float*& Mixer::operator[](size_t channel)
+	const float*& Mixer::operator[](size_t voice)
 	{
-		return _renderedVoices[channel];
+		return _renderedVoices[voice];
 	}
 
 	void Mixer::mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix)
@@ -22,7 +22,7 @@ namespace eden::synth
 		{
 			for (auto renderedVoice : _renderedVoices)
 			{
-				if (renderedVoice)
+				if (renderedVoice)	// the voice may have been inactive
 				{
 					for (auto sample = 0; sample < samplesToMix; ++sample)
 					{

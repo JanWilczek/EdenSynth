@@ -39,7 +39,7 @@ namespace libeden_test
 
 	TEST_F(VoiceTest, ZeroInZeroOut)
 	{
-		_voice->renderBlock(_buffer, 0, BUFFER_LENGTH);
+		_buffer.mix(0, _voice->renderBlock(BUFFER_LENGTH), 0, BUFFER_LENGTH);
 
 		_buffer.forEachSample([](float& sample)
 		{
@@ -59,7 +59,7 @@ namespace libeden_test
 		EXPECT_TRUE(_voice->isPlayingNote(69));
 
 		_buffer.fill(float(0));
-		_voice->renderBlock(_buffer, 0, BUFFER_LENGTH);
+		_buffer.mix(0, _voice->renderBlock(BUFFER_LENGTH), 0, BUFFER_LENGTH);
 
 		const auto detectedFrequency = TestUtils::detectFrequency(_buffer.getReadPointer(0), BUFFER_LENGTH, SAMPLE_RATE);
 		EXPECT_NEAR(440.0, detectedFrequency, 1.f);
@@ -67,7 +67,7 @@ namespace libeden_test
 		_voice->stopNote(0.f);
 
 		_buffer.fill(float(0));
-		_voice->renderBlock(_buffer, 0, BUFFER_LENGTH);
+		_buffer.mix(0, _voice->renderBlock(BUFFER_LENGTH), 0, BUFFER_LENGTH);
 
 		// silence should start from sample 48, but starts from sample 54
 		for (auto i = 54u; i < BUFFER_LENGTH; ++i)
@@ -111,14 +111,14 @@ namespace libeden_test
 
 		// attack
 		_buffer.fill(float(0));
-		_voice->renderBlock(_buffer, 0, blockLength);
+		_buffer.mix(0, _voice->renderBlock(blockLength), 0, blockLength);
 
 		// TODO: Fix volume
 		//(_buffer.getReadPointer(0)[blockLength - 1], _voice->gainValue() * 1.0f, 0.05f);
 
 		// decay1
 		_buffer.fill(float(0));
-		_voice->renderBlock(_buffer, 0, blockLength);
+		_buffer.mix(0, _voice->renderBlock(blockLength), 0, blockLength);
 
 		// TODO: Fix volume
 		//EXPECT_NEAR(_buffer.getReadPointer(0)[blockLength - 1], _voice->gainValue() * breakLevel, 0.05f);
@@ -127,13 +127,13 @@ namespace libeden_test
 		_voice->stopNote(0.f);
 
 		_buffer.fill(float(0));
-		_voice->renderBlock(_buffer, 0, blockLength);
+		_buffer.mix(0, _voice->renderBlock(blockLength), 0, blockLength);
 
 		EXPECT_NEAR(_buffer.getReadPointer(0)[blockLength - 1], 0.f, 0.05f);
 
 		// silence
 		_buffer.fill(float(0));
-		_voice->renderBlock(_buffer, 0, blockLength);
+		_buffer.mix(0, _voice->renderBlock(blockLength), 0, blockLength);
 
 		for (auto i = 1u; i < blockLength; ++i)
 		{

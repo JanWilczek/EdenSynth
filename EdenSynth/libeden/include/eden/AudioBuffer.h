@@ -71,6 +71,8 @@ namespace eden
 		/// <param name="valueToAdd"></param>
 		void addSample(int destChannel, unsigned destSample, float valueToAdd);
 
+		void mix(int destChannel, const float* samples, unsigned startSample, unsigned numSamples);
+
 		/// <summary>
 		/// Fills whole currently used buffer with the given value.
 		/// </summary>

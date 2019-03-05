@@ -93,22 +93,22 @@ namespace eden::synth
 	{
 		for (auto i = 0u; i < NB_VOICES; ++i)
 		{
-			synthesiser._mixer[i] = synthesiser._voices[i]->renderBlock(outputBuffer, startSample, samplesToProcess);
+			synthesiser._mixer[i] = synthesiser._voices[i]->renderBlock(samplesToProcess);
 		}
+
+		synthesiser._mixer.mixTo(outputBuffer, startSample, samplesToProcess);
 	}
 
 	void Synthesiser::AsynchronousVoiceRenderer::renderVoices(Synthesiser& synthesiser, AudioBuffer& outputBuffer, int startSample, int samplesToProcess)
 	{
 		std::atomic<unsigned> voicesRendered = 0u;
 
-		//std::vector<const float*> renderedVoices(NB_VOICES);
-
-		//for (auto& voice : synthesiser._voices)
+		// submit sound rendering tasks from all voices to the thread pool
 		for (auto i = 0u; i < NB_VOICES; ++i)
 		{
 			_threadPool.submit([&, i]
 			{
-				synthesiser._mixer[i] = synthesiser._voices[i]->renderBlock(outputBuffer, startSample, samplesToProcess);
+				synthesiser._mixer[i] = synthesiser._voices[i]->renderBlock(samplesToProcess);
 
 				++voicesRendered;
 			});
@@ -120,20 +120,8 @@ namespace eden::synth
 			std::this_thread::yield();
 		}
 
+		// mix the output synchronously
 		synthesiser._mixer.mixTo(outputBuffer, startSample, samplesToProcess);
-		/*outputBuffer.forEachChannel([&renderedVoices, &startSample, &samplesToMix=samplesToProcess](float* channel)
-		{
-			for (auto renderedVoice : renderedVoices)
-			{
-				if (renderedVoice)
-				{
-					for (auto sample = 0; sample < samplesToMix; ++sample)
-					{
-						channel[sample + startSample] += renderedVoice[sample];
-					}
-				}
-			}
-		});*/
 	}
 
 	void Synthesiser::handleMidiMessage(MidiMessage& midiMessage)
