@@ -44,7 +44,7 @@ namespace eden::synth
 		_envelopeGenerator->keyOff();
 	}
 
-	void Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender)
+	const float* Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender)
 	{
 		if (isPlaying())
 		{
@@ -62,8 +62,11 @@ namespace eden::synth
 
 			applyGain(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
-			mixTo(outputBuffer, startSample, samplesToRender);
+			//mixTo(outputBuffer, startSample, samplesToRender);
+			return _innerBuffer.getReadPointer(0) + startSample;
 		}
+
+		return nullptr;
 	}
 
 	void Voice::setPitchBend(int pitchBendValue)

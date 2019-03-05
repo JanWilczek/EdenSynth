@@ -54,7 +54,7 @@ namespace eden::synth
 		/// <param name="outputBuffer"></param>
 		/// <param name="startSample">sample index in the buffer to start rendering from</param>
 		/// <param name="samplesToRender">number of samples to render</param>
-		void renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
+		const float* renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender);
 
 		/// <param name="pitchBendValue">pitch bend value as specified in the MIDI standard. <see cref="settings::Tuner::getPitchBendInSemitones(int)"> for predefined pitch bend values</param>
 		void setPitchBend(int pitchBendValue);

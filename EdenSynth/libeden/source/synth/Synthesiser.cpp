@@ -100,11 +100,14 @@ namespace eden::synth
 	{
 		std::atomic<unsigned> voicesRendered = 0u;
 
-		for (auto& voice : synthesiser._voices)
+		std::vector<const float*> renderedVoices(NB_VOICES);
+
+		//for (auto& voice : synthesiser._voices)
+		for (auto i = 0u; i < NB_VOICES; ++i)
 		{
-			_threadPool.submit([&]
+			_threadPool.submit([&, i]
 			{
-				voice->renderBlock(outputBuffer, startSample, samplesToProcess);
+				renderedVoices[i] = synthesiser._voices[i]->renderBlock(outputBuffer, startSample, samplesToProcess);
 
 				++voicesRendered;
 			});
@@ -115,6 +118,20 @@ namespace eden::synth
 		{
 			std::this_thread::yield();
 		}
+
+		outputBuffer.forEachChannel([&renderedVoices, &startSample, &samplesToMix=samplesToProcess](float* channel)
+		{
+			for (auto renderedVoice : renderedVoices)
+			{
+				if (renderedVoice)
+				{
+					for (auto sample = 0; sample < samplesToMix; ++sample)
+					{
+						channel[sample + startSample] += renderedVoice[sample];
+					}
+				}
+			}
+		});
 	}
 
 	void Synthesiser::handleMidiMessage(MidiMessage& midiMessage)
@@ -183,7 +200,7 @@ namespace eden::synth
 
 	void Synthesiser::addVoices(settings::Settings& settings, unsigned numVoicesToAdd)
 	{
-		for (unsigned i = 0; i < numVoicesToAdd; ++i)
+		for (unsigned i = 0u; i < numVoicesToAdd; ++i)
 		{
 			_voices.emplace_back(std::make_unique<Voice>(settings));
 		}
