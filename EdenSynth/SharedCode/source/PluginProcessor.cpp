@@ -6,7 +6,8 @@
 #include <eden/MidiBuffer.h>
 
 #include <filesystem>
-#include "utility/WaveFileReader.h"
+#include <utility/WaveFileReader.h>
+#include <utility/StopWatchPrinter.h>
 
 //==============================================================================
 EdenSynthAudioProcessor::EdenSynthAudioProcessor()
@@ -131,6 +132,9 @@ bool EdenSynthAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts)
 
 void EdenSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+	// time measurement
+	eden::utility::StopWatchPrinter stopWatch;
+
 	ScopedNoDenormals noDenormals;
 
 	_edenAdapter.updateEdenParameters(_pluginParameters);

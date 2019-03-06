@@ -279,6 +279,12 @@
     <ClInclude Include="include\synth\Mixer.h">
       <Filter>Header Files\synth</Filter>
     </ClInclude>
+    <ClInclude Include="include\utility\StopWatch.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utility\StopWatchPrinter.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -436,6 +442,12 @@
     </ClCompile>
     <ClCompile Include="source\synth\Mixer.cpp">
       <Filter>Source Files\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="source\utility\StopWatch.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\utility\StopWatchPrinter.cpp">
+      <Filter>Source Files\utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

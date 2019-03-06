@@ -18,6 +18,10 @@ namespace eden::utility::threading
 	class ThreadPool
 	{
 	public:
+		/// <summary>
+		/// Constructs the thread pool with a size equal to the 
+		/// number returned by the std::thread::hardware_concurrency() function.
+		/// </summary>
 		ThreadPool();
 		~ThreadPool();
 

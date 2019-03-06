@@ -215,6 +215,8 @@
     <ClInclude Include="include\synth\wavetable\WaveTableSource.h" />
     <ClInclude Include="include\utility\EdenAssert.h" />
     <ClInclude Include="include\utility\MathConstants.h" />
+    <ClInclude Include="include\utility\StopWatch.h" />
+    <ClInclude Include="include\utility\StopWatchPrinter.h" />
     <ClInclude Include="include\utility\threading\JoinThreads.h" />
     <ClInclude Include="include\utility\threading\ThreadPool.h" />
     <ClInclude Include="include\utility\threading\ThreadSafeQueue.h" />
@@ -269,6 +271,8 @@
     <ClCompile Include="source\synth\wavetable\va_sources\TriangleVASource.cpp" />
     <ClCompile Include="source\synth\wavetable\Waveform.cpp" />
     <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp" />
+    <ClCompile Include="source\utility\StopWatch.cpp" />
+    <ClCompile Include="source\utility\StopWatchPrinter.cpp" />
     <ClCompile Include="source\utility\threading\JoinThreads.cpp" />
     <ClCompile Include="source\utility\threading\ThreadPool.cpp" />
     <ClCompile Include="source\utility\threading\ThreadSafeQueue.cpp" />
