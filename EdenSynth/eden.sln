@@ -18,6 +18,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libeden_test", "libeden_test\libeden_test.vcxproj", "{4C2FA88D-1B4D-4F74-9255-E4741BC06A58}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EdenSynth_AAX", "Builds\VisualStudio2017\EdenSynth_AAX.vcxproj", "{949EA2A5-88A9-6A66-09AA-B155E816E7E2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30685A2B-0033-AD13-8A58-0941A258FB22} = {30685A2B-0033-AD13-8A58-0941A258FB22}
+		{4E724EC2-6616-41E1-B478-F9F120E53FC1} = {4E724EC2-6616-41E1-B478-F9F120E53FC1}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
