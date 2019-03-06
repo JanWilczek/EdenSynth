@@ -2,9 +2,9 @@
 
 <JUCERPROJECT id="qVIl63" name="EdenSynth" projectType="audioplug" jucerVersion="5.3.2"
               companyName="Jan Wilczek" companyEmail="janekw@vp.pl" bundleIdentifier="wilczek.EdenSynth"
-              pluginFormats="buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
-              pluginManufacturer="Jan Wilczek" aaxIdentifier="wilczek.EdenSynth"
-              cppLanguageStandard="17">
+              pluginFormats="buildAAX,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              pluginManufacturer="Jan Wilczek" aaxIdentifier="com.wolvzsound.EdenSynth"
+              cppLanguageStandard="17" pluginManufacturerCode="Wolv">
   <MAINGROUP id="QaIe6a" name="EdenSynth">
     <GROUP id="{5603AD0F-9B4A-6341-640B-A04C19A16BB5}" name="Source">
       <FILE id="J8ra41" name="PluginProcessor.cpp" compile="1" resource="0"

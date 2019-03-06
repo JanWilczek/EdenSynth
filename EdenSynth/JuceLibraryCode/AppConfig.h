@@ -310,7 +310,7 @@
  #define JucePlugin_Build_RTAS             0
 #endif
 #ifndef  JucePlugin_Build_AAX
- #define JucePlugin_Build_AAX              0
+ #define JucePlugin_Build_AAX              1
 #endif
 #ifndef  JucePlugin_Build_Standalone
  #define JucePlugin_Build_Standalone       0
@@ -334,7 +334,7 @@
  #define JucePlugin_ManufacturerEmail      "janekw@vp.pl"
 #endif
 #ifndef  JucePlugin_ManufacturerCode
- #define JucePlugin_ManufacturerCode       0x4d616e75 // 'Manu'
+ #define JucePlugin_ManufacturerCode       0x576f6c76 // 'Wolv'
 #endif
 #ifndef  JucePlugin_PluginCode
  #define JucePlugin_PluginCode             0x5176696c // 'Qvil'
@@ -406,7 +406,7 @@
  #define JucePlugin_RTASDisableMultiMono   0
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          wilczek.EdenSynth
+ #define JucePlugin_AAXIdentifier          com.wolvzsound.EdenSynth
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
