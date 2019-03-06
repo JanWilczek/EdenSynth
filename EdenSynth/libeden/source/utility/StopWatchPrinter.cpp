@@ -15,7 +15,7 @@ namespace eden::utility
 
 	StopWatchPrinter::~StopWatchPrinter()
 	{
-		// explicitly delete the StopWatch object
+		// explicitly delete the StopWatch object to make it store its duration in the _duration member
 		_stopWatch.reset(nullptr);
 
 		std::stringstream ss;
