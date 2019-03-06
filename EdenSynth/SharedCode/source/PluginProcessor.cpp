@@ -133,7 +133,7 @@ bool EdenSynthAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts)
 void EdenSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
 	// time measurement
-	eden::utility::StopWatchPrinter stopWatch;
+	// eden::utility::StopWatchPrinter stopWatch;
 
 	ScopedNoDenormals noDenormals;
 
