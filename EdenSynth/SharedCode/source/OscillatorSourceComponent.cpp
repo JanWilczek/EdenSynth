@@ -12,7 +12,8 @@ OscillatorSourceComponent::OscillatorSourceComponent(AudioProcessorValueTreeStat
 	const auto auxParameterName = "generator." + oscillatorName + ".";
 
 	addAndMakeVisible(_isRealTime);
-	_isRealTimeValue = valueTreeState.getRawParameterValue(auxParameterName + "isRealTime");
+	//_isRealTimeValue = valueTreeState.getRawParameterValue(auxParameterName + "isRealTime");
+	_isRealTimeAttachment = std::make_unique<ButtonAttachment>(valueTreeState, auxParameterName + "isRealTime", _isRealTime);
 
 	auto it = pathProvider.cbegin();
 	auto i = 1;
@@ -50,18 +51,18 @@ void OscillatorSourceComponent::resized()
 
 void OscillatorSourceComponent::buttonClicked(Button*)
 {
-	*_isRealTimeValue = static_cast<float>(!static_cast<bool>(*_isRealTimeValue));
+	//*_isRealTimeValue = static_cast<float>(!static_cast<bool>(*_isRealTimeValue));
 
-	if (static_cast<bool>(*_isRealTimeValue))
-	{
-		_isRealTime.setButtonText("Real time");
-		_waveform.setVisible(false);
-		_generator.setVisible(true);
-	}
-	else
-	{
-		_isRealTime.setButtonText("Wavetable");
-		_generator.setVisible(false);
-		_waveform.setVisible(true);
-	}
+	//if (static_cast<bool>(*_isRealTimeValue))
+	//{
+	//	_isRealTime.setButtonText("Real time");
+	//	_waveform.setVisible(false);
+	//	_generator.setVisible(true);
+	//}
+	//else
+	//{
+	//	_isRealTime.setButtonText("Wavetable");
+	//	_generator.setVisible(false);
+	//	_waveform.setVisible(true);
+	//}
 }

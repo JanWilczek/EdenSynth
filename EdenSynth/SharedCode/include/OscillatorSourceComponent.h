@@ -14,6 +14,7 @@ class OscillatorSourceComponent : public Component, public Button::Listener
 {
 public:
 	using ComboBoxAttachment = AudioProcessorValueTreeState::ComboBoxAttachment;
+	using ButtonAttachment = AudioProcessorValueTreeState::ButtonAttachment;
 
 	OscillatorSourceComponent(AudioProcessorValueTreeState& valueTreeState, String oscillatorName, const eden_vst::WaveTablePathProvider& pathProvider);
 
@@ -22,8 +23,9 @@ public:
 	void buttonClicked(Button*) override;
 
 private:
-	TextButton _isRealTime;
-	float* _isRealTimeValue;
+	ToggleButton _isRealTime;
+	//float* _isRealTimeValue;
+	std::unique_ptr<ButtonAttachment> _isRealTimeAttachment;
 
 	ComboBox _waveform;
 	std::unique_ptr<ComboBoxAttachment> _waveformAttachment;
