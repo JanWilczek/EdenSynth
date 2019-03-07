@@ -24,7 +24,6 @@ public:
 
 private:
 	ToggleButton _isRealTime;
-	//float* _isRealTimeValue;
 	std::unique_ptr<ButtonAttachment> _isRealTimeAttachment;
 
 	ComboBox _waveform;
