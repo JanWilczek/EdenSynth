@@ -213,6 +213,7 @@
     <ClInclude Include="include\synth\wavetable\Waveform.h" />
     <ClInclude Include="include\synth\wavetable\WaveTable.h" />
     <ClInclude Include="include\synth\wavetable\WaveTableSource.h" />
+    <ClInclude Include="include\synth\wavetable\WhiteNoiseSource.h" />
     <ClInclude Include="include\utility\EdenAssert.h" />
     <ClInclude Include="include\utility\MathConstants.h" />
     <ClInclude Include="include\utility\StopWatch.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="source\synth\wavetable\va_sources\TriangleVASource.cpp" />
     <ClCompile Include="source\synth\wavetable\Waveform.cpp" />
     <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp" />
+    <ClCompile Include="source\synth\wavetable\WhiteNoiseSource.cpp" />
     <ClCompile Include="source\utility\StopWatch.cpp" />
     <ClCompile Include="source\utility\StopWatchPrinter.cpp" />
     <ClCompile Include="source\utility\threading\JoinThreads.cpp" />

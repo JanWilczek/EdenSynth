@@ -285,6 +285,9 @@
     <ClInclude Include="include\utility\StopWatchPrinter.h">
       <Filter>Header Files\utility</Filter>
     </ClInclude>
+    <ClInclude Include="include\synth\wavetable\WhiteNoiseSource.h">
+      <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp">
@@ -448,6 +451,9 @@
     </ClCompile>
     <ClCompile Include="source\utility\StopWatchPrinter.cpp">
       <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\synth\wavetable\WhiteNoiseSource.cpp">
+      <Filter>Source Files\synth\wavetable</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
