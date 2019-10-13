@@ -62,6 +62,7 @@
     </ClCompile>
     <ClCompile Include="synth_test\VoiceTest.cpp" />
     <ClCompile Include="synth_test\wavetable_test\SignalGeneratorTest.cpp" />
+    <ClCompile Include="synth_test\wavetable_test\WhiteNoiseSourceTest.cpp" />
     <ClCompile Include="utility_test\TimeSampleConverterTest.cpp" />
   </ItemGroup>
   <ItemGroup>

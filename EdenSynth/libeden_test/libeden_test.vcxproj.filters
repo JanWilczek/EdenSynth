@@ -32,6 +32,9 @@
     <ClCompile Include="synth_test\VoiceTest.cpp">
       <Filter>synth_test</Filter>
     </ClCompile>
+    <ClCompile Include="synth_test\wavetable_test\WhiteNoiseSourceTest.cpp">
+      <Filter>synth_test\wavetable_test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
