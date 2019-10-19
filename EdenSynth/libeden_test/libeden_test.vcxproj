@@ -33,7 +33,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir);$(SolutionDir)libeden\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)libeden\include\;$(SolutionDir)dependencies\libs\fftwpp\;$(SolutionDir)dependencies\libs\fftw\;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
@@ -47,6 +47,7 @@
     <ClInclude Include="TestUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\dependencies\libs\fftwpp\fftw++.cc" />
     <ClCompile Include="eden_test\AudioBufferTest.cpp" />
     <ClCompile Include="eden_test\MidiBufferTest.cpp" />
     <ClCompile Include="interpolation_test\LinearInterpolatorTest.cpp" />
@@ -109,7 +110,12 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\libs\fftw\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>robocopy $(SolutionDir)dependencies\libs\fftw\ $(OutDir)\$(Platform)\$(Configuration)\ libfftw3-3.dll libfftw3f-3.dll libfftw3l-3.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

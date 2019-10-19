@@ -35,6 +35,7 @@
     <ClCompile Include="synth_test\wavetable_test\WhiteNoiseSourceTest.cpp">
       <Filter>synth_test\wavetable_test</Filter>
     </ClCompile>
+    <ClCompile Include="..\dependencies\libs\fftwpp\fftw++.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
