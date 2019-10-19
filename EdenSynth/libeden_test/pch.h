@@ -5,8 +5,6 @@
 
 #pragma once
 
-#define NOMINMAX	// to omit the max macro definition in windows.h
-
 #include "gtest/gtest.h"
 #include <array>
 #include <memory>

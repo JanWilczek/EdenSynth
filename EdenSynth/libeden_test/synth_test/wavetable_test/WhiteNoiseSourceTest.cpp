@@ -5,7 +5,7 @@
 #include "pch.h"
 #include "synth/wavetable/WhiteNoiseSource.h"
 
-#include "fftw++.h"
+#include "fftw3.h"
 
 /*
  * Test cases:
@@ -14,6 +14,25 @@
  * 3. Uniform power across all frequency ranges (in linear scale) / Rising power with frequency in tertial frequency bands
  * 4. Invariable to pitch
  */
+
+int fft()
+{
+	fftw_complex *in, *out;
+	fftw_plan p;
+
+	int N = 32;
+
+	in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * N);
+	out = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * N);
+	p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
+
+	fftw_execute(p); /* repeat as needed */
+
+	fftw_destroy_plan(p);
+	fftw_free(in); fftw_free(out);
+
+	return 0;
+}
 
 namespace libeden_test
 {
@@ -78,8 +97,5 @@ namespace libeden_test
 
 		// Then the power across the linear frequency bands should be more or less equal
 		constexpr auto fftLength = bufferLength / 2 + 1;	// size according to the FFTW++ library
-		Complex samplesBufferFft[fftLength];
-		fftwpp::rcfft1d fft(bufferLength, samplesBuffer, samplesBufferFft);
-		fft.fft(samplesBuffer, samplesBufferFft);
 	}
 }

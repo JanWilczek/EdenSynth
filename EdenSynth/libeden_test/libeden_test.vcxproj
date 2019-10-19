@@ -47,7 +47,6 @@
     <ClInclude Include="TestUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\dependencies\libs\fftwpp\fftw++.cc" />
     <ClCompile Include="eden_test\AudioBufferTest.cpp" />
     <ClCompile Include="eden_test\MidiBufferTest.cpp" />
     <ClCompile Include="interpolation_test\LinearInterpolatorTest.cpp" />
@@ -110,11 +109,12 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\libs\fftw\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\libs\fftw\;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>robocopy $(SolutionDir)dependencies\libs\fftw\ $(OutDir)\$(Platform)\$(Configuration)\ libfftw3-3.dll libfftw3f-3.dll libfftw3l-3.dll</Command>
+      <Command>robocopy $(SolutionDir)dependencies\libs\fftw\ $(OutDir)\ libfftw3-3.dll libfftw3f-3.dll libfftw3l-3.dll
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
