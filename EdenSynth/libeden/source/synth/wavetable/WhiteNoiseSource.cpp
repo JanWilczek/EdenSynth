@@ -7,9 +7,9 @@
 
 namespace eden::synth::wavetable
 {
-	WhiteNoiseSource::WhiteNoiseSource()
+	WhiteNoiseSource::WhiteNoiseSource(int seed)
 		: _isPlaying(false)
-		, _randomEngine(std::random_device{}())
+		, _randomEngine(seed)
 		, _uniformDistribution(-1.f, 1.f)
 	{
 	}

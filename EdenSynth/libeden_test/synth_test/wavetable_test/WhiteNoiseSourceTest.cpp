@@ -5,7 +5,8 @@
 #include "pch.h"
 #include "synth/wavetable/WhiteNoiseSource.h"
 
-#include "fftw3.h"
+#include <functional>
+#include "TestUtils.h"
 
 /*
  * Test cases:
@@ -14,25 +15,6 @@
  * 3. Uniform power across all frequency ranges (in linear scale) / Rising power with frequency in tertial frequency bands
  * 4. Invariable to pitch
  */
-
-int fft()
-{
-	fftw_complex *in, *out;
-	fftw_plan p;
-
-	int N = 32;
-
-	in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * N);
-	out = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * N);
-	p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
-
-	fftw_execute(p); /* repeat as needed */
-
-	fftw_destroy_plan(p);
-	fftw_free(in); fftw_free(out);
-
-	return 0;
-}
 
 namespace libeden_test
 {
@@ -43,10 +25,10 @@ namespace libeden_test
 	protected:
 		void SetUp() override
 		{
-			_whiteNoiseGenerator = WhiteNoiseSource();
+			_whiteNoiseSource = WhiteNoiseSource();
 		}
 
-		WhiteNoiseSource _whiteNoiseGenerator;
+		WhiteNoiseSource _whiteNoiseSource;
 	};
 
 	TEST_F(WhiteNoiseSourceTest, Clipping)
@@ -59,7 +41,7 @@ namespace libeden_test
 		constexpr auto bufferLength = 480;
 		for (auto i = 0; i < bufferLength; ++i)
 		{
-			const auto sample = _whiteNoiseGenerator.getSample();
+			const auto sample = _whiteNoiseSource.getSample();
 
 			ASSERT_GE(sample, -1.f);
 			ASSERT_LE(sample, 1.f);
@@ -75,7 +57,7 @@ namespace libeden_test
 		auto sum = 0.f;
 		for (auto i = 0; i < bufferLength; ++i)
 		{
-			sum += _whiteNoiseGenerator.getSample();
+			sum += _whiteNoiseSource.getSample();
 		}
 
 		// Then the mean of the output should be around 0
@@ -88,14 +70,33 @@ namespace libeden_test
 		// Given the noise generator
 
 		// When it is playing
-		constexpr auto bufferLength = 480u;
-		double samplesBuffer[bufferLength];
-		for (auto i = 0; i < bufferLength; ++i)
-		{
-			samplesBuffer[i] = _whiteNoiseGenerator.getSample();
-		}
+		constexpr auto bufferLength = 48000u;
+		std::vector<float> samplesBuffer;
+		std::generate_n(std::back_inserter(samplesBuffer), bufferLength, std::bind(&WhiteNoiseSource::getSample, &_whiteNoiseSource));
 
 		// Then the power across the linear frequency bands should be more or less equal
-		constexpr auto fftLength = bufferLength / 2 + 1;	// size according to the FFTW++ library
+		const auto fftBuffer = TestUtils::dft(samplesBuffer);
+		const auto fftMagnitude = TestUtils::magnitude(fftBuffer);
+
+		// TODO: Add some kind of averaging over frequency bands
+	}
+
+	TEST_F(WhiteNoiseSourceTest, PitchInvariance)
+	{
+		// Given two noise generators initialized with the same seed
+		constexpr auto seed = 10;
+		WhiteNoiseSource whiteNoiseSource{ seed };
+		WhiteNoiseSource whiteNoiseSource2{ seed };
+
+		// When setting pitch of one of them
+		whiteNoiseSource2.setPitch(440.f);
+
+		// Then output should not change its character (i.e. it should still be white noise)
+		// Therefore the outputs of two identically seeded generators should be the same
+		constexpr auto bufferLength = 480u;
+		for (auto i = 0u; i < bufferLength; ++i)
+		{
+			ASSERT_FLOAT_EQ(whiteNoiseSource.getSample(), whiteNoiseSource2.getSample());
+		}
 	}
 }

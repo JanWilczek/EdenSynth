@@ -11,7 +11,7 @@ namespace eden::synth::wavetable
 	class WhiteNoiseSource : public IOscillatorSource
 	{
 	public:
-		WhiteNoiseSource();
+		WhiteNoiseSource(int seed = std::random_device{}());
 		~WhiteNoiseSource() = default;
 		WhiteNoiseSource(const WhiteNoiseSource& other);
 
