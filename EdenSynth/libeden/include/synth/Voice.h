@@ -46,10 +46,10 @@ namespace eden::synth
 		void stopNote(float velocity);
 
 		/// <summary>
-		/// Renders given number of samples of the played note. 
+		/// Renders played sound given number of samples. Fills the buffer with zeros if not playing. 
 		/// </summary>
 		/// <param name="samplesToRender">number of samples to render</param>
-		/// <returns>a pointer to the block of rendered samples, nullptr if no note is being played</returns>
+		/// <returns>a pointer to the block of rendered samples</returns>
 		const float* renderBlock(int samplesToRender);
 
 		/// <param name="pitchBendValue">pitch bend value as specified in the MIDI standard. <see cref="settings::Tuner::getPitchBendInSemitones(int)"> for predefined pitch bend values</param>

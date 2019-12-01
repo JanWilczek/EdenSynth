@@ -46,12 +46,11 @@ namespace eden::synth
 
 	const float* Voice::renderBlock(int samplesToRender)
 	{
+		constexpr int startSample = 0;
+		prepareToRender(startSample, samplesToRender);
+		
 		if (isPlaying())
 		{
-			constexpr int startSample = 0;
-
-			prepareToRender(startSample, samplesToRender);
-
 			_signalGenerator->generateSignal(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
 			_subtractiveModule->process(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
@@ -63,11 +62,9 @@ namespace eden::synth
 			_envelopeGenerator->apply(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
 			applyGain(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
-
-			return _innerBuffer.getReadPointer(0) + startSample;
 		}
 
-		return nullptr;
+		return _innerBuffer.getReadPointer(0) + startSample;
 	}
 
 	void Voice::setPitchBend(int pitchBendValue)
@@ -138,7 +135,7 @@ namespace eden::synth
 
 	void Voice::prepareToRender(int startSample, int samplesToRender)
 	{
-		_innerBuffer.fillFromTo(float(0), startSample, startSample + samplesToRender);
+		_innerBuffer.fillFromTo(0.f, startSample, startSample + samplesToRender);
 		_innerBuffer.setNumSamples(samplesToRender);
 	}
 
