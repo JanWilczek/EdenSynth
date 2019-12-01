@@ -63,7 +63,7 @@ namespace libeden_test
 		// Given the noise generator
 
 		// When it is playing
-		constexpr auto bufferLength = 480000u;
+		constexpr auto bufferLength = 480u;
 		std::vector<float> samplesBuffer;
 		std::generate_n(std::back_inserter(samplesBuffer), bufferLength, std::bind(&WhiteNoiseSource::getSample, &_whiteNoiseSource));
 

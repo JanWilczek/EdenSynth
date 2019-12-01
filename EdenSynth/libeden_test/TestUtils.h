@@ -5,8 +5,9 @@
 /// 
 #include "pch.h"
 
-#include "fftw3.h"
 #include <complex>
+#include <numeric>
+#include "fftw3.h"
 
 using Complex = std::complex<double>;
 
@@ -123,9 +124,16 @@ namespace libeden_test
 
 			std::vector<float> nonnegativeShiftCorrelation(shorterSignal.size());
 
-			for (auto i = 0u; i < shorterSignal.size(); ++i)
+			// TODO: Fix correlation calculation algorithm
+			for (auto kappa = 0u; kappa < shorterSignal.size(); ++kappa)
 			{
-				nonnegativeShiftCorrelation[i] = longerSignal[0] * shorterSignal[i];
+				float sum = 0.f;
+				for (auto k = 0u; k + kappa < longerSignal.size() && k < shorterSignal.size(); ++k)
+				{
+					sum += longerSignal[k + kappa] * shorterSignal[k];
+				}
+
+				nonnegativeShiftCorrelation[kappa] = sum / shorterSignal.size();
 			}
 
 			// Negative sample shifts are just a mirror reflection of the positive shifts.
