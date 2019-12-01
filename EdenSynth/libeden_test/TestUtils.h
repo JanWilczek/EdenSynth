@@ -106,15 +106,38 @@ namespace libeden_test
 
 		static std::vector<double> magnitude(const std::vector<Complex>& dft)
 		{
-			std::vector<double> magnitude;
+			std::vector<double> magnitude(dft.size());
 
-			for (const auto coefficient : dft)
+			for (auto i = 0u; i < dft.size(); ++i)
 			{
-				magnitude.push_back(std::sqrt(std::pow(coefficient.real(), 2) + std::pow(coefficient.imag(), 2)));
+				magnitude[i] = std::abs(dft[i]);
 			}
 
 			return magnitude;
 		}
 
+		static std::vector<float> correlation(const std::vector<float>& signal1, const std::vector<float>& signal2)
+		{
+			const std::vector<float>& shorterSignal = signal1.size() < signal2.size() ? signal1 : signal2;
+			const std::vector<float>& longerSignal = &shorterSignal == &signal1 ? signal2 : signal1;
+
+			std::vector<float> nonnegativeShiftCorrelation(shorterSignal.size());
+
+			for (auto i = 0u; i < shorterSignal.size(); ++i)
+			{
+				nonnegativeShiftCorrelation[i] = longerSignal[0] * shorterSignal[i];
+			}
+
+			// Negative sample shifts are just a mirror reflection of the positive shifts.
+			std::vector<float> negativeShiftCorrelation(nonnegativeShiftCorrelation.size() - 1);	// Zero-shift correlation is not mirrored.
+			std::copy(nonnegativeShiftCorrelation.begin() + 1, nonnegativeShiftCorrelation.end(), negativeShiftCorrelation.begin());
+			std::reverse(negativeShiftCorrelation.begin(), negativeShiftCorrelation.end());
+
+			std::vector<float> correlationResult(negativeShiftCorrelation.size() + nonnegativeShiftCorrelation.size());
+			std::copy(negativeShiftCorrelation.begin(), negativeShiftCorrelation.end(), correlationResult.begin());
+			std::copy(nonnegativeShiftCorrelation.begin(), nonnegativeShiftCorrelation.end(), correlationResult.begin() + negativeShiftCorrelation.size());
+
+			return correlationResult;
+		}
 	};
 }

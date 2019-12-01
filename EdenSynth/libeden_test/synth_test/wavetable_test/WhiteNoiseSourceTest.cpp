@@ -8,13 +8,6 @@
 #include <functional>
 #include "TestUtils.h"
 
-/*
- * Test cases:
- * 1. Is output produced in range [-1, 1)? // done
- * 2. Mean should be around 0
- * 3. Uniform power across all frequency ranges (in linear scale) / Rising power with frequency in tertial frequency bands
- * 4. Invariable to pitch
- */
 
 namespace libeden_test
 {
@@ -65,7 +58,7 @@ namespace libeden_test
 		ASSERT_NEAR(0.f, mean, 1e-2f);
 	}
 
-	TEST_F(WhiteNoiseSourceTest, EqualPowerInLinearFrequencyBands)
+	TEST_F(WhiteNoiseSourceTest, ZeroCorrelationBeyondZeroShift)
 	{
 		// Given the noise generator
 
@@ -74,11 +67,17 @@ namespace libeden_test
 		std::vector<float> samplesBuffer;
 		std::generate_n(std::back_inserter(samplesBuffer), bufferLength, std::bind(&WhiteNoiseSource::getSample, &_whiteNoiseSource));
 
-		// Then the power across the linear frequency bands should be more or less equal
-		const auto fftBuffer = TestUtils::dft(samplesBuffer);
-		const auto fftMagnitude = TestUtils::magnitude(fftBuffer);
+		// Then the autocorrelation should be nonzero at zero shift and near to zero elsewhere
+		const auto autocorrelation = TestUtils::correlation(samplesBuffer, samplesBuffer);
 
-		// TODO: Add some kind of averaging over frequency bands
+		const auto zeroShiftIndex = samplesBuffer.size();
+
+		ASSERT_GT(autocorrelation[zeroShiftIndex], 0.f);
+
+		for (auto i = 1u; i < autocorrelation.size(); ++i)
+		{
+			if (i != zeroShiftIndex) ASSERT_LT(autocorrelation[i], 0.05f);
+		}
 	}
 
 	TEST_F(WhiteNoiseSourceTest, PitchInvariance)
