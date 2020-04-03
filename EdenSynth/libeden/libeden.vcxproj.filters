@@ -85,6 +85,9 @@
     <Filter Include="Source Files\utility\threading">
       <UniqueIdentifier>{97c3c7b9-5403-4db6-8097-36184b020f9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\utility\dsp">
+      <UniqueIdentifier>{9209f9a7-1ecd-4277-8327-467fd1bf53be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\eden\AudioBuffer.h">
@@ -287,6 +290,9 @@
     </ClInclude>
     <ClInclude Include="include\synth\wavetable\WhiteNoiseSource.h">
       <Filter>Header Files\synth\wavetable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utility\dsp\Correlation.h">
+      <Filter>Header Files\utility\dsp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

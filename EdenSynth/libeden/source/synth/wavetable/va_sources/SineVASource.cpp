@@ -2,6 +2,7 @@
 /// \author Jan Wilczek
 /// \date 27.02.2019
 /// 
+#include <cmath>
 #include "synth/wavetable/va_sources/SineVASource.h"
 
 namespace eden::synth::wavetable

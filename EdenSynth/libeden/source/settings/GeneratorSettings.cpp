@@ -2,6 +2,7 @@
 /// \author Jan Wilczek
 /// \date 06.11.2018
 /// 
+#include <stdexcept>
 #include "settings/GeneratorSettings.h"
 #include "synth/wavetable/SignalGenerator.h"
 #include "synth/wavetable/WaveTableSource.h"

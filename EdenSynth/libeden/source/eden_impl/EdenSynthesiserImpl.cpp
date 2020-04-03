@@ -61,7 +61,7 @@ namespace eden
 		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, waveTable));
 	}
 
-	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile)
+	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createWaveTableOscillatorSource(std::filesystem::path pathToWaveFile)
 	{
 		utility::WaveFileReader reader(pathToWaveFile.string());
 		const auto wave = reader.readSamples();
