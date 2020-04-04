@@ -5,7 +5,10 @@
 namespace eden::utility::dsp
 {
 	enum class CorrelationMode { Full };
-	
+
+	/// Calculates correlation for energy signals, i.e.:
+	/// R_xy[kappa] = sum_over_all_k(x[k + kappa] * y[k])
+	/// The output and modes (CorrelationMode) are analogous to the numpy's correlate function.
 	template<CorrelationMode Mode = CorrelationMode::Full>
 	std::vector<float> correlation(const std::vector<float>& x, const std::vector<float>& y);
 
@@ -25,7 +28,7 @@ namespace eden::utility::dsp
 				}
 			}
 
-			result[kappa + sizeMinusOneHalved] = sum / result.size();
+			result[kappa + sizeMinusOneHalved] = sum;
 		}
 		
 		return result;
