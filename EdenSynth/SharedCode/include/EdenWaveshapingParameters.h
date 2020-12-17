@@ -25,7 +25,7 @@ namespace eden_vst
 
 	private:
 		eden::EdenSynthesiser& _synthesiser;
-		float* _autoMakeUpGain = nullptr;
+		std::atomic<float>* _autoMakeUpGain = nullptr;
 		std::shared_ptr<WaveshapingTransferFunctionContainer> _transferFunction;
 	};
 }

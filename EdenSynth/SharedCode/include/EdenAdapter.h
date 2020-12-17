@@ -24,7 +24,7 @@ namespace eden_vst
 	class EdenAdapter
 	{
 	public:
-		EdenAdapter(eden::EdenSynthesiser& synthesiser, std::experimental::filesystem::path assetsPath);
+		EdenAdapter(eden::EdenSynthesiser& synthesiser, std::filesystem::path assetsPath);
 
 		/// <summary>
 		/// Converts JUCE MIDI buffer to Eden MIDI buffer.

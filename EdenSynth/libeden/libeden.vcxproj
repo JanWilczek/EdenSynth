@@ -23,7 +23,7 @@
     <ProjectGuid>{4E724EC2-6616-41E1-B478-F9F120E53FC1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libeden</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
