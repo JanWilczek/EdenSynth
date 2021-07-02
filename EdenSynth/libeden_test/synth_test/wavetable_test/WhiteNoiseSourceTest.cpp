@@ -6,6 +6,7 @@
 #include "synth/wavetable/WhiteNoiseSource.h"
 
 #include <functional>
+#include "matplotlibcpp.h"
 #include "TestUtils.h"
 
 
@@ -58,7 +59,7 @@ namespace libeden_test
 		ASSERT_NEAR(0.f, mean, 1e-2f);
 	}
 
-	TEST_F(WhiteNoiseSourceTest, ZeroCorrelationBeyondZeroShift)
+	TEST_F(WhiteNoiseSourceTest, ZeroCorrelationIsGreatest)
 	{
 		// Given the noise generator
 
@@ -72,11 +73,18 @@ namespace libeden_test
 
 		const auto zeroShiftIndex = samplesBuffer.size();
 
+		namespace plt = matplotlibcpp;
+
+		plt::figure();
+		plt::plot(samplesBuffer);
+		plt::show();
+
 		ASSERT_GT(autocorrelation[zeroShiftIndex], 0.f);
 
 		for (auto i = 1u; i < autocorrelation.size(); ++i)
 		{
-			if (i != zeroShiftIndex) ASSERT_LT(autocorrelation[i], 0.05f);
+			if (i != zeroShiftIndex) 
+				ASSERT_LT(autocorrelation[i], autocorrelation[zeroShiftIndex]);
 		}
 	}
 
