@@ -6,7 +6,6 @@
 #include "synth/wavetable/WhiteNoiseSource.h"
 
 #include <functional>
-#include "matplotlibcpp.h"
 #include "TestUtils.h"
 
 
@@ -71,13 +70,7 @@ namespace libeden_test
 		// Then the autocorrelation should be nonzero at zero shift and near to zero elsewhere
 		const auto autocorrelation = TestUtils::correlation(samplesBuffer, samplesBuffer);
 
-		const auto zeroShiftIndex = samplesBuffer.size();
-
-		namespace plt = matplotlibcpp;
-
-		plt::figure();
-		plt::plot(samplesBuffer);
-		plt::show();
+		const auto zeroShiftIndex = samplesBuffer.size() - 1u;
 
 		ASSERT_GT(autocorrelation[zeroShiftIndex], 0.f);
 
