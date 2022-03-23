@@ -93,7 +93,7 @@
       <AdditionalDependencies>EdenSynth.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)assets" "$(OutDir)assets" /s /e /i</Command>
+      <Command>xcopy "$(SolutionDir)assets" "$(OutDir)assets" /s /e /i /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,7 +144,7 @@
       <AdditionalDependencies>EdenSynth.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)assets" "$(OutDir)assets" /s /e /i</Command>
+      <Command>xcopy "$(SolutionDir)assets" "$(OutDir)assets" /s /e /i /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
