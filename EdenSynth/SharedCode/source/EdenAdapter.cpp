@@ -9,10 +9,11 @@
 
 namespace eden_vst
 {
-	EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser, std::experimental::filesystem::path assetsPath)
+	EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser, std::filesystem::path assetsPath)
  		: _synthesiser(synthesiser)
 		, _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u)
 		, _filterParameters(_synthesiser)
+		, _waveshapingParameters(_synthesiser)
 	{
 	}
 
@@ -57,13 +58,16 @@ namespace eden_vst
 		// general parameters
 		pluginParameters.createAndAddParameter("pitchBend.semitonesDown", "Pitch bend semitones down", String(), NormalisableRange<float>(-24.f, 0.f, 1.f), -12.f, nullptr, nullptr);
 		pluginParameters.createAndAddParameter("pitchBend.semitonesUp", "Pitch bend semitones up", String(), NormalisableRange<float>(0.f, 24.f, 1.f), 2.f, nullptr, nullptr);
-		pluginParameters.createAndAddParameter("frequencyOfA4", "Frequency of A4", "Hz", NormalisableRange<float>(420.f, 450.f, 0.1f), 440.f, nullptr, nullptr);
+		pluginParameters.createAndAddParameter("frequencyOfA4", "Frequency of A4", "Hz", NormalisableRange<float>(400.f, 500.f, 0.1f), 440.f, nullptr, nullptr);
 
 		// oscillator parameters
 		_oscillators.addOscillatorParameters(pluginParameters);
 
 		// filter parameters
 		_filterParameters.addFilterParameters(pluginParameters);
+
+		// waveshaping parameters
+		_waveshapingParameters.addWaveshapingParameters(pluginParameters);
 
 		// ADBDR envelope parameters
 		pluginParameters.createAndAddParameter("envelope.adbdr.attack.time", "Attack time", "ms", NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 30.f, nullptr, nullptr);
@@ -96,6 +100,9 @@ namespace eden_vst
 		// filter parameters
 		_filterParameters.updateFilterParameters();
 
+		// waveshaping parameters
+		_waveshapingParameters.updateWaveshapingParameters();
+
 		// ADBDR envelope parameters
 		{
 			eden::ADBDRParameters adbdrParameters;
@@ -121,8 +128,13 @@ namespace eden_vst
 		_synthesiser.setVolume(*pluginParameters.getRawParameterValue("output.volume"));
 	}
 
-	WaveTablePathProvider& EdenAdapter::getPathProvider()
+	const WaveTablePathProvider& EdenAdapter::getPathProvider() const
 	{
 		return _oscillators.getPathProvider();
+	}
+
+	std::shared_ptr<WaveshapingTransferFunctionContainer> EdenAdapter::getWaveshapingTransferFunction() const noexcept
+	{
+		return _waveshapingParameters.getTransferFunctionContainer();
 	}
 }

@@ -4,9 +4,9 @@
 /// 
 #include "ModifierComponent.h"
 
-ModifierComponent::ModifierComponent(AudioProcessorValueTreeState& valueTreeState)
+ModifierComponent::ModifierComponent(AudioProcessorValueTreeState& valueTreeState, const eden_vst::EdenAdapter& adapter)
 	: _filterComponent(valueTreeState)
-	, _waveshaperComponent(valueTreeState)
+	, _waveshaperComponent(valueTreeState, adapter.getWaveshapingTransferFunction())
 {
 	addAndMakeVisible(_filterComponent);
 	addAndMakeVisible(_waveshaperComponent);

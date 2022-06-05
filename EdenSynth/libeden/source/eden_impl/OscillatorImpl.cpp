@@ -2,6 +2,7 @@
 /// \author Jan Wilczek
 /// \date 11.11.2018
 /// 
+#include <stdexcept>
 #include "eden_impl/OscillatorImpl.h"
 #include "settings/Settings.h"
 #include "eden/OscillatorSource.h"

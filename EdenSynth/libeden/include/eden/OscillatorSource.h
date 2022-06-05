@@ -9,7 +9,7 @@
 
 namespace eden
 {
-	enum class WaveformGenerators;
+	enum class WaveformGenerator;
 
 	/// <summary>
 	/// Class representing an oscillator source - source of sound for oscillator.

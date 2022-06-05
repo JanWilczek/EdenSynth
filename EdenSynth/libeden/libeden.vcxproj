@@ -23,32 +23,32 @@
     <ProjectGuid>{4E724EC2-6616-41E1-B478-F9F120E53FC1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libeden</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -165,9 +165,11 @@
     <ClInclude Include="include\eden\Oscillator.h" />
     <ClInclude Include="include\eden\OscillatorParameters.h" />
     <ClInclude Include="include\eden\OscillatorSource.h" />
+    <ClInclude Include="include\eden\WaveshapingFunctionGenerator.h" />
     <ClInclude Include="include\eden_impl\EdenSynthesiserImpl.h" />
     <ClInclude Include="include\eden_impl\OscillatorImpl.h" />
     <ClInclude Include="include\eden_impl\OscillatorSourceImpl.h" />
+    <ClInclude Include="include\eden_impl\WaveshapingFunctionGeneratorImpl.h" />
     <ClInclude Include="include\interpolation\IInterpolator.h" />
     <ClInclude Include="include\interpolation\LinearInterpolator.h" />
     <ClInclude Include="include\settings\EnvelopeSettings.h" />
@@ -192,21 +194,34 @@
     <ClInclude Include="include\synth\envelope\SegmentGainFactory.h" />
     <ClInclude Include="include\synth\envelope\Sustain.h" />
     <ClInclude Include="include\synth\IMonoModule.h" />
+    <ClInclude Include="include\synth\Mixer.h" />
     <ClInclude Include="include\synth\subtractive\MoogFilter.h" />
     <ClInclude Include="include\synth\subtractive\OnePoleLowPassFilter.h" />
     <ClInclude Include="include\synth\subtractive\SubtractiveModule.h" />
     <ClInclude Include="include\synth\Synthesiser.h" />
     <ClInclude Include="include\synth\Voice.h" />
+    <ClInclude Include="include\synth\waveshaping\Waveshaper.h" />
     <ClInclude Include="include\synth\waveshaping\WaveshapingModule.h" />
     <ClInclude Include="include\synth\wavetable\SignalGenerator.h" />
     <ClInclude Include="include\synth\wavetable\SineWaveTable.h" />
     <ClInclude Include="include\synth\wavetable\SynthOscillator.h" />
     <ClInclude Include="include\synth\wavetable\IOscillatorSource.h" />
+    <ClInclude Include="include\synth\wavetable\va_sources\SawtoothVASource.h" />
+    <ClInclude Include="include\synth\wavetable\va_sources\PulseVASource.h" />
+    <ClInclude Include="include\synth\wavetable\va_sources\SineVASource.h" />
+    <ClInclude Include="include\synth\wavetable\va_sources\TriangleVASource.h" />
     <ClInclude Include="include\synth\wavetable\Waveform.h" />
     <ClInclude Include="include\synth\wavetable\WaveTable.h" />
     <ClInclude Include="include\synth\wavetable\WaveTableSource.h" />
+    <ClInclude Include="include\synth\wavetable\WhiteNoiseSource.h" />
+    <ClInclude Include="include\utility\dsp\Correlation.h" />
     <ClInclude Include="include\utility\EdenAssert.h" />
     <ClInclude Include="include\utility\MathConstants.h" />
+    <ClInclude Include="include\utility\StopWatch.h" />
+    <ClInclude Include="include\utility\StopWatchPrinter.h" />
+    <ClInclude Include="include\utility\threading\JoinThreads.h" />
+    <ClInclude Include="include\utility\threading\ThreadPool.h" />
+    <ClInclude Include="include\utility\threading\ThreadSafeQueue.h" />
     <ClInclude Include="include\utility\TimeSampleConverter.h" />
     <ClInclude Include="include\utility\WaveFileReader.h" />
   </ItemGroup>
@@ -217,9 +232,11 @@
     <ClCompile Include="source\eden\MidiMessage.cpp" />
     <ClCompile Include="source\eden\Oscillator.cpp" />
     <ClCompile Include="source\eden\OscillatorSource.cpp" />
+    <ClCompile Include="source\eden\WaveshapingFunctionGenerator.cpp" />
     <ClCompile Include="source\eden_impl\EdenSynthesiserImpl.cpp" />
     <ClCompile Include="source\eden_impl\OscillatorImpl.cpp" />
     <ClCompile Include="source\eden_impl\OscillatorSourceImpl.cpp" />
+    <ClCompile Include="source\eden_impl\WaveshapingFunctionGeneratorImpl.cpp" />
     <ClCompile Include="source\interpolation\LinearInterpolator.cpp" />
     <ClCompile Include="source\settings\EnvelopeSettings.cpp" />
     <ClCompile Include="source\settings\GeneratorSettings.cpp" />
@@ -240,16 +257,28 @@
     <ClCompile Include="source\synth\envelope\NoGain.cpp" />
     <ClCompile Include="source\synth\envelope\SegmentGainFactory.cpp" />
     <ClCompile Include="source\synth\envelope\Sustain.cpp" />
+    <ClCompile Include="source\synth\Mixer.cpp" />
     <ClCompile Include="source\synth\subtractive\MoogFilter.cpp" />
     <ClCompile Include="source\synth\subtractive\OnePoleLowPassFilter.cpp" />
     <ClCompile Include="source\synth\subtractive\SubtractiveModule.cpp" />
     <ClCompile Include="source\synth\Synthesiser.cpp" />
     <ClCompile Include="source\synth\Voice.cpp" />
+    <ClCompile Include="source\synth\waveshaping\Waveshaper.cpp" />
     <ClCompile Include="source\synth\waveshaping\WaveshapingModule.cpp" />
     <ClCompile Include="source\synth\wavetable\SignalGenerator.cpp" />
     <ClCompile Include="source\synth\wavetable\SynthOscillator.cpp" />
+    <ClCompile Include="source\synth\wavetable\va_sources\SawtoothVASource.cpp" />
+    <ClCompile Include="source\synth\wavetable\va_sources\PulseVASource.cpp" />
+    <ClCompile Include="source\synth\wavetable\va_sources\SineVASource.cpp" />
+    <ClCompile Include="source\synth\wavetable\va_sources\TriangleVASource.cpp" />
     <ClCompile Include="source\synth\wavetable\Waveform.cpp" />
     <ClCompile Include="source\synth\wavetable\WaveTableSource.cpp" />
+    <ClCompile Include="source\synth\wavetable\WhiteNoiseSource.cpp" />
+    <ClCompile Include="source\utility\StopWatch.cpp" />
+    <ClCompile Include="source\utility\StopWatchPrinter.cpp" />
+    <ClCompile Include="source\utility\threading\JoinThreads.cpp" />
+    <ClCompile Include="source\utility\threading\ThreadPool.cpp" />
+    <ClCompile Include="source\utility\threading\ThreadSafeQueue.cpp" />
     <ClCompile Include="source\utility\TimeSampleConverter.cpp" />
     <ClCompile Include="source\utility\WaveFileReader.cpp" />
   </ItemGroup>

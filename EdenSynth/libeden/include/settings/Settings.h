@@ -105,7 +105,7 @@ namespace eden::settings
 		/// </summary>
 		/// <param name="generatorName">name of the generator to create</param>
 		/// <returns>unique id representing the createed oscillator source</returns>
-		OscillatorSourceId createGeneratorSource(WaveformGenerators generatorName);
+		OscillatorSourceId createGeneratorSource(WaveformGenerator generatorName);
 
 		/// <summary>
 		/// Creates and registers a wavetable oscillator source.
@@ -207,6 +207,10 @@ namespace eden::settings
 		/// </summary>
 		/// <param name="filterEnvelopeParameters">parameters of the filter's envelope to set - <c>ADSRParameters</c> struct instance for example</param>
 		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
+
+		void setWaveshapingTransferFunction(std::vector<float> transferFunction);
+
+		void setWaveshapingAutoMakeUpGain(bool makeUpGainEnabled);
 
 		/// <summary>
 		/// Sets the envelope parameters of the envelope generator.

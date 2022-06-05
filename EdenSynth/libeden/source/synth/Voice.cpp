@@ -44,24 +44,27 @@ namespace eden::synth
 		_envelopeGenerator->keyOff();
 	}
 
-	void Voice::renderBlock(AudioBuffer& outputBuffer, int startSample, int samplesToRender)
+	const float* Voice::renderBlock(int samplesToRender)
 	{
+		constexpr int startSample = 0;
+		prepareToRender(startSample, samplesToRender);
+		
 		if (isPlaying())
 		{
-			prepareToRender(startSample, samplesToRender);
-
 			_signalGenerator->generateSignal(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
 			_subtractiveModule->process(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
+
+			applyVelocity(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
 			_waveshapingModule->process(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
 			_envelopeGenerator->apply(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 
-			applyVelocity(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
-
-			mixTo(outputBuffer, startSample, samplesToRender);
+			applyGain(_innerBuffer.getWritePointer(0), startSample, samplesToRender);
 		}
+
+		return _innerBuffer.getReadPointer(0) + startSample;
 	}
 
 	void Voice::setPitchBend(int pitchBendValue)
@@ -95,7 +98,7 @@ namespace eden::synth
 
 	constexpr float Voice::gainValue() noexcept
 	{
-		return float(0.2);
+		return 0.7f;
 	}
 
 	void Voice::setPitch(float newPitch)
@@ -107,32 +110,32 @@ namespace eden::synth
 
 	void Voice::applyVelocity(float* channel, int startSample, int samplesToRender)
 	{
+		// TODO: temporary velocity recalculation;
+		const auto velocity = (_velocity + 0.5f) / 1.5f;
+
 		for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
 		{
-			channel[sample] *= gainValue() * _velocity;
+			channel[sample] *= velocity;
 
 			// check for clipping
-			EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
+			//EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
 		}
 	}
 
-	void Voice::mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix)
+	void Voice::applyGain(float* channel, int startSample, int samplesToRender)
 	{
-		outputBuffer.forEachChannel([this, &startSample, &samplesToMix](float* channel)
+		for (int sample = startSample; sample < startSample + samplesToRender; ++sample)
 		{
-			for (auto sample = startSample; sample < startSample + samplesToMix; ++sample)
-			{
-				channel[sample] += _innerBuffer.getReadPointer(0)[sample];
+			channel[sample] *= gainValue();
 
-				// check for clipping
-				EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
-			}
-		});
+			// check for clipping
+			//EDEN_ASSERT(channel[sample] >= -1.0 && channel[sample] <= 1.0);
+		}
 	}
 
 	void Voice::prepareToRender(int startSample, int samplesToRender)
 	{
-		_innerBuffer.fillFromTo(float(0), startSample, startSample + samplesToRender);
+		_innerBuffer.fillFromTo(0.f, startSample, startSample + samplesToRender);
 		_innerBuffer.setNumSamples(samplesToRender);
 	}
 

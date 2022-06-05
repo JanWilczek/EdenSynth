@@ -32,6 +32,12 @@
     <ClCompile Include="synth_test\VoiceTest.cpp">
       <Filter>synth_test</Filter>
     </ClCompile>
+    <ClCompile Include="synth_test\wavetable_test\WhiteNoiseSourceTest.cpp">
+      <Filter>synth_test\wavetable_test</Filter>
+    </ClCompile>
+    <ClCompile Include="utility_test\dsp_test\CorrelationTest.cpp">
+      <Filter>utility_test\dsp_test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -55,6 +61,9 @@
     </Filter>
     <Filter Include="synth_test\envelope_test">
       <UniqueIdentifier>{215146bb-d62b-4a50-8d81-a5ed90cfacbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility_test\dsp_test">
+      <UniqueIdentifier>{a7351a6f-5f5d-4671-87fe-a7bb42602a07}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

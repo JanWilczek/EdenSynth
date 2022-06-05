@@ -14,9 +14,10 @@
 namespace eden::synth
 {
 	Synthesiser::Synthesiser(settings::Settings& settings)
+		: _voiceRenderer(std::make_unique<AsynchronousVoiceRenderer>())
+		, _mixer(NB_VOICES)
 	{
-		constexpr unsigned VOICES_TO_ADD = 16;
-		addVoices(settings, VOICES_TO_ADD);
+		addVoices(settings, NB_VOICES);
 	}
 
 	void Synthesiser::processBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer, int numSamples)
@@ -86,6 +87,43 @@ namespace eden::synth
 		_volume = volume;
 	}
 
+	Synthesiser::IVoiceRenderer::~IVoiceRenderer() {}
+
+	void Synthesiser::SynchronousVoiceRenderer::renderVoices(Synthesiser& synthesiser, AudioBuffer& outputBuffer, int startSample, int samplesToProcess)
+	{
+		for (auto i = 0u; i < NB_VOICES; ++i)
+		{
+			synthesiser._mixer[i] = synthesiser._voices[i]->renderBlock(samplesToProcess);
+		}
+
+		synthesiser._mixer.mixTo(outputBuffer, startSample, samplesToProcess);
+	}
+
+	void Synthesiser::AsynchronousVoiceRenderer::renderVoices(Synthesiser& synthesiser, AudioBuffer& outputBuffer, int startSample, int samplesToProcess)
+	{
+		std::atomic<unsigned> voicesRendered = 0u;
+
+		// submit sound rendering tasks from all voices to the thread pool
+		for (auto i = 0u; i < NB_VOICES; ++i)
+		{
+			_threadPool.submit([&, i]
+			{
+				synthesiser._mixer[i] = synthesiser._voices[i]->renderBlock(samplesToProcess);
+
+				++voicesRendered;
+			});
+		}
+
+		// wait for all the voices to render
+		while (voicesRendered < NB_VOICES)
+		{
+			std::this_thread::yield();
+		}
+
+		// mix the output synchronously
+		synthesiser._mixer.mixTo(outputBuffer, startSample, samplesToProcess);
+	}
+
 	void Synthesiser::handleMidiMessage(MidiMessage& midiMessage)
 	{
 		const int channel = midiMessage.getChannel();
@@ -111,10 +149,7 @@ namespace eden::synth
 	{
 		EDEN_ASSERT(samplesToProcess >= 0);
 
-		for (auto& voice : _voices)
-		{
-			voice->renderBlock(outputBuffer, startSample, samplesToProcess);
-		}
+		_voiceRenderer->renderVoices(*this, outputBuffer, startSample, samplesToProcess);
 	}
 
 	void Synthesiser::noteOn(const int midiChannel, const int midiNoteNumber, const float velocity)
@@ -155,7 +190,7 @@ namespace eden::synth
 
 	void Synthesiser::addVoices(settings::Settings& settings, unsigned numVoicesToAdd)
 	{
-		for (unsigned i = 0; i < numVoicesToAdd; ++i)
+		for (unsigned i = 0u; i < numVoicesToAdd; ++i)
 		{
 			_voices.emplace_back(std::make_unique<Voice>(settings));
 		}

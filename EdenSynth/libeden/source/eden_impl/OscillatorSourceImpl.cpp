@@ -7,7 +7,7 @@
 
 namespace eden
 {
-	OscillatorSourceImpl::OscillatorSourceImpl(settings::Settings& settings, WaveformGenerators generatorName)
+	OscillatorSourceImpl::OscillatorSourceImpl(settings::Settings& settings, WaveformGenerator generatorName)
 		: _ext_settings(settings)
 		, _id(settings.createGeneratorSource(generatorName))
 	{

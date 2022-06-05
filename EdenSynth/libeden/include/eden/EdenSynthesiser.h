@@ -13,7 +13,7 @@ namespace eden
 {
 	class AudioBuffer;
 	class MidiBuffer;
-	enum class WaveformGenerators;
+	enum class WaveformGenerator;
 	struct EnvelopeParameters;
 
 	/// <summary>
@@ -72,7 +72,7 @@ namespace eden
 		/// </summary>
 		/// <param name="generatorName">name of the generator to base this source on</param>
 		/// <returns>handle to the source</returns>
-		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
+		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerator generatorName);
 
 		/// <summary>
 		/// Creates an oscillator source which generates samples by interpolating values given in the <paramref name="waveTable"/>.
@@ -86,7 +86,7 @@ namespace eden
 		/// </summary>
 		/// <param name="pathToWaveFile">path to the wave file containing one cycle of a waveform to replay</param>
 		/// <returns>handl to the source</returns>
-		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile);
+		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::filesystem::path pathToWaveFile);
 		
 		/// <summary>
 		/// Creates and oscillator based on the given <paramref name="oscillatorSource"/>. The source can be later altered.
@@ -127,6 +127,10 @@ namespace eden
 		/// </summary>
 		/// <param name="filterEnvelopeParameters">parameters of the filter's envelope to set - <c>ADSRParameters</c> struct instance for example</param>
 		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
+
+		void setWaveshapingTransferFunction(std::vector<float> transferFunction);
+
+		void setWaveshapingAutoMakeUpGain(bool makeUpGainEnabled);
 
 		/// <summary>
 		/// Sets new envelope of sound - the information about volume change in time in relation

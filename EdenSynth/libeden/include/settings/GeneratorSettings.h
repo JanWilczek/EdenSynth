@@ -41,7 +41,7 @@ namespace eden::settings
 		/// <param name="sampleRate"></param>
 		/// <param name="generatorName"></param>
 		/// <returns>unique id of the created source</returns>
-		OscillatorSourceId createGeneratorSource(float sampleRate, WaveformGenerators generatorName);
+		OscillatorSourceId createGeneratorSource(float sampleRate, WaveformGenerator generatorName);
 
 		/// <summary>
 		/// Creates a new wavetable oscillator source with a unique id. 

@@ -116,6 +116,16 @@ namespace eden
 		_channels[destChannel][destSample] += valueToAdd;
 	}
 
+	void AudioBuffer::mix(int destChannel, const float* samples, unsigned startSample, unsigned numSamples)
+	{
+		auto channel = getWritePointer(destChannel);
+
+		for (auto sample = 0u; sample < numSamples; ++sample)
+		{
+			channel[sample + startSample] += samples[sample];
+		}
+	}
+
 	void AudioBuffer::fill(float value)
 	{
 		fillFromTo(value, 0, _numSamples);
@@ -125,6 +135,7 @@ namespace eden
 	{
 		for (int channel = 0; channel < _numChannels; ++channel)
 		{
+			// TODO: Use std::fill
 			for (unsigned sample = begin; sample < end; ++sample)
 			{
 				_channels[channel][sample] = value;

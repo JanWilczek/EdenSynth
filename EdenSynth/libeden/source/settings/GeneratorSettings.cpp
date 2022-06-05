@@ -2,9 +2,15 @@
 /// \author Jan Wilczek
 /// \date 06.11.2018
 /// 
+#include <stdexcept>
 #include "settings/GeneratorSettings.h"
 #include "synth/wavetable/SignalGenerator.h"
 #include "synth/wavetable/WaveTableSource.h"
+#include "synth/wavetable/va_sources/SawtoothVASource.h"
+#include "synth/wavetable/va_sources/PulseVASource.h"
+#include "synth/wavetable/va_sources/SineVASource.h"
+#include "synth/wavetable/va_sources/TriangleVASource.h"
+#include "synth/wavetable/WhiteNoiseSource.h"
 
 namespace eden::settings
 {
@@ -21,10 +27,36 @@ namespace eden::settings
 		}
 	}
 
-	OscillatorSourceId GeneratorSettings::createGeneratorSource(float sampleRate, WaveformGenerators generatorName)
+	OscillatorSourceId GeneratorSettings::createGeneratorSource(float sampleRate, WaveformGenerator generatorName)
 	{
-		// TODO: Not implemented.
-		throw std::logic_error("Generators not implemented.");
+		std::unique_ptr<synth::wavetable::IOscillatorSource> source;
+
+		switch (generatorName)
+		{
+		case WaveformGenerator::SawtoothRampUp:
+			source = std::make_unique<synth::wavetable::SawtoothVASource>(sampleRate);
+			break;
+		case WaveformGenerator::Square:
+			source = std::make_unique<synth::wavetable::PulseVASource>(sampleRate);
+			break;
+		case WaveformGenerator::Sine:
+			source = std::make_unique<synth::wavetable::SineVASource>(sampleRate);
+			break;
+		case WaveformGenerator::Triangle:
+			source = std::make_unique<synth::wavetable::TriangleVASource>(sampleRate);
+			break;
+		case WaveformGenerator::WhiteNoise:
+			source = std::make_unique<synth::wavetable::WhiteNoiseSource>();
+			break;
+		default:
+			throw std::logic_error("Generator not implemented.");
+		}
+
+		const auto id = _firstAvailableSourceId++;
+
+		_oscillatorSources[id] = std::move(source);
+
+		return id;
 	}
 
 	OscillatorSourceId GeneratorSettings::createWaveTableSource(float sampleRate, std::vector<float> waveTable)

@@ -51,7 +51,7 @@ namespace eden
 		_settings.setPitchBendRange(transposeDownTransposeUp);
 	}
 
-	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createRealtimeOscillatorSource(WaveformGenerators generatorName)
+	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createRealtimeOscillatorSource(WaveformGenerator generatorName)
 	{
 		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, generatorName));
 	}
@@ -61,7 +61,7 @@ namespace eden
 		return std::make_unique<OscillatorSource>(std::make_unique<OscillatorSourceImpl>(_settings, waveTable));
 	}
 
-	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile)
+	std::unique_ptr<OscillatorSource> EdenSynthesiserImpl::createWaveTableOscillatorSource(std::filesystem::path pathToWaveFile)
 	{
 		utility::WaveFileReader reader(pathToWaveFile.string());
 		const auto wave = reader.readSamples();
@@ -96,6 +96,16 @@ namespace eden
 	void EdenSynthesiserImpl::setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters)
 	{
 		_settings.setFilterEnvelopeParameters(filterEnvelopeParameters);
+	}
+
+	void EdenSynthesiserImpl::setWaveshapingTransferFunction(std::vector<float> transferFunction)
+	{
+		_settings.setWaveshapingTransferFunction(std::move(transferFunction));
+	}
+
+	void EdenSynthesiserImpl::setWaveshapingAutoMakeUpGain(bool makeUpGainEnabled)
+	{
+		_settings.setWaveshapingAutoMakeUpGain(makeUpGainEnabled);
 	}
 
 	void EdenSynthesiserImpl::setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters)

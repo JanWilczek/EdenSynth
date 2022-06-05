@@ -4,6 +4,7 @@
 /// \date 14.11.2018
 /// 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "OscillatorSourceComponent.h"
 
 namespace eden_vst
 {
@@ -34,8 +35,7 @@ private:
 	Slider _centTransposition;
 	std::unique_ptr<SliderAttachment> _centTranspositionAttachment;
 
-	ComboBox _waveform;
-	std::unique_ptr<ComboBoxAttachment> _waveformAttachment;
+	OscillatorSourceComponent _sourceComponent;
 
 	ToggleButton _on;
 	std::unique_ptr<ButtonAttachment> _onAttachment;

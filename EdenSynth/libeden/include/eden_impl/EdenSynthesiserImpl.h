@@ -39,11 +39,11 @@ namespace eden
 
 		void setPitchBendRange(std::pair<int, int> transposeDownTransposeUp);
 
-		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerators generatorName);
+		std::unique_ptr<OscillatorSource> createRealtimeOscillatorSource(WaveformGenerator generatorName);
 
 		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<float> waveTable);
 
-		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile);
+		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::filesystem::path pathToWaveFile);
 		
 		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource);
 
@@ -56,6 +56,10 @@ namespace eden
 		void setPassbandAttenuation(PassbandAttenuation passbandAttenuation);
 		
 		void setFilterEnvelopeParameters(std::shared_ptr<EnvelopeParameters> filterEnvelopeParameters);
+
+		void setWaveshapingTransferFunction(std::vector<float> transferFunction);
+
+		void setWaveshapingAutoMakeUpGain(bool makeUpGainEnabled);
 
 		void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> envelopeParameters);
 

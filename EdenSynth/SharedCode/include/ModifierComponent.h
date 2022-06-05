@@ -6,11 +6,12 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "FilterComponent.h"
 #include "WaveshaperComponent.h"
+#include "EdenAdapter.h"
 
 class ModifierComponent : public Component
 {
 public:
-	ModifierComponent(AudioProcessorValueTreeState& valueTreeState);
+	ModifierComponent(AudioProcessorValueTreeState& valueTreeState, const eden_vst::EdenAdapter& adapter);
 
 	void resized() override;
 

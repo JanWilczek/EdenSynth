@@ -2,6 +2,7 @@
 /// \author Jan Wilczek
 /// \date 12.11.2018
 /// 
+#include <cmath>
 #include "synth/wavetable/SynthOscillator.h"
 #include "synth/wavetable/IOscillatorSource.h"
 
@@ -124,6 +125,11 @@ namespace eden::synth::wavetable
 		_isOn = isOn;
 	}
 
+	bool SynthOscillator::isOn() const noexcept
+	{
+		return _isOn;
+	}
+
 	void SynthOscillator::setPitch(float pitch)
 	{
 		_originalPitch = pitch;
@@ -138,7 +144,7 @@ namespace eden::synth::wavetable
 	float SynthOscillator::pitch()
 	{
 		const auto transpositionInCents = static_cast<float>(_octaveShift) * 1200.f + static_cast<float>(_semitoneShift) * 100.f + static_cast<float>(_centShift);
-		return _originalPitch * std::powf(2, transpositionInCents / 1200.f);
+		return _originalPitch * std::pow(2.f, transpositionInCents / 1200.f);
 	}
 
 	void SynthOscillator::setOscillatorPitch()

@@ -2,6 +2,7 @@
 /// \author Jan Wilczek
 /// \date 08.10.2018
 /// 
+#include <stdexcept>
 #include "synth/wavetable/SignalGenerator.h"
 #include "synth/wavetable/SineWaveTable.h"
 
@@ -91,7 +92,7 @@ namespace eden::synth::wavetable
 			audioChannel[sampleIndex] += oscillatorPair.second.getSample();
 		}
 
-		if (_oscillators.size() > 0)
+		if (!_oscillators.empty())
 		{
 			audioChannel[sampleIndex] /= static_cast<float>(_oscillators.size());
 		}

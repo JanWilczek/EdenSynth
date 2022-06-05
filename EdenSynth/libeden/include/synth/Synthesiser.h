@@ -6,6 +6,8 @@
 #include <vector>
 #include <memory>
 #include "synth/Voice.h"
+#include "utility/threading/ThreadPool.h"
+#include "synth/Mixer.h"
 
 namespace eden
 {
@@ -28,6 +30,8 @@ namespace eden::synth
 	class Synthesiser
 	{
 	public:
+		static constexpr unsigned NB_VOICES = 64u;
+
 		explicit Synthesiser(settings::Settings& settings);
 
 		/// <summary>
@@ -60,6 +64,30 @@ namespace eden::synth
 		void setVolume(float volume);
 
 	private:
+		class IVoiceRenderer
+		{
+		public:
+			virtual ~IVoiceRenderer() = 0;
+			virtual void renderVoices(Synthesiser& synthesiser, AudioBuffer& outputBuffer, int startSample, int samplesToProcess) = 0;
+		};
+
+		class SynchronousVoiceRenderer : public IVoiceRenderer
+		{
+		public:
+			~SynchronousVoiceRenderer() override = default;
+			void renderVoices(Synthesiser& synthesiser, AudioBuffer& outputBuffer, int startSample, int samplesToProcess) override;
+		};
+
+		class AsynchronousVoiceRenderer : public IVoiceRenderer
+		{
+		public:
+			~AsynchronousVoiceRenderer() override = default;
+			void renderVoices(Synthesiser& synthesiser, AudioBuffer& outputBuffer, int startSample, int samplesToProcess) override;
+
+		private:
+			utility::threading::ThreadPool _threadPool;
+		};
+
 		/// <summary>
 		/// Changes internal state based on received MIDI message. E.g. starts playing a note after note on message.
 		/// </summary>
@@ -122,6 +150,10 @@ namespace eden::synth
 		/// Container with voices.
 		/// </summary>
 		std::vector<std::unique_ptr<Voice>> _voices;
+
+		std::unique_ptr<IVoiceRenderer> _voiceRenderer;
+
+		Mixer _mixer;
 
 		/// <summary>
 		/// Size of the inner audio channel of each voice.
