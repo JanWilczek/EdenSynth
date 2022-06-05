@@ -6,17 +6,7 @@
               pluginManufacturer="Jan Wilczek" aaxIdentifier="com.thewolfsound.EdenSynth"
               cppLanguageStandard="17" pluginManufacturerCode="Wolf" displaySplashScreen="1"
               jucerFormatVersion="1" compilerFlagSchemes="">
-  <MAINGROUP id="QaIe6a" name="EdenSynth">
-    <GROUP id="{5603AD0F-9B4A-6341-640B-A04C19A16BB5}" name="Source">
-      <FILE id="J8ra41" name="PluginProcessor.cpp" compile="1" resource="1"
-            file="Source/PluginProcessor.cpp" compilerFlagScheme=""/>
-      <FILE id="qq164f" name="PluginProcessor.h" compile="0" resource="1"
-            file="Source/PluginProcessor.h"/>
-      <FILE id="sU1TJD" name="PluginEditor.cpp" compile="1" resource="1"
-            file="Source/PluginEditor.cpp"/>
-      <FILE id="wmUHbl" name="PluginEditor.h" compile="0" resource="1" file="Source/PluginEditor.h"/>
-    </GROUP>
-  </MAINGROUP>
+  <MAINGROUP id="QaIe6a" name="EdenSynth"/>
   <EXPORTFORMATS>
     <VS2017 targetFolder="Builds/VisualStudio2017">
       <CONFIGURATIONS>

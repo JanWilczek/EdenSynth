@@ -58,7 +58,7 @@ namespace libeden_test
 		ASSERT_NEAR(0.f, mean, 1e-2f);
 	}
 
-	TEST_F(WhiteNoiseSourceTest, ZeroCorrelationBeyondZeroShift)
+	TEST_F(WhiteNoiseSourceTest, ZeroCorrelationIsGreatest)
 	{
 		// Given the noise generator
 
@@ -70,13 +70,14 @@ namespace libeden_test
 		// Then the autocorrelation should be nonzero at zero shift and near to zero elsewhere
 		const auto autocorrelation = TestUtils::correlation(samplesBuffer, samplesBuffer);
 
-		const auto zeroShiftIndex = samplesBuffer.size();
+		const auto zeroShiftIndex = samplesBuffer.size() - 1u;
 
 		ASSERT_GT(autocorrelation[zeroShiftIndex], 0.f);
 
 		for (auto i = 1u; i < autocorrelation.size(); ++i)
 		{
-			if (i != zeroShiftIndex) ASSERT_LT(autocorrelation[i], 0.05f);
+			if (i != zeroShiftIndex) 
+				ASSERT_LT(autocorrelation[i], autocorrelation[zeroShiftIndex]);
 		}
 	}
 
