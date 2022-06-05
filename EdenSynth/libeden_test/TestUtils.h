@@ -5,6 +5,13 @@
 /// 
 #include "pch.h"
 
+#include <complex>
+#include <numeric>
+#include "fftw3.h"
+
+using Complex = std::complex<double>;
+
+
 namespace libeden_test
 {
 	class TestUtils
@@ -70,6 +77,75 @@ namespace libeden_test
 
 			const auto meanPeriod = (static_cast<double>(periodsLength) / numberOfPeriods) / sampleRate;
 			return 1 / meanPeriod;
+		}
+
+		static std::vector<Complex> dft(const std::vector<float>& real1dSignal)
+		{
+			const auto transformationSize = static_cast<int>(real1dSignal.size());
+
+			double* inBuffer = new double[real1dSignal.size()];
+			std::copy(real1dSignal.begin(), real1dSignal.end(), inBuffer);
+
+			fftw_complex* out = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * transformationSize);
+
+			fftw_plan plan = fftw_plan_dft_r2c_1d(transformationSize, inBuffer, out, FFTW_ESTIMATE);
+
+			fftw_execute(plan);
+
+			std::vector<Complex> result(transformationSize);
+			for (int i = 0u; i < transformationSize; ++i)
+			{
+				result[i] = Complex{ out[i][0], out[i][1] };
+			}
+
+			fftw_destroy_plan(plan);
+			fftw_free(out);
+			delete[] inBuffer;
+
+			return result;;
+		}
+
+		static std::vector<double> magnitude(const std::vector<Complex>& dft)
+		{
+			std::vector<double> magnitude(dft.size());
+
+			for (auto i = 0u; i < dft.size(); ++i)
+			{
+				magnitude[i] = std::abs(dft[i]);
+			}
+
+			return magnitude;
+		}
+
+		static std::vector<float> correlation(const std::vector<float>& signal1, const std::vector<float>& signal2)
+		{
+			const std::vector<float>& shorterSignal = signal1.size() < signal2.size() ? signal1 : signal2;
+			const std::vector<float>& longerSignal = &shorterSignal == &signal1 ? signal2 : signal1;
+
+			std::vector<float> nonnegativeShiftCorrelation(shorterSignal.size());
+
+			// TODO: Fix correlation calculation algorithm
+			for (auto kappa = 0u; kappa < shorterSignal.size(); ++kappa)
+			{
+				float sum = 0.f;
+				for (auto k = 0u; k + kappa < longerSignal.size() && k < shorterSignal.size(); ++k)
+				{
+					sum += longerSignal[k + kappa] * shorterSignal[k];
+				}
+
+				nonnegativeShiftCorrelation[kappa] = sum / shorterSignal.size();
+			}
+
+			// Negative sample shifts are just a mirror reflection of the positive shifts.
+			std::vector<float> negativeShiftCorrelation(nonnegativeShiftCorrelation.size() - 1);	// Zero-shift correlation is not mirrored.
+			std::copy(nonnegativeShiftCorrelation.begin() + 1, nonnegativeShiftCorrelation.end(), negativeShiftCorrelation.begin());
+			std::reverse(negativeShiftCorrelation.begin(), negativeShiftCorrelation.end());
+
+			std::vector<float> correlationResult(negativeShiftCorrelation.size() + nonnegativeShiftCorrelation.size());
+			std::copy(negativeShiftCorrelation.begin(), negativeShiftCorrelation.end(), correlationResult.begin());
+			std::copy(nonnegativeShiftCorrelation.begin(), nonnegativeShiftCorrelation.end(), correlationResult.begin() + negativeShiftCorrelation.size());
+
+			return correlationResult;
 		}
 	};
 }

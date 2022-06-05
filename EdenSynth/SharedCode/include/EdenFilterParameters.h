@@ -22,14 +22,14 @@ namespace eden_vst
 	private:
 		eden::EdenSynthesiser& _synthesiser;
 
-		float* _cutoff = nullptr;
-		float* _resonance = nullptr;
-		float* _contourAmount = nullptr;
-		float* _passbandAttenuation = nullptr;
+		std::atomic<float>* _cutoff = nullptr;
+		std::atomic<float>* _resonance = nullptr;
+		std::atomic<float>* _contourAmount = nullptr;
+		std::atomic<float>* _passbandAttenuation = nullptr;
 
-		float* _attackTime = nullptr;
-		float* _decayTime = nullptr;
-		float* _sustainLevel = nullptr;
-		float* _releaseTime = nullptr;
+		std::atomic<float>* _attackTime = nullptr;
+		std::atomic<float>* _decayTime = nullptr;
+		std::atomic<float>* _sustainLevel = nullptr;
+		std::atomic<float>* _releaseTime = nullptr;
 	};
 }

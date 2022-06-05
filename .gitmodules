@@ -1,0 +1,6 @@
+[submodule "EdenSynth/SDKs/fftwp"]
+	path = EdenSynth/SDKs/fftwp
+	url = https://github.com/dealias/fftwpp
+[submodule "EdenSynth/dependencies/libs/fftwpp"]
+	path = EdenSynth/dependencies/libs/fftwpp
+	url = https://github.com/dealias/fftwpp

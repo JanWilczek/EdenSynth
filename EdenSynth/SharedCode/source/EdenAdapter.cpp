@@ -9,7 +9,7 @@
 
 namespace eden_vst
 {
-	EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser, std::experimental::filesystem::path assetsPath)
+	EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser, std::filesystem::path assetsPath)
  		: _synthesiser(synthesiser)
 		, _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u)
 		, _filterParameters(_synthesiser)

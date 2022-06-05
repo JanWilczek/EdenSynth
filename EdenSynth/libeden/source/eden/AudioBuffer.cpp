@@ -135,6 +135,7 @@ namespace eden
 	{
 		for (int channel = 0; channel < _numChannels; ++channel)
 		{
+			// TODO: Use std::fill
 			for (unsigned sample = begin; sample < end; ++sample)
 			{
 				_channels[channel][sample] = value;

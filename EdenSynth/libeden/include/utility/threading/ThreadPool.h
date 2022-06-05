@@ -6,6 +6,7 @@
 #include <atomic>
 #include <vector>
 #include <thread>
+#include <functional>
 #include "utility/threading/ThreadSafeQueue.h"
 #include "utility/threading/JoinThreads.h"
 

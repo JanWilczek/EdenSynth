@@ -2,6 +2,7 @@
 /// \author Jan Wilczek
 /// \date 08.10.2018
 /// 
+#include <stdexcept>
 #include "synth/wavetable/SignalGenerator.h"
 #include "synth/wavetable/SineWaveTable.h"
 

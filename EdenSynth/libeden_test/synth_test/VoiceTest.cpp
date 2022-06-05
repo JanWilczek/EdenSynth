@@ -20,7 +20,7 @@ namespace libeden_test
 		{
 			_settings.setSampleRate(SAMPLE_RATE);
 			_voice = std::make_unique<eden::synth::Voice>(_settings);
-			_buffer.fill(float(0));
+			_buffer.fill(0.f);
 
 			_sourceId = _settings.createWaveTableSource(eden::synth::wavetable::SineWaveTable);
 			_oscId = _settings.addOscillator(_sourceId);
@@ -43,7 +43,7 @@ namespace libeden_test
 
 		_buffer.forEachSample([](float& sample)
 		{
-			EXPECT_FLOAT_EQ(sample, float(0));
+			EXPECT_FLOAT_EQ(sample, 0.f);
 		});
 	}
 

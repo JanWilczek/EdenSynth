@@ -6,13 +6,13 @@
 
 namespace eden_vst
 {
-	WaveTablePathProvider::WaveTablePathProvider(std::experimental::filesystem::path assetsPath)
+	WaveTablePathProvider::WaveTablePathProvider(std::filesystem::path assetsPath)
 	{
 		const auto path = assetsPath / "wavetables";
 
 		if (exists(path))
 		{
-			for (auto& file : std::experimental::filesystem::directory_iterator(path))
+			for (auto& file : std::filesystem::directory_iterator(path))
 			{
 				auto name = file.path().filename().string();
 				name = name.substr(0u, name.length() - 4u);	// remove ".wav" ending
@@ -46,7 +46,7 @@ namespace eden_vst
 		return _waveTablePaths.cend();
 	}
 
-	std::experimental::filesystem::path WaveTablePathProvider::getPath(std::string waveTableName)
+	std::filesystem::path WaveTablePathProvider::getPath(std::string waveTableName)
 	{
 		if (_waveTablePaths.find(waveTableName) == _waveTablePaths.end())
 		{
@@ -56,7 +56,7 @@ namespace eden_vst
 		return _waveTablePaths[waveTableName];
 	}
 
-	std::experimental::filesystem::path WaveTablePathProvider::getPath(size_t index)
+	std::filesystem::path WaveTablePathProvider::getPath(size_t index)
 	{
 		return getPath(indexToName(index));
 	}

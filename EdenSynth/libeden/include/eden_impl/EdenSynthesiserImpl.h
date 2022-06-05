@@ -43,7 +43,7 @@ namespace eden
 
 		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::vector<float> waveTable);
 
-		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile);
+		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::filesystem::path pathToWaveFile);
 		
 		std::unique_ptr<Oscillator> createAndAddOscillator(std::unique_ptr<OscillatorSource> oscillatorSource);
 

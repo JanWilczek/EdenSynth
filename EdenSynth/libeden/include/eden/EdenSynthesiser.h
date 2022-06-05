@@ -86,7 +86,7 @@ namespace eden
 		/// </summary>
 		/// <param name="pathToWaveFile">path to the wave file containing one cycle of a waveform to replay</param>
 		/// <returns>handl to the source</returns>
-		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::experimental::filesystem::path pathToWaveFile);
+		std::unique_ptr<OscillatorSource> createWaveTableOscillatorSource(std::filesystem::path pathToWaveFile);
 		
 		/// <summary>
 		/// Creates and oscillator based on the given <paramref name="oscillatorSource"/>. The source can be later altered.

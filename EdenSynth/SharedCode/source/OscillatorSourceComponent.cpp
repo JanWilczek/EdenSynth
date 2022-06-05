@@ -30,6 +30,7 @@ OscillatorSourceComponent::OscillatorSourceComponent(AudioProcessorValueTreeStat
 	_generator.addItem("Square", 2);
 	_generator.addItem("Triangle", 3);
 	_generator.addItem("Sine", 4);
+	_generator.addItem("White Noise", 5);
 
 	addAndMakeVisible(_generator);
 	_generatorAttachment = std::make_unique<ComboBoxAttachment>(valueTreeState, auxParameterName + "generatorName", _generator);
@@ -43,21 +44,23 @@ void OscillatorSourceComponent::resized()
 {
 	const auto labelHeight = 30;
 
-	_isRealTime.setBounds(0, 0, getWidth(), labelHeight);
+	_isRealTime.setBounds(0, 5, getWidth(), labelHeight);
 	_waveform.setBounds(0, getHeight() / 2, getWidth(), labelHeight);
 	_generator.setBounds(_waveform.getBounds());
 }
 
-void OscillatorSourceComponent::buttonClicked(Button* button)
+void OscillatorSourceComponent::buttonClicked(Button*)
 {
-	if (button->getToggleState())
+	if (_isRealTime.getToggleState())
 	{
+		_isRealTime.setButtonText("Real time");
 		_waveform.setVisible(false);
 		_generator.setVisible(true);
 	}
 	else
 	{
-		_waveform.setVisible(true);
+		_isRealTime.setButtonText("Wavetable");
 		_generator.setVisible(false);
+		_waveform.setVisible(true);
 	}
 }

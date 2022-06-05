@@ -14,7 +14,8 @@ namespace eden
 		SawtoothRampUp,
 		Square,
 		Triangle,
-		Sine
+		Sine,
+		WhiteNoise
 	};
 
 	/// <summary>
