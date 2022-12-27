@@ -2,13 +2,13 @@
 /// \author Jan Wilczek
 /// \date 02.11.2018
 ///
-#include <eden/AudioBuffer.h>
-#include <eden/EnvelopeParameters.h>
-#include <settings/Settings.h>
-#include <synth/Voice.h>
-#include <synth/envelope/ADBDR.h>
-#include "TestUtils.h"
 #include "pch.h"
+#include "eden/AudioBuffer.h"
+#include "eden/EnvelopeParameters.h"
+#include "settings/Settings.h"
+#include "synth/Voice.h"
+#include "synth/envelope/ADBDR.h"
+#include "TestUtils.h"
 #include "synth/wavetable/SineWaveTable.h"
 
 namespace libeden_test {

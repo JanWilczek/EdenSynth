@@ -4,7 +4,7 @@
 ///
 #include "pch.h"
 
-#include <eden/AudioBuffer.h>
+#include "eden/AudioBuffer.h"
 
 namespace libeden_test {
 TEST(AudioBufferTest, PassMemoryBlock) {

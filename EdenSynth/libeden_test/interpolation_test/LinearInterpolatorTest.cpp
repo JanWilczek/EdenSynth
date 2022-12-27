@@ -2,8 +2,8 @@
 /// \author Jan Wilczek
 /// \date 31.10.2018
 ///
-#include <interpolation/LinearInterpolator.h>
 #include "pch.h"
+#include "interpolation/LinearInterpolator.h"
 
 namespace libeden_test {
 TEST(LinearInterpolatorTest, Interpolate) {

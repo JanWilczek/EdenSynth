@@ -2,8 +2,8 @@
 /// \author Jan Wilczek
 /// \date 11.01.2018
 ///
-#include "TestUtils.h"
 #include "pch.h"
+#include "TestUtils.h"
 #include "synth/wavetable/SignalGenerator.h"
 #include "synth/wavetable/WaveTableSource.h"
 

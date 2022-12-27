@@ -2,9 +2,9 @@
 /// \author Jan Wilczek
 /// \date 07.10.2018
 ///
-#include <eden/MidiBuffer.h>
-#include <eden/MidiMessage.h>
 #include "pch.h"
+#include "eden/MidiBuffer.h"
+#include "eden/MidiMessage.h"
 
 namespace libeden_test {
 TEST(MidiBufferTest, SingleMessage) {

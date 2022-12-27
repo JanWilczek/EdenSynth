@@ -2,11 +2,11 @@
 /// \author Jan Wilczek
 /// \date 01.11.2018
 ///
-#include <synth/envelope/ADBDR.h>
-#include <synth/envelope/Envelope.h>
+#include "pch.h"
+#include "synth/envelope/ADBDR.h"
+#include "synth/envelope/Envelope.h"
 #include "TestUtils.h"
 #include "eden/EnvelopeParameters.h"
-#include "pch.h"
 
 namespace libeden_test {
 TEST(EnvelopeTest, SetSampleRate) {

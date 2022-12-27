@@ -8,7 +8,7 @@
 #include "gtest/gtest.h"
 #include <array>
 #include <memory>
-#include <utility/MathConstants.h>
+#include "utility/MathConstants.h"
 
 // Workaround for C++ 17 compilation failure.
 // Source: https://github.com/Microsoft/TestAdapterForGoogleTest/issues/119

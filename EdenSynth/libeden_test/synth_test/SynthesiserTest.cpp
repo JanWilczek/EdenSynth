@@ -2,10 +2,10 @@
 /// \author Jan Wilczek
 /// \date 06.10.2018
 ///
-#include <eden/AudioBuffer.h>
-#include <synth/Synthesiser.h>
-#include "eden/MidiBuffer.h"
 #include "pch.h"
+#include "eden/AudioBuffer.h"
+#include "synth/Synthesiser.h"
+#include "eden/MidiBuffer.h"
 #include "settings/Settings.h"
 
 namespace libeden_test {

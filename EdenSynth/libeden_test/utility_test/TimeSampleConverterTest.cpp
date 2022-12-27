@@ -2,8 +2,8 @@
 /// \author Jan Wilczek
 /// \date 01.11.2018
 ///
-#include <utility/TimeSampleConverter.h>
 #include "pch.h"
+#include "utility/TimeSampleConverter.h"
 
 namespace libeden_test {
 TEST(TimeSampleConverterTest, SecondsToSamples) {
