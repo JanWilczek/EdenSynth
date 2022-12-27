@@ -176,7 +176,7 @@ namespace eden
 
 	void AudioBuffer::allocateChannels()
 	{
-		_channels = new float*[_numChannels];
+		_channels = new float*[static_cast<std::size_t>(_numChannels)];
 		for (int channel = 0; channel < _numChannels; ++channel)
 		{
 			_channels[channel] = new float[_allocatedNumSamples];
