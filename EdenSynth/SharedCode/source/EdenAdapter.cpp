@@ -19,12 +19,10 @@ eden::MidiBuffer EdenAdapter::convertToEdenMidi(
     const juce::MidiBuffer& juceMidiBuffer) {
   eden::MidiBuffer edenMidiBuffer;
 
-  int midiEventPos;
-  MidiMessage m;
+  for (const auto& midiMessage : juceMidiBuffer) {
+    const auto m = midiMessage.getMessage();
+    const auto midiEventPos = midiMessage.samplePosition;
 
-  juce::MidiBuffer::Iterator midiIterator(juceMidiBuffer);
-
-  while (midiIterator.getNextEvent(m, midiEventPos)) {
     if (m.isNoteOn()) {
       eden::MidiMessage edenMessage(m.getChannel(),
                                     eden::MidiMessage::MidiMessageType::NoteOn);
