@@ -37,7 +37,7 @@ namespace libeden_test
 			}
 
 			const auto realDuration = eden::utility::TimeSampleConverter::samplesToMilliseconds(iterationCount, SAMPLE_RATE);
-			EXPECT_NEAR(testData.duration.count(), realDuration.count(), durationTolerance);
+			EXPECT_NEAR(static_cast<double>(testData.duration.count()), static_cast<double>(realDuration.count()), durationTolerance);
 			EXPECT_NEAR(currentLevel, testData.finalLevel, 1e-3);
 
 			lastLevel = currentLevel;

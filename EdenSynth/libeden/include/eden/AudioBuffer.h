@@ -112,7 +112,7 @@ namespace eden
 
 		int _numChannels;
 		unsigned _numSamples;
-		unsigned _allocatedNumSamples;
+		unsigned _allocatedNumSamples{0u};
 		float** _channels;
 		bool _ownsChannels;
 	};
