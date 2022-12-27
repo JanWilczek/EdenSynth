@@ -1,27 +1,18 @@
-/// 
+///
 /// \author Jan Wilczek
 /// \date 12.10.18
-/// 
+///
 #include "synth/envelope/Sustain.h"
 #include "synth/envelope/NoGain.h"
 
-namespace eden::synth::envelope
-{
-	Sustain::Sustain()
-		: EnvelopeSegment(0, std::make_unique<NoGain>())
-	{
-	}
+namespace eden::synth::envelope {
+Sustain::Sustain() : EnvelopeSegment(0, std::make_unique<NoGain>()) {}
 
-	bool Sustain::hasEnded(float currentGain)
-	{
-		return false;
-	}
-
-	void Sustain::setDuration(std::chrono::milliseconds duration)
-	{	
-	}
-
-	void Sustain::setGainCurve(std::unique_ptr<ISegmentGain> envelopeGain)
-	{
-	}
+bool Sustain::hasEnded(float currentGain) {
+  return false;
 }
+
+void Sustain::setDuration(std::chrono::milliseconds duration) {}
+
+void Sustain::setGainCurve(std::unique_ptr<ISegmentGain> envelopeGain) {}
+}  // namespace eden::synth::envelope

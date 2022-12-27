@@ -1,50 +1,50 @@
 #pragma once
-/// 
+///
 /// \author Jan Wilczek
 /// \date 11.02.2019
-/// 
+///
 #include "synth/wavetable/IOscillatorSource.h"
 
-namespace eden::synth::wavetable
-{
-	/// <summary>
-	/// Oscillator generating a Virtual Analog sawtooth waveform based on the 
-	/// Differential Parabolic Waveform (DPW) algorithm proposed by Valimaki and Huovilainen.
-	/// </summary>
-	class SawtoothVASource : public IOscillatorSource
-	{
-	public:
-		SawtoothVASource(float sampleRate);
-		~SawtoothVASource() override = default;
-		SawtoothVASource(const SawtoothVASource& other);
+namespace eden::synth::wavetable {
+/// <summary>
+/// Oscillator generating a Virtual Analog sawtooth waveform based on the
+/// Differential Parabolic Waveform (DPW) algorithm proposed by Valimaki and
+/// Huovilainen.
+/// </summary>
+class SawtoothVASource : public IOscillatorSource {
+ public:
+  SawtoothVASource(float sampleRate);
+  ~SawtoothVASource() override = default;
+  SawtoothVASource(const SawtoothVASource& other);
 
-		/// <summary>
-		/// Sets the initial phase shift in relation to the whole cycle. 
-		/// For example, 0.5 moves the waveform in phase by pi.
-		/// Phase shift is set at the call to <c>setPitch()</c> - changing phase during rendering will not 
-		/// alter anything until the next call to <c>setPitch()</c>.
-		/// </summary>
-		/// <param name="phaseShift"></param>
-		void setPhaseShift(float phaseShift);
+  /// <summary>
+  /// Sets the initial phase shift in relation to the whole cycle.
+  /// For example, 0.5 moves the waveform in phase by pi.
+  /// Phase shift is set at the call to <c>setPitch()</c> - changing phase
+  /// during rendering will not alter anything until the next call to
+  /// <c>setPitch()</c>.
+  /// </summary>
+  /// <param name="phaseShift"></param>
+  void setPhaseShift(float phaseShift);
 
-		std::unique_ptr<IOscillatorSource> clone() override;
+  std::unique_ptr<IOscillatorSource> clone() override;
 
-		void reset() override;
+  void reset() override;
 
-		void setPitch(float pitch) override;
+  void setPitch(float pitch) override;
 
-		float getSample() override;
+  float getSample() override;
 
-		void setSampleRate(float sampleRate) override;
+  void setSampleRate(float sampleRate) override;
 
-	private:
-		float _sampleRate;
-		float _phase;
-		float _delta;
-		float _z1;
-		float _z2;
-		float _c;
-		float _pitch;
-		float _phaseShift;
-	};
-}
+ private:
+  float _sampleRate;
+  float _phase;
+  float _delta;
+  float _z1;
+  float _z2;
+  float _c;
+  float _pitch;
+  float _phaseShift;
+};
+}  // namespace eden::synth::wavetable
