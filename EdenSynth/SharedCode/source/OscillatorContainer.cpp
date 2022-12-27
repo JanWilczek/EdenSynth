@@ -10,7 +10,7 @@ OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
                                          unsigned numOscillators)
     : _synthesiser(synthesiser), _pathProvider(std::move(pathProvider)) {
   if (_pathProvider.size() == 0) {
-    AlertWindow::showMessageBox(
+    AlertWindow::showMessageBoxAsync(
         AlertWindow::AlertIconType::WarningIcon, "Assets error",
         "Assets folder not found. The assets folder should be in the same "
         "directory as the plugin. The synthesiser won't play.",

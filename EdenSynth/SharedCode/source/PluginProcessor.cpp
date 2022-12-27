@@ -131,7 +131,7 @@ void EdenSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer,
 
   _edenAdapter.updateEdenParameters(_pluginParameters);
 
-  eden::AudioBuffer edenAudioBuffer(buffer.getArrayOfWritePointers(),
+  eden::AudioBuffer edenAudioBuffer(const_cast<float**>(buffer.getArrayOfWritePointers()),
                                     getTotalNumOutputChannels(),
                                     buffer.getNumSamples());
   eden::MidiBuffer edenMidiBuffer =
