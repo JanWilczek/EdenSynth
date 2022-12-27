@@ -6,6 +6,7 @@
 # Project-specific directories
 output/
 Builds/
+JuceLibraryCode/
 
 # User-specific files
 *.suo
