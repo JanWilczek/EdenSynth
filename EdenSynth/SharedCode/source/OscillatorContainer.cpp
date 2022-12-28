@@ -48,15 +48,16 @@ void OscillatorContainer::addOscillatorParameters(
             0.f, static_cast<float>(_pathProvider.size() - 1u), 1.0f),
         static_cast<float>(_waveTableIndices[oscillator.first]),
         AudioProcessorValueTreeStateParameterAttributes{}
-            .withStringFromValueFunction(
-        [this](float index, int maximumLength) {
-          return String(_pathProvider.indexToName(static_cast<size_t>(index))).substring(0, maximumLength);
+            .withStringFromValueFunction([this](float index,
+                                                int maximumLength) {
+              return String(
+                         _pathProvider.indexToName(static_cast<size_t>(index)))
+                  .substring(0, maximumLength);
             })
-            .withValueFromStringFunction(
-        [this](String name) {
-          return static_cast<float>(
-              _pathProvider.nameToIndex(name.toStdString()));
-        })));
+            .withValueFromStringFunction([this](const String& name) {
+              return static_cast<float>(
+                  _pathProvider.nameToIndex(name.toStdString()));
+            })));
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".generatorName", namePrefix + " generator name",
         NormalisableRange<float>(0.f, 4.f, 1.f), 0.f));

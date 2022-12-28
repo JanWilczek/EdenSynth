@@ -6,10 +6,10 @@
 
 FilterEnvelopeComponent::FilterEnvelopeComponent(
     AudioProcessorValueTreeState& valueTreeState)
-    : _attack(valueTreeState, "Attack", "filter.envelope.adsr.attack.time"),
-      _decay(valueTreeState, "Decay", "filter.envelope.adsr.decay.time"),
-      _sustain(valueTreeState, "Sustain", "filter.envelope.adsr.sustain.level"),
-      _release(valueTreeState, "Release", "filter.envelope.adsr.release.time") {
+    : _attack(valueTreeState, "Attack", "filter.env.adsr.attack.time"),
+      _decay(valueTreeState, "Decay", "filter.env.adsr.decay.time"),
+      _sustain(valueTreeState, "Sustain", "filter.env.adsr.sustain.level"),
+      _release(valueTreeState, "Release", "filter.env.adsr.release.time") {
   addAndMakeVisible(_attack);
   addAndMakeVisible(_decay);
   addAndMakeVisible(_sustain);
