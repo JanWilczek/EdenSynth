@@ -33,48 +33,53 @@ OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
 
 void OscillatorContainer::addOscillatorParameters(
     AudioProcessorValueTreeState& pluginParameters) {
+  using Parameter = juce::AudioProcessorValueTreeState::Parameter;
+
   for (auto& oscillator : _oscillators) {
     const auto parameterPrefix = "generator." + oscillator.first;
     const auto namePrefix = String(oscillator.first).toUpperCase();
 
-    pluginParameters.createAndAddParameter(
-        parameterPrefix + ".isRealTime", namePrefix + " is real time", String(),
-        NormalisableRange<float>(0.f, 1.f, 1.f), 0.f, nullptr, nullptr);
-    pluginParameters.createAndAddParameter(
-        parameterPrefix + ".waveTable", namePrefix + " wave table", String(),
+    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
+        parameterPrefix + ".isRealTime", namePrefix + " is real time",
+        NormalisableRange<float>(0.f, 1.f, 1.f), 0.f));
+    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
+        parameterPrefix + ".waveTable", namePrefix + " wave table",
         NormalisableRange<float>(
             0.f, static_cast<float>(_pathProvider.size() - 1u), 1.0f),
         static_cast<float>(_waveTableIndices[oscillator.first]),
-        [this](float index) {
-          return String(_pathProvider.indexToName(static_cast<size_t>(index)));
-        },
+        AudioProcessorValueTreeStateParameterAttributes{}
+            .withStringFromValueFunction(
+        [this](float index, int maximumLength) {
+          return String(_pathProvider.indexToName(static_cast<size_t>(index))).substring(0, maximumLength);
+            })
+            .withValueFromStringFunction(
         [this](String name) {
           return static_cast<float>(
               _pathProvider.nameToIndex(name.toStdString()));
-        });
-    pluginParameters.createAndAddParameter(
+        })));
+    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".generatorName", namePrefix + " generator name",
         String(), NormalisableRange<float>(0.f, 4.f, 1.f), 0.f, nullptr,
-        nullptr);
-    pluginParameters.createAndAddParameter(
+        nullptr));
+    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".octaveTransposition",
         namePrefix + " octave transposition", "oct.",
-        NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f, nullptr, nullptr);
-    pluginParameters.createAndAddParameter(
+        NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f, nullptr, nullptr));
+    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".semitoneTransposition",
         namePrefix + " semitone transposition", "semit.",
-        NormalisableRange<float>(-6.0f, 6.0f, 1.0f), 0.f, nullptr, nullptr);
-    pluginParameters.createAndAddParameter(
+        NormalisableRange<float>(-6.0f, 6.0f, 1.0f), 0.f, nullptr, nullptr));
+    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".centTransposition",
         namePrefix + " cent transposition", "ct.",
-        NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f, nullptr, nullptr);
-    pluginParameters.createAndAddParameter(
+        NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f, nullptr, nullptr));
+    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".volume", namePrefix + " volume", String(),
         NormalisableRange<float>(0.f, 1.0f, 0.0001f, 0.4f), 1.f, nullptr,
-        nullptr);
-    pluginParameters.createAndAddParameter(
+        nullptr));
+    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".on", namePrefix + " on/off", String(),
-        NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
+        NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr));
   }
 }
 

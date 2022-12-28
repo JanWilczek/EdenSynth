@@ -48,16 +48,18 @@ eden::MidiBuffer EdenAdapter::convertToEdenMidi(
 
 void EdenAdapter::addEdenParameters(
     AudioProcessorValueTreeState& pluginParameters) {
+  using Parameter = juce::AudioProcessorValueTreeState::Parameter;
+
   // general parameters
-  pluginParameters.createAndAddParameter(
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "pitchBend.semitonesDown", "Pitch bend semitones down", String(),
-      NormalisableRange<float>(-24.f, 0.f, 1.f), -12.f, nullptr, nullptr);
-  pluginParameters.createAndAddParameter(
+      NormalisableRange<float>(-24.f, 0.f, 1.f), -12.f, nullptr, nullptr));
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "pitchBend.semitonesUp", "Pitch bend semitones up", String(),
-      NormalisableRange<float>(0.f, 24.f, 1.f), 2.f, nullptr, nullptr);
-  pluginParameters.createAndAddParameter(
+      NormalisableRange<float>(0.f, 24.f, 1.f), 2.f, nullptr, nullptr));
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "frequencyOfA4", "Frequency of A4", "Hz",
-      NormalisableRange<float>(400.f, 500.f, 0.1f), 440.f, nullptr, nullptr);
+      NormalisableRange<float>(400.f, 500.f, 0.1f), 440.f, nullptr, nullptr));
 
   // oscillator parameters
   _oscillators.addOscillatorParameters(pluginParameters);
@@ -69,46 +71,46 @@ void EdenAdapter::addEdenParameters(
   _waveshapingParameters.addWaveshapingParameters(pluginParameters);
 
   // ADBDR envelope parameters
-  pluginParameters.createAndAddParameter(
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "envelope.adbdr.attack.time", "Attack time", "ms",
       NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 30.f, nullptr,
-      nullptr);
-  pluginParameters.createAndAddParameter(
+      nullptr));
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "envelope.adbdr.attack.curve", "Attack curve", String(),
-      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
+      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr));
 
-  pluginParameters.createAndAddParameter(
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "envelope.adbdr.decay1.time", "Decay1 time", "ms",
       NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 20.f, nullptr,
-      nullptr);
-  pluginParameters.createAndAddParameter(
+      nullptr));
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "envelope.adbdr.decay1.curve", "Decay1 curve", String(),
-      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
+      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr));
 
-  pluginParameters.createAndAddParameter(
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "envelope.adbdr.decay2.time", "Decay2 time", "ms",
       NormalisableRange<float>(1.f, 100000.f, 1.f, 0.3f), 20000.f, nullptr,
-      nullptr);
-  pluginParameters.createAndAddParameter(
+      nullptr));
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "envelope.adbdr.decay2.curve", "Decay2 curve", String(),
-      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
+      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr));
 
-  pluginParameters.createAndAddParameter(
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "envelope.adbdr.release.time", "Release time", "ms",
       NormalisableRange<float>(1.f, 40000.f, 1.f, 0.3f), 300.f, nullptr,
-      nullptr);
-  pluginParameters.createAndAddParameter(
+      nullptr));
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "envelope.adbdr.release.curve", "Release curve", String(),
-      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr);
+      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr));
 
-  pluginParameters.createAndAddParameter(
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "envelope.adbdr.breakLevel", "Break level", String(),
-      NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 0.6f, nullptr, nullptr);
+      NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 0.6f, nullptr, nullptr));
 
   // output parameters
-  pluginParameters.createAndAddParameter(
+  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "output.volume", "Global volume", String(),
-      NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 1.0f, nullptr, nullptr);
+      NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 1.0f, nullptr, nullptr));
 }
 
 void EdenAdapter::updateEdenParameters(
