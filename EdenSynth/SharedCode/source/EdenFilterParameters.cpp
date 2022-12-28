@@ -15,62 +15,60 @@ void EdenFilterParameters::addFilterParameters(
 
   const std::string cutoffParameterName = "filter.cutoff";
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      cutoffParameterName, "Cutoff", String(),
-      NormalisableRange<float>(0.1f, 75.f, 0.001f, 0.3f), 1.f, nullptr,
-      nullptr));
+      cutoffParameterName, "Cutoff",
+      NormalisableRange<float>(0.1f, 75.f, 0.001f, 0.3f), 1.f));
   _cutoff = pluginParameters.getRawParameterValue(cutoffParameterName);
 
   const std::string resonanceParameterName = "filter.resonance";
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      resonanceParameterName, "Resonance", String(),
-      NormalisableRange<float>(0.f, 1.f, 0.0001f), 0.f, nullptr, nullptr));
+      resonanceParameterName, "Resonance",
+      NormalisableRange<float>(0.f, 1.f, 0.0001f), 0.f));
   _resonance = pluginParameters.getRawParameterValue(resonanceParameterName);
 
   const std::string contourAmountParameterName = "filter.contourAmount";
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      contourAmountParameterName, "Contour amount", String(),
-      NormalisableRange<float>(0.f, 1.0f, 0.001f, 1.6f), 1.0f, nullptr,
-      nullptr));
+      contourAmountParameterName, "Contour amount",
+      NormalisableRange<float>(0.f, 1.0f, 0.001f, 1.6f), 1.0f));
   _contourAmount =
       pluginParameters.getRawParameterValue(contourAmountParameterName);
 
   const std::string passbandAttenuationParameterName =
       "filter.passbandAttenuation";
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      passbandAttenuationParameterName, "Passband attenuation", String(),
-      NormalisableRange(0.f, 1.f, 1.f), 0.f, nullptr, nullptr));
+      passbandAttenuationParameterName, "Passband attenuation",
+      NormalisableRange(0.f, 1.f, 1.f), 0.f));
   _passbandAttenuation =
       pluginParameters.getRawParameterValue(passbandAttenuationParameterName);
 
   const std::string attackTimeParameterName =
       "filter.env.adsr.attack.time";
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      attackTimeParameterName, "Filter attack time", "ms",
-      NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 50.f, nullptr,
-      nullptr));
+      attackTimeParameterName, "Filter attack time",
+      NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 50.f,
+      AudioProcessorValueTreeStateParameterAttributes{}.withLabel("ms")));
   _attackTime = pluginParameters.getRawParameterValue(attackTimeParameterName);
 
   const std::string decayTimeParameterName = "filter.env.adsr.decay.time";
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      decayTimeParameterName, "Filter decay time", "ms",
-      NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 20.f, nullptr,
-      nullptr));
+      decayTimeParameterName, "Filter decay time",
+      NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 20.f,
+      AudioProcessorValueTreeStateParameterAttributes{}.withLabel("ms")));
   _decayTime = pluginParameters.getRawParameterValue(decayTimeParameterName);
 
   const std::string sustainLevelParameterName =
       "filter.env.adsr.sustain.level";
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      sustainLevelParameterName, "Filter sustain level", String(),
-      NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 0.9f, nullptr, nullptr));
+      sustainLevelParameterName, "Filter sustain level",
+      NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 0.9f));
   _sustainLevel =
       pluginParameters.getRawParameterValue(sustainLevelParameterName);
 
   const std::string releaseTimeParameterName =
       "filter.env.adsr.release.time";
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      releaseTimeParameterName, "Filter release time", "ms",
-      NormalisableRange<float>(1.f, 40000.f, 1.f, 0.3f), 300.f, nullptr,
-      nullptr));
+      releaseTimeParameterName, "Filter release time",
+      NormalisableRange<float>(1.f, 40000.f, 1.f, 0.3f), 300.f,
+      AudioProcessorValueTreeStateParameterAttributes{}.withLabel("ms")));
   _releaseTime =
       pluginParameters.getRawParameterValue(releaseTimeParameterName);
 }

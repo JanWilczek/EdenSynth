@@ -59,27 +59,28 @@ void OscillatorContainer::addOscillatorParameters(
         })));
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".generatorName", namePrefix + " generator name",
-        String(), NormalisableRange<float>(0.f, 4.f, 1.f), 0.f, nullptr,
-        nullptr));
+        NormalisableRange<float>(0.f, 4.f, 1.f), 0.f));
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".octaveTransposition",
-        namePrefix + " octave transposition", "oct.",
-        NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f, nullptr, nullptr));
+        namePrefix + " octave transposition",
+        NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f,
+        AudioProcessorValueTreeStateParameterAttributes{}.withLabel("oct.")));
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".semitoneTransposition",
-        namePrefix + " semitone transposition", "semit.",
-        NormalisableRange<float>(-6.0f, 6.0f, 1.0f), 0.f, nullptr, nullptr));
+        namePrefix + " semitone transposition",
+        NormalisableRange<float>(-6.0f, 6.0f, 1.0f), 0.f,
+        AudioProcessorValueTreeStateParameterAttributes{}.withLabel("semit.")));
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".centTransposition",
-        namePrefix + " cent transposition", "ct.",
-        NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f, nullptr, nullptr));
+        namePrefix + " cent transposition",
+        NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f,
+        AudioProcessorValueTreeStateParameterAttributes{}.withLabel("ct.")));
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-        parameterPrefix + ".volume", namePrefix + " volume", String(),
-        NormalisableRange<float>(0.f, 1.0f, 0.0001f, 0.4f), 1.f, nullptr,
-        nullptr));
+        parameterPrefix + ".volume", namePrefix + " volume",
+        NormalisableRange<float>(0.f, 1.0f, 0.0001f, 0.4f), 1.f));
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-        parameterPrefix + ".on", namePrefix + " on/off", String(),
-        NormalisableRange<float>(0.f, 1.f, 1.f), 1.f, nullptr, nullptr));
+        parameterPrefix + ".on", namePrefix + " on/off",
+        NormalisableRange<float>(0.f, 1.f, 1.f), 1.f));
   }
 }
 

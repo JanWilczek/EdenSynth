@@ -20,8 +20,8 @@ void EdenWaveshapingParameters::addWaveshapingParameters(
 
   const std::string autoMakeUpGainParameterName = "waveshaper.autoMakeUpGain";
   valueTreeState.createAndAddParameter(std::make_unique<Parameter>(
-      autoMakeUpGainParameterName, "Auto make up gain", String(),
-      NormalisableRange<float>(0.f, 1.f, 1.f), 0.f, nullptr, nullptr));
+      autoMakeUpGainParameterName, "Auto make up gain",
+      NormalisableRange<float>(0.f, 1.f, 1.f), 0.f));
   _autoMakeUpGain =
       valueTreeState.getRawParameterValue(autoMakeUpGainParameterName);
 }
