@@ -73,18 +73,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)include\;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)output\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>$(ProjectDir)include\;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>

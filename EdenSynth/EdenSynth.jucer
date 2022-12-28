@@ -126,7 +126,7 @@
       </MODULEPATHS>
     </VS2017>
     <VS2019 targetFolder="Builds/VisualStudio2019" extraCompilerFlags="/I ../../SharedCode/include /I ../../libeden/include"
-            aaxFolder="SDKs/AAX" extraLinkerFlags="&quot;libeden_$(Platform)_$(Configuration).lib&quot; /LIBPATH:&quot;$(SolutionDir)output\$(Platform)\$(Configuration)\&quot; ">
+            aaxFolder="SDKs/AAX" extraLinkerFlags="&quot;libeden_$(Platform)_$(Configuration).lib&quot; /LIBPATH:&quot;$(SolutionDir)$(Platform)\$(Configuration)\&quot; ">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy &quot;$(SolutionDir)assets&quot; &quot;$(OutDir)assets&quot; /s /e /i /Y"/>
         <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy &quot;$(SolutionDir)assets&quot; &quot;$(OutDir)assets&quot; /s /e /i /Y"/>
