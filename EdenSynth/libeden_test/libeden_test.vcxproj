@@ -104,6 +104,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>robocopy "$(SolutionDir)dependencies\libs\fftw\ " "$(OutDir) " libfftw3-3.dll libfftw3f-3.dll libfftw3l-3.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -125,8 +128,7 @@
       <AdditionalDependencies>libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>robocopy $(SolutionDir)dependencies\libs\fftw\ $(OutDir)\ libfftw3-3.dll libfftw3f-3.dll libfftw3l-3.dll
-</Command>
+      <Command>robocopy "$(SolutionDir)dependencies\libs\fftw\ " "$(OutDir) " libfftw3-3.dll libfftw3f-3.dll libfftw3l-3.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -147,6 +149,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
+    <PostBuildEvent>
+      <Command>robocopy "$(SolutionDir)dependencies\libs\fftw\ " "$(OutDir) " libfftw3-3.dll libfftw3f-3.dll libfftw3l-3.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -169,6 +174,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\libs\fftw\;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>robocopy "$(SolutionDir)dependencies\libs\fftw\ " "$(OutDir) " libfftw3-3.dll libfftw3f-3.dll libfftw3l-3.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
