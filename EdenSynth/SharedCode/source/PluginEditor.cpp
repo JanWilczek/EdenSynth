@@ -1,6 +1,7 @@
 #include "PluginEditor.h"
 #include "EdenAdapter.h"
 #include "PluginProcessor.h"
+#include "PresetSaver.h"
 
 namespace {
 constexpr auto PRESETS_COMPONENT_HEIGHT = 50;
@@ -27,7 +28,8 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(
       _generalSettingsComponent(vts),
       _generatorComponent(vts, adapter.getPathProvider()),
       _modifierComponent(vts, adapter),
-      _outputSettingsComponent(vts) {
+      _outputSettingsComponent(vts),
+      _presetsComponent{eden_vst::PresetSaver{vts}} {
   setSize(EDITOR_WIDTH, EDITOR_HEIGHT);
 
   addAndMakeVisible(_generalSettingsComponent);

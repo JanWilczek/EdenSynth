@@ -8,97 +8,103 @@
               jucerFormatVersion="1" compilerFlagSchemes="">
   <MAINGROUP id="QaIe6a" name="EdenSynth">
     <GROUP id="{861311EE-927B-C330-62B7-53462F96606D}" name="include">
+      <GROUP id="{C6DA3187-CA86-A10F-B8D0-A145C2295E97}" name="components">
+        <FILE id="SZCYJs" name="EnvelopeSegmentComponent.h" compile="0" resource="0"
+              file="SharedCode/include/EnvelopeSegmentComponent.h"/>
+        <FILE id="yURqcD" name="FilterEnvelopeComponent.h" compile="0" resource="0"
+              file="SharedCode/include/FilterEnvelopeComponent.h"/>
+        <FILE id="urBxIy" name="FilterComponent.h" compile="0" resource="0"
+              file="SharedCode/include/FilterComponent.h"/>
+        <FILE id="b9njAG" name="GeneratorComponent.h" compile="0" resource="0"
+              file="SharedCode/include/GeneratorComponent.h"/>
+        <FILE id="x3JtPQ" name="OscillatorComponent.h" compile="0" resource="0"
+              file="SharedCode/include/OscillatorComponent.h"/>
+        <FILE id="Dg4srE" name="GeneralSettingsComponent.h" compile="0" resource="0"
+              file="SharedCode/include/GeneralSettingsComponent.h"/>
+        <FILE id="LZUlTT" name="FilterControlsComponent.h" compile="0" resource="0"
+              file="SharedCode/include/FilterControlsComponent.h"/>
+        <FILE id="imVoas" name="OutputSettingsComponent.h" compile="0" resource="0"
+              file="SharedCode/include/OutputSettingsComponent.h"/>
+        <FILE id="pyptIb" name="PresetsComponent.h" compile="0" resource="0"
+              file="SharedCode/include/PresetsComponent.h"/>
+        <FILE id="kXGsbH" name="ModifierComponent.h" compile="0" resource="0"
+              file="SharedCode/include/ModifierComponent.h"/>
+        <FILE id="LaJXRB" name="FilterEnvelopeSegmentComponent.h" compile="0"
+              resource="0" file="SharedCode/include/FilterEnvelopeSegmentComponent.h"/>
+        <FILE id="nAbi6Y" name="WaveshaperComponent.h" compile="0" resource="0"
+              file="SharedCode/include/WaveshaperComponent.h"/>
+        <FILE id="ILd8uY" name="OscillatorSourceComponent.h" compile="0" resource="0"
+              file="SharedCode/include/OscillatorSourceComponent.h"/>
+        <FILE id="aliOqJ" name="WaveshapingCanvas.h" compile="0" resource="0"
+              file="SharedCode/include/WaveshapingCanvas.h"/>
+        <FILE id="O0SYCP" name="OscillatorsComponent.h" compile="0" resource="0"
+              file="SharedCode/include/OscillatorsComponent.h"/>
+        <FILE id="IHrN48" name="EnvelopeComponent.h" compile="0" resource="0"
+              file="SharedCode/include/EnvelopeComponent.h"/>
+      </GROUP>
       <FILE id="lAwhep" name="EdenAdapter.h" compile="0" resource="0" file="SharedCode/include/EdenAdapter.h"/>
       <FILE id="TclGqN" name="EdenFilterParameters.h" compile="0" resource="0"
             file="SharedCode/include/EdenFilterParameters.h"/>
       <FILE id="QzNNpP" name="EdenWaveshapingParameters.h" compile="0" resource="0"
             file="SharedCode/include/EdenWaveshapingParameters.h"/>
-      <FILE id="IHrN48" name="EnvelopeComponent.h" compile="0" resource="0"
-            file="SharedCode/include/EnvelopeComponent.h"/>
-      <FILE id="SZCYJs" name="EnvelopeSegmentComponent.h" compile="0" resource="0"
-            file="SharedCode/include/EnvelopeSegmentComponent.h"/>
-      <FILE id="urBxIy" name="FilterComponent.h" compile="0" resource="0"
-            file="SharedCode/include/FilterComponent.h"/>
-      <FILE id="LZUlTT" name="FilterControlsComponent.h" compile="0" resource="0"
-            file="SharedCode/include/FilterControlsComponent.h"/>
-      <FILE id="yURqcD" name="FilterEnvelopeComponent.h" compile="0" resource="0"
-            file="SharedCode/include/FilterEnvelopeComponent.h"/>
-      <FILE id="LaJXRB" name="FilterEnvelopeSegmentComponent.h" compile="0"
-            resource="0" file="SharedCode/include/FilterEnvelopeSegmentComponent.h"/>
-      <FILE id="Dg4srE" name="GeneralSettingsComponent.h" compile="0" resource="0"
-            file="SharedCode/include/GeneralSettingsComponent.h"/>
-      <FILE id="b9njAG" name="GeneratorComponent.h" compile="0" resource="0"
-            file="SharedCode/include/GeneratorComponent.h"/>
-      <FILE id="kXGsbH" name="ModifierComponent.h" compile="0" resource="0"
-            file="SharedCode/include/ModifierComponent.h"/>
-      <FILE id="x3JtPQ" name="OscillatorComponent.h" compile="0" resource="0"
-            file="SharedCode/include/OscillatorComponent.h"/>
       <FILE id="Lqsf1G" name="OscillatorContainer.h" compile="0" resource="0"
             file="SharedCode/include/OscillatorContainer.h"/>
-      <FILE id="O0SYCP" name="OscillatorsComponent.h" compile="0" resource="0"
-            file="SharedCode/include/OscillatorsComponent.h"/>
-      <FILE id="ILd8uY" name="OscillatorSourceComponent.h" compile="0" resource="0"
-            file="SharedCode/include/OscillatorSourceComponent.h"/>
-      <FILE id="imVoas" name="OutputSettingsComponent.h" compile="0" resource="0"
-            file="SharedCode/include/OutputSettingsComponent.h"/>
       <FILE id="dbGluG" name="PluginEditor.h" compile="0" resource="0" file="SharedCode/include/PluginEditor.h"/>
       <FILE id="O6hu68" name="PluginProcessor.h" compile="0" resource="0"
             file="SharedCode/include/PluginProcessor.h"/>
-      <FILE id="pyptIb" name="PresetsComponent.h" compile="0" resource="0"
-            file="SharedCode/include/PresetsComponent.h"/>
-      <FILE id="nAbi6Y" name="WaveshaperComponent.h" compile="0" resource="0"
-            file="SharedCode/include/WaveshaperComponent.h"/>
-      <FILE id="aliOqJ" name="WaveshapingCanvas.h" compile="0" resource="0"
-            file="SharedCode/include/WaveshapingCanvas.h"/>
+      <FILE id="kdSQZR" name="PresetSaver.h" compile="0" resource="0" file="SharedCode/include/PresetSaver.h"/>
       <FILE id="Jws140" name="WaveshapingTransferFunctionContainer.h" compile="0"
             resource="0" file="SharedCode/include/WaveshapingTransferFunctionContainer.h"/>
       <FILE id="VfYP23" name="WaveTablePathProvider.h" compile="0" resource="0"
             file="SharedCode/include/WaveTablePathProvider.h"/>
     </GROUP>
     <GROUP id="{6F6DA406-5C71-27CE-74AE-AF113A73C755}" name="source">
+      <GROUP id="{A8AF2589-F660-01D5-8170-91F0B9BD2929}" name="components">
+        <FILE id="JtV2uf" name="EnvelopeComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/EnvelopeComponent.cpp"/>
+        <FILE id="UVoIGk" name="EnvelopeSegmentComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/EnvelopeSegmentComponent.cpp"/>
+        <FILE id="gSw7vM" name="FilterComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/FilterComponent.cpp"/>
+        <FILE id="C5gqbL" name="FilterControlsComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/FilterControlsComponent.cpp"/>
+        <FILE id="c162wW" name="FilterEnvelopeComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/FilterEnvelopeComponent.cpp"/>
+        <FILE id="IvYxzr" name="OscillatorComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/OscillatorComponent.cpp"/>
+        <FILE id="SiAkGD" name="OscillatorsComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/OscillatorsComponent.cpp"/>
+        <FILE id="HOe88h" name="OscillatorSourceComponent.cpp" compile="1"
+              resource="0" file="SharedCode/source/OscillatorSourceComponent.cpp"/>
+        <FILE id="CLJDEy" name="OutputSettingsComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/OutputSettingsComponent.cpp"/>
+        <FILE id="Fl58r4" name="PresetsComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/PresetsComponent.cpp"/>
+        <FILE id="W3qtap" name="WaveshaperComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/WaveshaperComponent.cpp"/>
+        <FILE id="sxfLUD" name="WaveshapingCanvas.cpp" compile="1" resource="0"
+              file="SharedCode/source/WaveshapingCanvas.cpp"/>
+        <FILE id="cZwGCs" name="FilterEnvelopeSegmentComponent.cpp" compile="1"
+              resource="0" file="SharedCode/source/FilterEnvelopeSegmentComponent.cpp"/>
+        <FILE id="ycRDrc" name="GeneralSettingsComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/GeneralSettingsComponent.cpp"/>
+        <FILE id="LErJsg" name="GeneratorComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/GeneratorComponent.cpp"/>
+        <FILE id="GKp4RD" name="ModifierComponent.cpp" compile="1" resource="0"
+              file="SharedCode/source/ModifierComponent.cpp"/>
+      </GROUP>
       <FILE id="flbZbH" name="EdenAdapter.cpp" compile="1" resource="0" file="SharedCode/source/EdenAdapter.cpp"/>
       <FILE id="KUPbJz" name="EdenFilterParameters.cpp" compile="1" resource="0"
             file="SharedCode/source/EdenFilterParameters.cpp"/>
       <FILE id="fzPhYU" name="EdenWaveshapingParameters.cpp" compile="1"
             resource="0" file="SharedCode/source/EdenWaveshapingParameters.cpp"/>
-      <FILE id="JtV2uf" name="EnvelopeComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/EnvelopeComponent.cpp"/>
-      <FILE id="UVoIGk" name="EnvelopeSegmentComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/EnvelopeSegmentComponent.cpp"/>
-      <FILE id="gSw7vM" name="FilterComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/FilterComponent.cpp"/>
-      <FILE id="C5gqbL" name="FilterControlsComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/FilterControlsComponent.cpp"/>
-      <FILE id="c162wW" name="FilterEnvelopeComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/FilterEnvelopeComponent.cpp"/>
-      <FILE id="cZwGCs" name="FilterEnvelopeSegmentComponent.cpp" compile="1"
-            resource="0" file="SharedCode/source/FilterEnvelopeSegmentComponent.cpp"/>
-      <FILE id="ycRDrc" name="GeneralSettingsComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/GeneralSettingsComponent.cpp"/>
-      <FILE id="LErJsg" name="GeneratorComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/GeneratorComponent.cpp"/>
-      <FILE id="GKp4RD" name="ModifierComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/ModifierComponent.cpp"/>
-      <FILE id="IvYxzr" name="OscillatorComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/OscillatorComponent.cpp"/>
       <FILE id="SFpYNL" name="OscillatorContainer.cpp" compile="1" resource="0"
             file="SharedCode/source/OscillatorContainer.cpp"/>
-      <FILE id="SiAkGD" name="OscillatorsComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/OscillatorsComponent.cpp"/>
-      <FILE id="HOe88h" name="OscillatorSourceComponent.cpp" compile="1"
-            resource="0" file="SharedCode/source/OscillatorSourceComponent.cpp"/>
-      <FILE id="CLJDEy" name="OutputSettingsComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/OutputSettingsComponent.cpp"/>
       <FILE id="ORC45d" name="PluginEditor.cpp" compile="1" resource="0"
             file="SharedCode/source/PluginEditor.cpp"/>
       <FILE id="DPtwL8" name="PluginProcessor.cpp" compile="1" resource="0"
             file="SharedCode/source/PluginProcessor.cpp"/>
-      <FILE id="Fl58r4" name="PresetsComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/PresetsComponent.cpp"/>
-      <FILE id="W3qtap" name="WaveshaperComponent.cpp" compile="1" resource="0"
-            file="SharedCode/source/WaveshaperComponent.cpp"/>
-      <FILE id="sxfLUD" name="WaveshapingCanvas.cpp" compile="1" resource="0"
-            file="SharedCode/source/WaveshapingCanvas.cpp"/>
+      <FILE id="KDpIyr" name="PresetSaver.cpp" compile="1" resource="0" file="SharedCode/source/PresetSaver.cpp"/>
       <FILE id="NbVTDb" name="WaveshapingTransferFunctionContainer.cpp" compile="1"
             resource="0" file="SharedCode/source/WaveshapingTransferFunctionContainer.cpp"/>
       <FILE id="RWzAIi" name="WaveTablePathProvider.cpp" compile="1" resource="0"

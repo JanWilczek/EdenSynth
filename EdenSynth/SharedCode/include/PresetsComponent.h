@@ -4,7 +4,7 @@
 
 class PresetsComponent : public juce::Component {
 public:
-  PresetsComponent();
+  explicit PresetsComponent(std::function<void()>&& savePresetAction);
 
   void paint(juce::Graphics&) override;
   void resized() override;

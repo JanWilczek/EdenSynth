@@ -1,10 +1,11 @@
 #include "PresetsComponent.h"
 
-PresetsComponent::PresetsComponent() {
+PresetsComponent::PresetsComponent(std::function<void()>&& savePresetAction) {
   _presetLabel.setJustificationType(Justification::right);
   addAndMakeVisible(_presetLabel);
   addAndMakeVisible(_preset);
   _savePresetButton.setButtonText("Save preset");
+  _savePresetButton.onClick = std::move(savePresetAction);
   addAndMakeVisible(_savePresetButton);
 }
 
