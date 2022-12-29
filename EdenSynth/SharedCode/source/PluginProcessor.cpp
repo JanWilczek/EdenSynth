@@ -1,9 +1,10 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-#include <eden/AudioBuffer.h>
-#include <eden/MidiBuffer.h>
 #include "EdenAdapter.h"
+#include "FileHelper.h"
+#include "eden/AudioBuffer.h"
+#include "eden/MidiBuffer.h"
 
 #include <utility/StopWatchPrinter.h>
 #include <utility/WaveFileReader.h>
@@ -23,14 +24,7 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
                          ),
 #endif
       _pluginParameters(*this, nullptr),
-      _edenAdapter(_edenSynthesiser,
-                   std::filesystem::path(
-                       File::getSpecialLocation(
-                           File::SpecialLocationType::currentExecutableFile)
-                           .getParentDirectory()
-                           .getFullPathName()
-                           .toStdString()) /
-                       "assets") {
+      _edenAdapter(_edenSynthesiser, eden_vst::FileHelper::assetsPath()) {
   _edenAdapter.addEdenParameters(_pluginParameters);
   _pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));
 }
@@ -131,9 +125,9 @@ void EdenSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer,
 
   _edenAdapter.updateEdenParameters(_pluginParameters);
 
-  eden::AudioBuffer edenAudioBuffer(const_cast<float**>(buffer.getArrayOfWritePointers()),
-                                    getTotalNumOutputChannels(),
-                                    buffer.getNumSamples());
+  eden::AudioBuffer edenAudioBuffer(
+      const_cast<float**>(buffer.getArrayOfWritePointers()),
+      getTotalNumOutputChannels(), buffer.getNumSamples());
   eden::MidiBuffer edenMidiBuffer =
       eden_vst::EdenAdapter::convertToEdenMidi(midiMessages);
 

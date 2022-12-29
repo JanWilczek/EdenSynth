@@ -1,4 +1,5 @@
 #include "PresetSaver.h"
+#include "FileHelper.h"
 #include "JuceHeader.h"
 
 namespace eden_vst {
@@ -20,19 +21,47 @@ void PresetSaver::saveCurrentPreset() {
     return;
   }
 
-  _savePresetDialog = std::make_shared<juce::FileChooser>(
-      "Save the preset to an XML file", File(), "*.xml");
-  constexpr auto saveSingleFileAndWarnAboutOverwriting =
-      FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode |
-      FileBrowserComponent::warnAboutOverwriting;
+  constexpr auto CANCEL_BUTTON_ID = 0;
+  constexpr auto SAVE_PRESET_BUTTON_ID = 1;
+  constexpr auto TEXT_EDITOR_NAME = "presetName";
+  _savePresetDialog = std::make_shared<AlertWindow>(
+      "Save preset", "Give the name of the preset", MessageBoxIconType::NoIcon);
+  _savePresetDialog->addTextEditor(TEXT_EDITOR_NAME, "DefaultPresetName");
+  _savePresetDialog->addButton("Cancel", CANCEL_BUTTON_ID);
+  _savePresetDialog->addButton("Save preset", SAVE_PRESET_BUTTON_ID);
+  auto textEditor = _savePresetDialog->getTextEditor(TEXT_EDITOR_NAME);
+  _savePresetDialog->enterModalState(
+      true, ModalCallbackFunction::create([presetXML = std::move(presetXML),
+                                           textEditor,
+                                           dialog = _savePresetDialog.get()](
+                                              int pressedButtonIndex) {
+        dialog->exitModalState(pressedButtonIndex);
+        dialog->setVisible(false);
 
-  _savePresetDialog->launchAsync(
-      saveSingleFileAndWarnAboutOverwriting,
-      [presetXML = std::move(presetXML)](const FileChooser& dialog) {
-        File presetOutputPath(dialog.getResult());
+        if (pressedButtonIndex != SAVE_PRESET_BUTTON_ID or not textEditor) {
+          return;
+        }
+
+        const auto presetName = textEditor->getText();
+        if (presetName.isEmpty()) {
+          return;
+        }
+
+        const auto presetOutputPath = File(
+            (FileHelper::assetsPath() / "presets" / presetName.toStdString())
+                .replace_extension("xml")
+                .native()
+                .c_str());
+
+        if (presetOutputPath.exists()) {
+          // TODO: Display "overwrite?" dialog
+        }
+
         if (not presetXML->writeTo(presetOutputPath)) {
           // TODO: Display warning.
         }
-      });
+
+        // TODO: Call a callback that a preset has been added.
+      }));
 }
 }  // namespace eden_vst

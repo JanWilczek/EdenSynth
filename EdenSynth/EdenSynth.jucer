@@ -47,6 +47,7 @@
             file="SharedCode/include/EdenFilterParameters.h"/>
       <FILE id="QzNNpP" name="EdenWaveshapingParameters.h" compile="0" resource="0"
             file="SharedCode/include/EdenWaveshapingParameters.h"/>
+      <FILE id="C3bJIO" name="FileHelper.h" compile="0" resource="0" file="SharedCode/include/FileHelper.h"/>
       <FILE id="Lqsf1G" name="OscillatorContainer.h" compile="0" resource="0"
             file="SharedCode/include/OscillatorContainer.h"/>
       <FILE id="dbGluG" name="PluginEditor.h" compile="0" resource="0" file="SharedCode/include/PluginEditor.h"/>
