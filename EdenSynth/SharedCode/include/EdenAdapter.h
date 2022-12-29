@@ -20,7 +20,7 @@ namespace eden_vst {
 /// Class containing utilities connecting JUCE with Eden.
 /// </summary>
 class EdenAdapter {
- public:
+public:
   EdenAdapter(eden::EdenSynthesiser& synthesiser,
               std::filesystem::path assetsPath);
 
@@ -40,7 +40,7 @@ class EdenAdapter {
   std::shared_ptr<WaveshapingTransferFunctionContainer>
   getWaveshapingTransferFunction() const noexcept;
 
- private:
+private:
   eden::EdenSynthesiser& _synthesiser;
   OscillatorContainer _oscillators;
   EdenFilterParameters _filterParameters;

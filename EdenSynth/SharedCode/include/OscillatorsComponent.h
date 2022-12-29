@@ -11,14 +11,14 @@ class WaveTablePathProvider;
 }
 
 class OscillatorsComponent : public Component {
- public:
+public:
   OscillatorsComponent(AudioProcessorValueTreeState& valueTreeState,
                        const eden_vst::WaveTablePathProvider& pathProvider);
 
   void paint(Graphics& g) override;
   void resized() override;
 
- private:
+private:
   OscillatorComponent _oscillator1;
   OscillatorComponent _oscillator2;
   OscillatorComponent _oscillator3;

@@ -10,7 +10,7 @@ namespace eden::synth::envelope {
 /// Represents exponential gain curve - i.e. linear to the human ear.
 /// </summary>
 class ExponentialGain : public ISegmentGain {
- public:
+public:
   ~ExponentialGain() = default;
 
   void calculateGain(float sampleRate,
@@ -19,7 +19,7 @@ class ExponentialGain : public ISegmentGain {
                      float finalLevel) override;
   void applyAndUpdateGain(float& currentGain) override;
 
- private:
+private:
   float _multiplier = float(1);
 };
 }  // namespace eden::synth::envelope

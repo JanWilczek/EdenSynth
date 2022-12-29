@@ -9,7 +9,7 @@
 
 namespace eden::synth::waveshaping {
 class Waveshaper {
- public:
+public:
   Waveshaper();
 
   float transform(float sample);
@@ -18,7 +18,7 @@ class Waveshaper {
 
   void setAutoMakeUpGain(bool makeUpGainEnabled);
 
- private:
+private:
   bool _makeUpGainEnabled;
   std::vector<float> _transferFunction;
   float _makeUpGainFactor;

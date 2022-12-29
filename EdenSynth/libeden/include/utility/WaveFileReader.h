@@ -32,7 +32,7 @@ struct WaveHeader {
 /// Currently 8-, 16- and 32-bit PCM samples are supported.
 /// </summary>
 class WaveFileReader {
- public:
+public:
   explicit WaveFileReader(const std::string& pathToWaveFile);
   ~WaveFileReader();
 
@@ -45,7 +45,7 @@ class WaveFileReader {
   /// <returns>samples from decoded wave file in float format</returns>
   std::vector<float> readSamples();
 
- private:
+private:
   /// <summary>
   /// Reads the header part of the wave file.
   /// </summary>

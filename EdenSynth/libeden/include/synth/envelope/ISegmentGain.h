@@ -11,7 +11,7 @@ namespace eden::synth::envelope {
 /// curve (e.g. linear, exponential).
 /// </summary>
 class ISegmentGain {
- public:
+public:
   virtual ~ISegmentGain() = 0;
 
   /// <summary>

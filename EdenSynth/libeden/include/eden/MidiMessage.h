@@ -9,7 +9,7 @@ namespace eden {
 /// Single MIDI message.
 /// </summary>
 class MidiMessage {
- public:
+public:
   /// <summary>
   /// Type of the message.
   /// </summary>
@@ -81,7 +81,7 @@ class MidiMessage {
 
   void setPitchWheelPosition(int position);
 
- private:
+private:
   MidiMessageType _type;
   int _channel = 0;
   int _noteNumber = -1;

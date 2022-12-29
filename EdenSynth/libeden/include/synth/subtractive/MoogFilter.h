@@ -13,7 +13,7 @@ namespace eden::synth::subtractive {
 /// Synthesis" by Vesa Välimäki and Antti Huovilainen.
 /// </summary>
 class MoogFilter {
- public:
+public:
   MoogFilter(float sampleRate);
 
   /// <summary>
@@ -45,7 +45,7 @@ class MoogFilter {
 
   void setSampleRate(float sampleRate);
 
- private:
+private:
   /// <summary>
   /// Calculates <see cref="_gRes"/> based on  <see cref="_cutoffFrequency"/>,
   /// <see cref="_sampleRate"/> and <see cref="_resonance"/>.

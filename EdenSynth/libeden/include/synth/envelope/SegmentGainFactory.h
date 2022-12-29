@@ -13,7 +13,7 @@ namespace eden::synth::envelope {
 class ISegmentGain;
 
 class SegmentGainFactory {
- public:
+public:
   /// <summary>
   /// Creates appropriate segment gain object depending on the <paramref
   /// name="segmentCurve"/> value.

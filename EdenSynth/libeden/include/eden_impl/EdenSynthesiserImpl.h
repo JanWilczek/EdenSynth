@@ -20,7 +20,7 @@ struct EnvelopeParameters;
 ///	Internal EdenSynthesiser implementation.
 /// </summary>
 class EdenSynthesiserImpl {
- public:
+public:
   EdenSynthesiserImpl();
 
   void processInputBlock(AudioBuffer& bufferToFill, MidiBuffer& midiBuffer);
@@ -67,7 +67,7 @@ class EdenSynthesiserImpl {
   void setEnvelopeParameters(
       std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
- private:
+private:
   /// <summary>
   /// Library's settings.
   /// </summary>

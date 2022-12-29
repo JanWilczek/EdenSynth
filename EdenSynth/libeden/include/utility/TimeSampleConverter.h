@@ -7,7 +7,7 @@
 
 namespace eden::utility {
 class TimeSampleConverter {
- public:
+public:
   /// <summary>
   /// Converts time duration to a number of samples it conveys using given
   /// sample rate.

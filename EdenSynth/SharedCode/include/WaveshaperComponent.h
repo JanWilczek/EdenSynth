@@ -11,7 +11,7 @@ class WaveshaperComponent : public Component,
                             public ComboBox::Listener,
                             public Label::Listener,
                             public Slider::Listener {
- public:
+public:
   enum class AvailableCurves {
     Identity = 1,
     HyperbolicTangent = 2,
@@ -30,7 +30,7 @@ class WaveshaperComponent : public Component,
   void labelTextChanged(Label* labelThatHasChanged) override;
   void sliderValueChanged(Slider* slider) override;
 
- private:
+private:
   void setTransferFunction();
   static std::vector<float> generateCurve(AvailableCurves curveName,
                                           unsigned length,

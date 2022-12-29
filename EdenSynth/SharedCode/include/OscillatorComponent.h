@@ -11,7 +11,7 @@ class WaveTablePathProvider;
 }
 
 class OscillatorComponent : public Component {
- public:
+public:
   using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
   using ComboBoxAttachment = AudioProcessorValueTreeState::ComboBoxAttachment;
   using ButtonAttachment = AudioProcessorValueTreeState::ButtonAttachment;
@@ -22,7 +22,7 @@ class OscillatorComponent : public Component {
 
   void resized() override;
 
- private:
+private:
   Label _octaveLabel{"octaveTranspositionLabel", "Octave"};
   Slider _octaveTransposition;
   std::unique_ptr<SliderAttachment> _octaveTranspositionAttachment;

@@ -15,7 +15,7 @@ struct ADSRParameters;
 
 namespace eden::synth::envelope {
 class ADSR : public Envelope {
- public:
+public:
   enum class ADSRSegments {
     Attack = 0,
     Decay = 1,
@@ -34,10 +34,10 @@ class ADSR : public Envelope {
   void setSegmentCurve(ADSRSegments segment, EnvelopeSegmentCurve curve);
   void setSustainLevel(float sustainLevel);
 
- protected:
+protected:
   bool hasEnded() override;
 
- private:
+private:
   Attack _attack;
   Decay _decay;
   Sustain _sustain;

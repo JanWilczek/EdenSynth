@@ -13,11 +13,11 @@ namespace eden::utility::threading {
 /// in the book "C++ Concurrency in Action".
 /// </summary>
 class JoinThreads {
- public:
+public:
   explicit JoinThreads(std::vector<std::thread>& threads);
   ~JoinThreads();
 
- private:
+private:
   std::vector<std::thread>& _threads;
 };
 }  // namespace eden::utility::threading

@@ -11,12 +11,12 @@ class EdenSynthesiser;
 
 namespace eden_vst {
 class EdenFilterParameters {
- public:
+public:
   explicit EdenFilterParameters(eden::EdenSynthesiser& synthesiser);
   void addFilterParameters(AudioProcessorValueTreeState& pluginParameters);
   void updateFilterParameters();
 
- private:
+private:
   eden::EdenSynthesiser& _synthesiser;
 
   std::atomic<float>* _cutoff = nullptr;

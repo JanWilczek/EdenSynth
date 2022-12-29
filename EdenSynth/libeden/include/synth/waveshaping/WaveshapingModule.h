@@ -8,7 +8,7 @@
 
 namespace eden::synth::waveshaping {
 class WaveshapingModule : public IMonoModule {
- public:
+public:
   ~WaveshapingModule() override = default;
 
   void process(float* audioChannel,
@@ -19,7 +19,7 @@ class WaveshapingModule : public IMonoModule {
 
   void setAutoMakeUpGain(bool makeUpGainEnabled);
 
- private:
+private:
   Waveshaper _waveshaper;
 };
 }  // namespace eden::synth::waveshaping

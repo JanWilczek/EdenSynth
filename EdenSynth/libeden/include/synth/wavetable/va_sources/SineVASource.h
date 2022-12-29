@@ -7,7 +7,7 @@
 
 namespace eden::synth::wavetable {
 class SineVASource : public IOscillatorSource {
- public:
+public:
   SineVASource(float sampleRate);
   ~SineVASource() = default;
   SineVASource(const SineVASource& other);
@@ -20,7 +20,7 @@ class SineVASource : public IOscillatorSource {
   float getSample() override;
   void setSampleRate(float sampleRate) override;
 
- private:
+private:
   float _sampleRate;
   float _pitch;
   float _phase;

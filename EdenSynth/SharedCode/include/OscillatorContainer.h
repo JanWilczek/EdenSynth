@@ -11,7 +11,7 @@
 
 namespace eden_vst {
 class OscillatorContainer {
- public:
+public:
   OscillatorContainer(eden::EdenSynthesiser& synthesiser,
                       WaveTablePathProvider pathProvider,
                       unsigned numOscillators);
@@ -21,7 +21,7 @@ class OscillatorContainer {
       const AudioProcessorValueTreeState& pluginParameters);
   const WaveTablePathProvider& getPathProvider() const;
 
- private:
+private:
   eden::EdenSynthesiser& _synthesiser;
   WaveTablePathProvider _pathProvider;
   std::map<std::string, std::unique_ptr<eden::Oscillator>> _oscillators;

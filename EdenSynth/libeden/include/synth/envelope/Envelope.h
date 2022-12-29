@@ -15,7 +15,7 @@ class EnvelopeSegment;
 /// "Level" in envelope classes refers to linear value (in range [-1, 1]).
 /// </summary>
 class Envelope {
- public:
+public:
   /// <summary>
   /// Type of function invoked when the envelope has ended (i.e. gain is 0
   /// again). The sample index of envelope's end should be passed to it.
@@ -63,7 +63,7 @@ class Envelope {
   /// <param name="callback"></param>
   void setOnEnvelopeEndedCallback(OnEnvelopeEnded callback);
 
- protected:
+protected:
   /// <summary>
   /// Switches to given envelope segment.
   /// </summary>

@@ -10,7 +10,7 @@ namespace eden {
 /// A container of samples used to output the synthesized sound.
 /// </summary>
 class AudioBuffer {
- public:
+public:
   /// <summary>
   /// Creates a new audio buffer allocating the given number of channels of
   /// given length.
@@ -107,7 +107,7 @@ class AudioBuffer {
   /// <param name="callback">function to call on each sample</param>
   void forEachSample(std::function<void(float&)> callback);
 
- private:
+private:
   /// <summary>
   /// Frees any allocated memory if it belongs to the buffer.
   /// </summary>

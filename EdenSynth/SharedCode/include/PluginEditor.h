@@ -7,7 +7,7 @@
 #include "PluginProcessor.h"
 
 class EdenSynthAudioProcessorEditor : public AudioProcessorEditor {
- public:
+public:
   EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor&,
                                 AudioProcessorValueTreeState&,
                                 const eden_vst::EdenAdapter&);
@@ -16,7 +16,7 @@ class EdenSynthAudioProcessorEditor : public AudioProcessorEditor {
   void paint(Graphics&) override;
   void resized() override;
 
- private:
+private:
   EdenSynthAudioProcessor& _processor;
 
   GeneralSettingsComponent _generalSettingsComponent;

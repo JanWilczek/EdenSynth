@@ -8,7 +8,7 @@
 
 namespace eden::synth::wavetable {
 class WaveTableSource : public IOscillatorSource {
- public:
+public:
   WaveTableSource(float sampleRate);
   WaveTableSource(const WaveTableSource&);
   ~WaveTableSource() override = default;
@@ -26,7 +26,7 @@ class WaveTableSource : public IOscillatorSource {
   void setPitch(float pitch) override;
   void setSampleRate(float sampleRate) override;
 
- private:
+private:
   float _sampleRate;
 
   /// <summary>

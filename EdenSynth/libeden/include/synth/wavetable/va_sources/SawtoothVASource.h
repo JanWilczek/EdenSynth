@@ -12,7 +12,7 @@ namespace eden::synth::wavetable {
 /// Huovilainen.
 /// </summary>
 class SawtoothVASource : public IOscillatorSource {
- public:
+public:
   SawtoothVASource(float sampleRate);
   ~SawtoothVASource() override = default;
   SawtoothVASource(const SawtoothVASource& other);
@@ -37,7 +37,7 @@ class SawtoothVASource : public IOscillatorSource {
 
   void setSampleRate(float sampleRate) override;
 
- private:
+private:
   float _sampleRate;
   float _phase;
   float _delta;

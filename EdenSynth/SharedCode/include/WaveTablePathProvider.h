@@ -8,7 +8,7 @@
 
 namespace eden_vst {
 class WaveTablePathProvider {
- public:
+public:
   typedef std::map<std::string, std::filesystem::path> path_container;
   typedef std::map<std::string, std::filesystem::path>::iterator
       path_container_iterator;
@@ -27,7 +27,7 @@ class WaveTablePathProvider {
   std::string indexToName(size_t waveTableIndex);
   size_t nameToIndex(std::string waveTableName);
 
- private:
+private:
   path_container _waveTablePaths;
 };
 }  // namespace eden_vst

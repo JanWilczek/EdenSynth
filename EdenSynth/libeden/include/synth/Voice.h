@@ -25,7 +25,7 @@ namespace eden::synth {
 /// 3. Performance control
 /// </summary>
 class Voice {
- public:
+public:
   explicit Voice(settings::Settings& settings);
   Voice() = delete;
 
@@ -81,7 +81,7 @@ class Voice {
   /// <returns>current gain value by which every voice is scaled</returns>
   constexpr float gainValue() noexcept;
 
- private:
+private:
   /// <summary>
   /// Sets pitch of the voice.
   /// </summary>

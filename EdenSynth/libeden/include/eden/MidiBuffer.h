@@ -11,7 +11,7 @@ namespace eden {
 /// Container of MIDI messages to be processed by the synthesiser.
 /// </summary>
 class MidiBuffer {
- public:
+public:
   /// <summary>
   /// Helper struct associating MIDI message with a sample time stamp.
   /// </summary>
@@ -48,7 +48,7 @@ class MidiBuffer {
   /// <returns>iterator pointing at the end of the buffer</returns>
   MidiIterator end();
 
- private:
+private:
   std::vector<MidiStampedMessage> _messages;
 };
 }  // namespace eden

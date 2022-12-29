@@ -7,7 +7,7 @@
 
 namespace eden::settings {
 class Tuner {
- public:
+public:
   /// <summary>
   /// MIDI-specified "zero", "centre" or "neutral" pitch bend position.
   /// </summary>
@@ -51,7 +51,7 @@ class Tuner {
   /// value based on current pitch bend range</returns>
   float getPitchBendInSemitones(int pitchBendValue);
 
- private:
+private:
   /// <summary>
   /// Current A4 frequency (note number 69 in the MIDI standard).
   /// </summary>

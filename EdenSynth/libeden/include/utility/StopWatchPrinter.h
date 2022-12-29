@@ -12,11 +12,11 @@ namespace eden::utility {
 /// to debug output on destruction.
 /// </summary>
 class StopWatchPrinter {
- public:
+public:
   StopWatchPrinter();
   ~StopWatchPrinter();
 
- private:
+private:
   std::chrono::nanoseconds _duration;
   std::unique_ptr<StopWatch> _stopWatch;
 };

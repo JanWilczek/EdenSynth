@@ -6,7 +6,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class FilterEnvelopeSegmentComponent : public Component {
- public:
+public:
   using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
 
   FilterEnvelopeSegmentComponent(AudioProcessorValueTreeState&,
@@ -15,7 +15,7 @@ class FilterEnvelopeSegmentComponent : public Component {
 
   void resized() override;
 
- private:
+private:
   Label _label;
   Slider _slider;
   std::unique_ptr<SliderAttachment> _attachment;

@@ -8,13 +8,13 @@
 #include "OscillatorsComponent.h"
 
 class GeneratorComponent : public Component {
- public:
+public:
   GeneratorComponent(AudioProcessorValueTreeState& valueTreeState,
                      const eden_vst::WaveTablePathProvider& pathProvider);
 
   void resized() override;
 
- private:
+private:
   OscillatorsComponent _oscillators;
   EnvelopeComponent _envelopeComponent;
 };

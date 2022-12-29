@@ -28,7 +28,7 @@ struct EnvelopeParameters {
   virtual ~EnvelopeParameters() = 0;
   EnvelopeType getType() const { return type; }
 
- protected:
+protected:
   EnvelopeType type;
 };
 inline EnvelopeParameters::~EnvelopeParameters() {}

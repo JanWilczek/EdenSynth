@@ -17,7 +17,7 @@ namespace eden::synth::envelope {
 /// duration of the gain change from initial to the final level.
 /// </summary>
 class EnvelopeSegment {
- public:
+public:
   EnvelopeSegment(float sampleRate,
                   std::unique_ptr<ISegmentGain> envelopeGain,
                   std::chrono::milliseconds duration = 0ms,
@@ -45,10 +45,10 @@ class EnvelopeSegment {
 
   virtual void setSampleRate(float sampleRate);
 
- private:
+private:
   void calculateGain();
 
- protected:
+protected:
   float _sampleRate;
   std::unique_ptr<ISegmentGain> _envelopeGain;
   std::chrono::milliseconds _duration;

@@ -25,7 +25,7 @@ namespace eden::synth {
 /// Class responsible for generating sound based on provided input.
 /// </summary>
 class Synthesiser {
- public:
+public:
   static constexpr unsigned NB_VOICES = 64u;
 
   explicit Synthesiser(settings::Settings& settings);
@@ -67,9 +67,9 @@ class Synthesiser {
   /// <param name="volume">volume in range [0; 1]</param>
   void setVolume(float volume);
 
- private:
+private:
   class IVoiceRenderer {
-   public:
+  public:
     virtual ~IVoiceRenderer() = 0;
     virtual void renderVoices(Synthesiser& synthesiser,
                               AudioBuffer& outputBuffer,
@@ -78,7 +78,7 @@ class Synthesiser {
   };
 
   class SynchronousVoiceRenderer : public IVoiceRenderer {
-   public:
+  public:
     ~SynchronousVoiceRenderer() override = default;
     void renderVoices(Synthesiser& synthesiser,
                       AudioBuffer& outputBuffer,
@@ -87,14 +87,14 @@ class Synthesiser {
   };
 
   class AsynchronousVoiceRenderer : public IVoiceRenderer {
-   public:
+  public:
     ~AsynchronousVoiceRenderer() override = default;
     void renderVoices(Synthesiser& synthesiser,
                       AudioBuffer& outputBuffer,
                       int startSample,
                       int samplesToProcess) override;
 
-   private:
+  private:
     utility::threading::ThreadPool _threadPool;
   };
 

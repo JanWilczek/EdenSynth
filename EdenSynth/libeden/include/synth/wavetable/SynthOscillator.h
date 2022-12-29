@@ -13,7 +13,7 @@ namespace eden::synth::wavetable {
 /// pitch, transposition, volume and on/off status.
 /// </summary>
 class SynthOscillator {
- public:
+public:
   SynthOscillator() = default;
   SynthOscillator(OscillatorId id,
                   std::unique_ptr<IOscillatorSource> oscillatorSource);
@@ -82,7 +82,7 @@ class SynthOscillator {
   /// transposition)</returns>
   float pitch();
 
- private:
+private:
   /// <summary>
   /// Sets the pitch of the oscilator based on <c>pitch()</c> return value.
   /// </summary>

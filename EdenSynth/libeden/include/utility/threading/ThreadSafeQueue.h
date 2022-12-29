@@ -14,7 +14,7 @@ namespace eden::utility::threading {
 /// </summary>
 template <typename T>
 class ThreadSafeQueue {
- public:
+public:
   ThreadSafeQueue();
   ThreadSafeQueue(const ThreadSafeQueue& other) = delete;
   ThreadSafeQueue& operator=(const ThreadSafeQueue& other) = delete;
@@ -26,7 +26,7 @@ class ThreadSafeQueue {
   void push(T value);
   bool empty();
 
- private:
+private:
   struct node {
     std::shared_ptr<T> data;
     std::unique_ptr<node> next;

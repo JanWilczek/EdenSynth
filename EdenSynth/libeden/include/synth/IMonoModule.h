@@ -9,7 +9,7 @@ namespace eden::synth {
 /// Interface of a mono sound synthesis module.
 /// </summary>
 class IMonoModule {
- public:
+public:
   virtual ~IMonoModule() = 0;
 
   /// <summary>

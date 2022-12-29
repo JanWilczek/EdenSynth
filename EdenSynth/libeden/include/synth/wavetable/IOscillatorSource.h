@@ -12,7 +12,7 @@ namespace eden::synth::wavetable {
 /// signal at a given pitch.
 /// </summary>
 class IOscillatorSource {
- public:
+public:
   virtual ~IOscillatorSource() = 0;
 
   /// <summary>

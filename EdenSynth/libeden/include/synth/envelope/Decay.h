@@ -10,7 +10,7 @@ namespace eden::synth::envelope {
 /// Represents decay - time segment when volume should decrease.
 /// </summary>
 class Decay : public EnvelopeSegment {
- public:
+public:
   Decay(float sampleRate,
         std::unique_ptr<ISegmentGain> envelopeGain,
         std::chrono::milliseconds duration,

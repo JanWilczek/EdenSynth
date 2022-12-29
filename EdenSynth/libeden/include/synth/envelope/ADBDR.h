@@ -20,7 +20,7 @@ namespace eden::synth::envelope {
 /// piano-like envelope - one which fades slowly with the key pressed.
 /// </summary>
 class ADBDR : public Envelope {
- public:
+public:
   enum class ADBDRSegments {
     Attack = 0,
     Decay1 = 1,
@@ -39,10 +39,10 @@ class ADBDR : public Envelope {
   void setSegmentCurve(ADBDRSegments segment, EnvelopeSegmentCurve curve);
   void setBreakLevel(float breakLevel);
 
- protected:
+protected:
   bool hasEnded() override;
 
- private:
+private:
   /// <summary>
   /// Value of envelope at which segments change from Decay 1 to Decay 2.
   /// </summary>

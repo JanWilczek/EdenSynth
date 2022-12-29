@@ -15,7 +15,7 @@ namespace eden::synth {
 /// and mixes them the given AudioBuffer.
 /// </summary>
 class Mixer {
- public:
+public:
   explicit Mixer(size_t nb_voices);
 
   /// <summary>
@@ -34,7 +34,7 @@ class Mixer {
   /// <param name="samplesToMix">number of samples to mix</param>
   void mixTo(AudioBuffer& outputBuffer, int startSample, int samplesToMix);
 
- private:
+private:
   /// <summary>
   /// Pointers to blocks of audio output by each voice.
   /// </summary>

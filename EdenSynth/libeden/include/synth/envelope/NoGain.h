@@ -10,7 +10,7 @@ namespace eden::synth::envelope {
 /// Represents no change in gain - the given value will remain constant.
 /// </summary>
 class NoGain : public ISegmentGain {
- public:
+public:
   ~NoGain() = default;
 
   void calculateGain(float sampleRate,

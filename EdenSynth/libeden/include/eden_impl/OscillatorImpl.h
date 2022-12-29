@@ -13,7 +13,7 @@ class Settings;
 }
 
 class OscillatorImpl {
- public:
+public:
   OscillatorImpl(settings::Settings& settings,
                  std::unique_ptr<OscillatorSource> source);
   ~OscillatorImpl();
@@ -28,7 +28,7 @@ class OscillatorImpl {
   void setVolume(float volume) noexcept(false);
   void setOn(bool isOn);
 
- private:
+private:
   settings::Settings& _ext_settings;
   OscillatorId _id;
   std::unique_ptr<OscillatorSource> _oscillatorSource;

@@ -6,7 +6,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class GeneralSettingsComponent : public Component {
- public:
+public:
   using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
 
   GeneralSettingsComponent(AudioProcessorValueTreeState&);
@@ -14,7 +14,7 @@ class GeneralSettingsComponent : public Component {
   void resized() override;
   void paint(Graphics& g) override;
 
- private:
+private:
   Label _pitchBendSemitonesUpLabel{"pitchBendSemitonesUpLabel",
                                    "Pitch bend up"};
   Slider _pitchBendSemitonesUp;

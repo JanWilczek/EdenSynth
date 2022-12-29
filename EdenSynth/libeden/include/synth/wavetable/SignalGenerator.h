@@ -14,7 +14,7 @@ namespace eden::synth::wavetable {
 /// modifier" synthesis idiom.
 /// </summary>
 class SignalGenerator {
- public:
+public:
   /// <summary>
   /// Creates the generator with the default sine timbre.
   /// </summary>
@@ -108,7 +108,7 @@ class SignalGenerator {
 
   void setSampleRate(float sampleRate);
 
- private:
+private:
   /// <summary>
   /// Generates one sample at specified sample index and overwrites the
   /// pre-existing value with new one based on current pitch. Advances in phase.

@@ -11,7 +11,7 @@ namespace eden::interpolation {
 /// or spline interpolation.
 /// </summary>
 class IInterpolator {
- public:
+public:
   virtual ~IInterpolator() = 0;
 
   /// <summary>

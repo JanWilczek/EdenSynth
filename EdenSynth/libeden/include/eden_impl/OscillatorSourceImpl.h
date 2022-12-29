@@ -12,7 +12,7 @@ class Settings;
 }
 
 class OscillatorSourceImpl {
- public:
+public:
   OscillatorSourceImpl(settings::Settings& settings,
                        WaveformGenerator generatorName);
   OscillatorSourceImpl(settings::Settings& settings,
@@ -21,7 +21,7 @@ class OscillatorSourceImpl {
 
   OscillatorSourceId getId();
 
- private:
+private:
   settings::Settings& _ext_settings;
   OscillatorSourceId _id;
 };

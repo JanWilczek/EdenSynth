@@ -12,7 +12,7 @@ class EdenSynthesiser;
 
 namespace eden_vst {
 class WaveshapingTransferFunctionContainer {
- public:
+public:
   WaveshapingTransferFunctionContainer(
       std::vector<float> transferFunction);  // TODO: Is initializing transfer
                                              // function really necessary?
@@ -21,7 +21,7 @@ class WaveshapingTransferFunctionContainer {
   std::vector<float> getTransferFunction() const;
   void passTransferFunction(eden::EdenSynthesiser& synthesiser);
 
- private:
+private:
   std::atomic<bool> _hasChanged{false};
   std::vector<float> _transferFunction;
 };

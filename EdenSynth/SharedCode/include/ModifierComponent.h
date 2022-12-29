@@ -9,13 +9,13 @@
 #include "WaveshaperComponent.h"
 
 class ModifierComponent : public Component {
- public:
+public:
   ModifierComponent(AudioProcessorValueTreeState& valueTreeState,
                     const eden_vst::EdenAdapter& adapter);
 
   void resized() override;
 
- private:
+private:
   FilterComponent _filterComponent;
   WaveshaperComponent _waveshaperComponent;
 };

@@ -16,7 +16,7 @@ namespace eden::utility::threading {
 /// in "C++ Concurrency in Action".
 /// </summary>
 class ThreadPool {
- public:
+public:
   /// <summary>
   /// Constructs the thread pool with a size equal to the
   /// number returned by the std::thread::hardware_concurrency() function.
@@ -29,7 +29,7 @@ class ThreadPool {
     _workQueue.push(std::function<void()>(f));
   }
 
- private:
+private:
   void workerThread();
 
   std::atomic<bool> _done;

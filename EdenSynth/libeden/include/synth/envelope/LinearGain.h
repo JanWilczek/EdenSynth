@@ -10,7 +10,7 @@ namespace eden::synth::envelope {
 /// Represents linear gain curve - i.e. logarithmic to the human ear.
 /// </summary>
 class LinearGain : public ISegmentGain {
- public:
+public:
   virtual ~LinearGain() = default;
 
   void calculateGain(float sampleRate,
@@ -19,7 +19,7 @@ class LinearGain : public ISegmentGain {
                      float finalLevel) override;
   void applyAndUpdateGain(float& currentLevel) override;
 
- private:
+private:
   float _gainPerSample = float(0);
 };
 }  // namespace eden::synth::envelope

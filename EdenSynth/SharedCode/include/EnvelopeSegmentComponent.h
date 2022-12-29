@@ -6,7 +6,7 @@
 #include <../JuceLibraryCode/JuceHeader.h>
 
 class EnvelopeSegmentComponent : public Component {
- public:
+public:
   using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
   using ComboBoxAttachment = AudioProcessorValueTreeState::ComboBoxAttachment;
 
@@ -17,7 +17,7 @@ class EnvelopeSegmentComponent : public Component {
 
   void resized() override;
 
- private:
+private:
   Label _segmentName;
 
   Slider _time;

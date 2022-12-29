@@ -17,7 +17,7 @@ namespace eden::synth::subtractive {
 /// Module responsible for filtering the generated signal.
 /// </summary>
 class SubtractiveModule : public IMonoModule, public envelope::IEnvelopeHolder {
- public:
+public:
   explicit SubtractiveModule(float sampleRate);
   ~SubtractiveModule() override = default;
 
@@ -90,7 +90,7 @@ class SubtractiveModule : public IMonoModule, public envelope::IEnvelopeHolder {
   /// <param name="pitch">frequency in Hz</param>
   void setPitch(float pitch);
 
- private:
+private:
   /// <summary>
   /// Sets the cutoff frequency in Hz of inner filter based on <see
   /// cref="_cutoff"/>, <see cref="_contourAmount"/>, <see cref="_pitch"/> and

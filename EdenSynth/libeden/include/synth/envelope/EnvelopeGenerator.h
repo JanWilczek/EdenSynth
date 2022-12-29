@@ -11,7 +11,7 @@ namespace eden::synth::envelope {
 /// Class responsible for applying envelope to the given signal.
 /// </summary>
 class EnvelopeGenerator : public IEnvelopeHolder {
- public:
+public:
   /// <param name="envelope">envelope to create the generator with</param>
   explicit EnvelopeGenerator(std::shared_ptr<Envelope> envelope);
 
@@ -45,7 +45,7 @@ class EnvelopeGenerator : public IEnvelopeHolder {
   /// <param name="callback"></param>
   void setOnEnvelopeEndedCallback(Envelope::OnEnvelopeEnded callback);
 
- private:
+private:
   /// <summary>
   /// Currently set envelope.
   /// </summary>

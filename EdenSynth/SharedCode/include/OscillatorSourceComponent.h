@@ -10,7 +10,7 @@ class WaveTablePathProvider;
 }
 
 class OscillatorSourceComponent : public Component, public Button::Listener {
- public:
+public:
   using ComboBoxAttachment = AudioProcessorValueTreeState::ComboBoxAttachment;
   using ButtonAttachment = AudioProcessorValueTreeState::ButtonAttachment;
 
@@ -23,7 +23,7 @@ class OscillatorSourceComponent : public Component, public Button::Listener {
 
   void buttonClicked(Button*) override;
 
- private:
+private:
   ToggleButton _isRealTime;
   std::unique_ptr<ButtonAttachment> _isRealTimeAttachment;
 

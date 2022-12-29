@@ -16,7 +16,7 @@ class Envelope;
 class ADBDR;
 
 class EnvelopeFactory {
- public:
+public:
   /// <summary>
   /// Creates envelope in a polymorphic way depending on the passed <paramref
   /// name="parameters"/>.
@@ -29,7 +29,7 @@ class EnvelopeFactory {
       float sampleRate,
       std::shared_ptr<EnvelopeParameters> parameters);
 
- private:
+private:
   /// <param name="sampleRate"></param>
   /// <param name="parameters"></param>
   /// <returns>the ADBDR envelope created with the supplied parameters</returns>

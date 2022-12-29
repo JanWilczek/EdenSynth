@@ -13,7 +13,7 @@ namespace eden_vst {
 class WaveshapingTransferFunctionContainer;
 
 class EdenWaveshapingParameters {
- public:
+public:
   EdenWaveshapingParameters(eden::EdenSynthesiser&);
 
   void addWaveshapingParameters(AudioProcessorValueTreeState&);
@@ -21,7 +21,7 @@ class EdenWaveshapingParameters {
   std::shared_ptr<WaveshapingTransferFunctionContainer>
   getTransferFunctionContainer() const noexcept;
 
- private:
+private:
   eden::EdenSynthesiser& _synthesiser;
   std::atomic<float>* _autoMakeUpGain = nullptr;
   std::shared_ptr<WaveshapingTransferFunctionContainer> _transferFunction;

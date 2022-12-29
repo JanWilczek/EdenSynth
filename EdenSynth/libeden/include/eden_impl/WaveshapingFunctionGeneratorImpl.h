@@ -8,7 +8,7 @@
 
 namespace eden {
 class WaveshapingFunctionGeneratorImpl {
- public:
+public:
   static std::vector<float> generateIdentity(unsigned length);
 
   static std::vector<float> generateTransferFunction(

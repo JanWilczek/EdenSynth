@@ -12,7 +12,7 @@ class WaveshapingModule;
 
 namespace eden::settings {
 class WaveshapingModuleSettings {
- public:
+public:
   void registerWaveshapingModule(
       std::shared_ptr<synth::waveshaping::WaveshapingModule> waveshapingModule);
 
@@ -20,7 +20,7 @@ class WaveshapingModuleSettings {
 
   void setAutoMakeUpGain(bool makeUpGainEnabled);
 
- private:
+private:
   std::vector<std::shared_ptr<synth::waveshaping::WaveshapingModule>>
       _waveshapingModules;
 };

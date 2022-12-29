@@ -6,7 +6,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class OutputSettingsComponent : public Component {
- public:
+public:
   using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
 
   OutputSettingsComponent(AudioProcessorValueTreeState&);
@@ -14,7 +14,7 @@ class OutputSettingsComponent : public Component {
   void resized() override;
   void paint(Graphics& g) override;
 
- private:
+private:
   Label _volumeLabel{"globalVolumeLabel", "Volume"};
   Slider _volume;
   std::unique_ptr<SliderAttachment> _volumeAttachment;

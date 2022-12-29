@@ -13,7 +13,7 @@ namespace eden::synth::wavetable {
 /// values and interpolator. Its cycle's length is 2 * pi.
 /// </summary>
 class Waveform {
- public:
+public:
   /// <param name="waveTable">discrete values to interpolate from</param>
   /// <param name="interpolator">interpolation method to use</param>
   Waveform(WaveTable waveTable,
@@ -34,7 +34,7 @@ class Waveform {
   void setInterpolator(
       std::shared_ptr<interpolation::IInterpolator> interpolator);
 
- private:
+private:
   /// <summary>
   /// Discrete values to interpolate from.
   /// </summary>

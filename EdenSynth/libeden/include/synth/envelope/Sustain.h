@@ -10,7 +10,7 @@ namespace eden::synth::envelope {
 /// Represents sustain - no change in envelope's value.
 /// </summary>
 class Sustain : public EnvelopeSegment {
- public:
+public:
   explicit Sustain();
   ~Sustain() override = default;
 

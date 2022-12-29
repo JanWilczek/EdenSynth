@@ -11,7 +11,7 @@ namespace eden::synth::subtractive {
 /// Välimäki and Antti Huovilainen. Original concept by Huovilainen.
 /// </summary>
 class OnePoleLowPassFilter {
- public:
+public:
   OnePoleLowPassFilter(float sampleRate);
 
   /// <summary>
@@ -30,7 +30,7 @@ class OnePoleLowPassFilter {
 
   void setSampleRate(float sampleRate);
 
- private:
+private:
   /// <summary>
   /// Calculates the <see cref="_g"/> coefficient based on <see
   /// cref="_cutoffFrequency"/> and <see cref="_sampleRate"/>.

@@ -19,7 +19,7 @@ namespace eden::settings {
 /// modules.
 /// </summary>
 class SubtractiveModuleSettings {
- public:
+public:
   explicit SubtractiveModuleSettings(float sampleRate);
 
   /// <summary>
@@ -72,7 +72,7 @@ class SubtractiveModuleSettings {
   /// <c>ADSRParameters</c> struct instance for example</param>
   void setEnvelopeParameters(std::shared_ptr<EnvelopeParameters> parameters);
 
- private:
+private:
   /// <summary>
   /// Subtractive modules registered for settings' updates.
   /// </summary>

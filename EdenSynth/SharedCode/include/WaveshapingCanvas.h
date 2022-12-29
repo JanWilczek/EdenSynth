@@ -6,7 +6,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class WaveshapingCanvas : public Component {
- public:
+public:
   std::function<void(std::vector<float>)> OnTransferFunctionChanged =
       [](std::vector<float>) {};
 
@@ -15,7 +15,7 @@ class WaveshapingCanvas : public Component {
 
   void setTransferFunction(std::vector<float> transferFunction);
 
- private:
+private:
   void drawPlotAxes(Graphics& g);
   void drawTransferFunction(Graphics& g);
 

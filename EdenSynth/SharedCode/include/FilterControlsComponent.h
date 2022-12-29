@@ -6,7 +6,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class FilterControlsComponent : public Component {
- public:
+public:
   using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
   using ComboBoxAttachment = AudioProcessorValueTreeState::ComboBoxAttachment;
 
@@ -14,7 +14,7 @@ class FilterControlsComponent : public Component {
 
   void resized() override;
 
- private:
+private:
   Label _cutoffLabel{"cutoffLabel", "Cutoff"};
   Slider _cutoff;
   std::unique_ptr<SliderAttachment> _cutoffAttachment;

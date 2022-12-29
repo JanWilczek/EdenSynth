@@ -18,7 +18,7 @@ namespace eden::settings {
 /// thus have to be of the same type.
 /// </summary>
 class EnvelopeSettings {
- public:
+public:
   EnvelopeSettings(float sampleRate);
 
   /// <summary>
@@ -41,7 +41,7 @@ class EnvelopeSettings {
   void setEnvelopeParameters(
       std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
- private:
+private:
   /// <summary>
   /// Sets envelope settings with knowledge that they are parameters of an ADBDR
   /// envelope.

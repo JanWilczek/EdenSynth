@@ -16,7 +16,7 @@ class OscillatorSource;
 /// stacked so that they produce complex timbres.
 /// </summary>
 class Oscillator {
- public:
+public:
   Oscillator(std::unique_ptr<OscillatorImpl> impl);
 
   /// <returns>unique id assigned to this oscillator</returns>
@@ -60,7 +60,7 @@ class Oscillator {
   /// after the latter <c>getSample()</c> will return zero at each call</param>
   void setOn(bool isOn);
 
- private:
+private:
   std::unique_ptr<OscillatorImpl> _impl;
 };
 }  // namespace eden

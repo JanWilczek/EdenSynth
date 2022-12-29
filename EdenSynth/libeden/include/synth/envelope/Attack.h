@@ -10,7 +10,7 @@ namespace eden::synth::envelope {
 /// Represents attack - time segment when volume should increase.
 /// </summary>
 class Attack : public EnvelopeSegment {
- public:
+public:
   Attack(float sampleRate,
          std::unique_ptr<ISegmentGain> envelopeGain,
          std::chrono::milliseconds duration,

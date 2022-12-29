@@ -12,7 +12,7 @@ class Envelope;
 /// Container of a shared envelope.
 /// </summary>
 class IEnvelopeHolder {
- public:
+public:
   virtual ~IEnvelopeHolder() = 0;
 
   /// <param name="envelope">pointer to the envelope to be stored</param>

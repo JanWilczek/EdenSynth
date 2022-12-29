@@ -8,7 +8,7 @@
 
 namespace eden::synth::wavetable {
 class WhiteNoiseSource : public IOscillatorSource {
- public:
+public:
   WhiteNoiseSource(int seed = std::random_device{}());
   ~WhiteNoiseSource() = default;
   WhiteNoiseSource(const WhiteNoiseSource& other);
@@ -19,7 +19,7 @@ class WhiteNoiseSource : public IOscillatorSource {
   float getSample() override;
   void setSampleRate(float) override;
 
- private:
+private:
   bool _isPlaying;
   std::default_random_engine _randomEngine;
   std::uniform_real_distribution<float> _uniformDistribution;

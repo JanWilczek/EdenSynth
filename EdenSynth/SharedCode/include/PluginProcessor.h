@@ -6,7 +6,7 @@
 #include "WaveTablePathProvider.h"
 
 class EdenSynthAudioProcessor : public AudioProcessor {
- public:
+public:
   //==============================================================================
   EdenSynthAudioProcessor();
   ~EdenSynthAudioProcessor();
@@ -47,7 +47,7 @@ class EdenSynthAudioProcessor : public AudioProcessor {
   //==============================================================================
   // void setWaveTable(const std::string& filename);
 
- private:
+private:
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EdenSynthAudioProcessor)
 

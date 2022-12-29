@@ -16,13 +16,13 @@ enum class WaveformGenerator;
 /// wavetable (where waveforms are interpolated from existing ones).
 /// </summary>
 class OscillatorSource {
- public:
+public:
   OscillatorSource(std::unique_ptr<OscillatorSourceImpl> impl);
 
   /// <returns>unique id of this oscillator source</returns>
   OscillatorSourceId getId();
 
- private:
+private:
   std::unique_ptr<OscillatorSourceImpl> _impl;
 };
 }  // namespace eden

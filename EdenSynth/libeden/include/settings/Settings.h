@@ -41,7 +41,7 @@ namespace eden::settings {
 /// subtractive, waveshaping and envelope.
 /// </summary>
 class Settings {
- public:
+public:
   Settings();
 
   /// <summary>
@@ -246,7 +246,7 @@ class Settings {
   void setEnvelopeParameters(
       std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
- private:
+private:
   /// <summary>
   /// The only default sample rate value in the whole project.
   /// </summary>

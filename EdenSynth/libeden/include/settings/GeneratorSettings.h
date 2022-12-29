@@ -20,7 +20,7 @@ namespace eden::settings {
 /// all voices.
 /// </summary>
 class GeneratorSettings {
- public:
+public:
   /// <summary>
   /// Registers given <paramref name="signalGenerator"/> for control.
   /// </summary>
@@ -121,7 +121,7 @@ class GeneratorSettings {
   /// off</param>
   void setOscillatorOn(OscillatorId oscillatorId, bool isOn);
 
- private:
+private:
   /// <summary>
   /// Registered signal generators.
   /// </summary>

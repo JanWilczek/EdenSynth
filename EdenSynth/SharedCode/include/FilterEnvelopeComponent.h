@@ -7,12 +7,12 @@
 #include "FilterEnvelopeSegmentComponent.h"
 
 class FilterEnvelopeComponent : public Component {
- public:
+public:
   FilterEnvelopeComponent(AudioProcessorValueTreeState&);
 
   void resized() override;
 
- private:
+private:
   FilterEnvelopeSegmentComponent _attack;
   FilterEnvelopeSegmentComponent _decay;
   FilterEnvelopeSegmentComponent _sustain;

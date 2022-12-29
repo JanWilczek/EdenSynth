@@ -8,7 +8,7 @@
 
 namespace eden::synth::wavetable {
 class TriangleVASource : public IOscillatorSource {
- public:
+public:
   TriangleVASource(float sampleRate);
   ~TriangleVASource() = default;
   TriangleVASource(const TriangleVASource& other);
@@ -19,7 +19,7 @@ class TriangleVASource : public IOscillatorSource {
   float getSample() override;
   void setSampleRate(float sampleRate) override;
 
- private:
+private:
   float _sampleRate;
   SineVASource _sine;
   float _z1;

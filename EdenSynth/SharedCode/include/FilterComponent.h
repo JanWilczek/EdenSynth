@@ -8,13 +8,13 @@
 #include "FilterEnvelopeComponent.h"
 
 class FilterComponent : public Component {
- public:
+public:
   FilterComponent(AudioProcessorValueTreeState& valueTreeState);
 
   void paint(Graphics& g) override;
   void resized() override;
 
- private:
+private:
   FilterControlsComponent _filterControls;
   FilterEnvelopeComponent _filterEnvelope;
 };

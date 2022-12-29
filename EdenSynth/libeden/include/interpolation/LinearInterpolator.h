@@ -11,7 +11,7 @@ namespace eden::interpolation {
 /// distance from each of them to the supplied index.
 /// </summary>
 class LinearInterpolator : public IInterpolator {
- public:
+public:
   ~LinearInterpolator() override;
 
   float interpolate(const std::vector<float>& discreteValues,

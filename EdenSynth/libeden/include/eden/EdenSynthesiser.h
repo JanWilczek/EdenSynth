@@ -19,7 +19,7 @@ struct EnvelopeParameters;
 /// Main Eden synthesiser class.
 /// </summary>
 class EdenSynthesiser {
- public:
+public:
   EdenSynthesiser();
 
   /// <summary>
@@ -160,7 +160,7 @@ class EdenSynthesiser {
   void setEnvelopeParameters(
       std::shared_ptr<EnvelopeParameters> envelopeParameters);
 
- private:
+private:
   /// <summary>
   /// Internal implementation.
   /// </summary>

@@ -7,7 +7,7 @@
 #include "EnvelopeSegmentComponent.h"
 
 class EnvelopeComponent : public Component {
- public:
+public:
   using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
 
   EnvelopeComponent(AudioProcessorValueTreeState& valueTreeState);
@@ -15,7 +15,7 @@ class EnvelopeComponent : public Component {
   void paint(Graphics& g) override;
   void resized() override;
 
- private:
+private:
   EnvelopeSegmentComponent _attack;
   EnvelopeSegmentComponent _decay1;
   EnvelopeSegmentComponent _decay2;
