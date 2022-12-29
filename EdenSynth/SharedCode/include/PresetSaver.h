@@ -14,8 +14,10 @@ public:
 
 private:
   void saveCurrentPreset();
+
   juce::AudioProcessorValueTreeState& _pluginParameters;
-  // TODO: Make unique_ptr
+  // A closure binding to an std::function must be copy-constructible;
+  // hence the shared_ptr instead of a (more natural) unique_ptr.
   std::shared_ptr<juce::FileChooser> _savePresetDialog;
 };
 }  // namespace eden_vst

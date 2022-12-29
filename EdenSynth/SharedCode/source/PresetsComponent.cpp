@@ -1,6 +1,6 @@
 #include "PresetsComponent.h"
 
-PresetsComponent::PresetsComponent(std::function<void()>&& savePresetAction) {
+PresetsComponent::PresetsComponent(std::function<void()> savePresetAction) {
   _presetLabel.setJustificationType(Justification::right);
   addAndMakeVisible(_presetLabel);
   addAndMakeVisible(_preset);

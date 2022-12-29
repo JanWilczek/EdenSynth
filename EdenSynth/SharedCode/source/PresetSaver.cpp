@@ -11,7 +11,8 @@ void PresetSaver::operator()() {
 
 void PresetSaver::saveCurrentPreset() {
   auto state = _pluginParameters.copyState();
-  // TODO: Make unique_ptr
+  // A closure binding to an std::function must be copy-constructible;
+  // hence the shared_ptr instead of a (more natural) unique_ptr.
   std::shared_ptr<XmlElement> presetXML(state.createXml().release());
 
   if (not presetXML) {
