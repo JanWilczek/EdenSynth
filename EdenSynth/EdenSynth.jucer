@@ -44,6 +44,8 @@
       <FILE id="dbGluG" name="PluginEditor.h" compile="0" resource="0" file="SharedCode/include/PluginEditor.h"/>
       <FILE id="O6hu68" name="PluginProcessor.h" compile="0" resource="0"
             file="SharedCode/include/PluginProcessor.h"/>
+      <FILE id="pyptIb" name="PresetsComponent.h" compile="0" resource="0"
+            file="SharedCode/include/PresetsComponent.h"/>
       <FILE id="nAbi6Y" name="WaveshaperComponent.h" compile="0" resource="0"
             file="SharedCode/include/WaveshaperComponent.h"/>
       <FILE id="aliOqJ" name="WaveshapingCanvas.h" compile="0" resource="0"
@@ -91,6 +93,8 @@
             file="SharedCode/source/PluginEditor.cpp"/>
       <FILE id="DPtwL8" name="PluginProcessor.cpp" compile="1" resource="0"
             file="SharedCode/source/PluginProcessor.cpp"/>
+      <FILE id="Fl58r4" name="PresetsComponent.cpp" compile="1" resource="0"
+            file="SharedCode/source/PresetsComponent.cpp"/>
       <FILE id="W3qtap" name="WaveshaperComponent.cpp" compile="1" resource="0"
             file="SharedCode/source/WaveshaperComponent.cpp"/>
       <FILE id="sxfLUD" name="WaveshapingCanvas.cpp" compile="1" resource="0"

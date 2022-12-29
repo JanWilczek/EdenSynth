@@ -5,6 +5,7 @@
 #include "ModifierComponent.h"
 #include "OutputSettingsComponent.h"
 #include "PluginProcessor.h"
+#include "PresetsComponent.h"
 
 class EdenSynthAudioProcessorEditor : public AudioProcessorEditor {
 public:
@@ -23,6 +24,7 @@ private:
   GeneratorComponent _generatorComponent;
   ModifierComponent _modifierComponent;
   OutputSettingsComponent _outputSettingsComponent;
+  PresetsComponent _presetsComponent;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EdenSynthAudioProcessorEditor)
 };

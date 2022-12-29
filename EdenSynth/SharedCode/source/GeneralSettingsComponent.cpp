@@ -72,5 +72,7 @@ void GeneralSettingsComponent::resized() {
 void GeneralSettingsComponent::paint(Graphics& g) {
   g.setColour(
       getLookAndFeel().findColour(Slider::ColourIds::textBoxOutlineColourId));
-  g.drawRect(getBounds(), 5);
+  // Some components need their global bounds as a rectangle for
+  // others it should be relative to their own position.
+  g.drawRect(0, 0, getWidth(), getHeight(), 5);
 }
