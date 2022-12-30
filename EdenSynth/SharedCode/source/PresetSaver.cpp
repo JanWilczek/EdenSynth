@@ -2,22 +2,30 @@
 #include "FileHelper.h"
 #include "JuceHeader.h"
 
-namespace {
-std::shared_ptr<AlertWindow> makeSavePresetDialog() {}
-}  // namespace
-
 namespace eden_vst {
-PresetSaver::OverwriteCallback::OverwriteCallback(SaveAction& saveAction)
-    : _saveAction{saveAction} {}
+namespace {
+constexpr auto SAVE_PRESET_BUTTON_ID = 1;
+constexpr auto TEXT_EDITOR_NAME = "presetName";
 
-void PresetSaver::OverwriteCallback::modalStateFinished(int returnValue) {
-  constexpr auto SHOULD_OVERWRITE_BUTTON_ID = 1;
-  if (returnValue == SHOULD_OVERWRITE_BUTTON_ID) {
-    _saveAction();
-  }
+std::shared_ptr<AlertWindow> makeSavePresetDialog() {
+  constexpr auto CANCEL_BUTTON_ID = 0;
+  auto dialog = std::make_shared<AlertWindow>(
+      "Save preset", "Give the name of the preset", MessageBoxIconType::NoIcon);
+  dialog->addTextEditor(TEXT_EDITOR_NAME, "DefaultPresetName");
+  dialog->addButton("Cancel", CANCEL_BUTTON_ID);
+  dialog->addButton("Save preset", SAVE_PRESET_BUTTON_ID);
+  auto textEditor = dialog->getTextEditor(TEXT_EDITOR_NAME);
+  textEditor->setJustification(Justification::centred);
+  return dialog;
 }
 
-void SaveAction::operator()() {
+struct SaveAction {
+  void operator()() const;
+  std::shared_ptr<juce::XmlElement> presetXML;
+  std::filesystem::path presetOutputPath;
+};
+
+void SaveAction::operator()() const {
   if (presetOutputPath.empty() or not presetOutputPath.has_filename() or
       not presetXML) {
     return;
@@ -29,6 +37,26 @@ void SaveAction::operator()() {
                                      "Failed to save the preset file.");
   }
 }
+
+class OverwriteCallback : public juce::ModalComponentManager::Callback {
+public:
+  explicit OverwriteCallback(SaveAction&& saveAction);
+  void modalStateFinished(int returnValue) override;
+
+private:
+  SaveAction _saveAction;
+};
+
+OverwriteCallback::OverwriteCallback(SaveAction&& saveAction)
+    : _saveAction{std::move(saveAction)} {}
+
+void OverwriteCallback::modalStateFinished(int returnValue) {
+  constexpr auto SHOULD_OVERWRITE_BUTTON_ID = 1;
+  if (returnValue == SHOULD_OVERWRITE_BUTTON_ID) {
+    _saveAction();
+  }
+}
+}  // namespace
 
 PresetSaver::PresetSaver(juce::AudioProcessorValueTreeState& vts)
     : _pluginParameters{vts} {}
@@ -49,55 +77,40 @@ void PresetSaver::saveCurrentPreset() {
     return;
   }
 
-  constexpr auto CANCEL_BUTTON_ID = 0;
-  constexpr auto SAVE_PRESET_BUTTON_ID = 1;
-  constexpr auto TEXT_EDITOR_NAME = "presetName";
-  _savePresetDialog = std::make_shared<AlertWindow>(
-      "Save preset", "Give the name of the preset", MessageBoxIconType::NoIcon);
-  _savePresetDialog->addTextEditor(TEXT_EDITOR_NAME, "DefaultPresetName");
-  _savePresetDialog->addButton("Cancel", CANCEL_BUTTON_ID);
-  _savePresetDialog->addButton("Save preset", SAVE_PRESET_BUTTON_ID);
-  auto textEditor = _savePresetDialog->getTextEditor(TEXT_EDITOR_NAME);
-  if (not textEditor) {
-    // Fatal error
-    return;
-  }
-  textEditor->setJustification(Justification::centred);
-
-  _saveAction.presetXML = std::move(presetXML);
-  _callback = std::make_shared<OverwriteCallback>(_saveAction);
-
+  _savePresetDialog = makeSavePresetDialog();
   _savePresetDialog->enterModalState(
-      true,
-      ModalCallbackFunction::create(
-          [textEditor, dialog = _savePresetDialog.get(),
-           callback = _callback.get(),
-           saveAction = &_saveAction](int pressedButtonIndex) mutable {
-            dialog->exitModalState(pressedButtonIndex);
-            dialog->setVisible(false);
+      true, ModalCallbackFunction::create([dialog = _savePresetDialog.get(),
+                                           presetXML = std::move(presetXML)](
+                                              int pressedButtonIndex) {
+        dialog->exitModalState(pressedButtonIndex);
+        dialog->setVisible(false);
 
-            if (pressedButtonIndex != SAVE_PRESET_BUTTON_ID) {
-              return;
-            }
+        if (pressedButtonIndex != SAVE_PRESET_BUTTON_ID) {
+          return;
+        }
 
-            const auto presetName = textEditor->getText();
-            const auto presetOutputPath =
-                (FileHelper::presetsPath() / presetName.toStdString())
-                    .replace_extension("xml");
-            saveAction->presetOutputPath = presetOutputPath;
+        const auto textEditor = dialog->getTextEditor(TEXT_EDITOR_NAME);
+        const auto presetName = textEditor->getText();
+        const auto presetOutputPath =
+            (FileHelper::presetsPath() / presetName.toStdString())
+                .replace_extension("xml");
 
-            if (std::filesystem::exists(presetOutputPath)) {
-              AlertWindow::showYesNoCancelBox(
-                  MessageBoxIconType::QuestionIcon, "Preset file exists",
-                  "A preset file with the given name already exists. Do you "
-                  "want to overwrite it?",
-                  "", "", "", nullptr, callback);
-              return;
-            }
+        SaveAction saveAction{.presetXML = std::move(presetXML),
+                              .presetOutputPath = presetOutputPath};
 
-            (*saveAction)();
+        if (std::filesystem::exists(presetOutputPath)) {
+          AlertWindow::showYesNoCancelBox(
+              MessageBoxIconType::QuestionIcon, "Preset file exists",
+              "A preset file with the given name already exists. Do you "
+              "want to overwrite it?",
+              "", "", "", nullptr,
+              new OverwriteCallback{std::move(saveAction)});
+          return;
+        }
 
-            // TODO: Call a callback that a preset has been added.
-          }));
+        saveAction();
+
+        // TODO: Call a callback that a preset has been added.
+      }));
 }
 }  // namespace eden_vst
