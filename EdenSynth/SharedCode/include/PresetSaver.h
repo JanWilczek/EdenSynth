@@ -1,7 +1,10 @@
 #pragma once
-#include <filesystem>
 #include <memory>
-#include "JuceHeader.h"
+
+namespace juce {
+class AudioProcessorValueTreeState;
+class AlertWindow;
+}  // namespace juce
 
 namespace eden_vst {
 class PresetSaver {
