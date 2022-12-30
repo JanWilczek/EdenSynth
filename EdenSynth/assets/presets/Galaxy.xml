@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<EdenSynthParameters>
+  <PARAM id="envelope.adbdr.attack.curve" value="1.0"/>
+  <PARAM id="envelope.adbdr.attack.time" value="30.0"/>
+  <PARAM id="envelope.adbdr.breakLevel" value="0.6000000238418579"/>
+  <PARAM id="envelope.adbdr.decay1.curve" value="1.0"/>
+  <PARAM id="envelope.adbdr.decay1.time" value="20.0"/>
+  <PARAM id="envelope.adbdr.decay2.curve" value="1.0"/>
+  <PARAM id="envelope.adbdr.decay2.time" value="20000.0"/>
+  <PARAM id="envelope.adbdr.release.curve" value="1.0"/>
+  <PARAM id="envelope.adbdr.release.time" value="300.0"/>
+  <PARAM id="filter.contourAmount" value="1.0"/>
+  <PARAM id="filter.cutoff" value="9.456001281738281"/>
+  <PARAM id="filter.envelope.adsr.attack.time" value="1.0"/>
+  <PARAM id="filter.envelope.adsr.decay.time" value="1083.0"/>
+  <PARAM id="filter.envelope.adsr.release.time" value="300.0"/>
+  <PARAM id="filter.envelope.adsr.sustain.level" value="0.1590000092983246"/>
+  <PARAM id="filter.passbandAttenuation" value="0.0"/>
+  <PARAM id="filter.resonance" value="0.5609999895095825"/>
+  <PARAM id="frequencyOfA4" value="440.0"/>
+  <PARAM id="generator.oscillator1.centTransposition" value="0.0"/>
+  <PARAM id="generator.oscillator1.generatorName" value="0.0"/>
+  <PARAM id="generator.oscillator1.isRealTime" value="0.0"/>
+  <PARAM id="generator.oscillator1.octaveTransposition" value="0.0"/>
+  <PARAM id="generator.oscillator1.on" value="1.0"/>
+  <PARAM id="generator.oscillator1.semitoneTransposition" value="0.0"/>
+  <PARAM id="generator.oscillator1.volume" value="1.0"/>
+  <PARAM id="generator.oscillator1.waveTable" value="8.0"/>
+  <PARAM id="generator.oscillator2.centTransposition" value="0.0"/>
+  <PARAM id="generator.oscillator2.generatorName" value="0.0"/>
+  <PARAM id="generator.oscillator2.isRealTime" value="0.0"/>
+  <PARAM id="generator.oscillator2.octaveTransposition" value="0.0"/>
+  <PARAM id="generator.oscillator2.on" value="1.0"/>
+  <PARAM id="generator.oscillator2.semitoneTransposition" value="0.0"/>
+  <PARAM id="generator.oscillator2.volume" value="1.0"/>
+  <PARAM id="generator.oscillator2.waveTable" value="6.0"/>
+  <PARAM id="generator.oscillator3.centTransposition" value="-5.0"/>
+  <PARAM id="generator.oscillator3.generatorName" value="0.0"/>
+  <PARAM id="generator.oscillator3.isRealTime" value="0.0"/>
+  <PARAM id="generator.oscillator3.octaveTransposition" value="0.0"/>
+  <PARAM id="generator.oscillator3.on" value="1.0"/>
+  <PARAM id="generator.oscillator3.semitoneTransposition" value="0.0"/>
+  <PARAM id="generator.oscillator3.volume" value="1.0"/>
+  <PARAM id="generator.oscillator3.waveTable" value="4.0"/>
+  <PARAM id="output.volume" value="1.0"/>
+  <PARAM id="pitchBend.semitonesDown" value="-12.0"/>
+  <PARAM id="pitchBend.semitonesUp" value="2.0"/>
+  <PARAM id="waveshaper.autoMakeUpGain" value="0.0"/>
+  <PARAM id="filter.env.adsr.attack.time"/>
+  <PARAM id="filter.env.adsr.decay.time"/>
+  <PARAM id="filter.env.adsr.release.time"/>
+  <PARAM id="filter.env.adsr.sustain.level"/>
+</EdenSynthParameters>
