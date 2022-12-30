@@ -13,7 +13,7 @@
 
 namespace eden::synth {
 Synthesiser::Synthesiser(settings::Settings& settings)
-    : _voiceRenderer(std::make_unique<AsynchronousVoiceRenderer>()),
+    : _voiceRenderer(std::make_unique<SynchronousVoiceRenderer>()),
       _mixer(NB_VOICES) {
   addVoices(settings, NB_VOICES);
 }
