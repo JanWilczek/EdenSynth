@@ -54,13 +54,11 @@ void PresetSaver::saveCurrentPreset() {
           return;
         }
 
-        const auto presetOutputPath = File(
-            (FileHelper::assetsPath() / "presets" / presetName.toStdString())
-                .replace_extension("xml")
-                .native()
-                .c_str());
+        const auto presetOutputPath =
+            (FileHelper::presetsPath() / presetName.toStdString())
+                .replace_extension("xml");
 
-        if (presetOutputPath.exists()) {
+        if (std::filesystem::exists(presetOutputPath)) {
           if (AlertWindow::showYesNoCancelBox(
                   MessageBoxIconType::QuestionIcon, "Preset file exists",
                   "A preset file with the given name already exists. Do you "
@@ -71,7 +69,8 @@ void PresetSaver::saveCurrentPreset() {
           }
         }
 
-        if (not presetXML->writeTo(presetOutputPath)) {
+        const auto presetFile = File(presetOutputPath.c_str());
+        if (not presetXML->writeTo(presetFile)) {
           AlertWindow::showMessageBoxAsync(MessageBoxIconType::WarningIcon,
                                            "Error",
                                            "Failed to save the preset file.");

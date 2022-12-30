@@ -99,6 +99,7 @@
             file="SharedCode/source/EdenFilterParameters.cpp"/>
       <FILE id="fzPhYU" name="EdenWaveshapingParameters.cpp" compile="1"
             resource="0" file="SharedCode/source/EdenWaveshapingParameters.cpp"/>
+      <FILE id="vAliF4" name="FileHelper.cpp" compile="1" resource="0" file="SharedCode/source/FileHelper.cpp"/>
       <FILE id="SFpYNL" name="OscillatorContainer.cpp" compile="1" resource="0"
             file="SharedCode/source/OscillatorContainer.cpp"/>
       <FILE id="ORC45d" name="PluginEditor.cpp" compile="1" resource="0"
