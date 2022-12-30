@@ -34,6 +34,21 @@ auto makeSaveAction(auto&& presetXML, const auto& presetOutputPath) {
     }
   };
 }
+
+void showOverwriteDialog(auto&& saveAction) {
+  AlertWindow::showYesNoCancelBox(
+      MessageBoxIconType::QuestionIcon, "Preset file exists",
+      "A preset file with the given name already exists. Do you "
+      "want to overwrite it?",
+      "", "", "", nullptr,
+      ModalCallbackFunction::create(
+          [saveAction = std::move(saveAction)](int returnValue) {
+            constexpr auto SHOULD_OVERWRITE_BUTTON_ID = 1;
+            if (returnValue == SHOULD_OVERWRITE_BUTTON_ID) {
+              saveAction();
+            }
+          }));
+}
 }  // namespace
 
 PresetSaver::PresetSaver(juce::AudioProcessorValueTreeState& vts)
@@ -77,18 +92,7 @@ void PresetSaver::saveCurrentPreset() {
             makeSaveAction(std::move(presetXML), presetOutputPath);
 
         if (std::filesystem::exists(presetOutputPath)) {
-          AlertWindow::showYesNoCancelBox(
-              MessageBoxIconType::QuestionIcon, "Preset file exists",
-              "A preset file with the given name already exists. Do you "
-              "want to overwrite it?",
-              "", "", "", nullptr,
-              ModalCallbackFunction::create(
-                  [saveAction = std::move(saveAction)](int returnValue) {
-                    constexpr auto SHOULD_OVERWRITE_BUTTON_ID = 1;
-                    if (returnValue == SHOULD_OVERWRITE_BUTTON_ID) {
-                      saveAction();
-                    }
-                  }));
+          showOverwriteDialog(std::move(saveAction));
           return;
         }
 
