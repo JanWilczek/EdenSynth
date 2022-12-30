@@ -1,5 +1,6 @@
 #include "PluginEditor.h"
 #include "EdenAdapter.h"
+#include "FileHelper.h"
 #include "PluginProcessor.h"
 #include "PresetSaver.h"
 
@@ -29,7 +30,8 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(
       _generatorComponent(vts, adapter.getPathProvider()),
       _modifierComponent(vts, adapter),
       _outputSettingsComponent(vts),
-      _presetsComponent{eden_vst::PresetSaver{vts}} {
+      _presetsComponent{eden_vst::Presets{eden_vst::FileHelper::presetsPath()},
+                        eden_vst::PresetSaver{vts}} {
   setSize(EDITOR_WIDTH, EDITOR_HEIGHT);
 
   addAndMakeVisible(_generalSettingsComponent);

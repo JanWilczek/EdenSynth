@@ -1,9 +1,19 @@
 #include "PresetsComponent.h"
 
-PresetsComponent::PresetsComponent(std::function<void()> savePresetAction) {
+PresetsComponent::PresetsComponent(eden_vst::Presets presets,
+                                   std::function<void()> savePresetAction)
+    : _presets{std::move(presets)} {
   _presetLabel.setJustificationType(Justification::right);
   addAndMakeVisible(_presetLabel);
+
+  constexpr auto REQUIRED_FIRST_ELEMENT_ID = 1;
+  std::ranges::for_each(_presets.presets(),
+                        [this, i = REQUIRED_FIRST_ELEMENT_ID](
+                            const std::string& presetName) mutable {
+                          _preset.addItem(presetName, i++);
+                        });
   addAndMakeVisible(_preset);
+
   _savePresetButton.setButtonText("Save preset");
   _savePresetButton.onClick = std::move(savePresetAction);
   addAndMakeVisible(_savePresetButton);
