@@ -37,25 +37,6 @@ void SaveAction::operator()() const {
                                      "Failed to save the preset file.");
   }
 }
-
-class OverwriteCallback : public juce::ModalComponentManager::Callback {
-public:
-  explicit OverwriteCallback(SaveAction&& saveAction);
-  void modalStateFinished(int returnValue) override;
-
-private:
-  SaveAction _saveAction;
-};
-
-OverwriteCallback::OverwriteCallback(SaveAction&& saveAction)
-    : _saveAction{std::move(saveAction)} {}
-
-void OverwriteCallback::modalStateFinished(int returnValue) {
-  constexpr auto SHOULD_OVERWRITE_BUTTON_ID = 1;
-  if (returnValue == SHOULD_OVERWRITE_BUTTON_ID) {
-    _saveAction();
-  }
-}
 }  // namespace
 
 PresetSaver::PresetSaver(juce::AudioProcessorValueTreeState& vts)
@@ -104,7 +85,13 @@ void PresetSaver::saveCurrentPreset() {
               "A preset file with the given name already exists. Do you "
               "want to overwrite it?",
               "", "", "", nullptr,
-              new OverwriteCallback{std::move(saveAction)});
+              ModalCallbackFunction::create(
+                  [saveAction = std::move(saveAction)](int returnValue) {
+                    constexpr auto SHOULD_OVERWRITE_BUTTON_ID = 1;
+                    if (returnValue == SHOULD_OVERWRITE_BUTTON_ID) {
+                      saveAction();
+                    }
+                  }));
           return;
         }
 
