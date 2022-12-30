@@ -5,8 +5,10 @@
 
 class PresetsComponent : public juce::Component {
 public:
-  explicit PresetsComponent(eden_vst::Presets,
-                            std::function<void()> savePresetAction);
+  explicit PresetsComponent(
+      eden_vst::Presets,
+      std::function<void(const std::string&)> loadPresetAction,
+      std::function<void()> savePresetAction);
 
   void paint(juce::Graphics&) override;
   void resized() override;

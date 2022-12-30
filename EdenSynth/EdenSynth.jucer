@@ -53,6 +53,7 @@
       <FILE id="dbGluG" name="PluginEditor.h" compile="0" resource="0" file="SharedCode/include/PluginEditor.h"/>
       <FILE id="O6hu68" name="PluginProcessor.h" compile="0" resource="0"
             file="SharedCode/include/PluginProcessor.h"/>
+      <FILE id="btJTyZ" name="PresetLoader.h" compile="0" resource="0" file="SharedCode/include/PresetLoader.h"/>
       <FILE id="vWmzD6" name="Presets.h" compile="0" resource="0" file="SharedCode/include/Presets.h"/>
       <FILE id="kdSQZR" name="PresetSaver.h" compile="0" resource="0" file="SharedCode/include/PresetSaver.h"/>
       <FILE id="Jws140" name="WaveshapingTransferFunctionContainer.h" compile="0"
@@ -107,6 +108,8 @@
             file="SharedCode/source/PluginEditor.cpp"/>
       <FILE id="DPtwL8" name="PluginProcessor.cpp" compile="1" resource="0"
             file="SharedCode/source/PluginProcessor.cpp"/>
+      <FILE id="fv4zPc" name="PresetLoader.cpp" compile="1" resource="0"
+            file="SharedCode/source/PresetLoader.cpp"/>
       <FILE id="K0vd3V" name="Presets.cpp" compile="1" resource="0" file="SharedCode/source/Presets.cpp"/>
       <FILE id="KDpIyr" name="PresetSaver.cpp" compile="1" resource="0" file="SharedCode/source/PresetSaver.cpp"/>
       <FILE id="NbVTDb" name="WaveshapingTransferFunctionContainer.cpp" compile="1"
