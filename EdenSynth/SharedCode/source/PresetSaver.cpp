@@ -17,7 +17,8 @@ void PresetSaver::saveCurrentPreset() {
   std::shared_ptr<XmlElement> presetXML(state.createXml().release());
 
   if (not presetXML) {
-    // TODO: Display warning.
+    AlertWindow::showMessageBoxAsync(MessageBoxIconType::WarningIcon, "Error",
+                                     "Failed to create the preset file.");
     return;
   }
 
@@ -30,6 +31,12 @@ void PresetSaver::saveCurrentPreset() {
   _savePresetDialog->addButton("Cancel", CANCEL_BUTTON_ID);
   _savePresetDialog->addButton("Save preset", SAVE_PRESET_BUTTON_ID);
   auto textEditor = _savePresetDialog->getTextEditor(TEXT_EDITOR_NAME);
+  if (not textEditor) {
+    // Fatal error
+    return;
+  }
+  textEditor->setJustification(Justification::centred);
+
   _savePresetDialog->enterModalState(
       true, ModalCallbackFunction::create([presetXML = std::move(presetXML),
                                            textEditor,
@@ -38,7 +45,7 @@ void PresetSaver::saveCurrentPreset() {
         dialog->exitModalState(pressedButtonIndex);
         dialog->setVisible(false);
 
-        if (pressedButtonIndex != SAVE_PRESET_BUTTON_ID or not textEditor) {
+        if (pressedButtonIndex != SAVE_PRESET_BUTTON_ID) {
           return;
         }
 
@@ -54,11 +61,20 @@ void PresetSaver::saveCurrentPreset() {
                 .c_str());
 
         if (presetOutputPath.exists()) {
-          // TODO: Display "overwrite?" dialog
+          if (AlertWindow::showYesNoCancelBox(
+                  MessageBoxIconType::QuestionIcon, "Preset file exists",
+                  "A preset file with the given name already exists. Do you "
+                  "want to overwrite it?",
+                  "", "", "", nullptr, nullptr) == 1) {
+            // TODO: Call a callback that the user does not want to overwrite.
+            return;
+          }
         }
 
         if (not presetXML->writeTo(presetOutputPath)) {
-          // TODO: Display warning.
+          AlertWindow::showMessageBoxAsync(MessageBoxIconType::WarningIcon,
+                                           "Error",
+                                           "Failed to save the preset file.");
         }
 
         // TODO: Call a callback that a preset has been added.
