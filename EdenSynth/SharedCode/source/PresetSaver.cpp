@@ -18,25 +18,6 @@ std::shared_ptr<AlertWindow> makeSavePresetDialog() {
   textEditor->setJustification(Justification::centred);
   return dialog;
 }
-
-struct SaveAction {
-  void operator()() const;
-  std::shared_ptr<juce::XmlElement> presetXML;
-  std::filesystem::path presetOutputPath;
-};
-
-void SaveAction::operator()() const {
-  if (presetOutputPath.empty() or not presetOutputPath.has_filename() or
-      not presetXML) {
-    return;
-  }
-
-  const auto presetFile = File(presetOutputPath.c_str());
-  if (not presetXML->writeTo(presetFile)) {
-    AlertWindow::showMessageBoxAsync(MessageBoxIconType::WarningIcon, "Error",
-                                     "Failed to save the preset file.");
-  }
-}
 }  // namespace
 
 PresetSaver::PresetSaver(juce::AudioProcessorValueTreeState& vts)
@@ -76,8 +57,20 @@ void PresetSaver::saveCurrentPreset() {
             (FileHelper::presetsPath() / presetName.toStdString())
                 .replace_extension("xml");
 
-        SaveAction saveAction{.presetXML = std::move(presetXML),
-                              .presetOutputPath = presetOutputPath};
+        auto saveAction = [presetXML = std::move(presetXML),
+                           presetOutputPath = presetOutputPath]() {
+          if (presetOutputPath.empty() or not presetOutputPath.has_filename() or
+              not presetXML) {
+            return;
+          }
+
+          const auto presetFile = File(presetOutputPath.c_str());
+          if (not presetXML->writeTo(presetFile)) {
+            AlertWindow::showMessageBoxAsync(MessageBoxIconType::WarningIcon,
+                                             "Error",
+                                             "Failed to save the preset file.");
+          }
+        };
 
         if (std::filesystem::exists(presetOutputPath)) {
           AlertWindow::showYesNoCancelBox(
