@@ -12,10 +12,10 @@
   <PARAM id="envelope.adbdr.release.time" value="1704.0"/>
   <PARAM id="filter.contourAmount" value="1.0"/>
   <PARAM id="filter.cutoff" value="9.456001281738281"/>
-  <PARAM id="filter.envelope.adsr.attack.time" value="1.0"/>
-  <PARAM id="filter.envelope.adsr.decay.time" value="1083.0"/>
-  <PARAM id="filter.envelope.adsr.release.time" value="300.0"/>
-  <PARAM id="filter.envelope.adsr.sustain.level" value="0.1590000092983246"/>
+  <PARAM id="filter.env.adsr.attack.time" value="1.0"/>
+  <PARAM id="filter.env.adsr.decay.time" value="1083.0"/>
+  <PARAM id="filter.env.adsr.release.time" value="300.0"/>
+  <PARAM id="filter.env.adsr.sustain.level" value="0.1590000092983246"/>
   <PARAM id="filter.passbandAttenuation" value="0.0"/>
   <PARAM id="filter.resonance" value="0.674299955368042"/>
   <PARAM id="frequencyOfA4" value="440.0"/>
@@ -47,8 +47,4 @@
   <PARAM id="pitchBend.semitonesDown" value="-12.0"/>
   <PARAM id="pitchBend.semitonesUp" value="2.0"/>
   <PARAM id="waveshaper.autoMakeUpGain" value="0.0"/>
-  <PARAM id="filter.env.adsr.attack.time"/>
-  <PARAM id="filter.env.adsr.decay.time"/>
-  <PARAM id="filter.env.adsr.release.time"/>
-  <PARAM id="filter.env.adsr.sustain.level"/>
 </EdenSynthParameters>
