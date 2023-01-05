@@ -119,30 +119,6 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2019 targetFolder="Builds/VisualStudio2019" extraCompilerFlags="/I ../../SharedCode/include /I ../../libeden/include"
-            aaxFolder="SDKs/AAX" extraLinkerFlags="&quot;libeden_$(Platform)_$(Configuration).lib&quot; /LIBPATH:&quot;$(SolutionDir)$(Platform)\$(Configuration)\&quot; ">
-      <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy &quot;$(SolutionDir)assets&quot; &quot;$(OutDir)assets&quot; /s /e /i /Y"/>
-        <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy &quot;$(SolutionDir)assets&quot; &quot;$(OutDir)assets&quot; /s /e /i /Y"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_video"/>
-        <MODULEPATH id="juce_opengl"/>
-        <MODULEPATH id="juce_gui_extra"/>
-        <MODULEPATH id="juce_gui_basics"/>
-        <MODULEPATH id="juce_graphics"/>
-        <MODULEPATH id="juce_events"/>
-        <MODULEPATH id="juce_data_structures"/>
-        <MODULEPATH id="juce_cryptography"/>
-        <MODULEPATH id="juce_core"/>
-        <MODULEPATH id="juce_audio_utils"/>
-        <MODULEPATH id="juce_audio_processors"/>
-        <MODULEPATH id="juce_audio_plugin_client"/>
-        <MODULEPATH id="juce_audio_formats"/>
-        <MODULEPATH id="juce_audio_devices"/>
-        <MODULEPATH id="juce_audio_basics"/>
-      </MODULEPATHS>
-    </VS2019>
     <VS2022 targetFolder="Builds/VisualStudio2022" extraLinkerFlags="&quot;libeden_$(Platform)_$(Configuration).lib&quot; /LIBPATH:&quot;$(SolutionDir)$(Platform)\$(Configuration)\&quot; "
             aaxFolder="SDKs/AAX">
       <CONFIGURATIONS>
