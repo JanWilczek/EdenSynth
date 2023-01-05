@@ -5,7 +5,7 @@
               pluginFormats="buildAAX,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
               pluginManufacturer="Jan Wilczek" aaxIdentifier="com.thewolfsound.EdenSynth"
               cppLanguageStandard="latest" pluginManufacturerCode="Wolf" displaySplashScreen="1"
-              jucerFormatVersion="1" compilerFlagSchemes="">
+              jucerFormatVersion="1" compilerFlagSchemes="" headerPath="../../libeden/include&#10;../../SharedCode/include">
   <MAINGROUP id="QaIe6a" name="EdenSynth">
     <GROUP id="{861311EE-927B-C330-62B7-53462F96606D}" name="include">
       <GROUP id="{C6DA3187-CA86-A10F-B8D0-A145C2295E97}" name="components">
@@ -143,6 +143,30 @@
         <MODULEPATH id="juce_audio_basics"/>
       </MODULEPATHS>
     </VS2019>
+    <VS2022 targetFolder="Builds/VisualStudio2022" extraLinkerFlags="&quot;libeden_$(Platform)_$(Configuration).lib&quot; /LIBPATH:&quot;$(SolutionDir)$(Platform)\$(Configuration)\&quot; "
+            aaxFolder="SDKs/AAX">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy &quot;$(SolutionDir)assets&quot; &quot;$(OutDir)assets&quot; /s /e /i /Y"/>
+        <CONFIGURATION isDebug="0" name="Release" postbuildCommand="xcopy &quot;$(SolutionDir)assets&quot; &quot;$(OutDir)assets&quot; /s /e /i /Y"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_audio_devices" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_audio_formats" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_audio_processors" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_audio_utils" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_core" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_cryptography" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_data_structures" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_events" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_graphics" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_gui_extra" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_opengl" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+        <MODULEPATH id="juce_video" path="D:\Programy\Libraries\JUCE7.0.3\modules"/>
+      </MODULEPATHS>
+    </VS2022>
   </EXPORTFORMATS>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="1" useGlobalPath="1"/>

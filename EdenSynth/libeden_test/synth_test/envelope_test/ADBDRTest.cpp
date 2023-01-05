@@ -2,8 +2,8 @@
 /// \author Jan Wilczek
 /// \date 16.10.18
 ///
-#include "pch.h"
 #include "eden/EnvelopeParameters.h"
+#include "pch.h"
 #include "synth/envelope/ADBDR.h"
 #include "utility/TimeSampleConverter.h"
 
@@ -19,7 +19,7 @@ struct ADBDRTestData {
 };
 
 class ADBDRTest : public ::testing::TestWithParam<ADBDRTestData> {
- protected:
+protected:
   const unsigned NUM_SAMPLES = 10000;
   const float SAMPLE_RATE = 48000.f;
   std::unique_ptr<float[]> _channel = std::make_unique<float[]>(NUM_SAMPLES);
@@ -201,8 +201,8 @@ constexpr ADBDRTestData testData[] = {
     {1000ms, 100ms, 5000ms, 1000ms, float(0.8)},
 };
 
-INSTANTIATE_TEST_CASE_P(Envelope,
-                        ADBDRTest,
-                        ::testing::ValuesIn(std::begin(testData),
-                                            std::end(testData)));
+INSTANTIATE_TEST_SUITE_P(Envelope,
+                         ADBDRTest,
+                         ::testing::ValuesIn(std::begin(testData),
+                                             std::end(testData)));
 }  // namespace libeden_test

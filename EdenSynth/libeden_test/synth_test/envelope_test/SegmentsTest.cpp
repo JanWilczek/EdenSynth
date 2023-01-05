@@ -19,7 +19,7 @@ struct SegmentTestParam {
 };
 
 class SegmentTest : public ::testing::Test {
- protected:
+protected:
   const float SAMPLE_RATE = 48000.f;
 
   void testSegment(eden::synth::envelope::EnvelopeSegment& segment,
@@ -79,9 +79,9 @@ const std::vector<SegmentTestParam> attackTestParameters = {
     {1000ms, float(0.4), float(0.7)},
     {10000ms, float(0.33), float(1.0)}};
 
-INSTANTIATE_TEST_CASE_P(Usage,
-                        AttackTest,
-                        ::testing::ValuesIn(attackTestParameters));
+INSTANTIATE_TEST_SUITE_P(Usage,
+                         AttackTest,
+                         ::testing::ValuesIn(attackTestParameters));
 
 class DecayTest : public SegmentTest,
                   public ::testing::WithParamInterface<SegmentTestParam> {};
@@ -116,9 +116,9 @@ const std::vector<SegmentTestParam> decayTestParameters = {
     {1000ms, float(0.8), float(0.3)},
     {20000ms, float(0.5), float(0.0)}};
 
-INSTANTIATE_TEST_CASE_P(Usage,
-                        DecayTest,
-                        ::testing::ValuesIn(decayTestParameters));
+INSTANTIATE_TEST_SUITE_P(Usage,
+                         DecayTest,
+                         ::testing::ValuesIn(decayTestParameters));
 
 TEST(SegmentsTest, Sustain) {
   constexpr float levels[] = {0.44f, 0.33f, 0.6f, 0.55f,
