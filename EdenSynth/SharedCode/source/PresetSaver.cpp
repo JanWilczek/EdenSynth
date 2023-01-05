@@ -19,7 +19,7 @@ std::shared_ptr<AlertWindow> makeSavePresetDialog() {
   return dialog;
 }
 
-auto makeSaveAction(auto&& presetXML, const auto& presetOutputPath) {
+auto makeSaveAction(auto presetXML, const auto& presetOutputPath) {
   return [presetXML = std::move(presetXML),
           presetOutputPath = presetOutputPath]() {
     if (presetOutputPath.empty() or not presetOutputPath.has_filename() or
@@ -97,8 +97,7 @@ void PresetSaver::saveCurrentPreset() {
             const auto presetOutputPath =
                 presetPathFrom(presetName.toStdString());
 
-            auto saveAction =
-                makeSaveAction(std::move(presetXML), presetOutputPath);
+            auto saveAction = makeSaveAction(presetXML, presetOutputPath);
 
             if (std::filesystem::exists(presetOutputPath)) {
               showOverwriteDialog(std::move(saveAction));
