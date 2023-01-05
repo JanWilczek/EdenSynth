@@ -49,6 +49,10 @@ void showOverwriteDialog(auto&& saveAction) {
             }
           }));
 }
+
+std::filesystem::path presetPathFrom(const std::string& presetName) {
+  return (FileHelper::presetsPath() / presetName).replace_extension("xml");
+}
 }  // namespace
 
 PresetSaver::PresetSaver(juce::AudioProcessorValueTreeState& vts)
@@ -72,33 +76,38 @@ void PresetSaver::saveCurrentPreset() {
 
   _savePresetDialog = makeSavePresetDialog();
   _savePresetDialog->enterModalState(
-      true, ModalCallbackFunction::create([dialog = _savePresetDialog.get(),
-                                           presetXML = std::move(presetXML)](
-                                              int pressedButtonIndex) {
-        dialog->exitModalState(pressedButtonIndex);
-        dialog->setVisible(false);
+      true,
+      ModalCallbackFunction::create(
+          [weakDialog = std::weak_ptr<juce::AlertWindow>(_savePresetDialog),
+           presetXML = std::move(presetXML)](int pressedButtonIndex) {
+            const auto dialog = weakDialog.lock();
+            if (not dialog) {
+              return;
+            }
 
-        if (pressedButtonIndex != SAVE_PRESET_BUTTON_ID) {
-          return;
-        }
+            dialog->exitModalState(pressedButtonIndex);
+            dialog->setVisible(false);
 
-        const auto textEditor = dialog->getTextEditor(TEXT_EDITOR_NAME);
-        const auto presetName = textEditor->getText();
-        const auto presetOutputPath =
-            (FileHelper::presetsPath() / presetName.toStdString())
-                .replace_extension("xml");
+            if (pressedButtonIndex != SAVE_PRESET_BUTTON_ID) {
+              return;
+            }
 
-        auto saveAction =
-            makeSaveAction(std::move(presetXML), presetOutputPath);
+            const auto textEditor = dialog->getTextEditor(TEXT_EDITOR_NAME);
+            const auto presetName = textEditor->getText();
+            const auto presetOutputPath =
+                presetPathFrom(presetName.toStdString());
 
-        if (std::filesystem::exists(presetOutputPath)) {
-          showOverwriteDialog(std::move(saveAction));
-          return;
-        }
+            auto saveAction =
+                makeSaveAction(std::move(presetXML), presetOutputPath);
 
-        saveAction();
+            if (std::filesystem::exists(presetOutputPath)) {
+              showOverwriteDialog(std::move(saveAction));
+              return;
+            }
 
-        // TODO: Call a callback that a preset has been added.
-      }));
+            saveAction();
+
+            // TODO: Call a callback that a preset has been added.
+          }));
 }
 }  // namespace eden_vst
