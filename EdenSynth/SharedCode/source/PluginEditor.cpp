@@ -31,11 +31,7 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(
       _generatorComponent(vts, adapter.getPathProvider()),
       _modifierComponent(vts, adapter),
       _outputSettingsComponent(vts),
-      _presetsComponent{
-          eden_vst::Presets{eden_vst::FileHelper::presetsPath()},
-          eden_vst::PresetLoader{
-              vts, eden_vst::Presets{eden_vst::FileHelper::presetsPath()}},
-          eden_vst::PresetSaver{vts}} {
+      _presetsComponent{p.getPresetManager()} {
   setSize(EDITOR_WIDTH, EDITOR_HEIGHT);
 
   addAndMakeVisible(_generalSettingsComponent);

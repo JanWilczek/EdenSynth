@@ -2,8 +2,9 @@
 #include "JuceHeader.h"
 
 namespace eden_vst {
-PresetLoader::PresetLoader(juce::AudioProcessorValueTreeState& vts, Presets p)
-    : _pluginParameters{vts}, _presets{std::move(p)} {}
+PresetLoader::PresetLoader(juce::AudioProcessorValueTreeState& vts,
+                           const Presets& p)
+    : _pluginParameters{vts}, _presets{p} {}
 
 void PresetLoader::operator()(const std::string& presetName) {
   loadPreset(presetName);

@@ -1,27 +1,34 @@
 #include "PresetsComponent.h"
+#include "PresetManager.h"
 
-PresetsComponent::PresetsComponent(
-    eden_vst::Presets presets,
-    std::function<void(const std::string&)> loadPresetAction,
-    std::function<void()> savePresetAction)
-    : _presets{std::move(presets)} {
+PresetsComponent::PresetsComponent(eden_vst::PresetManager& presetManager) {
   _presetLabel.setJustificationType(Justification::right);
   addAndMakeVisible(_presetLabel);
 
-  constexpr auto REQUIRED_FIRST_ELEMENT_ID = 1;
-  std::ranges::for_each(_presets.presets(),
-                        [this, i = REQUIRED_FIRST_ELEMENT_ID](
-                            const std::string& presetName) mutable {
-                          _preset.addItem(presetName, i++);
-                        });
-  _preset.onChange = [this, loadPresetAction = std::move(loadPresetAction)]() {
-    loadPresetAction(_preset.getText().toStdString());
+  refreshPresetList(presetManager);
+
+  _preset.onChange = [this, &presetManager] {
+    presetManager.loadPreset(_preset.getText().toStdString());
   };
   addAndMakeVisible(_preset);
 
   _savePresetButton.setButtonText("Save preset");
-  _savePresetButton.onClick = std::move(savePresetAction);
+  _savePresetButton.onClick = [&presetManager] {
+    presetManager.saveCurrentPreset();
+  };
   addAndMakeVisible(_savePresetButton);
+}
+
+void PresetsComponent::refreshPresetList(
+    eden_vst::PresetManager& presetManager) {
+  _preset.clear(dontSendNotification);
+
+  constexpr auto REQUIRED_FIRST_ELEMENT_ID = 1;
+  std::ranges::for_each(presetManager.presets(),
+                        [this, i = REQUIRED_FIRST_ELEMENT_ID](
+                            const std::string& presetName) mutable {
+                          _preset.addItem(presetName, i++);
+                        });
 }
 
 void PresetsComponent::paint(juce::Graphics& g) {

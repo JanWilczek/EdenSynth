@@ -9,13 +9,13 @@ class AudioProcessorValueTreeState;
 namespace eden_vst {
 class PresetLoader {
 public:
-  explicit PresetLoader(juce::AudioProcessorValueTreeState& vts, Presets);
+  PresetLoader(juce::AudioProcessorValueTreeState& vts, const Presets&);
   void operator()(const std::string& presetName);
 
 private:
   void loadPreset(const std::string& presetName);
 
   juce::AudioProcessorValueTreeState& _pluginParameters;
-  Presets _presets;
+  const Presets& _presets;
 };
 }  // namespace eden_vst

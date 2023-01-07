@@ -5,9 +5,10 @@
 #include "FileHelper.h"
 #include "eden/AudioBuffer.h"
 #include "eden/MidiBuffer.h"
+#include "PresetManager.h"
 
-#include <utility/StopWatchPrinter.h>
-#include <utility/WaveFileReader.h>
+#include "utility/StopWatchPrinter.h"
+#include "utility/WaveFileReader.h"
 #include <filesystem>
 
 //==============================================================================
@@ -24,7 +25,10 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
                          ),
 #endif
       _pluginParameters(*this, nullptr),
-      _edenAdapter(_edenSynthesiser, eden_vst::FileHelper::assetsPath()) {
+      _edenAdapter(_edenSynthesiser, eden_vst::FileHelper::assetsPath()),
+      _presetManager{std::make_unique<eden_vst::ProductionPresetManager>(
+          eden_vst::FileHelper::presetsPath(),
+          _pluginParameters)} {
   _edenAdapter.addEdenParameters(_pluginParameters);
   _pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));
 }
@@ -166,4 +170,9 @@ void EdenSynthAudioProcessor::setStateInformation(const void* data,
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
   return new EdenSynthAudioProcessor();
+}
+
+[[nodiscard]] eden_vst::PresetManager&
+EdenSynthAudioProcessor::getPresetManager() noexcept {
+  return *_presetManager;
 }

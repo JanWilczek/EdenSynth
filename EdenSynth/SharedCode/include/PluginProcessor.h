@@ -1,9 +1,13 @@
 #pragma once
-#include <eden/EdenSynthesiser.h>
+#include "eden/EdenSynthesiser.h"
 #include <filesystem>
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "EdenAdapter.h"
 #include "WaveTablePathProvider.h"
+
+namespace eden_vst {
+class PresetManager;
+}
 
 class EdenSynthAudioProcessor : public AudioProcessor {
 public:
@@ -46,6 +50,7 @@ public:
 
   //==============================================================================
   // void setWaveTable(const std::string& filename);
+  [[nodiscard]] eden_vst::PresetManager& getPresetManager() noexcept;
 
 private:
   //==============================================================================
@@ -55,4 +60,5 @@ private:
   eden::EdenSynthesiser _edenSynthesiser;
   eden_vst::EdenAdapter _edenAdapter;
   AudioProcessorValueTreeState _pluginParameters;
+  std::unique_ptr<eden_vst::PresetManager> _presetManager;
 };
