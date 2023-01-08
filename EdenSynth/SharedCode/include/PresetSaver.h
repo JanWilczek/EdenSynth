@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <functional>
 
 namespace juce {
 class AudioProcessorValueTreeState;
@@ -10,10 +11,10 @@ namespace eden_vst {
 class PresetSaver {
 public:
   explicit PresetSaver(juce::AudioProcessorValueTreeState&);
-  void operator()();
+  void operator()(std::function<void()> onPresetAdded);
 
 private:
-  void saveCurrentPreset();
+  void saveCurrentPreset(std::function<void()> onPresetAdded);
 
   juce::AudioProcessorValueTreeState& _pluginParameters;
   // A closure binding to an std::function must be copy-constructible;

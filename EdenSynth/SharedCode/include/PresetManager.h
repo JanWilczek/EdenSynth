@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <filesystem>
+#include <functional>
 #include "Presets.h"
 
 namespace juce {
@@ -11,7 +12,7 @@ namespace eden_vst {
 class PresetManager {
 public:
   virtual ~PresetManager();
-  virtual void saveCurrentPreset() = 0;
+  virtual void saveCurrentPreset(std::function<void()> onPresetAdded) = 0;
   virtual void loadPreset(const std::string& presetName) = 0;
   virtual std::vector<std::string> presets() const = 0;
 };
@@ -22,7 +23,7 @@ class ProductionPresetManager : public PresetManager {
 public:
   explicit ProductionPresetManager(const std::filesystem::path& presetsPath,
                                    juce::AudioProcessorValueTreeState&);
-  void saveCurrentPreset() override;
+  void saveCurrentPreset(std::function<void()> onPresetAdded) override;
   void loadPreset(const std::string& presetName) override;
   std::vector<std::string> presets() const override;
 

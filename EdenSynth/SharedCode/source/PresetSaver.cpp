@@ -19,9 +19,11 @@ std::shared_ptr<AlertWindow> makeSavePresetDialog() {
   return dialog;
 }
 
-auto makeSaveAction(auto presetXML, const auto& presetOutputPath) {
-  return [presetXML = std::move(presetXML),
-          presetOutputPath = presetOutputPath]() {
+auto makeSaveAction(auto presetXML,
+                    const auto& presetOutputPath,
+                    auto onPresetAdded) {
+  return [presetXML = std::move(presetXML), presetOutputPath = presetOutputPath,
+          onPresetAdded = std::move(onPresetAdded)]() {
     if (presetOutputPath.empty() or not presetOutputPath.has_filename() or
         not presetXML) {
       return;
@@ -32,6 +34,8 @@ auto makeSaveAction(auto presetXML, const auto& presetOutputPath) {
       AlertWindow::showMessageBoxAsync(MessageBoxIconType::WarningIcon, "Error",
                                        "Failed to save the preset file.");
     }
+
+    onPresetAdded();
   };
 }
 
@@ -58,11 +62,11 @@ std::filesystem::path presetPathFrom(const std::string& presetName) {
 PresetSaver::PresetSaver(juce::AudioProcessorValueTreeState& vts)
     : _pluginParameters{vts} {}
 
-void PresetSaver::operator()() {
-  saveCurrentPreset();
+void PresetSaver::operator()(std::function<void()> onPresetAdded) {
+  saveCurrentPreset(std::move(onPresetAdded));
 }
 
-void PresetSaver::saveCurrentPreset() {
+void PresetSaver::saveCurrentPreset(std::function<void()> onPresetAdded) {
   auto state = _pluginParameters.copyState();
   // A closure binding to an std::function must be copy-constructible;
   // hence the shared_ptr instead of a (more natural) unique_ptr.
@@ -79,7 +83,8 @@ void PresetSaver::saveCurrentPreset() {
       true,
       ModalCallbackFunction::create(
           [weakDialog = std::weak_ptr<juce::AlertWindow>(_savePresetDialog),
-           presetXML = std::move(presetXML)](int pressedButtonIndex) {
+           presetXML = std::move(presetXML),
+           onPresetAdded = std::move(onPresetAdded)](int pressedButtonIndex) {
             const auto dialog = weakDialog.lock();
             if (not dialog) {
               return;
@@ -97,7 +102,8 @@ void PresetSaver::saveCurrentPreset() {
             const auto presetOutputPath =
                 presetPathFrom(presetName.toStdString());
 
-            auto saveAction = makeSaveAction(presetXML, presetOutputPath);
+            auto saveAction = makeSaveAction(presetXML, presetOutputPath,
+                                             std::move(onPresetAdded));
 
             if (std::filesystem::exists(presetOutputPath)) {
               showOverwriteDialog(std::move(saveAction));
@@ -105,8 +111,6 @@ void PresetSaver::saveCurrentPreset() {
             }
 
             saveAction();
-
-            // TODO: Call a callback that a preset has been added.
           }));
 }
 }  // namespace eden_vst

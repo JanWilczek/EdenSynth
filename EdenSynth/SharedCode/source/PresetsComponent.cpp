@@ -13,8 +13,9 @@ PresetsComponent::PresetsComponent(eden_vst::PresetManager& presetManager) {
   addAndMakeVisible(_preset);
 
   _savePresetButton.setButtonText("Save preset");
-  _savePresetButton.onClick = [&presetManager] {
-    presetManager.saveCurrentPreset();
+  _savePresetButton.onClick = [this, &presetManager] {
+    presetManager.saveCurrentPreset(
+        [this, &presetManager] { refreshPresetList(presetManager); });
   };
   addAndMakeVisible(_savePresetButton);
 }

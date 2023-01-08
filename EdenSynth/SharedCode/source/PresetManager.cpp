@@ -6,11 +6,13 @@ namespace eden_vst {
 ProductionPresetManager::ProductionPresetManager(
     const std::filesystem::path& presetsPath,
     juce::AudioProcessorValueTreeState& vts)
-    : _presets{presetsPath}, _valueTreeState{vts} {}
+    : _presets{presetsPath},
+      _valueTreeState{vts},
+      _presetSaver{std::make_unique<PresetSaver>(_valueTreeState)} {}
 
-void ProductionPresetManager::saveCurrentPreset() {
-  _presetSaver = std::make_unique<PresetSaver>(_valueTreeState);
-  (*_presetSaver)();
+void ProductionPresetManager::saveCurrentPreset(
+    std::function<void()> onPresetAdded) {
+  (*_presetSaver)(std::move(onPresetAdded));
 }
 
 void ProductionPresetManager::loadPreset(const std::string& presetName) {
