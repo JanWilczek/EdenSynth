@@ -35,7 +35,7 @@ auto makeSaveAction(auto presetXML,
                                        "Failed to save the preset file.");
     }
 
-    onPresetAdded();
+    onPresetAdded(presetOutputPath.stem().string());
   };
 }
 
@@ -62,11 +62,13 @@ std::filesystem::path presetPathFrom(const std::string& presetName) {
 PresetSaver::PresetSaver(juce::AudioProcessorValueTreeState& vts)
     : _pluginParameters{vts} {}
 
-void PresetSaver::operator()(std::function<void()> onPresetAdded) {
+void PresetSaver::operator()(
+    std::function<void(const std::string&)> onPresetAdded) {
   saveCurrentPreset(std::move(onPresetAdded));
 }
 
-void PresetSaver::saveCurrentPreset(std::function<void()> onPresetAdded) {
+void PresetSaver::saveCurrentPreset(
+    std::function<void(const std::string&)> onPresetAdded) {
   auto state = _pluginParameters.copyState();
   // A closure binding to an std::function must be copy-constructible;
   // hence the shared_ptr instead of a (more natural) unique_ptr.

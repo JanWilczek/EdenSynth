@@ -1,6 +1,17 @@
 #include "PresetsComponent.h"
 #include "PresetManager.h"
 
+namespace {
+void selectItemWithName(ComboBox& preset, const std::string& name) {
+  for (auto i = 0; i < preset.getNumItems(); ++i) {
+    if (preset.getItemText(i).toStdString() == name) {
+      preset.setSelectedItemIndex(i, dontSendNotification);
+      break;
+    }
+  }
+}
+}  // namespace
+
 PresetsComponent::PresetsComponent(eden_vst::PresetManager& presetManager) {
   _presetLabel.setJustificationType(Justification::right);
   addAndMakeVisible(_presetLabel);
@@ -15,7 +26,10 @@ PresetsComponent::PresetsComponent(eden_vst::PresetManager& presetManager) {
   _savePresetButton.setButtonText("Save preset");
   _savePresetButton.onClick = [this, &presetManager] {
     presetManager.saveCurrentPreset(
-        [this, &presetManager] { refreshPresetList(presetManager); });
+        [this, &presetManager](const std::string& addedPresetName) {
+          refreshPresetList(presetManager);
+          selectItemWithName(_preset, addedPresetName);
+        });
   };
   addAndMakeVisible(_savePresetButton);
 }

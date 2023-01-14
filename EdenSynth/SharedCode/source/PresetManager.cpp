@@ -11,7 +11,7 @@ ProductionPresetManager::ProductionPresetManager(
       _presetSaver{std::make_unique<PresetSaver>(_valueTreeState)} {}
 
 void ProductionPresetManager::saveCurrentPreset(
-    std::function<void()> onPresetAdded) {
+    std::function<void(const std::string&)> onPresetAdded) {
   (*_presetSaver)(std::move(onPresetAdded));
 }
 
