@@ -8,6 +8,11 @@
               jucerFormatVersion="1" compilerFlagSchemes="" headerPath="../../libeden/include&#10;../../SharedCode/include">
   <MAINGROUP id="QaIe6a" name="EdenSynth">
     <GROUP id="{861311EE-927B-C330-62B7-53462F96606D}" name="include">
+      <GROUP id="{3B4FE1A7-025E-E97C-CFEA-5D934E970A21}" name="viewmodels">
+        <FILE id="nPohs6" name="PresetsViewModel.h" compile="0" resource="0"
+              file="SharedCode/include/viewmodels/PresetsViewModel.h"/>
+        <FILE id="FGDl8k" name="ViewModel.h" compile="0" resource="0" file="SharedCode/include/viewmodels/ViewModel.h"/>
+      </GROUP>
       <GROUP id="{C6DA3187-CA86-A10F-B8D0-A145C2295E97}" name="components">
         <FILE id="SZCYJs" name="EnvelopeSegmentComponent.h" compile="0" resource="0"
               file="SharedCode/include/EnvelopeSegmentComponent.h"/>
@@ -63,6 +68,10 @@
             file="SharedCode/include/WaveTablePathProvider.h"/>
     </GROUP>
     <GROUP id="{6F6DA406-5C71-27CE-74AE-AF113A73C755}" name="source">
+      <GROUP id="{A4CFAC94-3808-11DB-89A4-985C2B2E31EE}" name="viewmodels">
+        <FILE id="thZaMv" name="PresetsViewModel.cpp" compile="1" resource="0"
+              file="SharedCode/source/viewmodels/PresetsViewModel.cpp"/>
+      </GROUP>
       <GROUP id="{A8AF2589-F660-01D5-8170-91F0B9BD2929}" name="components">
         <FILE id="JtV2uf" name="EnvelopeComponent.cpp" compile="1" resource="0"
               file="SharedCode/source/EnvelopeComponent.cpp"/>
