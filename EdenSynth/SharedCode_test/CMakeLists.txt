@@ -12,7 +12,12 @@ endif()
 set(gtest_force_shared_crt ON CACHE BOOL "")
 find_package(gtest REQUIRED PATHS ../dependencies)
 
-add_executable(${PROJECT_NAME} source/viewmodels_test/PresetsViewModelTest.cpp)
+set(SOURCES
+    source/viewmodels_test/PresetsViewModelTest.cpp
+    source/ProductionPresetManagerTest.cpp)
+
+add_executable(${PROJECT_NAME} ${SOURCES})
+
 target_include_directories(${PROJECT_NAME} PRIVATE
     ../SharedCode/include
 )
@@ -25,6 +30,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     GTest::gtest_main
     EdenSynth
 )
+
+source_group(TREE source PREFIX "Source Files" FILES ${SOURCES})
 
 enable_testing()
 include(GoogleTest)
