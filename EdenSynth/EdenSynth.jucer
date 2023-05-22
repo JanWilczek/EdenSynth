@@ -62,12 +62,16 @@
       <FILE id="wLDj8a" name="PresetManager.h" compile="0" resource="0" file="SharedCode/include/PresetManager.h"/>
       <FILE id="vWmzD6" name="Presets.h" compile="0" resource="0" file="SharedCode/include/Presets.h"/>
       <FILE id="kdSQZR" name="PresetSaver.h" compile="0" resource="0" file="SharedCode/include/PresetSaver.h"/>
+      <FILE id="lNpYiZ" name="ProductionPresetManager.h" compile="0" resource="0"
+            file="SharedCode/include/ProductionPresetManager.h"/>
       <FILE id="Jws140" name="WaveshapingTransferFunctionContainer.h" compile="0"
             resource="0" file="SharedCode/include/WaveshapingTransferFunctionContainer.h"/>
       <FILE id="VfYP23" name="WaveTablePathProvider.h" compile="0" resource="0"
             file="SharedCode/include/WaveTablePathProvider.h"/>
     </GROUP>
     <GROUP id="{6F6DA406-5C71-27CE-74AE-AF113A73C755}" name="source">
+      <FILE id="yI4FOP" name="ProductionPresetManager.cpp" compile="1" resource="0"
+            file="SharedCode/source/ProductionPresetManager.cpp"/>
       <GROUP id="{A4CFAC94-3808-11DB-89A4-985C2B2E31EE}" name="viewmodels">
         <FILE id="thZaMv" name="PresetsViewModel.cpp" compile="1" resource="0"
               file="SharedCode/source/viewmodels/PresetsViewModel.cpp"/>
@@ -120,8 +124,6 @@
             file="SharedCode/source/PluginProcessor.cpp"/>
       <FILE id="fv4zPc" name="PresetLoader.cpp" compile="1" resource="0"
             file="SharedCode/source/PresetLoader.cpp"/>
-      <FILE id="fg5Hoe" name="PresetManager.cpp" compile="1" resource="0"
-            file="SharedCode/source/PresetManager.cpp"/>
       <FILE id="K0vd3V" name="Presets.cpp" compile="1" resource="0" file="SharedCode/source/Presets.cpp"/>
       <FILE id="KDpIyr" name="PresetSaver.cpp" compile="1" resource="0" file="SharedCode/source/PresetSaver.cpp"/>
       <FILE id="NbVTDb" name="WaveshapingTransferFunctionContainer.cpp" compile="1"

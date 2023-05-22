@@ -1,6 +1,7 @@
 #include "viewmodels/PresetsViewModel.h"
 #include "PresetManager.h"
 #include <ranges>
+#include <algorithm>
 #include <cassert>
 
 namespace eden_vst::viewmodels {
