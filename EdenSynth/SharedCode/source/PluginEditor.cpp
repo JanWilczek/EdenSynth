@@ -4,6 +4,7 @@
 #include "PluginProcessor.h"
 #include "PresetLoader.h"
 #include "PresetSaver.h"
+#include "viewmodels/PresetsViewModel.h"
 
 namespace {
 constexpr auto PRESETS_COMPONENT_HEIGHT = 50;
@@ -31,7 +32,9 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(
       _generatorComponent(vts, adapter.getPathProvider()),
       _modifierComponent(vts, adapter),
       _outputSettingsComponent(vts),
-      _presetsComponent{p.getPresetManager()} {
+      _presetsComponent{
+          std::make_unique<eden_vst::viewmodels::PresetsViewModel>(
+              p.getPresetManager())} {
   setSize(EDITOR_WIDTH, EDITOR_HEIGHT);
 
   addAndMakeVisible(_generalSettingsComponent);

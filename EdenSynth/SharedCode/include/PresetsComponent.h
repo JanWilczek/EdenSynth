@@ -2,19 +2,22 @@
 
 #include "JuceHeader.h"
 
-namespace eden_vst {
-class PresetManager;
+namespace eden_vst::viewmodels {
+class PresetsViewModel;
 }
 
 class PresetsComponent : public juce::Component {
 public:
-  explicit PresetsComponent(eden_vst::PresetManager& presetManager);
+  explicit PresetsComponent(
+      std::unique_ptr<eden_vst::viewmodels::PresetsViewModel> presetsViewModel);
 
   void paint(juce::Graphics&) override;
   void resized() override;
 
 private:
-  void refreshPresetList(eden_vst::PresetManager& presetManager);
+  void refreshPresetList();
+
+  std::unique_ptr<eden_vst::viewmodels::PresetsViewModel> _viewModel;
 
   Label _presetLabel{"presetLabel", "Preset: "};
   ComboBox _preset;

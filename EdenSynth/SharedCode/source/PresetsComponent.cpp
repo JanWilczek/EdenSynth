@@ -1,49 +1,35 @@
 #include "PresetsComponent.h"
-#include "PresetManager.h"
+#include "viewmodels/PresetsViewModel.h"
 
-namespace {
-void selectItemWithName(ComboBox& preset, const std::string& name) {
-  for (auto i = 0; i < preset.getNumItems(); ++i) {
-    if (preset.getItemText(i).toStdString() == name) {
-      preset.setSelectedItemIndex(i, dontSendNotification);
-      break;
-    }
-  }
-}
-}  // namespace
-
-PresetsComponent::PresetsComponent(eden_vst::PresetManager& presetManager) {
+PresetsComponent::PresetsComponent(
+    std::unique_ptr<eden_vst::viewmodels::PresetsViewModel> presetsViewModel)
+    : _viewModel{std::move(presetsViewModel)} {
   _presetLabel.setJustificationType(Justification::right);
   addAndMakeVisible(_presetLabel);
 
-  refreshPresetList(presetManager);
+  refreshPresetList();
 
-  _preset.onChange = [this, &presetManager] {
-    presetManager.loadPreset(_preset.getText().toStdString());
+  _preset.onChange = [this] {
+    _viewModel->onSelectedPresetChanged(_preset.getSelectedId());
   };
   addAndMakeVisible(_preset);
 
   _savePresetButton.setButtonText("Save preset");
-  _savePresetButton.onClick = [this, &presetManager] {
-    presetManager.saveCurrentPreset(
-        [this, &presetManager](const std::string& addedPresetName) {
-          refreshPresetList(presetManager);
-          selectItemWithName(_preset, addedPresetName);
-        });
-  };
+  _savePresetButton.onClick = [this] { _viewModel->onSavePresetClicked(); };
   addAndMakeVisible(_savePresetButton);
+
+  _viewModel->setOnPresetListChangedListener([this] {
+    refreshPresetList();
+    _preset.setSelectedId(_viewModel->getDisplayedPresetId());
+  });
 }
 
-void PresetsComponent::refreshPresetList(
-    eden_vst::PresetManager& presetManager) {
+void PresetsComponent::refreshPresetList() {
   _preset.clear(dontSendNotification);
 
-  constexpr auto REQUIRED_FIRST_ELEMENT_ID = 1;
-  std::ranges::for_each(presetManager.presets(),
-                        [this, i = REQUIRED_FIRST_ELEMENT_ID](
-                            const std::string& presetName) mutable {
-                          _preset.addItem(presetName, i++);
-                        });
+  for (const auto& [presetId, presetName] : _viewModel->getPresetList()) {
+    _preset.addItem(presetName, presetId);
+  }
 }
 
 void PresetsComponent::paint(juce::Graphics& g) {
