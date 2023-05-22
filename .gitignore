@@ -6,6 +6,7 @@
 # Project-specific directories
 output/
 Builds/
+build/
 JuceLibraryCode/
 EdenSynth/dependencies
 

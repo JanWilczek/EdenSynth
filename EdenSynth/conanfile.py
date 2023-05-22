@@ -3,6 +3,7 @@
 # conan install . --build=missing -s build_type=Release -s compiler.runtime_type=Release
 from conan import ConanFile
 from conan.tools.microsoft import MSBuildDeps
+from conan.tools.cmake import CMakeDeps, CMakeToolchain
 
 class EdenSynthRecipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
@@ -18,3 +19,9 @@ class EdenSynthRecipe(ConanFile):
     def generate(self):
         ms = MSBuildDeps(self)
         ms.generate()
+
+        cmake = CMakeDeps(self)
+        cmake.generate()
+
+        tc = CMakeToolchain(self)
+        tc.generate()
