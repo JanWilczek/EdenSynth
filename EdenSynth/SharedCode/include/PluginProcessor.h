@@ -49,8 +49,8 @@ public:
   void setStateInformation(const void* data, int sizeInBytes) override;
 
   //==============================================================================
-  // void setWaveTable(const std::string& filename);
   [[nodiscard]] eden_vst::PresetManager& getPresetManager() noexcept;
+  [[nodiscard]] AudioProcessorValueTreeState& getPluginParameters() noexcept;
 
 private:
   //==============================================================================

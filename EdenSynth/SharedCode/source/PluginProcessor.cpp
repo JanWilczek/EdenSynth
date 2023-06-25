@@ -176,3 +176,8 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
 EdenSynthAudioProcessor::getPresetManager() noexcept {
   return *_presetManager;
 }
+
+[[nodiscard]] AudioProcessorValueTreeState&
+EdenSynthAudioProcessor::getPluginParameters() noexcept {
+  return _pluginParameters;
+}
