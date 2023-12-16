@@ -6,14 +6,16 @@ PresetLoader::PresetLoader(juce::AudioProcessorValueTreeState& vts,
                            const Presets& p)
     : _pluginParameters{vts}, _presets{p} {}
 
-void PresetLoader::operator()(const std::string& presetName) {
-  loadPreset(presetName);
+auto PresetLoader::operator()(const std::string& presetName)
+    -> std::expected<LoadingResult, LoadingError> {
+  return loadPreset(presetName);
 }
 
-void PresetLoader::loadPreset(const std::string& presetName) {
+auto PresetLoader::loadPreset(const std::string& presetName)
+    -> std::expected<LoadingResult, LoadingError> {
   // check if the preset exists
   if (_presets.notContains(presetName)) {
-    return;
+    return std::unexpected{LoadingError::DoesNotExist};
   }
 
   // if yes, load from file
@@ -25,11 +27,13 @@ void PresetLoader::loadPreset(const std::string& presetName) {
       _pluginParameters.state.getType());
 
   // set the value tree state
-  if (presetXMLState) {
-    _pluginParameters.replaceState(ValueTree::fromXml(*presetXMLState));
-  } else {
+  if (not presetXMLState) {
     AlertWindow::showMessageBoxAsync(MessageBoxIconType::WarningIcon, "Error",
                                      "Failed to load the preset", "");
+    return std::unexpected{LoadingError::WrongTag};
   }
+
+  _pluginParameters.replaceState(ValueTree::fromXml(*presetXMLState));
+  return LoadingResult::Ok;
 }
 }  // namespace eden_vst
