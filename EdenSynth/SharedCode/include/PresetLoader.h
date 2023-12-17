@@ -14,11 +14,11 @@ public:
   enum class LoadingError { DoesNotExist, WrongTag };
 
   PresetLoader(juce::AudioProcessorValueTreeState& vts, const Presets&);
-  std::expected<LoadingResult, LoadingError> operator()(
+  [[nodiscard]] std::expected<LoadingResult, LoadingError> operator()(
       const std::string& presetName);
 
 private:
-  std::expected<LoadingResult, LoadingError> loadPreset(
+  [[nodiscard]] std::expected<LoadingResult, LoadingError> loadPreset(
       const std::string& presetName);
 
   juce::AudioProcessorValueTreeState& _pluginParameters;

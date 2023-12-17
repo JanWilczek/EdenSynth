@@ -4,6 +4,7 @@
 #include <functional>
 #include "Presets.h"
 #include "PresetManager.h"
+#include "PresetLoader.h"
 
 namespace juce {
 class AudioProcessorValueTreeState;
@@ -20,6 +21,9 @@ public:
   std::vector<std::string> presets() const override;
 
 private:
+  void handleLoadingResult(std::expected<PresetLoader::LoadingResult,
+                                         PresetLoader::LoadingError> result);
+
   Presets _presets;
   juce::AudioProcessorValueTreeState& _valueTreeState;
   std::unique_ptr<class PresetSaver> _presetSaver;

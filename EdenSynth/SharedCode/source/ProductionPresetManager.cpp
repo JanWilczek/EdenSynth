@@ -16,8 +16,27 @@ void ProductionPresetManager::saveCurrentPreset(
 }
 
 void ProductionPresetManager::loadPreset(const std::string& presetName) {
-  PresetLoader{_valueTreeState, _presets}(presetName);
+  const auto result = PresetLoader{_valueTreeState, _presets}(presetName);
+  handleLoadingResult(result);
 }
+
+void ProductionPresetManager::handleLoadingResult(
+    std::expected<PresetLoader::LoadingResult, PresetLoader::LoadingError>
+        result) {
+  if (result) {
+    return;
+  }
+
+  using enum PresetLoader::LoadingError;
+
+  switch (result.error()) {
+    case DoesNotExist:
+      break;
+    case WrongTag:
+      break;
+  }
+}
+
 std::vector<std::string> ProductionPresetManager::presets() const {
   return _presets.presets();
 }
