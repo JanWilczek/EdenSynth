@@ -22,6 +22,8 @@ PresetsComponent::PresetsComponent(
     refreshPresetList();
     _preset.setSelectedId(_viewModel->getDisplayedPresetId());
   });
+
+  _viewModel->addErrorDialogListener(this);
 }
 
 void PresetsComponent::refreshPresetList() {
@@ -59,4 +61,9 @@ void PresetsComponent::resized() {
   _savePresetButton.setBounds(SAVE_PRESET_BUTTON_X, SAVE_PRESET_BUTTON_Y,
                               SAVE_PRESET_BUTTON_WIDTH,
                               SAVE_PRESET_BUTTON_HEIGHT);
+}
+
+void PresetsComponent::showErrorDialogWithMessage(const std::string& message) {
+  AlertWindow::showMessageBoxAsync(MessageBoxIconType::WarningIcon, "Error",
+                                   message, "");
 }

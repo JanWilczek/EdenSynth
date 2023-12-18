@@ -30,7 +30,8 @@ void PresetsViewModel::onSavePresetClicked() {
 void PresetsViewModel::onSelectedPresetChanged(int selectedPresetIndex) {
   _displayedPresetId = selectedPresetIndex;
   const auto& presetName = _presetList.at(getDisplayedPresetId());
-  _presetManager.loadPreset(presetName);
+  const auto result = _presetManager.loadPreset(presetName);
+  handleLoadingResult(result);
 }
 
 void PresetsViewModel::setOnPresetListChangedListener(
@@ -50,5 +51,35 @@ void PresetsViewModel::refreshPresetList() {
 
 void PresetsViewModel::presetListChangedEvent() {
   _presetListChangedListener();
+}
+
+void PresetsViewModel::handleLoadingResult(PresetLoadingResult result) {
+  if (result) {
+    return;
+  }
+
+  using enum PresetLoadingError;
+
+  switch (result.error()) {
+    case DoesNotExist:
+      showErrorDialogWithMessage(
+          "Failed to load preset: preset does not exist.");
+      break;
+    case WrongTag:
+      showErrorDialogWithMessage(
+          "Failed to load preset: preset does not come from the plugin.");
+      break;
+  }
+}
+
+void PresetsViewModel::showErrorDialogWithMessage(std::string message) {
+  _errorDialogListeners.call(
+      [message = std::move(message)](ErrorDialogListener& l) {
+        l.showErrorDialogWithMessage(message);
+      });
+}
+
+void PresetsViewModel::addErrorDialogListener(ErrorDialogListener* listener) {
+  _errorDialogListeners.add(listener);
 }
 }  // namespace eden_vst::viewmodels

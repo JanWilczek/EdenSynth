@@ -4,7 +4,7 @@
 #include <functional>
 #include "Presets.h"
 #include "PresetManager.h"
-#include "PresetLoader.h"
+#include "PresetLoadingResult.h"
 
 namespace juce {
 class AudioProcessorValueTreeState;
@@ -17,13 +17,11 @@ public:
                                    juce::AudioProcessorValueTreeState&);
   void saveCurrentPreset(
       std::function<void(const std::string&)> onPresetAdded) override;
-  void loadPreset(const std::string& presetName) override;
+  [[nodiscard]] PresetLoadingResult loadPreset(
+      const std::string& presetName) override;
   std::vector<std::string> presets() const override;
 
 private:
-  void handleLoadingResult(std::expected<PresetLoader::LoadingResult,
-                                         PresetLoader::LoadingError> result);
-
   Presets _presets;
   juce::AudioProcessorValueTreeState& _valueTreeState;
   std::unique_ptr<class PresetSaver> _presetSaver;

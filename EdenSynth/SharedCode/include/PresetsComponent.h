@@ -1,18 +1,22 @@
 #pragma once
 
 #include "JuceHeader.h"
+#include "ErrorDialogListener.h"
 
 namespace eden_vst::viewmodels {
 class PresetsViewModel;
 }
 
-class PresetsComponent : public juce::Component {
+class PresetsComponent : public juce::Component,
+                         public eden_vst::ErrorDialogListener {
 public:
   explicit PresetsComponent(
       std::unique_ptr<eden_vst::viewmodels::PresetsViewModel> presetsViewModel);
 
   void paint(juce::Graphics&) override;
   void resized() override;
+
+  void showErrorDialogWithMessage(const std::string& message) override;
 
 private:
   void refreshPresetList();

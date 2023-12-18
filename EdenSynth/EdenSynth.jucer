@@ -8,6 +8,10 @@
               jucerFormatVersion="1" compilerFlagSchemes="" headerPath="../../libeden/include&#10;../../SharedCode/include">
   <MAINGROUP id="QaIe6a" name="EdenSynth">
     <GROUP id="{861311EE-927B-C330-62B7-53462F96606D}" name="include">
+      <FILE id="sqbZhg" name="PresetLoadingResult.h" compile="0" resource="0"
+            file="SharedCode/include/PresetLoadingResult.h"/>
+      <FILE id="PA1wul" name="ErrorDialogListener.h" compile="0" resource="0"
+            file="SharedCode/include/ErrorDialogListener.h"/>
       <GROUP id="{3B4FE1A7-025E-E97C-CFEA-5D934E970A21}" name="viewmodels">
         <FILE id="nPohs6" name="PresetsViewModel.h" compile="0" resource="0"
               file="SharedCode/include/viewmodels/PresetsViewModel.h"/>

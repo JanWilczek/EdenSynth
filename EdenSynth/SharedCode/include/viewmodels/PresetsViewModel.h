@@ -4,6 +4,9 @@
 #include <string>
 #include <functional>
 #include "ViewModel.h"
+#include "ErrorDialogListener.h"
+#include "PresetLoadingResult.h"
+#include "JuceHeader.h"
 
 namespace eden_vst {
 class PresetManager;
@@ -21,15 +24,19 @@ public:
   void setOnPresetListChangedListener(PresetListChangedListener listener);
   int getDisplayedPresetId() const noexcept { return _displayedPresetId; }
   const PresetList& getPresetList() const noexcept { return _presetList; };
+  void addErrorDialogListener(ErrorDialogListener*);
 
 private:
   void refreshPresetList();
   void presetListChangedEvent();
+  void handleLoadingResult(PresetLoadingResult result);
+  void showErrorDialogWithMessage(std::string message);
 
   PresetManager& _presetManager;
   PresetList _presetList;
   int _displayedPresetId{0};
   PresetListChangedListener _presetListChangedListener;
+  juce::ListenerList<ErrorDialogListener> _errorDialogListeners;
 };
 }  // namespace viewmodels
 }  // namespace eden_vst
