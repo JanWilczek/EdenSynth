@@ -6,6 +6,7 @@
 #include "ViewModel.h"
 #include "ErrorDialogListener.h"
 #include "PresetLoadingResult.h"
+#include "PresetSavingResult.h"
 #include "JuceHeader.h"
 #include "Visibility.h"
 
@@ -46,6 +47,8 @@ private:
   void refreshPresetList();
   void presetListChangedEvent();
   void handleLoadingResult(PresetLoadingResult result);
+  void handleSavingResult(PresetSavingResult result,
+                          const std::string& presetName);
   void showErrorDialogWithMessage(std::string message);
 
   PresetManager& _presetManager;

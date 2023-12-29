@@ -13,8 +13,8 @@ namespace eden_vst {
 class PresetSaver {
 public:
   explicit PresetSaver(juce::AudioProcessorValueTreeState&);
-  [[nodiscard]] PresetSavingResult saveCurrentPreset(
-      std::function<void(const std::string&)> onPresetAdded,
+  [[nodiscard]] PresetSavingResult saveCurrentPreset(const std::string& name);
+  [[nodiscard]] PresetSavingResult saveOrOverwriteCurrentPreset(
       const std::string& name);
 
 private:

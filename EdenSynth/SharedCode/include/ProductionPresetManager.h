@@ -16,7 +16,8 @@ public:
   explicit ProductionPresetManager(const std::filesystem::path& presetsPath,
                                    juce::AudioProcessorValueTreeState&);
   [[nodiscard]] PresetSavingResult saveCurrentPreset(
-      std::function<void(const std::string&)> onPresetAdded,
+      const std::string& name) override;
+  [[nodiscard]] PresetSavingResult saveOrOverwriteCurrentPreset(
       const std::string& name) override;
   [[nodiscard]] PresetLoadingResult loadPreset(
       const std::string& presetName) override;

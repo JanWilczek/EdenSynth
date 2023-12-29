@@ -9,7 +9,8 @@ class PresetManager {
 public:
   virtual ~PresetManager();
   virtual [[nodiscard]] PresetSavingResult saveCurrentPreset(
-      std::function<void(const std::string&)> onPresetAdded,
+      const std::string& name) = 0;
+  virtual [[nodiscard]] PresetSavingResult saveOrOverwriteCurrentPreset(
       const std::string& name) = 0;
   virtual [[nodiscard]] PresetLoadingResult loadPreset(
       const std::string& presetName) = 0;

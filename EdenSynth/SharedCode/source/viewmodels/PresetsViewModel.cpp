@@ -15,9 +15,32 @@ void PresetsViewModel::onSavePresetClicked() {
 }
 
 void PresetsViewModel::onPresetNameGiven(const std::string& presetName) {
-  const auto result =
-      _presetManager.saveCurrentPreset([](const std::string&) {}, presetName);
+  const auto result = _presetManager.saveCurrentPreset(presetName);
+  handleSavingResult(result, presetName);
+  _onPresetNameInputDialogVisibilityChangedHandler(Visibility::Gone);
+}
 
+void PresetsViewModel::onSelectedPresetChanged(int selectedPresetIndex) {
+  _displayedPresetId = selectedPresetIndex;
+  const auto& presetName = _presetList.at(getDisplayedPresetId());
+  const auto result = _presetManager.loadPreset(presetName);
+  handleLoadingResult(result);
+}
+
+void PresetsViewModel::setOnPresetListChangedListener(
+    PresetListChangedListener listener) {
+  _presetListChangedListener = std::move(listener);
+}
+
+void PresetsViewModel::onOverwritePresetClicked(
+    const std::string& presetToOverwriteName) {
+  const auto result =
+      _presetManager.saveOrOverwriteCurrentPreset(presetToOverwriteName);
+  handleSavingResult(result, presetToOverwriteName);
+}
+
+void PresetsViewModel::handleSavingResult(PresetSavingResult result,
+                                          const std::string& presetName) {
   if (result.has_value()) {
     refreshPresetList();
     if (const auto it = std::ranges::find_if(_presetList,
@@ -48,25 +71,6 @@ void PresetsViewModel::onPresetNameGiven(const std::string& presetName) {
         break;
     }
   }
-  _onPresetNameInputDialogVisibilityChangedHandler(Visibility::Gone);
-}
-
-void PresetsViewModel::onSelectedPresetChanged(int selectedPresetIndex) {
-  _displayedPresetId = selectedPresetIndex;
-  const auto& presetName = _presetList.at(getDisplayedPresetId());
-  const auto result = _presetManager.loadPreset(presetName);
-  handleLoadingResult(result);
-}
-
-void PresetsViewModel::setOnPresetListChangedListener(
-    PresetListChangedListener listener) {
-  _presetListChangedListener = std::move(listener);
-}
-
-void PresetsViewModel::onOverwritePresetClicked(
-    const std::string& presetToOverwriteName) {
-  // TODO!
-  onPresetNameGiven(presetToOverwriteName);
 }
 
 void PresetsViewModel::refreshPresetList() {
