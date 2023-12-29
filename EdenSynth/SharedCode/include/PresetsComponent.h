@@ -26,6 +26,7 @@ private:
   Label _presetLabel{"presetLabel", "Preset: "};
   ComboBox _preset;
   TextButton _savePresetButton;
+  std::unique_ptr<AlertWindow> _presetNameInputDialog;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PresetsComponent)
 };

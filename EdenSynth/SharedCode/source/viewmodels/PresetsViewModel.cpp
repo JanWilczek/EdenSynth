@@ -11,20 +11,44 @@ PresetsViewModel::PresetsViewModel(PresetManager& presetManager)
 }
 
 void PresetsViewModel::onSavePresetClicked() {
-  _presetManager.saveCurrentPreset([this](const std::string& addedPresetName) {
+  _onPresetNameInputDialogVisibilityChangedHandler(Visibility::Visible);
+}
+
+void PresetsViewModel::onPresetNameGiven(const std::string& presetName) {
+  const auto result =
+      _presetManager.saveCurrentPreset([](const std::string&) {}, presetName);
+
+  if (result.has_value()) {
     refreshPresetList();
-    if (const auto it =
-            std::ranges::find_if(_presetList,
-                                 [&addedPresetName](const auto& entry) {
-                                   return entry.second == addedPresetName;
-                                 });
+    if (const auto it = std::ranges::find_if(_presetList,
+                                             [&presetName](const auto& entry) {
+                                               return entry.second ==
+                                                      presetName;
+                                             });
         it != _presetList.end()) {
       _displayedPresetId = it->first;
       presetListChangedEvent();
     } else {
       assert(false);
     }
-  });
+  } else {
+    switch (result.error()) {
+      case PresetSavingError::InvalidPresetName:
+        showErrorDialogWithMessage("Invalid preset name.");
+        break;
+      case PresetSavingError::PresetWithNameExists:
+        _onShouldOverridePresetDialogVisibilityChangedHandler(
+            Visibility::Visible, presetName);
+        break;
+      case PresetSavingError::FailedToWritePresetFile:
+        showErrorDialogWithMessage("Failed to save the preset file.");
+        break;
+      case PresetSavingError::FailedToCreatePresetFile:
+        showErrorDialogWithMessage("Failed to create the preset file.");
+        break;
+    }
+  }
+  _onPresetNameInputDialogVisibilityChangedHandler(Visibility::Gone);
 }
 
 void PresetsViewModel::onSelectedPresetChanged(int selectedPresetIndex) {
@@ -37,6 +61,12 @@ void PresetsViewModel::onSelectedPresetChanged(int selectedPresetIndex) {
 void PresetsViewModel::setOnPresetListChangedListener(
     PresetListChangedListener listener) {
   _presetListChangedListener = std::move(listener);
+}
+
+void PresetsViewModel::onOverwritePresetClicked(
+    const std::string& presetToOverwriteName) {
+  // TODO!
+  onPresetNameGiven(presetToOverwriteName);
 }
 
 void PresetsViewModel::refreshPresetList() {
@@ -81,5 +111,9 @@ void PresetsViewModel::showErrorDialogWithMessage(std::string message) {
 
 void PresetsViewModel::addErrorDialogListener(ErrorDialogListener* listener) {
   _errorDialogListeners.add(listener);
+}
+
+void PresetsViewModel::onPresetNameInputDialogCancelClicked() {
+  _onPresetNameInputDialogVisibilityChangedHandler(Visibility::Gone);
 }
 }  // namespace eden_vst::viewmodels

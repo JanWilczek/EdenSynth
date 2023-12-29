@@ -10,9 +10,10 @@ ProductionPresetManager::ProductionPresetManager(
       _valueTreeState{vts},
       _presetSaver{std::make_unique<PresetSaver>(_valueTreeState)} {}
 
-void ProductionPresetManager::saveCurrentPreset(
-    std::function<void(const std::string&)> onPresetAdded) {
-  (*_presetSaver)(std::move(onPresetAdded));
+PresetSavingResult ProductionPresetManager::saveCurrentPreset(
+    std::function<void(const std::string&)> onPresetAdded,
+    const std::string& name) {
+  return _presetSaver->saveCurrentPreset(std::move(onPresetAdded), name);
 }
 
 PresetLoadingResult ProductionPresetManager::loadPreset(

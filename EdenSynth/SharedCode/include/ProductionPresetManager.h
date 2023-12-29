@@ -15,11 +15,12 @@ class ProductionPresetManager : public PresetManager {
 public:
   explicit ProductionPresetManager(const std::filesystem::path& presetsPath,
                                    juce::AudioProcessorValueTreeState&);
-  void saveCurrentPreset(
-      std::function<void(const std::string&)> onPresetAdded) override;
+  [[nodiscard]] PresetSavingResult saveCurrentPreset(
+      std::function<void(const std::string&)> onPresetAdded,
+      const std::string& name) override;
   [[nodiscard]] PresetLoadingResult loadPreset(
       const std::string& presetName) override;
-  std::vector<std::string> presets() const override;
+  [[nodiscard]] std::vector<std::string> presets() const override;
 
 private:
   Presets _presets;

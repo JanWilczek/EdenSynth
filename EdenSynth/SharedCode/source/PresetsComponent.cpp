@@ -1,6 +1,23 @@
 #include "PresetsComponent.h"
 #include "viewmodels/PresetsViewModel.h"
 
+namespace {
+constexpr auto SAVE_PRESET_BUTTON_ID = 1;
+constexpr auto TEXT_EDITOR_NAME = "presetName";
+
+std::unique_ptr<AlertWindow> makePresetNameInputDialog() {
+  constexpr auto CANCEL_BUTTON_ID = 0;
+  auto dialog = std::make_unique<AlertWindow>(
+      "Save preset", "Give the name of the preset", MessageBoxIconType::NoIcon);
+  dialog->addTextEditor(TEXT_EDITOR_NAME, "DefaultPresetName");
+  dialog->addButton("Cancel", CANCEL_BUTTON_ID);
+  dialog->addButton("Save preset", SAVE_PRESET_BUTTON_ID);
+  auto textEditor = dialog->getTextEditor(TEXT_EDITOR_NAME);
+  textEditor->setJustification(Justification::centred);
+  return dialog;
+}
+}  // namespace
+
 PresetsComponent::PresetsComponent(
     std::unique_ptr<eden_vst::viewmodels::PresetsViewModel> presetsViewModel)
     : _viewModel{std::move(presetsViewModel)} {
@@ -24,6 +41,52 @@ PresetsComponent::PresetsComponent(
   });
 
   _viewModel->addErrorDialogListener(this);
+
+  _viewModel->onPresetNameInputDialogVisibilityChanged(
+      [this](eden_vst::Visibility visibility) {
+        if (visibility == eden_vst::Visibility::Visible and
+            _presetNameInputDialog == nullptr) {
+          _presetNameInputDialog = makePresetNameInputDialog();
+          _presetNameInputDialog->enterModalState(
+              true,
+              ModalCallbackFunction::create([this](int pressedButtonIndex) {
+                if (pressedButtonIndex != SAVE_PRESET_BUTTON_ID) {
+                  _viewModel->onPresetNameInputDialogCancelClicked();
+                  return;
+                }
+
+                const auto textEditor =
+                    _presetNameInputDialog->getTextEditor(TEXT_EDITOR_NAME);
+                const auto presetName = textEditor->getText();
+
+                _viewModel->onPresetNameGiven(presetName.toStdString());
+              }));
+        } else if (visibility == eden_vst::Visibility::Gone and
+                   _presetNameInputDialog != nullptr) {
+          _presetNameInputDialog->exitModalState(0);
+          _presetNameInputDialog->setVisible(false);
+          _presetNameInputDialog.reset(nullptr);
+        }
+      });
+
+  _viewModel->onShouldOverridePresetDialogVisibilityChanged(
+      [this](eden_vst::Visibility visibility,
+             const std::string& presetToOverwriteName) {
+        if (visibility == eden_vst::Visibility::Visible) {
+          AlertWindow::showYesNoCancelBox(
+              MessageBoxIconType::QuestionIcon, "Preset file exists",
+              "A preset file with name " + presetToOverwriteName +
+                  " already exists. Do you want to overwrite it?",
+              "", "", "", nullptr,
+              ModalCallbackFunction::create([this, presetToOverwriteName](
+                                                int returnValue) {
+                constexpr auto SHOULD_OVERWRITE_BUTTON_ID = 1;
+                if (returnValue == SHOULD_OVERWRITE_BUTTON_ID) {
+                  _viewModel->onOverwritePresetClicked(presetToOverwriteName);
+                }
+              }));
+        }
+      });
 }
 
 void PresetsComponent::refreshPresetList() {

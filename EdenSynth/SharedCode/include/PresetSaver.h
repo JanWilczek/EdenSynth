@@ -2,6 +2,7 @@
 #include <memory>
 #include <functional>
 #include <string>
+#include "PresetSavingResult.h"
 
 namespace juce {
 class AudioProcessorValueTreeState;
@@ -12,11 +13,11 @@ namespace eden_vst {
 class PresetSaver {
 public:
   explicit PresetSaver(juce::AudioProcessorValueTreeState&);
-  void operator()(std::function<void(const std::string&)> onPresetAdded);
+  [[nodiscard]] PresetSavingResult saveCurrentPreset(
+      std::function<void(const std::string&)> onPresetAdded,
+      const std::string& name);
 
 private:
-  void saveCurrentPreset(std::function<void(const std::string&)> onPresetAdded);
-
   juce::AudioProcessorValueTreeState& _pluginParameters;
   // A closure binding to an std::function must be copy-constructible;
   // hence the shared_ptr instead of a (more natural) unique_ptr.
