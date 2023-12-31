@@ -11,19 +11,13 @@ TEST(ProductionPresetManager, SaveAndLoadPreset) {
       audioProcessor.getPluginParameters().getRawParameterValue(
           "frequencyOfA4");
   *sampleParameter = 440.f;
-  auto presetManager = audioProcessor.getPresetManager();
+  auto& presetManager = audioProcessor.getPresetManager();
   juce::MemoryBlock currentPresetData;
   audioProcessor.getStateInformation(currentPresetData);
-  std::promise<std::string> savedPresetNamePromise;
-  auto savedPresetNameFuture = savedPresetNamePromise.get_future();
-  presetManager.saveCurrentPreset([promise = std::move(savedPresetNamePromise)](
-                                      const std::string& presetName) mutable {
-    // get the saved preset name
-    promise.set_value(presetName);
-  });
+  constexpr auto presetName = "TestPreset";
+  presetManager.saveCurrentPreset(presetName);
   *sampleParameter = 450.f;
-  const auto savedPresetName = savedPresetNameFuture.get();
-  presetManager.loadPreset(savedPresetName);
+  presetManager.loadPreset(presetName);
 
   ASSERT_FLOAT_EQ(440.f, *sampleParameter);
 }
