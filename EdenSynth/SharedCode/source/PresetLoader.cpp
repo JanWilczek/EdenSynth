@@ -19,7 +19,7 @@ auto PresetLoader::loadPreset(const std::string& presetName)
   }
 
   // if yes, load from file
-  const auto presetPath = _presets.absolutePathTo(presetName);
+  const auto presetPath = _presets.pathToExistingPreset(presetName);
   const auto presetFile = File(presetPath.c_str());
 
   auto presetXML = std::make_unique<XmlDocument>(presetFile);

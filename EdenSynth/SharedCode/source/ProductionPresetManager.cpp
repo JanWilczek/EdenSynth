@@ -12,12 +12,21 @@ ProductionPresetManager::ProductionPresetManager(
 
 PresetSavingResult ProductionPresetManager::saveCurrentPreset(
     const std::string& name) {
-  return _presetSaver->saveCurrentPreset(name);
+  if (_presets.contains(name)) {
+    return std::unexpected{PresetSavingError::PresetWithNameExists};
+  }
+
+  return saveOrOverwriteCurrentPreset(name);
 }
 
 PresetSavingResult ProductionPresetManager::saveOrOverwriteCurrentPreset(
     const std::string& name) {
-  return _presetSaver->saveOrOverwriteCurrentPreset(name);
+  const auto presetOutputPath = _presets.pathToPreset(name);
+  if (presetOutputPath.empty() or not presetOutputPath.has_filename()) {
+    return std::unexpected{PresetSavingError::InvalidPresetName};
+  }
+
+  return _presetSaver->saveOrOverwriteCurrentPreset(presetOutputPath);
 }
 
 PresetLoadingResult ProductionPresetManager::loadPreset(

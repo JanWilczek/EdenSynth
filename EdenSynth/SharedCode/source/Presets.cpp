@@ -19,12 +19,16 @@ std::vector<std::string> Presets::presets() const {
   return result;
 }
 
-bool Presets::notContains(const std::string& presetName) const {
+bool Presets::notContains(const std::string& presetName) const noexcept {
   const auto presetNames = presets();
   return std::ranges::find(presetNames, presetName) == presetNames.end();
 }
 
-std::filesystem::path Presets::absolutePathTo(
+bool Presets::contains(const std::string& presetName) const noexcept {
+  return not notContains(presetName);
+}
+
+std::filesystem::path Presets::pathToExistingPreset(
     const std::string& presetName) const {
   using namespace std::filesystem;
   const auto presetIterator = std::find_if(
@@ -35,5 +39,10 @@ std::filesystem::path Presets::absolutePathTo(
   }
 
   return *presetIterator;
+}
+
+std::filesystem::path Presets::pathToPreset(
+    const std::string& presetName) const {
+  return (_presetsPath / presetName).replace_extension("xml");
 }
 }  // namespace eden_vst
