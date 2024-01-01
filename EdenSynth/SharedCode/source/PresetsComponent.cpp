@@ -43,9 +43,8 @@ PresetsComponent::PresetsComponent(
   _viewModel->addErrorDialogListener(this);
 
   _viewModel->onPresetNameInputDialogVisibilityChanged(
-      [this](eden_vst::Visibility visibility) {
-        onPresetNameInputDialogVisibilityChanged(visibility);
-      });
+      std::bind(&PresetsComponent::onPresetNameInputDialogVisibilityChanged,
+                this, std::placeholders::_1));
 
   _viewModel->onShouldOverridePresetDialogVisibilityChanged(
       [this](eden_vst::Visibility visibility,
