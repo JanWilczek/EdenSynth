@@ -44,29 +44,7 @@ PresetsComponent::PresetsComponent(
 
   _viewModel->onPresetNameInputDialogVisibilityChanged(
       [this](eden_vst::Visibility visibility) {
-        if (visibility == eden_vst::Visibility::Visible and
-            _presetNameInputDialog == nullptr) {
-          _presetNameInputDialog = makePresetNameInputDialog();
-          _presetNameInputDialog->enterModalState(
-              true,
-              ModalCallbackFunction::create([this](int pressedButtonIndex) {
-                if (pressedButtonIndex != SAVE_PRESET_BUTTON_ID) {
-                  _viewModel->onPresetNameInputDialogCancelClicked();
-                  return;
-                }
-
-                const auto textEditor =
-                    _presetNameInputDialog->getTextEditor(TEXT_EDITOR_NAME);
-                const auto presetName = textEditor->getText();
-
-                _viewModel->onPresetNameGiven(presetName.toStdString());
-              }));
-        } else if (visibility == eden_vst::Visibility::Gone and
-                   _presetNameInputDialog != nullptr) {
-          _presetNameInputDialog->exitModalState(0);
-          _presetNameInputDialog->setVisible(false);
-          _presetNameInputDialog.reset(nullptr);
-        }
+        onPresetNameInputDialogVisibilityChanged(visibility);
       });
 
   _viewModel->onShouldOverridePresetDialogVisibilityChanged(
@@ -129,4 +107,46 @@ void PresetsComponent::resized() {
 void PresetsComponent::showErrorDialogWithMessage(const std::string& message) {
   AlertWindow::showMessageBoxAsync(MessageBoxIconType::WarningIcon, "Error",
                                    message, "");
+}
+
+void PresetsComponent::onPresetNameInputDialogVisibilityChanged(
+    eden_vst::Visibility visibility) {
+  if (visibility == eden_vst::Visibility::Visible) {
+    showPresetNameInputDialog();
+  } else if (visibility == eden_vst::Visibility::Gone) {
+    hidePresetNameInputDialog();
+  }
+}
+
+void PresetsComponent::showPresetNameInputDialog() {
+  if (_presetNameInputDialog) {
+    // already shown
+    return;
+  }
+
+  _presetNameInputDialog = makePresetNameInputDialog();
+  _presetNameInputDialog->enterModalState(
+      true, ModalCallbackFunction::create([this](int pressedButtonIndex) {
+        if (pressedButtonIndex != SAVE_PRESET_BUTTON_ID) {
+          _viewModel->onPresetNameInputDialogCancelClicked();
+          return;
+        }
+
+        const auto textEditor =
+            _presetNameInputDialog->getTextEditor(TEXT_EDITOR_NAME);
+        const auto presetName = textEditor->getText();
+
+        _viewModel->onPresetNameGiven(presetName.toStdString());
+      }));
+}
+
+void PresetsComponent::hidePresetNameInputDialog() {
+  if (not _presetNameInputDialog) {
+    // already hidden
+    return;
+  }
+
+  _presetNameInputDialog->exitModalState(0);
+  _presetNameInputDialog->setVisible(false);
+  _presetNameInputDialog.reset(nullptr);
 }

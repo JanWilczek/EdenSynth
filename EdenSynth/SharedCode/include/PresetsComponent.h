@@ -2,6 +2,7 @@
 
 #include "JuceHeader.h"
 #include "ErrorDialogListener.h"
+#include "Visibility.h"
 
 namespace eden_vst::viewmodels {
 class PresetsViewModel;
@@ -20,6 +21,10 @@ public:
 
 private:
   void refreshPresetList();
+  void onPresetNameInputDialogVisibilityChanged(
+      eden_vst::Visibility visibility);
+  void showPresetNameInputDialog();
+  void hidePresetNameInputDialog();
 
   std::unique_ptr<eden_vst::viewmodels::PresetsViewModel> _viewModel;
 
