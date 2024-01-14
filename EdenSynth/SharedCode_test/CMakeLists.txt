@@ -28,11 +28,20 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 
 add_library(EdenSynth STATIC IMPORTED)
-# TODO: Change "Debug" folder to non-MSVC specific directory.
-# Should be fixed when the whole project has migrated to CMake.
-set_target_properties(EdenSynth PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/../x64/Debug/Shared Code/EdenSynth.lib")
+set_target_properties(EdenSynth PROPERTIES
+    IMPORTED_LOCATION_DEBUG "${CMAKE_CURRENT_SOURCE_DIR}/../x64/Debug/Shared Code/EdenSynth.lib"
+    IMPORTED_LOCATION_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/../x64/Release/Shared Code/EdenSynth.lib"
+    MAP_IMPORTED_CONFIG_MINSIZEREL Release
+    MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
+)
+
 add_library(eden STATIC IMPORTED)
-set_target_properties(eden PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/../x64/Debug/libeden_x64_Debug.lib")
+set_target_properties(eden PROPERTIES
+    IMPORTED_LOCATION_DEBUG "${CMAKE_CURRENT_SOURCE_DIR}/../x64/Debug/libeden_x64_Debug.lib"
+    IMPORTED_LOCATION_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/../x64/Release/libeden_x64_Release.lib"
+    MAP_IMPORTED_CONFIG_MINSIZEREL Release
+    MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
+)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     GTest::gtest_main
