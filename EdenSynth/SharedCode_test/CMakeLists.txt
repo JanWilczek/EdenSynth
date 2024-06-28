@@ -55,3 +55,12 @@ enable_testing()
 include(GoogleTest)
 
 gtest_discover_tests(${PROJECT_NAME})
+
+# Copy assets upon build
+set(ASSETS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../assets)
+
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${ASSETS_PATH}" "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/assets/"
+    COMMENT "Copy assets folder to test folder"
+)
