@@ -140,7 +140,7 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2022 targetFolder="Builds/VisualStudio2022" extraLinkerFlags="&quot;libeden_$(Platform)_$(Configuration).lib&quot; /LIBPATH:&quot;$(SolutionDir)$(Platform)\$(Configuration)\&quot; "
+    <VS2022 targetFolder="Builds/VisualStudio2022" extraLinkerFlags="&quot;libeden_$(Platform)_$(Configuration).lib&quot; /LIBPATH:&quot;$(ProjectDir)..\..\$(Platform)\$(Configuration)\&quot; "
             aaxFolder="SDKs/AAX">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" postbuildCommand="xcopy &quot;$(ProjectDir)..\..\assets&quot; &quot;$(OutDir)assets&quot; /s /e /i /Y"/>
