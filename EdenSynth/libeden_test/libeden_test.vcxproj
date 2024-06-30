@@ -67,7 +67,7 @@
     <ClCompile Include="utility_test\TimeSampleConverterTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\libeden\libeden.vcxproj">
+    <ProjectReference Include="..\build\libeden\libeden.vcxproj">
       <Project>{4e724ec2-6616-41e1-b478-f9f120e53fc1}</Project>
     </ProjectReference>
   </ItemGroup>
