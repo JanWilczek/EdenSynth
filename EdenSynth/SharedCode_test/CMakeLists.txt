@@ -23,22 +23,12 @@ else()
             -Werror)
 endif()
 
-target_include_directories(
-  ${PROJECT_NAME}
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../SharedCode/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../JuceLibraryCode
-          ${CMAKE_CURRENT_SOURCE_DIR}/../JuceLibraryCode/modules
-          ${CMAKE_CURRENT_SOURCE_DIR}/../libeden/include)
+get_target_property(EDEN_SYNTH_INCLUDE_DIRS EdenSynth INCLUDE_DIRECTORIES)
 
-add_library(EdenSynth_msvc STATIC IMPORTED)
-set_target_properties(
-  EdenSynth_msvc
-  PROPERTIES IMPORTED_LOCATION_DEBUG "${CMAKE_CURRENT_SOURCE_DIR}/../x64/Debug/Shared Code/EdenSynth.lib"
-             IMPORTED_LOCATION_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/../x64/Release/Shared Code/EdenSynth.lib"
-             MAP_IMPORTED_CONFIG_MINSIZEREL Release
-             MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../SharedCode/include
+                                                   ${EDEN_SYNTH_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE GTest::gtest_main EdenSynth_msvc libeden)
+target_link_libraries(${PROJECT_NAME} PRIVATE GTest::gtest_main EdenSynth libeden)
 
 source_group(
   TREE ${CMAKE_CURRENT_SOURCE_DIR}/source
