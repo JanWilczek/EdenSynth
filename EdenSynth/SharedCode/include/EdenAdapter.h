@@ -4,7 +4,7 @@
 /// \date 02.09.2018
 ///
 #include <filesystem>
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <JuceHeader.h>
 #include "EdenFilterParameters.h"
 #include "EdenWaveshapingParameters.h"
 #include "OscillatorContainer.h"

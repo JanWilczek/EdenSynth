@@ -3,7 +3,7 @@
 /// \author Jan Wilczek
 /// \date 14.11.2018
 ///
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <JuceHeader.h>
 #include "OscillatorSourceComponent.h"
 
 namespace eden_vst {

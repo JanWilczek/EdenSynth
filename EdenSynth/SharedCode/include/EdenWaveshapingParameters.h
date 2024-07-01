@@ -3,7 +3,7 @@
 /// \author Jan Wilczek
 /// \date 04.12.2018
 ///
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <JuceHeader.h>
 
 namespace eden {
 class EdenSynthesiser;

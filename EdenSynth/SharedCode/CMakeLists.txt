@@ -27,7 +27,9 @@ juce_add_plugin(
 
 target_include_directories(EdenSynth PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_link_libraries(EdenSynth PRIVATE libeden)
+target_link_libraries(EdenSynth PRIVATE libeden juce::juce_audio_utils)
+
+juce_generate_juce_header(EdenSynth)
 
 target_sources(
   EdenSynth

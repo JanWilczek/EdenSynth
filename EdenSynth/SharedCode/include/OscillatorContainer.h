@@ -4,7 +4,7 @@
 /// \date 15.11.2018
 ///
 #include <map>
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <JuceHeader.h>
 #include "WaveTablePathProvider.h"
 #include "eden/EdenSynthesiser.h"
 #include "eden/Oscillator.h"

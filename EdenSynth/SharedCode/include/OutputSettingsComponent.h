@@ -3,7 +3,7 @@
 /// \author Jan Wilczek
 /// \date 21.11.2018
 ///
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <JuceHeader.h>
 
 class OutputSettingsComponent : public Component {
 public:

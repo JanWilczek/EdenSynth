@@ -3,7 +3,7 @@
 /// \author Jan Wilczek
 /// \date 02.12.2018
 ///
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <JuceHeader.h>
 
 class FilterControlsComponent : public Component {
 public:

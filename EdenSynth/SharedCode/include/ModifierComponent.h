@@ -3,7 +3,7 @@
 /// \author Jan Wilczek
 /// \date 06.11.2018
 ///
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <JuceHeader.h>
 #include "EdenAdapter.h"
 #include "FilterComponent.h"
 #include "WaveshaperComponent.h"

@@ -3,7 +3,7 @@
 /// \author Jan Wilczek
 /// \date 11.02.2019
 ///
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <JuceHeader.h>
 
 namespace eden_vst {
 class WaveTablePathProvider;
