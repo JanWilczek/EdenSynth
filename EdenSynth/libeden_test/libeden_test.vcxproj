@@ -23,10 +23,10 @@
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="..\dependencies\conan_gtest_gtest_main_debug_x64.props" />
+    <Import Project="..\build\generators\conan_gtest_gtest_main_debug_x64.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="..\dependencies\conan_gtest_gtest_main_release_x64.props" />
+    <Import Project="..\build\generators\conan_gtest_gtest_main_release_x64.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
