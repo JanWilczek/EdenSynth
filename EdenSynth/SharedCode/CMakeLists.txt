@@ -18,6 +18,7 @@ juce_add_plugin(
   FORMATS
   AAX
   VST3
+  Standalone
   IS_SYNTH
   TRUE
   NEEDS_MIDI_INPUT
@@ -104,9 +105,12 @@ target_sources(
 
 # Copy assets upon build
 set(ASSETS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../assets)
+get_target_property(SHARED_LIB_OUTPUT_DIR EdenSynth LIBRARY_OUTPUT_DIRECTORY)
 
 add_custom_command(
   TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy_directory "${ASSETS_PATH}" "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/assets/"
+  COMMAND ${CMAKE_COMMAND} -E copy_directory "${ASSETS_PATH}" "${SHARED_LIB_OUTPUT_DIR}/assets/"
   COMMENT "Copy assets folder to the output")
+
+set_directory_properties(PROPERTIES VS_STARTUP_PROJECT EdenSynth_Standalone)
