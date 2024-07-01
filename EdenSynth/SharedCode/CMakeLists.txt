@@ -27,6 +27,8 @@ juce_add_plugin(
 
 target_include_directories(EdenSynth PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+target_compile_definitions(EdenSynth PUBLIC JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
+
 target_link_libraries(EdenSynth PRIVATE libeden juce::juce_audio_utils)
 
 juce_generate_juce_header(EdenSynth)
