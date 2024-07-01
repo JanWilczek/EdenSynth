@@ -61,7 +61,9 @@ class JuceConanfile(ConanFile):
         self.cpp_info.set_property("cmake_find_mode", "none")
         # These are the most dubious: isn't there an easier way to do it?
         self.cpp_info.builddirs.append(
-            os.path.join("lib", "cmake", f"JUCE-{self.version}")
+            os.path.join(
+                str(self.package_folder), "lib", "cmake", f"JUCE-{self.version}"
+            )
         )
         self.buildenv_info.append_path(
             "PATH",

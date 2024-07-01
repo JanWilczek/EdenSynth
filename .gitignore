@@ -337,3 +337,6 @@ ASALocalRun/
 
 # Official SDKs for VST and AAX plug-ins
 SDKs/
+
+CMakeUserPresets.json
+ConanPresets.json

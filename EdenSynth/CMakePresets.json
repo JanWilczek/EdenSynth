@@ -1,5 +1,6 @@
 {
   "version": 6,
+  "include": ["./ConanPresets.json"],
   "cmakeMinimumRequired": {
     "major": 3,
     "minor": 22,
@@ -9,13 +10,15 @@
     {
       "name": "default",
       "binaryDir": "build",
-      "generator": "Visual Studio 17 2022"
+      "inherits": "conan-default"
     }
   ],
   "buildPresets": [
     {
-      "name": "default",
-      "configurePreset": "default"
+      "name": "default-debug",
+      "configurePreset": "default",
+      "configuration": "Debug",
+      "inherits": "conan-debug"
     }
   ]
 }
