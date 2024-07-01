@@ -133,7 +133,7 @@ add_library(libeden STATIC ${SOURCES})
 target_include_directories(libeden PUBLIC include)
 
 if(MSVC)
-  target_compile_options(libeden PRIVATE /W3 /WX /sdl /std:c++latest)
+  target_compile_options(libeden PRIVATE /W3 /WX /sdl)
 endif()
 
 source_group(
