@@ -2,7 +2,7 @@
 /// \author Jan Wilczek
 /// \date 16.10.18
 ///
-#include "pch.h"
+
 #include "eden/EnvelopeParameters.h"
 #include "synth/envelope/ADBDR.h"
 #include "utility/TimeSampleConverter.h"

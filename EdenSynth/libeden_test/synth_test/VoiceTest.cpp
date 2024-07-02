@@ -2,7 +2,7 @@
 /// \author Jan Wilczek
 /// \date 02.11.2018
 ///
-#include "pch.h"
+
 #include "eden/AudioBuffer.h"
 #include "eden/EnvelopeParameters.h"
 #include "settings/Settings.h"
@@ -13,7 +13,7 @@
 
 namespace libeden_test {
 class VoiceTest : public ::testing::Test {
- protected:
+protected:
   void SetUp() override {
     _settings.setSampleRate(SAMPLE_RATE);
     _voice = std::make_unique<eden::synth::Voice>(_settings);
@@ -115,7 +115,7 @@ TEST_F(VoiceTest, VariousParameters) {
 
   // TODO: Fix volume
   //(_buffer.getReadPointer(0)[blockLength - 1], _voice->gainValue() * 1.0f,
-  //0.05f);
+  // 0.05f);
 
   // decay1
   _buffer.fill(float(0));

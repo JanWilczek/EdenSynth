@@ -3,7 +3,7 @@
 /// \date 20.10.2018
 ///
 #include <vector>
-#include "pch.h"
+
 #include "synth/envelope/Attack.h"
 #include "synth/envelope/Decay.h"
 #include "synth/envelope/ExponentialGain.h"

@@ -2,7 +2,7 @@
 /// \author Jan Wilczek
 /// \date 11.01.2018
 ///
-#include "pch.h"
+
 #include "TestUtils.h"
 #include "synth/wavetable/SignalGenerator.h"
 #include "synth/wavetable/WaveTableSource.h"
@@ -11,7 +11,7 @@ namespace libeden_test {
 using SignalGenerator = eden::synth::wavetable::SignalGenerator;
 
 class SignalGeneratorTest : public ::testing::Test {
- protected:
+protected:
   void SetUp() override {
     _signalGenerator = std::make_unique<SignalGenerator>();
     _signalGenerator->addOscillator(eden::synth::wavetable::SynthOscillator{

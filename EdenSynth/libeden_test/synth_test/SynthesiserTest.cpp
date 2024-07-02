@@ -2,7 +2,7 @@
 /// \author Jan Wilczek
 /// \date 06.10.2018
 ///
-#include "pch.h"
+
 #include "eden/AudioBuffer.h"
 #include "synth/Synthesiser.h"
 #include "eden/MidiBuffer.h"
@@ -10,7 +10,7 @@
 
 namespace libeden_test {
 class SynthesiserTest : public ::testing::Test {
- protected:
+protected:
   void SetUp() override { audioBuffer.fill(0); }
 
   const double SAMPLE_RATE = 48000;

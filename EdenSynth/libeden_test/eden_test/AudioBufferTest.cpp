@@ -2,7 +2,6 @@
 /// \author Jan Wilczek
 /// \date 05.10.2018
 ///
-#include "pch.h"
 
 #include "eden/AudioBuffer.h"
 

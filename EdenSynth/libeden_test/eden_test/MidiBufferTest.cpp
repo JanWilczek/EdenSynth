@@ -2,7 +2,7 @@
 /// \author Jan Wilczek
 /// \date 07.10.2018
 ///
-#include "pch.h"
+
 #include "eden/MidiBuffer.h"
 #include "eden/MidiMessage.h"
 

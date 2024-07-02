@@ -3,7 +3,6 @@
 /// \author Jan Wilczek
 /// \date 02.11.2018
 ///
-#include "pch.h"
 
 #include <numeric>
 

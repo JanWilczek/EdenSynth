@@ -2,7 +2,7 @@
 /// \author Jan Wilczek
 /// \date 12.10.2019
 ///
-#include "pch.h"
+
 #include "synth/wavetable/WhiteNoiseSource.h"
 
 #include <functional>
@@ -12,7 +12,7 @@ namespace libeden_test {
 using WhiteNoiseSource = eden::synth::wavetable::WhiteNoiseSource;
 
 class WhiteNoiseSourceTest : public ::testing::Test {
- protected:
+protected:
   void SetUp() override { _whiteNoiseSource = WhiteNoiseSource(); }
 
   WhiteNoiseSource _whiteNoiseSource;
