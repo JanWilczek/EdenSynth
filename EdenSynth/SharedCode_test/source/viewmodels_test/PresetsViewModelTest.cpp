@@ -21,10 +21,4 @@ class FakePresetManager : public eden_vst::PresetManager {
     return std::vector<std::string>();
   }
 };
-
-TEST(Foo, Bar) {
-  FakePresetManager manager{};
-  eden_vst::viewmodels::PresetsViewModel viewModel{manager};
-  ASSERT_FALSE(true);
-}
 }  // namespace eden_vst_test
