@@ -5,7 +5,7 @@ project(SharedCode_test)
 set(gtest_force_shared_crt
     ON
     CACHE BOOL "")
-find_package(gtest CONFIG REQUIRED)
+find_package(GTest)
 
 set(SOURCES source/viewmodels_test/PresetsViewModelTest.cpp source/ProductionPresetManagerTest.cpp)
 

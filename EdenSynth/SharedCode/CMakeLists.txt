@@ -3,7 +3,15 @@ project(EdenSynth VERSION 1.0.0)
 
 find_package(JUCE CONFIG REQUIRED)
 
+if (MSVC)
 juce_set_aax_sdk_path(${CMAKE_CURRENT_SOURCE_DIR}/../SDKs/AAX)
+endif()
+
+if (MSVC)
+set(FORMATS AAX VST3 Standalone)
+else()
+set(FORMATS VST3 Standalone)
+endif()
 
 juce_add_plugin(
   EdenSynth
@@ -16,9 +24,7 @@ juce_add_plugin(
   BUNDLE_ID
   "com.janwilczek.edensynth"
   FORMATS
-  AAX
-  VST3
-  Standalone
+  "${FORMATS}"
   IS_SYNTH
   TRUE
   NEEDS_MIDI_INPUT

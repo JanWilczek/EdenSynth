@@ -11,7 +11,7 @@ class EdenSynthRecipe(ConanFile):
 
     def requirements(self):
         self.requires("juce/7.0.3")
-        self.test_requires("gtest/cci.20210126")
+        self.test_requires("gtest/1.14.0")
 
     def layout(self):
         cmake_layout(self)

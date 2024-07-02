@@ -4,7 +4,7 @@ project(libeden_test)
 
 enable_testing()
 
-find_package(gtest CONFIG REQUIRED)
+find_package(GTest)
 
 set(SOURCES
     eden_test/AudioBufferTest.cpp
