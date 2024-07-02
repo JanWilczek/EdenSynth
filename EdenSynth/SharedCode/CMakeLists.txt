@@ -34,74 +34,80 @@ target_link_libraries(EdenSynth PUBLIC libeden juce::juce_audio_utils)
 
 juce_generate_juce_header(EdenSynth)
 
-target_sources(
-  EdenSynth
-  PRIVATE include/Visibility.h
-          include/PresetSavingResult.h
-          include/PresetLoadingResult.h
-          include/ErrorDialogListener.h
-          include/viewmodels/PresetsViewModel.h
-          include/viewmodels/ViewModel.h
-          include/EnvelopeSegmentComponent.h
-          include/FilterEnvelopeComponent.h
-          include/FilterComponent.h
-          include/GeneratorComponent.h
-          include/OscillatorComponent.h
-          include/GeneralSettingsComponent.h
-          include/FilterControlsComponent.h
-          include/OutputSettingsComponent.h
-          include/PresetsComponent.h
-          include/ModifierComponent.h
-          include/FilterEnvelopeSegmentComponent.h
-          include/WaveshaperComponent.h
-          include/OscillatorSourceComponent.h
-          include/WaveshapingCanvas.h
-          include/OscillatorsComponent.h
-          include/EnvelopeComponent.h
-          include/EdenAdapter.h
-          include/EdenFilterParameters.h
-          include/EdenWaveshapingParameters.h
-          include/FileHelper.h
-          include/OscillatorContainer.h
-          include/PluginEditor.h
-          include/PluginProcessor.h
-          include/PresetLoader.h
-          include/PresetManager.h
-          include/Presets.h
-          include/PresetSaver.h
-          include/ProductionPresetManager.h
-          include/WaveshapingTransferFunctionContainer.h
-          include/WaveTablePathProvider.h
-          source/ProductionPresetManager.cpp
-          source/viewmodels/PresetsViewModel.cpp
-          source/EnvelopeComponent.cpp
-          source/EnvelopeSegmentComponent.cpp
-          source/FilterComponent.cpp
-          source/FilterControlsComponent.cpp
-          source/FilterEnvelopeComponent.cpp
-          source/OscillatorComponent.cpp
-          source/OscillatorsComponent.cpp
-          source/OscillatorSourceComponent.cpp
-          source/OutputSettingsComponent.cpp
-          source/PresetsComponent.cpp
-          source/WaveshaperComponent.cpp
-          source/WaveshapingCanvas.cpp
-          source/FilterEnvelopeSegmentComponent.cpp
-          source/GeneralSettingsComponent.cpp
-          source/GeneratorComponent.cpp
-          source/ModifierComponent.cpp
-          source/EdenAdapter.cpp
-          source/EdenFilterParameters.cpp
-          source/EdenWaveshapingParameters.cpp
-          source/FileHelper.cpp
-          source/OscillatorContainer.cpp
-          source/PluginEditor.cpp
-          source/PluginProcessor.cpp
-          source/PresetLoader.cpp
-          source/Presets.cpp
-          source/PresetSaver.cpp
-          source/WaveshapingTransferFunctionContainer.cpp
-          source/WaveTablePathProvider.cpp)
+set(SOURCES
+    include/Visibility.h
+    include/PresetSavingResult.h
+    include/PresetLoadingResult.h
+    include/ErrorDialogListener.h
+    include/viewmodels/PresetsViewModel.h
+    include/viewmodels/ViewModel.h
+    include/EnvelopeSegmentComponent.h
+    include/FilterEnvelopeComponent.h
+    include/FilterComponent.h
+    include/GeneratorComponent.h
+    include/OscillatorComponent.h
+    include/GeneralSettingsComponent.h
+    include/FilterControlsComponent.h
+    include/OutputSettingsComponent.h
+    include/PresetsComponent.h
+    include/ModifierComponent.h
+    include/FilterEnvelopeSegmentComponent.h
+    include/WaveshaperComponent.h
+    include/OscillatorSourceComponent.h
+    include/WaveshapingCanvas.h
+    include/OscillatorsComponent.h
+    include/EnvelopeComponent.h
+    include/EdenAdapter.h
+    include/EdenFilterParameters.h
+    include/EdenWaveshapingParameters.h
+    include/FileHelper.h
+    include/OscillatorContainer.h
+    include/PluginEditor.h
+    include/PluginProcessor.h
+    include/PresetLoader.h
+    include/PresetManager.h
+    include/Presets.h
+    include/PresetSaver.h
+    include/ProductionPresetManager.h
+    include/WaveshapingTransferFunctionContainer.h
+    include/WaveTablePathProvider.h
+    source/ProductionPresetManager.cpp
+    source/viewmodels/PresetsViewModel.cpp
+    source/EnvelopeComponent.cpp
+    source/EnvelopeSegmentComponent.cpp
+    source/FilterComponent.cpp
+    source/FilterControlsComponent.cpp
+    source/FilterEnvelopeComponent.cpp
+    source/OscillatorComponent.cpp
+    source/OscillatorsComponent.cpp
+    source/OscillatorSourceComponent.cpp
+    source/OutputSettingsComponent.cpp
+    source/PresetsComponent.cpp
+    source/WaveshaperComponent.cpp
+    source/WaveshapingCanvas.cpp
+    source/FilterEnvelopeSegmentComponent.cpp
+    source/GeneralSettingsComponent.cpp
+    source/GeneratorComponent.cpp
+    source/ModifierComponent.cpp
+    source/EdenAdapter.cpp
+    source/EdenFilterParameters.cpp
+    source/EdenWaveshapingParameters.cpp
+    source/FileHelper.cpp
+    source/OscillatorContainer.cpp
+    source/PluginEditor.cpp
+    source/PluginProcessor.cpp
+    source/PresetLoader.cpp
+    source/Presets.cpp
+    source/PresetSaver.cpp
+    source/WaveshapingTransferFunctionContainer.cpp
+    source/WaveTablePathProvider.cpp)
+
+target_sources(EdenSynth PRIVATE ${SOURCES})
+
+source_group(
+  TREE ${CMAKE_CURRENT_SOURCE_DIR}
+  PREFIX "Source Files"
+  FILES ${SOURCES})
 
 # Copy assets upon build
 set(ASSETS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../assets)
