@@ -17,9 +17,6 @@ class EdenSynthRecipe(ConanFile):
         cmake_layout(self)
 
     def generate(self):
-        ms = MSBuildDeps(self)
-        ms.generate()
-
         cmake = CMakeDeps(self)
         cmake.generate()
 
