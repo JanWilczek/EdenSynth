@@ -118,5 +118,3 @@ add_custom_command(
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory "${ASSETS_PATH}" "${SHARED_LIB_OUTPUT_DIR}/assets/"
   COMMENT "Copy assets folder to the output")
-
-set_directory_properties(PROPERTIES VS_STARTUP_PROJECT EdenSynth_Standalone)

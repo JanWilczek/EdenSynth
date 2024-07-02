@@ -11,3 +11,5 @@ add_subdirectory(libeden_test)
 
 add_subdirectory(SharedCode)
 add_subdirectory(SharedCode_test)
+
+set_directory_properties(PROPERTIES VS_STARTUP_PROJECT EdenSynth_Standalone)
