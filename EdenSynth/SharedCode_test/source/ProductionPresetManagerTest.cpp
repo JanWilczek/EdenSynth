@@ -39,4 +39,17 @@ TEST(ProductionPresetManager, CannotOverwritePresetWithSave) {
   ASSERT_FALSE(result);
   ASSERT_EQ(eden_vst::PresetSavingError::PresetWithNameExists, result.error());
 }
+
+TEST(ProductionPresetManager, SavedPresetIsAccessible) {
+  // given
+  EdenSynthAudioProcessor audioProcessor{};
+  auto& presetManager = audioProcessor.getPresetManager();
+
+  // when
+  const auto result = presetManager.saveCurrentPreset("TestPreset");
+
+  // then
+  const auto presets = presetManager.presets();
+  ASSERT_TRUE(std::ranges::contains(presets, "TestPreset"));
+}
 }  // namespace eden_vst_test
