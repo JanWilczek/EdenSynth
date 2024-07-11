@@ -3,14 +3,14 @@ project(EdenSynth VERSION 1.0.0)
 
 find_package(JUCE CONFIG REQUIRED)
 
-if (MSVC)
-juce_set_aax_sdk_path(${CMAKE_CURRENT_SOURCE_DIR}/../SDKs/AAX)
+if(MSVC)
+  juce_set_aax_sdk_path(${CMAKE_CURRENT_SOURCE_DIR}/../SDKs/AAX)
 endif()
 
-if (MSVC)
-set(FORMATS AAX VST3 Standalone)
+if(MSVC)
+  set(FORMATS AAX VST3 Standalone)
 else()
-set(FORMATS VST3 Standalone)
+  set(FORMATS VST3 Standalone)
 endif()
 
 juce_add_plugin(
@@ -115,12 +115,15 @@ source_group(
   PREFIX "Source Files"
   FILES ${SOURCES})
 
-# Copy assets upon build
+# Copy assets upon build for every plugin target
 set(ASSETS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../assets)
-get_target_property(SHARED_LIB_OUTPUT_DIR EdenSynth LIBRARY_OUTPUT_DIRECTORY)
 
-add_custom_command(
-  TARGET ${PROJECT_NAME}
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy_directory "${ASSETS_PATH}" "${SHARED_LIB_OUTPUT_DIR}/assets/"
-  COMMENT "Copy assets folder to the output")
+foreach(FORMAT IN LISTS FORMATS)
+  set(TARGET_NAME "EdenSynth_${FORMAT}")
+  get_target_property(TARGET_OUTPUT_DIR ${TARGET_NAME} LIBRARY_OUTPUT_DIRECTORY)
+  add_custom_command(
+    TARGET ${TARGET_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${ASSETS_PATH}" "${TARGET_OUTPUT_DIR}/assets/"
+    COMMENT "Copy assets folder to the output")
+endforeach()
