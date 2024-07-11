@@ -12,7 +12,8 @@
 #include <filesystem>
 
 //==============================================================================
-EdenSynthAudioProcessor::EdenSynthAudioProcessor()
+EdenSynthAudioProcessor::EdenSynthAudioProcessor(
+    PresetManagerFactoryFunction presetManagerFactoryFunction)
     :
 #ifndef JucePlugin_PreferredChannelConfigurations
       AudioProcessor(BusesProperties()
@@ -26,9 +27,7 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
 #endif
       _pluginParameters(*this, nullptr),
       _edenAdapter(_edenSynthesiser, eden_vst::FileHelper::assetsPath()),
-      _presetManager{std::make_unique<eden_vst::ProductionPresetManager>(
-          eden_vst::FileHelper::presetsPath(),
-          _pluginParameters)} {
+      _presetManager{presetManagerFactoryFunction(_pluginParameters)} {
   _edenAdapter.addEdenParameters(_pluginParameters);
   _pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));
 }
@@ -169,7 +168,10 @@ void EdenSynthAudioProcessor::setStateInformation(const void* data,
 //==============================================================================
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-  return new EdenSynthAudioProcessor();
+  return new EdenSynthAudioProcessor([](auto& pluginParameters) {
+    return std::make_unique<eden_vst::ProductionPresetManager>(
+        eden_vst::FileHelper::presetsPath(), pluginParameters);
+  });
 }
 
 [[nodiscard]] eden_vst::PresetManager&

@@ -5,16 +5,35 @@
 #include <future>
 
 namespace eden_vst_test {
-TEST(ProductionPresetManager, SaveAndLoadPreset) {
+class ProductionPresetManagerTest : public ::testing::Test {
+protected:
+  EdenSynthAudioProcessor audioProcessor{
+      [this](AudioProcessorValueTreeState& pluginParameters) {
+        return std::make_unique<eden_vst::ProductionPresetManager>(
+            testPresetsPath(), pluginParameters);
+      }};
+
+private:
+  std::filesystem::path testPresetsPath() {
+    const auto path = File::getSpecialLocation(
+                          File::SpecialLocationType::currentExecutableFile)
+                          .getParentDirectory()
+                          .getChildFile("testPresets");
+    // TODO: Move to SetUp and TearDown
+    path.createDirectory();
+
+    return path.getFullPathName().toStdString();
+  }
+};
+
+TEST_F(ProductionPresetManagerTest, SaveAndLoadPreset) {
   // given an audio processor with a parameter
-  EdenSynthAudioProcessor audioProcessor{};
   auto sampleParameter =
       audioProcessor.getPluginParameters().getRawParameterValue(
           "frequencyOfA4");
   *sampleParameter = 440.f;
   auto& presetManager = audioProcessor.getPresetManager();
-  juce::MemoryBlock currentPresetData;
-  audioProcessor.getStateInformation(currentPresetData);
+
   constexpr auto presetName = "TestPreset";
   ASSERT_TRUE(presetManager.saveOrOverwriteCurrentPreset(presetName));
   *sampleParameter = 450.f;
@@ -26,9 +45,8 @@ TEST(ProductionPresetManager, SaveAndLoadPreset) {
   ASSERT_FLOAT_EQ(440.f, *sampleParameter);
 }
 
-TEST(ProductionPresetManager, CannotOverwritePresetWithSave) {
+TEST_F(ProductionPresetManagerTest, CannotOverwritePresetWithSave) {
   // given
-  EdenSynthAudioProcessor audioProcessor{};
   auto& presetManager = audioProcessor.getPresetManager();
   presetManager.saveCurrentPreset("TestPreset");
 
@@ -40,9 +58,8 @@ TEST(ProductionPresetManager, CannotOverwritePresetWithSave) {
   ASSERT_EQ(eden_vst::PresetSavingError::PresetWithNameExists, result.error());
 }
 
-TEST(ProductionPresetManager, SavedPresetIsAccessible) {
+TEST_F(ProductionPresetManagerTest, SavedPresetIsAccessible) {
   // given
-  EdenSynthAudioProcessor audioProcessor{};
   auto& presetManager = audioProcessor.getPresetManager();
 
   // when
@@ -53,9 +70,8 @@ TEST(ProductionPresetManager, SavedPresetIsAccessible) {
   ASSERT_TRUE(std::ranges::contains(presets, "TestPreset"));
 }
 
-TEST(ProductionPresetManager, CannotLoadNonexistingPreset) {
+TEST_F(ProductionPresetManagerTest, CannotLoadNonexistingPreset) {
   // given
-  EdenSynthAudioProcessor audioProcessor{};
   auto& presetManager = audioProcessor.getPresetManager();
 
   // when loading non-existing preset

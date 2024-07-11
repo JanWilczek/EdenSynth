@@ -12,7 +12,11 @@ class PresetManager;
 class EdenSynthAudioProcessor : public AudioProcessor {
 public:
   //==============================================================================
-  EdenSynthAudioProcessor();
+  using PresetManagerFactoryFunction =
+      std::function<std::unique_ptr<eden_vst::PresetManager>(
+          AudioProcessorValueTreeState&)>;
+
+  explicit EdenSynthAudioProcessor(PresetManagerFactoryFunction);
   ~EdenSynthAudioProcessor();
 
   //==============================================================================
