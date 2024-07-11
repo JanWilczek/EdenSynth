@@ -12,6 +12,11 @@ Presets::Presets(std::filesystem::path presetsPath)
 
 std::vector<std::string> Presets::presets() const {
   using namespace std::filesystem;
+
+  if (!exists(_presetsPath) or !is_directory(_presetsPath)) {
+    return {};
+  }
+
   std::vector<std::string> result;
   std::transform(directory_iterator{_presetsPath}, directory_iterator{},
                  std::back_inserter(result),
