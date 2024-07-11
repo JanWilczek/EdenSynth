@@ -100,4 +100,32 @@ TEST_F(ProductionPresetManagerTest, CannotLoadPresetWithDifferentTag) {
   ASSERT_FALSE(result);
   ASSERT_EQ(eden_vst::PresetLoadingError::WrongTag, result.error());
 }
+
+TEST_F(ProductionPresetManagerTest, CannotSavePresetWithEmptyName) {
+  // when
+  auto& presetManager = audioProcessor.getPresetManager();
+  const auto result = presetManager.saveCurrentPreset("");
+
+  // then
+  ASSERT_FALSE(result);
+  ASSERT_EQ(eden_vst::PresetSavingError::InvalidPresetName, result.error());
+}
+
+TEST(ProductionPresetManager, CannotSaveToNonexistingFolder) {
+  // given
+  EdenSynthAudioProcessor audioProcessor{
+      [this](AudioProcessorValueTreeState& pluginParameters) {
+        return std::make_unique<eden_vst::ProductionPresetManager>(
+            "foo", pluginParameters);
+      }};
+
+  // when
+  const auto result =
+      audioProcessor.getPresetManager().saveCurrentPreset("TestPreset");
+
+  // then
+  ASSERT_FALSE(result);
+  ASSERT_EQ(eden_vst::PresetSavingError::FailedToWritePresetFile,
+            result.error());
+}
 }  // namespace eden_vst_test
