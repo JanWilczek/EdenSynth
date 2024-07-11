@@ -52,4 +52,17 @@ TEST(ProductionPresetManager, SavedPresetIsAccessible) {
   const auto presets = presetManager.presets();
   ASSERT_TRUE(std::ranges::contains(presets, "TestPreset"));
 }
+
+TEST(ProductionPresetManager, CannotLoadNonexistingPreset) {
+  // given
+  EdenSynthAudioProcessor audioProcessor{};
+  auto& presetManager = audioProcessor.getPresetManager();
+
+  // when loading non-existing preset
+  const auto result = presetManager.loadPreset("TestPreset");
+
+  // then
+  ASSERT_FALSE(result);
+  ASSERT_EQ(eden_vst::PresetLoadingError::DoesNotExist, result.error());
+}
 }  // namespace eden_vst_test
