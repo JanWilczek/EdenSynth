@@ -21,8 +21,12 @@ PresetSavingResult ProductionPresetManager::saveCurrentPreset(
 
 PresetSavingResult ProductionPresetManager::saveOrOverwriteCurrentPreset(
     const std::string& name) {
+  if (name.empty()) {
+    return std::unexpected{PresetSavingError::InvalidPresetName};
+  }
+
   const auto presetOutputPath = _presets.pathToPreset(name);
-  if (presetOutputPath.empty() or not presetOutputPath.has_filename()) {
+  if (presetOutputPath.empty()) {
     return std::unexpected{PresetSavingError::InvalidPresetName};
   }
 
