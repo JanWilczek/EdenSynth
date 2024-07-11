@@ -11,8 +11,8 @@ class AudioProcessorValueTreeState;
 namespace eden_vst {
 class ProductionPresetManager : public PresetManager {
 public:
-  explicit ProductionPresetManager(const std::filesystem::path& presetsPath,
-                                   juce::AudioProcessorValueTreeState&);
+  ProductionPresetManager(const std::filesystem::path& presetsPath,
+                          juce::AudioProcessorValueTreeState&);
   [[nodiscard]] PresetSavingResult saveCurrentPreset(
       const std::string& name) override;
   [[nodiscard]] PresetSavingResult saveOrOverwriteCurrentPreset(
