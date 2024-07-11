@@ -16,13 +16,27 @@ TEST(ProductionPresetManager, SaveAndLoadPreset) {
   juce::MemoryBlock currentPresetData;
   audioProcessor.getStateInformation(currentPresetData);
   constexpr auto presetName = "TestPreset";
-  presetManager.saveCurrentPreset(presetName);
+  ASSERT_TRUE(presetManager.saveOrOverwriteCurrentPreset(presetName));
   *sampleParameter = 450.f;
 
   // when we load a preset
-  presetManager.loadPreset(presetName);
+  ASSERT_TRUE(presetManager.loadPreset(presetName));
 
   // then plugin parameters get overwritten
   ASSERT_FLOAT_EQ(440.f, *sampleParameter);
+}
+
+TEST(ProductionPresetManager, CannotOverwritePresetWithSave) {
+  // given
+  EdenSynthAudioProcessor audioProcessor{};
+  auto& presetManager = audioProcessor.getPresetManager();
+  presetManager.saveCurrentPreset("TestPreset");
+
+  // when
+  const auto result = presetManager.saveCurrentPreset("TestPreset");
+
+  // then
+  ASSERT_FALSE(result);
+  ASSERT_EQ(eden_vst::PresetSavingError::PresetWithNameExists, result.error());
 }
 }  // namespace eden_vst_test
