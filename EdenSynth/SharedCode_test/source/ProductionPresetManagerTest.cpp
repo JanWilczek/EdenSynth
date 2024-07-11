@@ -85,4 +85,19 @@ TEST_F(ProductionPresetManagerTest, CannotLoadNonexistingPreset) {
   ASSERT_FALSE(result);
   ASSERT_EQ(eden_vst::PresetLoadingError::DoesNotExist, result.error());
 }
+
+TEST_F(ProductionPresetManagerTest, CannotLoadPresetWithDifferentTag) {
+  // given
+  auto& presetManager = audioProcessor.getPresetManager();
+  ASSERT_TRUE(presetManager.saveCurrentPreset("TestPreset"));
+  // a processor with a different root tag
+  audioProcessor.getPluginParameters().replaceState(juce::ValueTree{"Foo"});
+
+  // when
+  const auto result = presetManager.loadPreset("TestPreset");
+
+  // then
+  ASSERT_FALSE(result);
+  ASSERT_EQ(eden_vst::PresetLoadingError::WrongTag, result.error());
+}
 }  // namespace eden_vst_test
