@@ -13,15 +13,19 @@ protected:
             testPresetsPath(), pluginParameters);
       }};
 
+  void SetUp() override {
+    std::filesystem::create_directory(testPresetsPath());
+  }
+
+  void TearDown() override { std::filesystem::remove_all(testPresetsPath()); }
+
 private:
   std::filesystem::path testPresetsPath() {
-    const auto path = File::getSpecialLocation(
-                          File::SpecialLocationType::currentExecutableFile)
-                          .getParentDirectory()
-                          .getChildFile("testPresets");
-    // TODO: Move to SetUp and TearDown
-    path.createDirectory();
-
+    static const auto path =
+        File::getSpecialLocation(
+            File::SpecialLocationType::currentExecutableFile)
+            .getParentDirectory()
+            .getChildFile("testPresets");
     return path.getFullPathName().toStdString();
   }
 };
