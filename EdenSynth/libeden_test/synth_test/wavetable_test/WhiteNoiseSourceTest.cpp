@@ -5,8 +5,9 @@
 
 #include "synth/wavetable/WhiteNoiseSource.h"
 
-#include <functional>
 #include "TestUtils.h"
+#include <functional>
+#include <algorithm>
 
 namespace libeden_test {
 using WhiteNoiseSource = eden::synth::wavetable::WhiteNoiseSource;

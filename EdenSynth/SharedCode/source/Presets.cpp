@@ -1,4 +1,5 @@
 #include "Presets.h"
+#include <algorithm>
 
 namespace {
 std::string presetNameFrom(const std::filesystem::path& presetPath) {
