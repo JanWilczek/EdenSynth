@@ -6,7 +6,7 @@ import os
 
 class JuceConanfile(ConanFile):
     name = "juce"
-    version = "7.0.3"
+    version = "8.0.7"
     url = "https://github.com/juce-framework/JUCE.git"
     description = "JUCE is an open-source cross-platform C++ application framework for desktop and mobile applications, including VST, VST3, AU, AUv3, LV2 and AAX audio plug-ins."
     license = "https://github.com/juce-framework/JUCE/blob/master/LICENSE.md"

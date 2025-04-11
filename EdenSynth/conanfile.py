@@ -10,7 +10,7 @@ class EdenSynthRecipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
-        self.requires("juce/7.0.3")
+        self.requires("juce/8.0.7")
         self.test_requires("gtest/1.14.0")
 
     def layout(self):
