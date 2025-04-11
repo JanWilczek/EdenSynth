@@ -10,7 +10,7 @@ namespace eden::synth::subtractive {
 /// <summary>
 /// Virtual analog implementation of Moog ladder filter.
 /// Based on an article "Oscillator and Filter Algorithms for Virtual Analog
-/// Synthesis" by Vesa V‰lim‰ki and Antti Huovilainen.
+/// Synthesis" by Vesa V√§lim√§ki and Antti Huovilainen.
 /// </summary>
 class MoogFilter {
 public:

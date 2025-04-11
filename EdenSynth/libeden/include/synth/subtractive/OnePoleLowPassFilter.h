@@ -8,7 +8,7 @@ namespace eden::synth::subtractive {
 /// <summary>
 /// Simple one pole low-pass filter base on article
 /// "Oscillator and Filter Algorithms for Virtual Analog Synthesis" by Vesa
-/// V‰lim‰ki and Antti Huovilainen. Original concept by Huovilainen.
+/// V√§lim√§ki and Antti Huovilainen. Original concept by Huovilainen.
 /// </summary>
 class OnePoleLowPassFilter {
 public:
