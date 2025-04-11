@@ -3,7 +3,11 @@
 /// \date 06.03.2019
 ///
 #include "utility/StopWatchPrinter.h"
+#ifdef MSC_VER
 #include <windows.h>
+#else
+#include <iostream>
+#endif
 #include <sstream>
 
 namespace eden::utility {
@@ -21,6 +25,10 @@ StopWatchPrinter::~StopWatchPrinter() {
      << std::chrono::duration_cast<std::chrono::milliseconds>(_duration).count()
      << " ms." << std::endl;
 
+#ifdef MSC_VER
   OutputDebugStringA(ss.str().c_str());
+#else
+  std::cerr << ss.str() << std::endl;
+#endif
 }
 }  // namespace eden::utility
