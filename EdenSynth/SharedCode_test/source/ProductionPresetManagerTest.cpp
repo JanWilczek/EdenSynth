@@ -52,7 +52,8 @@ TEST_F(ProductionPresetManagerTest, SaveAndLoadPreset) {
 TEST_F(ProductionPresetManagerTest, CannotOverwritePresetWithSave) {
   // given
   auto& presetManager = audioProcessor.getPresetManager();
-  presetManager.saveCurrentPreset("TestPreset");
+  [[maybe_unused]] const auto firstTimeResult =
+      presetManager.saveCurrentPreset("TestPreset");
 
   // when
   const auto result = presetManager.saveCurrentPreset("TestPreset");
@@ -68,6 +69,7 @@ TEST_F(ProductionPresetManagerTest, SavedPresetIsAccessible) {
 
   // when
   const auto result = presetManager.saveCurrentPreset("TestPreset");
+  ASSERT_TRUE(result.has_value());
 
   // then
   const auto presets = presetManager.presets();
@@ -114,7 +116,7 @@ TEST_F(ProductionPresetManagerTest, CannotSavePresetWithEmptyName) {
 TEST(ProductionPresetManager, CannotSaveToNonexistingFolder) {
   // given
   EdenSynthAudioProcessor audioProcessor{
-      [this](AudioProcessorValueTreeState& pluginParameters) {
+      [](AudioProcessorValueTreeState& pluginParameters) {
         return std::make_unique<eden_vst::ProductionPresetManager>(
             "foo", pluginParameters);
       }};

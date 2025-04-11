@@ -8,13 +8,13 @@ namespace eden_vst {
 class PresetManager {
 public:
   virtual ~PresetManager();
-  virtual [[nodiscard]] PresetSavingResult saveCurrentPreset(
+  [[nodiscard]] virtual PresetSavingResult saveCurrentPreset(
       const std::string& name) = 0;
-  virtual [[nodiscard]] PresetSavingResult saveOrOverwriteCurrentPreset(
+  [[nodiscard]] virtual PresetSavingResult saveOrOverwriteCurrentPreset(
       const std::string& name) = 0;
-  virtual [[nodiscard]] PresetLoadingResult loadPreset(
+  [[nodiscard]] virtual PresetLoadingResult loadPreset(
       const std::string& presetName) = 0;
-  virtual [[nodiscard]] std::vector<std::string> presets() const = 0;
+  [[nodiscard]] virtual std::vector<std::string> presets() const = 0;
 };
 
 inline PresetManager::~PresetManager() {}

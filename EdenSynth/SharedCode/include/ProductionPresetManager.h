@@ -13,6 +13,8 @@ class ProductionPresetManager : public PresetManager {
 public:
   ProductionPresetManager(const std::filesystem::path& presetsPath,
                           juce::AudioProcessorValueTreeState&);
+  ~ProductionPresetManager();
+
   [[nodiscard]] PresetSavingResult saveCurrentPreset(
       const std::string& name) override;
   [[nodiscard]] PresetSavingResult saveOrOverwriteCurrentPreset(

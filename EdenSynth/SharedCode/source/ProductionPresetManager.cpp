@@ -10,6 +10,8 @@ ProductionPresetManager::ProductionPresetManager(
       _valueTreeState{vts},
       _presetSaver{std::make_unique<PresetSaver>(_valueTreeState)} {}
 
+ProductionPresetManager::~ProductionPresetManager() = default;
+
 PresetSavingResult ProductionPresetManager::saveCurrentPreset(
     const std::string& name) {
   if (_presets.contains(name)) {
