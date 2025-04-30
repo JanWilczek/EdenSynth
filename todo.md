@@ -1,3 +1,7 @@
+╔═════════════════════════════════════════╗
+║    ✅ / 🧠  LOCAL TODO FILE 🧠 / ✅     ║
+╚═════════════════════════════════════════╝
+
 - [x] Transition libeden_test to CMake
   - [x] Add source files grouping
 - [x] Write more preset tests
