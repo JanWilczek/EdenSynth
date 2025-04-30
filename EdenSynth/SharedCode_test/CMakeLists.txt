@@ -25,6 +25,10 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE GTest::gtest_main EdenSynth)
 
+# Re-export compile definitions to ensure that
+# the test target linking to EdenSynth will build JUCE modules with the identical options.
+target_compile_definitions(SharedCode_test PRIVATE $<TARGET_PROPERTY:EdenSynth,COMPILE_DEFINITIONS>)
+
 source_group(
   TREE ${CMAKE_CURRENT_SOURCE_DIR}/source
   PREFIX "Source Files"

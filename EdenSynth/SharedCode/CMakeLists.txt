@@ -39,14 +39,15 @@ target_compile_definitions(EdenSynth PUBLIC JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 J
 target_link_libraries(
   EdenSynth
   PRIVATE juce::juce_audio_utils
-  PUBLIC libeden)
+  PUBLIC libeden
+         juce::juce_recommended_config_flags
+         juce::juce_recommended_lto_flags
+         juce::juce_recommended_warning_flags)
 
 juce_generate_juce_header(EdenSynth)
 
-# Re-export compile definitions and include directories to ensure that
+# Re-export include directories to ensure that
 # targets linking to EdenSynth will build JUCE modules with the identical options.
-target_compile_definitions(EdenSynth INTERFACE $<TARGET_PROPERTY:EdenSynth,COMPILE_DEFINITIONS>)
-
 target_include_directories(EdenSynth INTERFACE $<TARGET_PROPERTY:EdenSynth,INCLUDE_DIRECTORIES>)
 
 set(SOURCES
