@@ -28,7 +28,7 @@ get_target_property(EDEN_SYNTH_INCLUDE_DIRS EdenSynth INCLUDE_DIRECTORIES)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../SharedCode/include
                                                    ${EDEN_SYNTH_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE GTest::gtest_main EdenSynth libeden)
+target_link_libraries(${PROJECT_NAME} PRIVATE GTest::gtest_main EdenSynth)
 
 source_group(
   TREE ${CMAKE_CURRENT_SOURCE_DIR}/source
