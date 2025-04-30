@@ -32,7 +32,7 @@ juce_add_plugin(
   NEEDS_MIDI_OUTPUT
   TRUE)
 
-target_include_directories(EdenSynth PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(EdenSynth PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_compile_definitions(EdenSynth PUBLIC JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
 
