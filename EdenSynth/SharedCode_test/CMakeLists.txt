@@ -23,10 +23,6 @@ else()
             -Werror)
 endif()
 
-get_target_property(EDEN_SYNTH_INCLUDE_DIRS EdenSynth INCLUDE_DIRECTORIES)
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${EDEN_SYNTH_INCLUDE_DIRS})
-
 target_link_libraries(${PROJECT_NAME} PRIVATE GTest::gtest_main EdenSynth)
 
 source_group(

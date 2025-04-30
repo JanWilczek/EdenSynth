@@ -36,9 +36,18 @@ target_include_directories(EdenSynth PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_compile_definitions(EdenSynth PUBLIC JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
 
-target_link_libraries(EdenSynth PUBLIC libeden juce::juce_audio_utils)
+target_link_libraries(
+  EdenSynth
+  PRIVATE juce::juce_audio_utils
+  PUBLIC libeden)
 
 juce_generate_juce_header(EdenSynth)
+
+# Re-export compile definitions and include directories to ensure that
+# targets linking to EdenSynth will build JUCE modules with the identical options.
+target_compile_definitions(EdenSynth INTERFACE $<TARGET_PROPERTY:EdenSynth,COMPILE_DEFINITIONS>)
+
+target_include_directories(EdenSynth INTERFACE $<TARGET_PROPERTY:EdenSynth,INCLUDE_DIRECTORIES>)
 
 set(SOURCES
     include/Visibility.h
