@@ -30,7 +30,7 @@ public:
   void onSelectedPresetChanged(int selectedPresetIndex);
   void setOnPresetListChangedListener(PresetListChangedListener listener);
   int getDisplayedPresetId() const noexcept { return _displayedPresetId; }
-  const PresetList& getPresetList() const noexcept { return _presetList; };
+  const PresetList& getPresetList() const noexcept { return _presetList; }
   void addErrorDialogListener(ErrorDialogListener*);
   void onShouldOverridePresetDialogVisibilityChanged(
       OnShouldOverridePresetDialogVisibilityChanged handler) {

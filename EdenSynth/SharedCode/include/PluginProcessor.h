@@ -17,7 +17,7 @@ public:
           AudioProcessorValueTreeState&)>;
 
   explicit EdenSynthAudioProcessor(PresetManagerFactoryFunction);
-  ~EdenSynthAudioProcessor();
+  ~EdenSynthAudioProcessor() override;
 
   //==============================================================================
   void prepareToPlay(double sampleRate, int samplesPerBlock) override;
