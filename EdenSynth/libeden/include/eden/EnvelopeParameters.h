@@ -25,13 +25,16 @@ enum class EnvelopeSegmentCurve { Linear = 0, Exponential = 1 };
 struct EnvelopeParameters {
   EnvelopeParameters(EnvelopeType _type) : type(_type) {}
 
-  virtual ~EnvelopeParameters() = 0;
+  virtual ~EnvelopeParameters() = default;
+
+  EnvelopeParameters(const EnvelopeParameters&) = default;
+  EnvelopeParameters& operator=(const EnvelopeParameters&) = default;
+
   EnvelopeType getType() const { return type; }
 
-protected:
+private:
   EnvelopeType type;
 };
-inline EnvelopeParameters::~EnvelopeParameters() {}
 
 /// <summary>
 /// Parameters necessary to control an Attack Decay1 Break Decay2 Release
@@ -61,8 +64,6 @@ struct ADBDRParameters final : public EnvelopeParameters {
         releaseTime(_releaseTime),
         releaseCurve(_releaseCurve),
         breakLevel(_breakLevel) {}
-
-  ~ADBDRParameters() {}
 
   std::chrono::milliseconds attackTime = 50ms;
   EnvelopeSegmentCurve attackCurve = EnvelopeSegmentCurve::Exponential;
