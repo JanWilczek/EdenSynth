@@ -136,46 +136,47 @@ void EdenAdapter::updateEdenParameters(
 
   // ADBDR envelope parameters
   {
-    eden::ADBDRParameters adbdrParameters;
-
-    adbdrParameters.attackTime = std::chrono::milliseconds(static_cast<int>(
-        pluginParameters.getParameterAsValue("envelope.adbdr.attack.time")
-            .getValue()));
-    adbdrParameters.attackCurve =
+    _envelopeParameters->attackTime =
+        std::chrono::milliseconds(static_cast<int>(
+            pluginParameters.getParameterAsValue("envelope.adbdr.attack.time")
+                .getValue()));
+    _envelopeParameters->attackCurve =
         static_cast<eden::EnvelopeSegmentCurve>(static_cast<int>(
             pluginParameters.getParameterAsValue("envelope.adbdr.attack.curve")
                 .getValue()));
 
-    adbdrParameters.decay1Time = std::chrono::milliseconds(static_cast<int>(
-        pluginParameters.getParameterAsValue("envelope.adbdr.decay1.time")
-            .getValue()));
-    adbdrParameters.decay1Curve =
+    _envelopeParameters->decay1Time =
+        std::chrono::milliseconds(static_cast<int>(
+            pluginParameters.getParameterAsValue("envelope.adbdr.decay1.time")
+                .getValue()));
+    _envelopeParameters->decay1Curve =
         static_cast<eden::EnvelopeSegmentCurve>(static_cast<int>(
             pluginParameters.getParameterAsValue("envelope.adbdr.decay1.curve")
                 .getValue()));
 
-    adbdrParameters.decay2Time = std::chrono::milliseconds(static_cast<int>(
-        pluginParameters.getParameterAsValue("envelope.adbdr.decay2.time")
-            .getValue()));
-    adbdrParameters.decay2Curve =
+    _envelopeParameters->decay2Time =
+        std::chrono::milliseconds(static_cast<int>(
+            pluginParameters.getParameterAsValue("envelope.adbdr.decay2.time")
+                .getValue()));
+    _envelopeParameters->decay2Curve =
         static_cast<eden::EnvelopeSegmentCurve>(static_cast<int>(
             pluginParameters.getParameterAsValue("envelope.adbdr.decay2.curve")
                 .getValue()));
 
-    adbdrParameters.releaseTime = std::chrono::milliseconds(static_cast<int>(
-        pluginParameters.getParameterAsValue("envelope.adbdr.release.time")
-            .getValue()));
-    adbdrParameters.releaseCurve =
+    _envelopeParameters->releaseTime =
+        std::chrono::milliseconds(static_cast<int>(
+            pluginParameters.getParameterAsValue("envelope.adbdr.release.time")
+                .getValue()));
+    _envelopeParameters->releaseCurve =
         static_cast<eden::EnvelopeSegmentCurve>(static_cast<int>(
             pluginParameters.getParameterAsValue("envelope.adbdr.release.curve")
                 .getValue()));
 
-    adbdrParameters.breakLevel =
+    _envelopeParameters->breakLevel =
         pluginParameters.getParameterAsValue("envelope.adbdr.breakLevel")
             .getValue();
 
-    _synthesiser.setEnvelopeParameters(
-        std::make_shared<eden::ADBDRParameters>(adbdrParameters));
+    _synthesiser.setEnvelopeParameters(_envelopeParameters);
   }
 
   // output parameters

@@ -45,5 +45,7 @@ private:
   OscillatorContainer _oscillators;
   EdenFilterParameters _filterParameters;
   EdenWaveshapingParameters _waveshapingParameters;
+  std::shared_ptr<eden::ADBDRParameters> _envelopeParameters{
+      std::make_shared<eden::ADBDRParameters>()};
 };
 }  // namespace eden_vst
