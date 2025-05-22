@@ -6,10 +6,13 @@
 #include "eden/AudioBuffer.h"
 #include "eden/EnvelopeParameters.h"
 #include "eden/MidiBuffer.h"
+#include "eden_impl/EdenSynthesiserImpl.h"
 
 namespace eden {
 EdenSynthesiser::EdenSynthesiser()
     : _impl(std::make_unique<EdenSynthesiserImpl>()) {}
+
+EdenSynthesiser::~EdenSynthesiser() = default;
 
 void EdenSynthesiser::processInputBlock(AudioBuffer& bufferToFill,
                                         MidiBuffer& midiBuffer) {

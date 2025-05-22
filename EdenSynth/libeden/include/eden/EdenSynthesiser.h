@@ -7,13 +7,14 @@
 #include <memory>
 #include "eden/Oscillator.h"
 #include "eden/OscillatorSource.h"
-#include "eden_impl/EdenSynthesiserImpl.h"
+#include "eden/FilterParameters.h"
+#include "eden/EnvelopeParameters.h"
 
 namespace eden {
 class AudioBuffer;
 class MidiBuffer;
 enum class WaveformGenerator;
-struct EnvelopeParameters;
+class EdenSynthesiserImpl;
 
 /// <summary>
 /// Main Eden synthesiser class.
@@ -21,6 +22,7 @@ struct EnvelopeParameters;
 class EdenSynthesiser {
 public:
   EdenSynthesiser();
+  ~EdenSynthesiser();
 
   /// <summary>
   /// Fills the given audio buffer with samples according to messages stored in
