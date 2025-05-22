@@ -5,6 +5,7 @@
 ///
 #include <memory>
 #include <vector>
+#include <variant>
 #include "eden/EnvelopeParameters.h"
 
 namespace eden::synth::envelope {
@@ -65,7 +66,10 @@ private:
   /// <summary>
   /// Currently set envelope parameters.
   /// </summary>
-  std::shared_ptr<EnvelopeParameters> _currentParameters;
+  std::variant<ADBDRParameters, ADSRParameters> _currentParameters{
+      ADBDRParameters{}};
+
+  EnvelopeType _currentType{EnvelopeType::ADBDR};
 
   float _sampleRate;
 };

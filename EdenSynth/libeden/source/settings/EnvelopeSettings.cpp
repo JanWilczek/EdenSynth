@@ -12,8 +12,7 @@
 
 namespace eden::settings {
 EnvelopeSettings::EnvelopeSettings(float sampleRate)
-    : _currentParameters(std::make_shared<ADBDRParameters>()),
-      _sampleRate(sampleRate) {}
+    : _sampleRate(sampleRate) {}
 
 void EnvelopeSettings::registerEnvelope(
     std::shared_ptr<synth::envelope::IEnvelopeHolder> envelope) {
@@ -31,8 +30,8 @@ void EnvelopeSettings::setSampleRate(float sampleRate) {
 
 void EnvelopeSettings::setEnvelopeParameters(
     std::shared_ptr<EnvelopeParameters> envelopeParameters) {
-  if (envelopeParameters->getType() == _currentParameters->getType()) {
-    switch (_currentParameters->getType()) {
+  if (envelopeParameters->getType() == _currentType) {
+    switch (_currentType) {
       case EnvelopeType::ADBDR:
         setADBDRParameters(
             std::dynamic_pointer_cast<ADBDRParameters>(envelopeParameters));
@@ -46,7 +45,14 @@ void EnvelopeSettings::setEnvelopeParameters(
     }
   } else {
     // switch to new envelope
-    _currentParameters = envelopeParameters;
+    _currentType = envelopeParameters->getType();
+    if (_currentType == EnvelopeType::ADBDR) {
+      _currentParameters =
+          *std::dynamic_pointer_cast<ADBDRParameters>(envelopeParameters);
+    } else {
+      _currentParameters =
+          *std::dynamic_pointer_cast<ADSRParameters>(envelopeParameters);
+    }
     for (auto envelopeGenerator : _envelopeGenerators) {
       envelopeGenerator->setEnvelope(
           synth::envelope::EnvelopeFactory::createEnvelope(_sampleRate,
@@ -57,11 +63,10 @@ void EnvelopeSettings::setEnvelopeParameters(
 
 void EnvelopeSettings::setADBDRParameters(
     std::shared_ptr<ADBDRParameters> adbdrParameters) {
-  auto currentParameters =
-      std::dynamic_pointer_cast<ADBDRParameters>(_currentParameters);
+  auto& currentParameters = std::get<ADBDRParameters>(_currentParameters);
 
   // set envelope parameters
-  if (adbdrParameters->attackTime != currentParameters->attackTime) {
+  if (adbdrParameters->attackTime != currentParameters.attackTime) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(
           envelopeGenerator->getEnvelope());
@@ -69,7 +74,7 @@ void EnvelopeSettings::setADBDRParameters(
                             adbdrParameters->attackTime);
     }
   }
-  if (adbdrParameters->attackCurve != currentParameters->attackCurve) {
+  if (adbdrParameters->attackCurve != currentParameters.attackCurve) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(
           envelopeGenerator->getEnvelope());
@@ -78,7 +83,7 @@ void EnvelopeSettings::setADBDRParameters(
     }
   }
 
-  if (adbdrParameters->decay1Time != currentParameters->decay1Time) {
+  if (adbdrParameters->decay1Time != currentParameters.decay1Time) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(
           envelopeGenerator->getEnvelope());
@@ -86,7 +91,7 @@ void EnvelopeSettings::setADBDRParameters(
                             adbdrParameters->decay1Time);
     }
   }
-  if (adbdrParameters->decay1Curve != currentParameters->decay1Curve) {
+  if (adbdrParameters->decay1Curve != currentParameters.decay1Curve) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(
           envelopeGenerator->getEnvelope());
@@ -95,7 +100,7 @@ void EnvelopeSettings::setADBDRParameters(
     }
   }
 
-  if (adbdrParameters->decay2Time != currentParameters->decay2Time) {
+  if (adbdrParameters->decay2Time != currentParameters.decay2Time) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(
           envelopeGenerator->getEnvelope());
@@ -103,7 +108,7 @@ void EnvelopeSettings::setADBDRParameters(
                             adbdrParameters->decay2Time);
     }
   }
-  if (adbdrParameters->decay2Curve != currentParameters->decay2Curve) {
+  if (adbdrParameters->decay2Curve != currentParameters.decay2Curve) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(
           envelopeGenerator->getEnvelope());
@@ -112,7 +117,7 @@ void EnvelopeSettings::setADBDRParameters(
     }
   }
 
-  if (adbdrParameters->releaseTime != currentParameters->releaseTime) {
+  if (adbdrParameters->releaseTime != currentParameters.releaseTime) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(
           envelopeGenerator->getEnvelope());
@@ -120,7 +125,7 @@ void EnvelopeSettings::setADBDRParameters(
                             adbdrParameters->releaseTime);
     }
   }
-  if (adbdrParameters->releaseCurve != currentParameters->releaseCurve) {
+  if (adbdrParameters->releaseCurve != currentParameters.releaseCurve) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(
           envelopeGenerator->getEnvelope());
@@ -129,7 +134,7 @@ void EnvelopeSettings::setADBDRParameters(
     }
   }
 
-  if (adbdrParameters->breakLevel != currentParameters->breakLevel) {
+  if (adbdrParameters->breakLevel != currentParameters.breakLevel) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adbdr = std::dynamic_pointer_cast<synth::envelope::ADBDR>(
           envelopeGenerator->getEnvelope());
@@ -137,15 +142,14 @@ void EnvelopeSettings::setADBDRParameters(
     }
   }
 
-  _currentParameters = adbdrParameters;
+  _currentParameters = *adbdrParameters;
 }
 
 void EnvelopeSettings::setADSRParameters(
     std::shared_ptr<ADSRParameters> adsrParameters) {
-  auto currentParameters =
-      std::dynamic_pointer_cast<ADSRParameters>(_currentParameters);
+  auto& currentParameters = std::get<ADSRParameters>(_currentParameters);
 
-  if (adsrParameters->attackTime != currentParameters->attackTime) {
+  if (adsrParameters->attackTime != currentParameters.attackTime) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adsr = std::dynamic_pointer_cast<synth::envelope::ADSR>(
           envelopeGenerator->getEnvelope());
@@ -154,7 +158,7 @@ void EnvelopeSettings::setADSRParameters(
     }
   }
 
-  if (adsrParameters->attackCurve != currentParameters->attackCurve) {
+  if (adsrParameters->attackCurve != currentParameters.attackCurve) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adsr = std::dynamic_pointer_cast<synth::envelope::ADSR>(
           envelopeGenerator->getEnvelope());
@@ -163,7 +167,7 @@ void EnvelopeSettings::setADSRParameters(
     }
   }
 
-  if (adsrParameters->decayTime != currentParameters->decayTime) {
+  if (adsrParameters->decayTime != currentParameters.decayTime) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adsr = std::dynamic_pointer_cast<synth::envelope::ADSR>(
           envelopeGenerator->getEnvelope());
@@ -172,7 +176,7 @@ void EnvelopeSettings::setADSRParameters(
     }
   }
 
-  if (adsrParameters->decayCurve != currentParameters->decayCurve) {
+  if (adsrParameters->decayCurve != currentParameters.decayCurve) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adsr = std::dynamic_pointer_cast<synth::envelope::ADSR>(
           envelopeGenerator->getEnvelope());
@@ -181,7 +185,7 @@ void EnvelopeSettings::setADSRParameters(
     }
   }
 
-  if (adsrParameters->sustainLevel != currentParameters->sustainLevel) {
+  if (adsrParameters->sustainLevel != currentParameters.sustainLevel) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adsr = std::dynamic_pointer_cast<synth::envelope::ADSR>(
           envelopeGenerator->getEnvelope());
@@ -189,7 +193,7 @@ void EnvelopeSettings::setADSRParameters(
     }
   }
 
-  if (adsrParameters->releaseTime != currentParameters->releaseTime) {
+  if (adsrParameters->releaseTime != currentParameters.releaseTime) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adsr = std::dynamic_pointer_cast<synth::envelope::ADSR>(
           envelopeGenerator->getEnvelope());
@@ -198,7 +202,7 @@ void EnvelopeSettings::setADSRParameters(
     }
   }
 
-  if (adsrParameters->releaseCurve != currentParameters->releaseCurve) {
+  if (adsrParameters->releaseCurve != currentParameters.releaseCurve) {
     for (const auto envelopeGenerator : _envelopeGenerators) {
       auto adsr = std::dynamic_pointer_cast<synth::envelope::ADSR>(
           envelopeGenerator->getEnvelope());
@@ -207,6 +211,6 @@ void EnvelopeSettings::setADSRParameters(
     }
   }
 
-  _currentParameters = adsrParameters;
+  _currentParameters = *adsrParameters;
 }
 }  // namespace eden::settings
