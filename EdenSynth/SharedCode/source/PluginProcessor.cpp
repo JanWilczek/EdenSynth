@@ -150,6 +150,8 @@ AudioProcessorEditor* EdenSynthAudioProcessor::createEditor() {
 //==============================================================================
 void EdenSynthAudioProcessor::getStateInformation(MemoryBlock& destData) {
   auto state = _pluginParameters.copyState();
+
+  // TODO: Add waveshaping curve
   const std::unique_ptr<XmlElement> xml(state.createXml());
   copyXmlToBinary(*xml, destData);
 }
