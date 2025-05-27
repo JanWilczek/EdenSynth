@@ -25,7 +25,7 @@ private:
   eden::EdenSynthesiser& _synthesiser;
   WaveTablePathProvider _pathProvider;
   std::map<std::string, std::unique_ptr<eden::Oscillator>> _oscillators;
-  std::map<std::string, size_t> _waveTableIndices;
+  std::map<std::string, int> _waveTableIndices;
   std::map<std::string, eden::WaveformGenerator> _generatorNames;
   std::map<std::string, bool> _isRealTime;
 };

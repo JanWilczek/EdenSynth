@@ -4,7 +4,14 @@
 ///
 #include "OscillatorContainer.h"
 
+#include "synth/wavetable/SineWaveTable.h"
+
 namespace eden_vst {
+namespace {
+constexpr auto GENERATOR_SECTION_PARAMETER_PREFIX = "gen.";
+constexpr auto INVALID_WAVE_TABLE_INDEX = -1;
+constexpr auto INVALID_WAVE_TABLE_NAME = "no wave table";
+}  // namespace
 OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
                                          WaveTablePathProvider pathProvider,
                                          unsigned numOscillators)
@@ -15,19 +22,17 @@ OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
         "Assets folder not found. The assets folder should be in the same "
         "directory as the plugin. The synthesiser won't play.",
         "OK");
-    return;
   }
 
   const std::string prefix = "oscillator";
 
   for (auto i = 1u; i <= numOscillators; ++i) {
     const auto name = prefix + std::to_string(i);
-    _waveTableIndices[name] = _pathProvider.nameToIndex("Sine");
-    _generatorNames[name] = eden::WaveformGenerator::SawtoothRampUp;
-    _isRealTime[name] = false;
+    _waveTableIndices[name] = INVALID_WAVE_TABLE_INDEX;
+    _generatorNames[name] = eden::WaveformGenerator::Sine;
+    _isRealTime[name] = true;
     _oscillators[name] = _synthesiser.createAndAddOscillator(
-        _synthesiser.createWaveTableOscillatorSource(
-            _pathProvider.getPath(_waveTableIndices[name])));
+        _synthesiser.createRealtimeOscillatorSource(_generatorNames[name]));
   }
 }
 
@@ -44,17 +49,24 @@ void OscillatorContainer::addOscillatorParameters(
         NormalisableRange<float>(0.f, 1.f, 1.f), 0.f));
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".waveTable", namePrefix + " wave table",
-        NormalisableRange<float>(
-            0.f, static_cast<float>(_pathProvider.size() - 1u), 1.0f),
+        NormalisableRange<float>(static_cast<float>(INVALID_WAVE_TABLE_INDEX),
+                                 static_cast<float>(_pathProvider.size() - 1u),
+                                 1.0f),
         static_cast<float>(_waveTableIndices[oscillator.first]),
         AudioProcessorValueTreeStateParameterAttributes{}
-            .withStringFromValueFunction([this](float index,
-                                                int maximumLength) {
-              return String(
-                         _pathProvider.indexToName(static_cast<size_t>(index)))
-                  .substring(0, maximumLength);
-            })
+            .withStringFromValueFunction(
+                [this](float index, int maximumLength) -> juce::String {
+                  if (static_cast<int>(index) == INVALID_WAVE_TABLE_INDEX) {
+                    return "no wave table";
+                  }
+                  return String(_pathProvider.indexToName(
+                                    static_cast<size_t>(index)))
+                      .substring(0, maximumLength);
+                })
             .withValueFromStringFunction([this](const String& name) {
+              if (name == INVALID_WAVE_TABLE_NAME) {
+                return static_cast<float>(INVALID_WAVE_TABLE_INDEX);
+              }
               return static_cast<float>(
                   _pathProvider.nameToIndex(name.toStdString()));
             })));
@@ -95,7 +107,7 @@ void OscillatorContainer::updateOscillatorParameters(
     const auto isRealTime =
         static_cast<bool>(*pluginParameters.getRawParameterValue(
             parameterPrefix + ".isRealTime"));
-    const auto waveTableIndex = static_cast<size_t>(
+    const auto waveTableIndex = static_cast<int>(
         *pluginParameters.getRawParameterValue(parameterPrefix + ".waveTable"));
     const auto generatorName = static_cast<eden::WaveformGenerator>(
         static_cast<int>(*pluginParameters.getRawParameterValue(
@@ -124,9 +136,18 @@ void OscillatorContainer::updateOscillatorParameters(
         _isRealTime[oscillatorName] = false;
         _waveTableIndices[oscillatorName] = waveTableIndex;
 
-        oscillator.second->setSource(
-            _synthesiser.createWaveTableOscillatorSource(_pathProvider.getPath(
-                _pathProvider.indexToName(_waveTableIndices[oscillatorName]))));
+        if (_pathProvider.size() > 0u &&
+            waveTableIndex != INVALID_WAVE_TABLE_INDEX) {
+          oscillator.second->setSource(
+              _synthesiser.createWaveTableOscillatorSource(
+                  _pathProvider.getPath(
+                      _pathProvider.indexToName(static_cast<size_t>(
+                          _waveTableIndices[oscillatorName])))));
+        } else {
+          oscillator.second->setSource(
+              _synthesiser.createWaveTableOscillatorSource(
+                  eden::synth::wavetable::SineWaveTable));
+        }
       }
     }
 
