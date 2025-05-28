@@ -4,10 +4,7 @@
 #include "JuceHeader.h"
 #include "EdenAdapter.h"
 #include "WaveTablePathProvider.h"
-
-namespace eden_vst {
-class PresetManager;
-}
+#include "PresetManager.h"
 
 class EdenSynthAudioProcessor : public AudioProcessor {
 public:
@@ -17,7 +14,6 @@ public:
           AudioProcessorValueTreeState&)>;
 
   explicit EdenSynthAudioProcessor(PresetManagerFactoryFunction);
-  ~EdenSynthAudioProcessor() override;
 
   //==============================================================================
   void prepareToPlay(double sampleRate, int samplesPerBlock) override;

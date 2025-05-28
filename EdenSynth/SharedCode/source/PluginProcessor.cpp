@@ -32,8 +32,6 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
   _pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));
 }
 
-EdenSynthAudioProcessor::~EdenSynthAudioProcessor() {}
-
 //==============================================================================
 const String EdenSynthAudioProcessor::getName() const {
   return JucePlugin_Name;
