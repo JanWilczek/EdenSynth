@@ -44,6 +44,16 @@
         - [ ] WaveshaperComponent should observe it and react accordingly
         - [ ] WaveshaperComponent should update this ValueTree's properties according to GUI controls
 - [ ] Change PresetSaver implementation to use get/set state on a PluginProcessor instance
+- [ ] Find a way to display the assets path error in the editor not in the processor
+
+```cpp
+    AlertWindow::showMessageBoxAsync(
+        AlertWindow::AlertIconType::WarningIcon, "Assets error",
+        "Assets folder not found. The assets folder should be in the same "
+        "directory as the plugin. The synthesiser won't play.",
+        "OK");
+
+```
 
 ```xml
 <Waveshaper Spread="0.5" SpreadSeed="1" SelectedCurve="HyperbolicTangent" ChebyshevPolynomialOrder="2" />
