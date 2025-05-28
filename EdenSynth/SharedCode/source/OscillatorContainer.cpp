@@ -24,7 +24,7 @@ OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
         "OK");
   }
 
-  const std::string prefix = "oscillator";
+  const std::string prefix = "osc";
 
   for (auto i = 1u; i <= numOscillators; ++i) {
     const auto name = prefix + std::to_string(i);
@@ -41,7 +41,8 @@ void OscillatorContainer::addOscillatorParameters(
   using Parameter = juce::AudioProcessorValueTreeState::Parameter;
 
   for (auto& oscillator : _oscillators) {
-    const auto parameterPrefix = "generator." + oscillator.first;
+    const auto parameterPrefix =
+        GENERATOR_SECTION_PARAMETER_PREFIX + oscillator.first;
     const auto namePrefix = String(oscillator.first).toUpperCase();
 
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
@@ -102,7 +103,8 @@ void OscillatorContainer::updateOscillatorParameters(
   for (auto& oscillator : _oscillators) {
     const auto& oscillatorName = oscillator.first;
 
-    const auto parameterPrefix = "generator." + oscillatorName;
+    const auto parameterPrefix =
+        GENERATOR_SECTION_PARAMETER_PREFIX + oscillatorName;
 
     const auto isRealTime =
         static_cast<bool>(*pluginParameters.getRawParameterValue(

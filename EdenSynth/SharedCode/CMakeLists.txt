@@ -13,8 +13,17 @@ else()
   set(FORMATS VST3 Standalone)
 endif()
 
+if(CMAKE_BUILD_TYPE MATCHES DEBUG)
+  message("debug mode")
+  set(PLUGIN_VERSION "0.0.0")
+else()
+  set(PLUGIN_VERSION ${PROJECT_VERSION})
+endif()
+
 juce_add_plugin(
   EdenSynth
+  PLUGIN_VERSION
+  ${PLUGIN_VERSION}
   COMPANY_NAME
   "Jan Wilczek"
   PLUGIN_CODE
@@ -30,6 +39,8 @@ juce_add_plugin(
   NEEDS_MIDI_INPUT
   TRUE
   NEEDS_MIDI_OUTPUT
+  TRUE
+  COPY_PLUGIN_AFTER_BUILD
   TRUE)
 
 target_include_directories(EdenSynth PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

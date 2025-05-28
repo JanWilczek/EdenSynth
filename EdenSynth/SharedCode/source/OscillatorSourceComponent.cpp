@@ -10,7 +10,7 @@ OscillatorSourceComponent::OscillatorSourceComponent(
     String oscillatorName,
     const eden_vst::WaveTablePathProvider& pathProvider)
     : _waveform("Waveform"), _generator("Generator name") {
-  const auto auxParameterName = "generator." + oscillatorName + ".";
+  const auto auxParameterName = "gen." + oscillatorName + ".";
 
   addAndMakeVisible(_isRealTime);
   _isRealTimeAttachment = std::make_unique<ButtonAttachment>(

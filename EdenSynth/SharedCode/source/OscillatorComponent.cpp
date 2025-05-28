@@ -18,7 +18,7 @@ OscillatorComponent::OscillatorComponent(
       _sourceComponent(valueTreeState, oscillatorName, pathProvider),
       _volume(Slider::SliderStyle::Rotary,
               Slider::TextEntryBoxPosition::NoTextBox),
-      _auxParameterName("generator." + oscillatorName + ".") {
+      _auxParameterName("gen." + oscillatorName + ".") {
   _octaveLabel.setJustificationType(Justification::centred);
   addAndMakeVisible(_octaveLabel);
   _octaveTransposition.setPopupDisplayEnabled(true, false, this);
@@ -35,7 +35,7 @@ OscillatorComponent::OscillatorComponent(
       valueTreeState, _auxParameterName + "semitoneTransposition",
       _semitoneTransposition);
 
-  const auto oscillator1Name = "oscillator1";
+  const auto oscillator1Name = "osc1";
   if (oscillatorName != oscillator1Name) {
     _fineTuneLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(_fineTuneLabel);
