@@ -6,6 +6,8 @@
 
 namespace eden_vst_test {
 class ProductionPresetManagerTest : public ::testing::Test {
+  juce::ScopedJuceInitialiser_GUI _guiInitializer;
+
 protected:
   EdenSynthAudioProcessor audioProcessor{
       [this](AudioProcessorValueTreeState& pluginParameters) {
@@ -114,11 +116,16 @@ TEST_F(ProductionPresetManagerTest, CannotSavePresetWithEmptyName) {
 }
 
 TEST(ProductionPresetManager, CannotSaveToNonexistingFolder) {
+  juce::ScopedJuceInitialiser_GUI _guiInitializer;
+
   // given
   EdenSynthAudioProcessor audioProcessor{
       [](AudioProcessorValueTreeState& pluginParameters) {
+        static const auto path = File::getSpecialLocation(
+            File::SpecialLocationType::currentExecutableFile);
         return std::make_unique<eden_vst::ProductionPresetManager>(
-            "foo", pluginParameters);
+            path.getChildFile("foo").getFullPathName().toStdString(),
+            pluginParameters);
       }};
 
   // when
