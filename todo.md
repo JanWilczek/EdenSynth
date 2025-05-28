@@ -34,12 +34,8 @@
         - selected curve (AvailableCurves enum)
         - Chebyshev polynomial order
     - [ ] Find a way to attach the properties of the ValueTree to GUI controls easily
-        - [ ] Create a struct called `WaveshapingParameters`
-        - [ ] Define `SerialisationTraits` for it so that it's properly convertible to `juce::var`
-            - [ ] This can be easily unit-tested
-        - [ ] PluginProcessor should create this ValueTree node and attach it to APVTS in its constructor
+        - [ ] Add the above as parameters to APVTS
         - [ ] Write a unit test that changes the waveshaping curve and checks if it has been written
-        - [ ] It should be read and written in set/getStateInformation()
         - [ ] It should be passed to the WaveshaperComponent in the constructor
         - [ ] WaveshaperComponent should observe it and react accordingly
         - [ ] WaveshaperComponent should update this ValueTree's properties according to GUI controls
