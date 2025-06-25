@@ -5,9 +5,7 @@
 #include "WaveshapingCanvas.h"
 #include "eden/WaveshapingFunctionGenerator.h"
 
-void WaveshapingCanvas::resized() {
-  _points = eden::WaveshapingFunctionGenerator::generateIdentity(getWidth());
-}
+void WaveshapingCanvas::resized() {}
 
 void WaveshapingCanvas::paint(Graphics& g) {
   g.fillAll(getLookAndFeel()
@@ -61,8 +59,10 @@ void WaveshapingCanvas::drawTransferFunction(Graphics& g) {
 
   const auto nb_points = static_cast<int>(_points.size());
   for (auto i = 1; i < nb_points; ++i) {
-    path.lineTo(static_cast<float>(i),
-                getHeight() - (scale + scale * _points[i]));
+    const auto x =
+        jmap(static_cast<float>(i), 0.f, static_cast<float>(nb_points), 0.f,
+             static_cast<float>(getWidth()));
+    path.lineTo(x, getHeight() - (scale + scale * _points[i]));
   }
 
   g.setColour(Colours::aqua);

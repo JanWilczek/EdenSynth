@@ -116,7 +116,8 @@ void WaveshaperComponent::setTransferFunction() {
       std::stoul(_chebyshevPolynomialOrder.getText().toStdString());
   const auto curveName = static_cast<AvailableCurves>(_curve.getSelectedId());
 
-  auto curve = generateCurve(curveName, _canvas.getWidth(), spreadValue,
+  constexpr auto HORIZONTAL_RESOLUTION = 280;
+  auto curve = generateCurve(curveName, HORIZONTAL_RESOLUTION, spreadValue,
                              chebyshevPolynomialOrder);
 
   _canvas.setTransferFunction(curve);
