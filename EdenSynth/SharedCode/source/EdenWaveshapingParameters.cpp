@@ -36,6 +36,9 @@ void EdenWaveshapingParameters::addWaveshapingParameters(
       StringArray{"Identity", "Hyperbolic tangent", "Chebyshev polynomial"},
       0));
   // - Chebyshev polynomial order
+
+  // TODO: Set the transfer function based on parameter values (incl.
+  // setStateInformation()).
 }
 
 void EdenWaveshapingParameters::updateWaveshapingParameters() {
