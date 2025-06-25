@@ -12,12 +12,6 @@ class WaveshaperComponent : public Component,
                             public Label::Listener,
                             public Slider::Listener {
 public:
-  enum class AvailableCurves {
-    Identity = 1,
-    HyperbolicTangent = 2,
-    ChebyshevPolynomial = 3,
-  };
-
   WaveshaperComponent(
       AudioProcessorValueTreeState& valueTreeState,
       std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer>
@@ -31,6 +25,12 @@ public:
   void sliderValueChanged(Slider* slider) override;
 
 private:
+  enum class AvailableCurves {
+    Identity = 1,
+    HyperbolicTangent = 2,
+    ChebyshevPolynomial = 3,
+  };
+
   void setTransferFunction();
   static std::vector<float> generateCurve(AvailableCurves curveName,
                                           unsigned length,
