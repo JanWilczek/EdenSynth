@@ -154,6 +154,7 @@ std::vector<float> WaveshaperComponent::generateCurve(
       break;
     case AvailableCurves::Count:
     default:
+      jassertfalse;
       break;
   }
 
