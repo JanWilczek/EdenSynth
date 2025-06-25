@@ -3,14 +3,20 @@
 /// \date 06.11.2018
 ///
 #include "WaveshaperComponent.h"
+
+#include "ParameterIds.h"
+
 #include <string>
 #include "eden/WaveshapingFunctionGenerator.h"
 
 WaveshaperComponent::WaveshaperComponent(
-    AudioProcessorValueTreeState&,
+    AudioProcessorValueTreeState& vts,
     std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer>
         transferFunction)
-    : _transferFunction(std::move(transferFunction)) {
+    : _transferFunction(std::move(transferFunction)),
+      _curveParameterAttachment{
+          *vts.getParameter(eden::plugin::parameter_id::WAVESHAPER_CURVE),
+          _curve} {
   _canvas.OnTransferFunctionChanged =
       [this](std::vector<float> newTransferFunction) {
         _transferFunction->setTransferFunction(newTransferFunction);
@@ -20,13 +26,13 @@ WaveshaperComponent::WaveshaperComponent(
 
   addAndMakeVisible(_curveLabel);
 
-  _curve.addItem("Identity", static_cast<int>(AvailableCurves::Identity));
-  _curve.addItem("Hyperbolic tangent",
-                 static_cast<int>(AvailableCurves::HyperbolicTangent));
-  _curve.addItem("Chebyshev polynomial",
-                 static_cast<int>(AvailableCurves::ChebyshevPolynomial));
-  _curve.setSelectedId(static_cast<int>(AvailableCurves::Identity));
+  const auto* curveParameter = dynamic_cast<AudioParameterChoice*>(
+      vts.getParameter(eden::plugin::parameter_id::WAVESHAPER_CURVE));
+  jassert(curveParameter != nullptr);
+
+  _curve.addItemList(curveParameter->choices, 1);
   _curve.addListener(this);
+  _curveParameterAttachment.sendInitialUpdate();
   addAndMakeVisible(_curve);
 
   addAndMakeVisible(_chebyshevPolynomialOrderLabel);
@@ -114,6 +120,10 @@ void WaveshaperComponent::setTransferFunction() {
   const auto spreadValue = static_cast<float>(_spread.getValue());
   const auto chebyshevPolynomialOrder =
       std::stoul(_chebyshevPolynomialOrder.getText().toStdString());
+
+  jassert(0 < _curve.getSelectedId());
+  jassert(_curve.getSelectedId() < static_cast<int>(AvailableCurves::Count));
+
   const auto curveName = static_cast<AvailableCurves>(_curve.getSelectedId());
 
   constexpr auto HORIZONTAL_RESOLUTION = 280;
@@ -142,6 +152,7 @@ std::vector<float> WaveshaperComponent::generateCurve(
       curve = eden::WaveshapingFunctionGenerator::generateChebyshevPolynomial(
           chebyshevPolynomialOrder, length);
       break;
+    case AvailableCurves::Count:
     default:
       break;
   }

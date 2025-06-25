@@ -27,8 +27,9 @@ public:
 private:
   enum class AvailableCurves {
     Identity = 1,
-    HyperbolicTangent = 2,
-    ChebyshevPolynomial = 3,
+    HyperbolicTangent,
+    ChebyshevPolynomial,
+    Count,
   };
 
   void setTransferFunction();
@@ -44,6 +45,7 @@ private:
 
   Label _curveLabel{"transferFunctionLabel", "Transfer function"};
   ComboBox _curve{"transferFunctionCurveComboBox"};
+  ComboBoxParameterAttachment _curveParameterAttachment;
 
   Label _chebyshevPolynomialOrderLabel{"orderLabel", "Degree: "};
   Label _chebyshevPolynomialOrder{"order", "2"};

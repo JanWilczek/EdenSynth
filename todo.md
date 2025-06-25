@@ -31,14 +31,14 @@
     - [ ] Save exact control values including the random seed to a ValueTree:
         - spread value
         - spread seed
-        - selected curve (AvailableCurves enum)
+        - ~selected curve (AvailableCurves enum)~
         - Chebyshev polynomial order
     - [ ] Find a way to attach the properties of the ValueTree to GUI controls easily
-        - [ ] Add the above as parameters to APVTS
-        - [ ] Write a unit test that changes the waveshaping curve and checks if it has been written
-        - [ ] It should be passed to the WaveshaperComponent in the constructor
-        - [ ] WaveshaperComponent should observe it and react accordingly
-        - [ ] WaveshaperComponent should update this ValueTree's properties according to GUI controls
+        - [ ] Create a global header with parameter IDs
+        - [ ] Add the above as parameters to APVTS in `EdenWaveshapingParameters`
+        - [ ] (Write a unit test that changes the waveshaping curve and checks if it has been written)
+        - [ ] Add ParameterAttachments in WaveshaperComponent
+            - [ ] sendInitialUpdate()???
 - [ ] Change PresetSaver implementation to use get/set state on a PluginProcessor instance
 - [ ] Find a way to display the assets path error in the editor not in the processor
 
