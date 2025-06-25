@@ -1,13 +1,15 @@
 #pragma once
 
 namespace eden::plugin::parameter_id {
-constexpr auto WAVESHAPER_SPREAD_VALUE = "waveshaper.spread.value";
-constexpr auto WAVESHAPER_SPREAD_SEED = "waveshaper.spread.seed";
-constexpr auto WAVESHAPER_CURVE = "waveshaper.curve";
-constexpr auto WAVESHAPER_CHEBYSHEV_POLYNOMIAL_ORDER = "waveshaper.cheb.order";
+#define EDEN_MACRO_MAKE_PARAMETER(variableName, parameterName) \
+  constexpr auto variableName = parameterName;                 \
+  static const juce::ParameterID variableName##_PARAMETER{parameterName, 1};
 
-ParameterID make(auto parameterId) {
-  static const ParameterID id{parameterId, 1};
-  return id;
-}
+EDEN_MACRO_MAKE_PARAMETER(WAVESHAPER_SPREAD_VALUE, "waveshaper.spread.value")
+EDEN_MACRO_MAKE_PARAMETER(WAVESHAPER_SPREAD_SEED, "waveshaper.spread.seed")
+EDEN_MACRO_MAKE_PARAMETER(WAVESHAPER_CURVE, "waveshaper.curve")
+EDEN_MACRO_MAKE_PARAMETER(WAVESHAPER_CHEBYSHEV_POLYNOMIAL_ORDER,
+                          "waveshaper.cheb.order")
+
+#undef EDEN_MAKE_PARAMETER
 }  // namespace eden::plugin::parameter_id

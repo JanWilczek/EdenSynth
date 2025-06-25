@@ -29,13 +29,14 @@ void EdenWaveshapingParameters::addWaveshapingParameters(
   // TODO: Add
   // - spread value
   // - spread seed
-  // - selected curve (AvailableCurves enum)
   using namespace eden::plugin;
   valueTreeState.createAndAddParameter(std::make_unique<AudioParameterChoice>(
-      parameter_id::make(parameter_id::WAVESHAPER_CURVE), "Waveshaper curve",
+      parameter_id::WAVESHAPER_CURVE_PARAMETER, "Waveshaper curve",
       StringArray{"Identity", "Hyperbolic tangent", "Chebyshev polynomial"},
       0));
-  // - Chebyshev polynomial order
+  valueTreeState.createAndAddParameter(std::make_unique<AudioParameterInt>(
+      parameter_id::WAVESHAPER_CHEBYSHEV_POLYNOMIAL_ORDER_PARAMETER,
+      "Chebyshev polynomial order", 2, 1000, 2));
 
   // TODO: Set the transfer function based on parameter values (incl.
   // setStateInformation()).
