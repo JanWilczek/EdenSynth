@@ -11,7 +11,6 @@ public:
       [](std::vector<float>) {};
 
   void paint(Graphics& g) override;
-  void resized() override;
 
   void setTransferFunction(std::vector<float> transferFunction);
 

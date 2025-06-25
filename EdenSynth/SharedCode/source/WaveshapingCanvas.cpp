@@ -5,8 +5,6 @@
 #include "WaveshapingCanvas.h"
 #include "eden/WaveshapingFunctionGenerator.h"
 
-void WaveshapingCanvas::resized() {}
-
 void WaveshapingCanvas::paint(Graphics& g) {
   g.fillAll(getLookAndFeel()
                 .findColour(ResizableWindow::backgroundColourId)
