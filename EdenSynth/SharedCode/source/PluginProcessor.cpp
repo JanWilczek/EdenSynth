@@ -25,10 +25,10 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
 #endif
                          ),
 #endif
+      _pluginParameters(*this, nullptr),
       _edenAdapter(_edenSynthesiser,
                    _pluginParameters,
                    eden_vst::FileHelper::assetsPath()),
-      _pluginParameters(*this, nullptr),
       _presetManager{presetManagerFactoryFunction(_pluginParameters)} {
   _edenAdapter.addEdenParameters(_pluginParameters);
   _pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));

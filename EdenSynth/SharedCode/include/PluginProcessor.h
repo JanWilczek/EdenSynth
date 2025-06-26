@@ -58,7 +58,7 @@ private:
 
   std::filesystem::path _assetsPath;
   eden::EdenSynthesiser _edenSynthesiser;
-  eden_vst::EdenAdapter _edenAdapter;
   AudioProcessorValueTreeState _pluginParameters;
+  eden_vst::EdenAdapter _edenAdapter;
   std::unique_ptr<eden_vst::PresetManager> _presetManager;
 };
