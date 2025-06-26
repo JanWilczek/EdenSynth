@@ -130,7 +130,8 @@ void EdenSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer,
 
   eden::AudioBuffer edenAudioBuffer(
       const_cast<float**>(buffer.getArrayOfWritePointers()),
-      getTotalNumOutputChannels(), buffer.getNumSamples());
+      getTotalNumOutputChannels(),
+      static_cast<unsigned>(buffer.getNumSamples()));
   eden::MidiBuffer edenMidiBuffer =
       eden_vst::EdenAdapter::convertToEdenMidi(midiMessages);
 
