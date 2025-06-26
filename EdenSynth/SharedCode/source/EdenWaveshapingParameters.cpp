@@ -10,7 +10,8 @@
 
 namespace eden_vst {
 EdenWaveshapingParameters::EdenWaveshapingParameters(
-    eden::EdenSynthesiser& synthesiser)
+    eden::EdenSynthesiser& synthesiser,
+    juce::AudioProcessorValueTreeState& apvts)
     : _synthesiser(synthesiser),
       _transferFunction(std::make_shared<WaveshapingTransferFunctionContainer>(
           eden::WaveshapingFunctionGenerator::generateIdentity(400))) {}

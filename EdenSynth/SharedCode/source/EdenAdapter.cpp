@@ -9,12 +9,12 @@
 
 namespace eden_vst {
 EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser,
-                         juce::AudioProcessorValueTreeState&,
+                         juce::AudioProcessorValueTreeState& apvts,
                          std::filesystem::path assetsPath)
     : _synthesiser(synthesiser),
       _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u),
       _filterParameters(_synthesiser),
-      _waveshapingParameters(_synthesiser) {}
+      _waveshapingParameters(_synthesiser, apvts) {}
 
 eden::MidiBuffer EdenAdapter::convertToEdenMidi(
     const juce::MidiBuffer& juceMidiBuffer) {

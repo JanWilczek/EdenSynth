@@ -14,7 +14,8 @@ class WaveshapingTransferFunctionContainer;
 
 class EdenWaveshapingParameters {
 public:
-  EdenWaveshapingParameters(eden::EdenSynthesiser&);
+  EdenWaveshapingParameters(eden::EdenSynthesiser&,
+                            juce::AudioProcessorValueTreeState&);
 
   void addWaveshapingParameters(AudioProcessorValueTreeState&);
   void updateWaveshapingParameters();
