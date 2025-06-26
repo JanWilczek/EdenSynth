@@ -101,7 +101,7 @@ void WaveshaperComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged) {
 void WaveshaperComponent::labelTextChanged(Label* labelThatHasChanged) {
   if (const auto curve = static_cast<AvailableCurves>(_curve.getSelectedId());
       curve == AvailableCurves::ChebyshevPolynomial) {
-    unsigned order = 2u;
+    unsigned long order = 2u;
     try {
       order = std::stoul(labelThatHasChanged->getText().toStdString());
     } catch (...) {
@@ -137,7 +137,7 @@ std::vector<float> WaveshaperComponent::generateCurve(
     AvailableCurves curveName,
     unsigned length,
     float spread,
-    unsigned chebyshevPolynomialOrder) {
+    unsigned long chebyshevPolynomialOrder) {
   std::vector<float> curve;
 
   switch (curveName) {
@@ -150,7 +150,7 @@ std::vector<float> WaveshaperComponent::generateCurve(
       break;
     case AvailableCurves::ChebyshevPolynomial:
       curve = eden::WaveshapingFunctionGenerator::generateChebyshevPolynomial(
-          chebyshevPolynomialOrder, length);
+          static_cast<unsigned>(chebyshevPolynomialOrder), length);
       break;
     case AvailableCurves::Count:
     default:

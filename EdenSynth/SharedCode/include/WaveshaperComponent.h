@@ -33,10 +33,11 @@ private:
   };
 
   void setTransferFunction();
-  static std::vector<float> generateCurve(AvailableCurves curveName,
-                                          unsigned length,
-                                          float spread,
-                                          unsigned chebyshevPolynomialOrder);
+  static std::vector<float> generateCurve(
+      AvailableCurves curveName,
+      unsigned length,
+      float spread,
+      unsigned long chebyshevPolynomialOrder);
 
   std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer>
       _transferFunction;
