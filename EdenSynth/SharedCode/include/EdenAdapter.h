@@ -22,6 +22,7 @@ namespace eden_vst {
 class EdenAdapter {
 public:
   EdenAdapter(eden::EdenSynthesiser& synthesiser,
+              juce::AudioProcessorValueTreeState&,
               std::filesystem::path assetsPath);
 
   /// <summary>

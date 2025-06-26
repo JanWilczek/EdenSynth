@@ -9,6 +9,7 @@
 
 namespace eden_vst {
 EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser,
+                         juce::AudioProcessorValueTreeState&,
                          std::filesystem::path assetsPath)
     : _synthesiser(synthesiser),
       _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u),
