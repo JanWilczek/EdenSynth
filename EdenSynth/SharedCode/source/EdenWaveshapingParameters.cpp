@@ -14,7 +14,13 @@ EdenWaveshapingParameters::EdenWaveshapingParameters(
     juce::AudioProcessorValueTreeState& apvts)
     : _synthesiser(synthesiser),
       _transferFunction(std::make_shared<WaveshapingTransferFunctionContainer>(
-          eden::WaveshapingFunctionGenerator::generateIdentity(400))) {}
+          eden::WaveshapingFunctionGenerator::generateIdentity(400))),
+      _waveshaperCurve{apvts,
+                       eden::plugin::parameter_id::WAVESHAPER_CURVE_PARAMETER,
+                       "Waveshaper curve",
+                       juce::StringArray{"Identity", "Hyperbolic tangent",
+                                         "Chebyshev polynomial"},
+                       0} {}
 
 void EdenWaveshapingParameters::addWaveshapingParameters(
     AudioProcessorValueTreeState& valueTreeState) {
@@ -31,10 +37,6 @@ void EdenWaveshapingParameters::addWaveshapingParameters(
   // - spread value
   // - spread seed
   using namespace eden::plugin;
-  valueTreeState.createAndAddParameter(std::make_unique<AudioParameterChoice>(
-      parameter_id::WAVESHAPER_CURVE_PARAMETER, "Waveshaper curve",
-      StringArray{"Identity", "Hyperbolic tangent", "Chebyshev polynomial"},
-      0));
   valueTreeState.createAndAddParameter(std::make_unique<AudioParameterInt>(
       parameter_id::WAVESHAPER_CHEBYSHEV_POLYNOMIAL_ORDER_PARAMETER,
       "Chebyshev polynomial order", 2, 1000, 2));
