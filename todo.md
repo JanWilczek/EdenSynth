@@ -33,6 +33,7 @@
         - spread seed
         - ~selected curve (AvailableCurves enum)~
         - Chebyshev polynomial order
+    - [ ] Expose `EdenWaveshapingParameters`'s parameters to `WaveshaperComponent`
     - [ ] Find a way to attach the properties of the ValueTree to GUI controls easily
         - [ ] Create a global header with parameter IDs
         - [ ] Add the above as parameters to APVTS in `EdenWaveshapingParameters`
@@ -41,6 +42,8 @@
             - [ ] sendInitialUpdate()???
 - [ ] Change PresetSaver implementation to use get/set state on a PluginProcessor instance
 - [ ] Find a way to display the assets path error in the editor not in the processor
+- [ ] Bundle factory presets with the plugin as binary data and return them as "programs"
+- [ ] Save user presets in a user folder (e.g., ~/Documents/EdenSynth/presets)
 
 ```cpp
     AlertWindow::showMessageBoxAsync(
