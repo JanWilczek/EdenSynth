@@ -53,8 +53,10 @@ CheckOptions:
     value: CamelCase
   - key: readability-identifier-naming.ConstexprVariableCase
     value: camelBack
-  - key: readability-identifier-naming.PrivateMemberSuffix
+  - key: readability-identifier-naming.PrivateMemberCase
+    value: camelBack
+  - key: readability-identifier-naming.PrivateMemberPrefix
     value: '_'
-  - key: readability-identifier-naming.ProtectedMemberSuffix
+  - key: readability-identifier-naming.ProtectedMemberPrefix
     value: '_'
 
