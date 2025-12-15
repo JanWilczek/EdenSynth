@@ -2,48 +2,34 @@
 ║    ✅ / 🧠  LOCAL TODO FILE 🧠 / ✅     ║
 ╚═════════════════════════════════════════╝
 
-- [x] Transition libeden_test to CMake
-  - [x] Add source files grouping
-- [x] Write more preset tests
-- [x] Bump googletest version
-- [x] Check on Mac
-- [ ] Write unit test for pathToExistingPreset (directory_iterator may throw)
-- [ ] Add GitHub actions
-- [x] Bump JUCE version
-- [x] Fix too long AAX parameter names
-- [ ] Add project CMake aliases::
-- [ ] Fix compilation on Mac
-- [ ] Make a cross-platform default preset
-- [ ] Remove all non-real-time safe operations from the audio thread
-- [ ] Make UI resizable
-- [ ] Write waveshaping function to presets
-- [ ] Add Ninja generator
-- [ ] Make UI prettier
-- [ ] Move parameter IDs to a common file | provide a tree-based parameter class abstraction
-- [ ] Fix the waveshaping transfer function data race in WaveshapingTransferFunctionContainer
+/Library/Arturia/Pigments/resources/internal_presets
+/Library/Application Support/Native Instruments/Massive X/Presets
+User presets folder:
+'/Users/jawi/Documents/Native Instruments/User Content/Massive X/Presets'
+
+Plugin folder: /Library/Application Support/WolfSound/EdenSynth
+Inside:
+    - Wavetables/
+    - Presets/
+
+User presets folder:
+/Users/jawi/Documents/WolfSound/EdenSynth/Presets
 
 ## Fix saving presets
 
+- [x] Copy assets folder to '/Library/Application Support/WolfSound/EdenSynth'
+- [ ] **Change PresetSaver implementation to use get/set state on a PluginProcessor instance**
+    - [ ] Add an interface to PluginProcessor -> StateHolder
+    - [ ] The implementer should redirect to get/setStateInformation
+    - [ ] Pass StateHolder to PresetManager
 - [ ] Fix lack of *assets* folder disallowing OscillatorContainer to add necessary parameters!
   - [ ] Generate a placeholder wavetable
+- [ ] Save user presets in a user folder
 - [ ] Remove `create*OsccillatorSource()` calls from `updateOscillatorParameters()`!
-- [x] Add saving and restoring the waveshaping curve in the PluginProcessor -> that does not seem to be a good way to save the curve. We should
-    - [x] Save exact control values including the random seed to a ValueTree:
-        - ~spread value~
-        - ~spread seed -> Should this be automatable? -> currently it's unused~
-        - ~selected curve (AvailableCurves enum)~
-        - ~Chebyshev polynomial order~
-    - [x] Expose `EdenWaveshapingParameters`'s parameters to `WaveshaperComponent`
-    - [x] Find a way to attach the properties of the ValueTree to GUI controls easily
-        - [x] Create a global header with parameter IDs
-        - [x] Add the above as parameters to APVTS in `EdenWaveshapingParameters`
-        - [ ] (Write a unit test that changes the waveshaping curve and checks if it has been written)
-        - [x] Add ParameterAttachments in WaveshaperComponent
-            - [x] sendInitialUpdate()
-- [ ] Change PresetSaver implementation to use get/set state on a PluginProcessor instance
+- [ ] (Write a unit test that changes the waveshaping curve and checks if it has been written)
 - [ ] Find a way to display the assets path error in the editor not in the processor
 - [ ] Bundle factory presets with the plugin as binary data and return them as "programs"
-- [ ] Save user presets in a user folder (e.g., ~/Documents/EdenSynth/presets)
+- [ ] Use seed value from the parameter when generating the waveshaping curve
 
 ```cpp
     AlertWindow::showMessageBoxAsync(
@@ -57,6 +43,21 @@
 ```xml
 <Waveshaper Spread="0.5" SpreadSeed="1" SelectedCurve="HyperbolicTangent" ChebyshevPolynomialOrder="2" />
 ```
+
+## Misc
+
+- [ ] Write unit test for pathToExistingPreset (directory_iterator may throw)
+- [ ] Add GitHub actions
+- [ ] Add project CMake aliases::
+- [ ] Fix compilation on Mac
+- [ ] Make a cross-platform default preset
+- [ ] Remove all non-real-time safe operations from the audio thread
+- [ ] Make UI resizable
+- [ ] Write waveshaping function to presets
+- [ ] Add Ninja generator
+- [ ] Make UI prettier
+- [ ] Move parameter IDs to a common file | provide a tree-based parameter class abstraction
+- [ ] Fix the waveshaping transfer function data race in WaveshapingTransferFunctionContainer
 
 ## Migration to CMake
 
