@@ -25,13 +25,13 @@ juce_add_plugin(
   PLUGIN_VERSION
   ${PLUGIN_VERSION}
   COMPANY_NAME
-  "Jan Wilczek"
+  "WolfSound"
   PLUGIN_CODE
   "Esyn"
   PLUGIN_MANUFACTURER_CODE
-  "Wolf"
+  "Wfsd"
   BUNDLE_ID
-  "com.janwilczek.edensynth"
+  "com.thewolfsound.edensynth"
   FORMATS
   "${FORMATS}"
   IS_SYNTH
