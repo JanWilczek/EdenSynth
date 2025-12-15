@@ -17,6 +17,7 @@ To build this project
 1. *(optionally for developers)* Run `conan install . -s build_type=Debug --build=missing -s compiler.runtime_type=Debug` and `conan install . --build=missing -s build_type=Release -s compiler.runtime_type=Release` in the EdenSynth  directory. You need to have Conan 2.0 installed. (`-s compiler.runtime_type=<config>` is only required for Visual Studio).
 1. To generate the project, run `cmake --preset conan-debug`. To build it, run `cmake --build --preset conan-debug`.
 1. *(optionally for developers)* Run `pre-commit install` in the main directory. You need to have [pre-commit](https://pre-commit.com/) installed.
+8. Copy the contents of the *assets* folder (but not the folder itself) to '/Library/Application Support/WolfSound/EdenSynth' (macOS)
 
 ## 📝 License
 
