@@ -12,6 +12,7 @@ WaveshapingTransferFunctionContainer::WaveshapingTransferFunctionContainer(
 
 void WaveshapingTransferFunctionContainer::setTransferFunction(
     std::vector<float> transferFunction) {
+  // TODO: Fix this race condition :)
   _transferFunction = transferFunction;
   _hasChanged.store(true);
 }
