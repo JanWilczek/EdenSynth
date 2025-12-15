@@ -10,6 +10,9 @@ build/
 JuceLibraryCode/
 EdenSynth/dependencies
 
+# clangd
+.cache/
+
 # User-specific files
 *.suo
 *.user
