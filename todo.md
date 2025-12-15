@@ -28,18 +28,18 @@
   - [ ] Generate a placeholder wavetable
 - [ ] Remove `create*OsccillatorSource()` calls from `updateOscillatorParameters()`!
 - [x] Add saving and restoring the waveshaping curve in the PluginProcessor -> that does not seem to be a good way to save the curve. We should
-    - [ ] Save exact control values including the random seed to a ValueTree:
-        - spread value
-        - spread seed
+    - [x] Save exact control values including the random seed to a ValueTree:
+        - ~spread value~
+        - ~spread seed -> Should this be automatable? -> currently it's unused~
         - ~selected curve (AvailableCurves enum)~
-        - Chebyshev polynomial order
-    - [ ] Expose `EdenWaveshapingParameters`'s parameters to `WaveshaperComponent`
-    - [ ] Find a way to attach the properties of the ValueTree to GUI controls easily
-        - [ ] Create a global header with parameter IDs
-        - [ ] Add the above as parameters to APVTS in `EdenWaveshapingParameters`
+        - ~Chebyshev polynomial order~
+    - [x] Expose `EdenWaveshapingParameters`'s parameters to `WaveshaperComponent`
+    - [x] Find a way to attach the properties of the ValueTree to GUI controls easily
+        - [x] Create a global header with parameter IDs
+        - [x] Add the above as parameters to APVTS in `EdenWaveshapingParameters`
         - [ ] (Write a unit test that changes the waveshaping curve and checks if it has been written)
-        - [ ] Add ParameterAttachments in WaveshaperComponent
-            - [ ] sendInitialUpdate()???
+        - [x] Add ParameterAttachments in WaveshaperComponent
+            - [x] sendInitialUpdate()
 - [ ] Change PresetSaver implementation to use get/set state on a PluginProcessor instance
 - [ ] Find a way to display the assets path error in the editor not in the processor
 - [ ] Bundle factory presets with the plugin as binary data and return them as "programs"
