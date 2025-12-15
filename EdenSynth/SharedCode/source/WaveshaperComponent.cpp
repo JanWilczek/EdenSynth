@@ -84,18 +84,21 @@ void WaveshaperComponent::resized() {
   _curve.setBounds(_curveLabel.getX(), _curveLabel.getY() + labelHeight,
                    rightColumnWidth, labelHeight);
 
-  constexpr int orderLabelWidth = 60;
+  const auto orderLabelWidth = rightColumnWidth / 2;
+  const auto orderWidth = rightColumnWidth - orderLabelWidth;
+  _chebyshevPolynomialOrder.setTextBoxStyle(juce::Slider::TextBoxAbove, false,
+                                            orderWidth, labelHeight);
+
   _chebyshevPolynomialOrderLabel.setBounds(
       _curve.getX(), _curve.getY() + labelHeight, orderLabelWidth, labelHeight);
   _chebyshevPolynomialOrder.setBounds(
       _chebyshevPolynomialOrderLabel.getX() + orderLabelWidth,
-      _chebyshevPolynomialOrderLabel.getY(), rightColumnWidth - orderLabelWidth,
-      labelHeight);
+      _chebyshevPolynomialOrderLabel.getY(), orderWidth, 2 * labelHeight);
 
   _spreadLabel.setBounds(_chebyshevPolynomialOrder.getX(),
-                         _chebyshevPolynomialOrder.getY() + labelHeight,
+                         _chebyshevPolynomialOrder.getBottom(),
                          _chebyshevPolynomialOrder.getWidth(), labelHeight);
-  _spread.setBounds(_spreadLabel.getX(), _spreadLabel.getY() + labelHeight,
+  _spread.setBounds(_spreadLabel.getX(), _spreadLabel.getBottom(),
                     _spreadLabel.getWidth(),
                     getHeight() - _spreadLabel.getY() - labelHeight - 10);
 }
