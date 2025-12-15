@@ -1,6 +1,8 @@
 {
   "version": 6,
-  "include": ["./ConanPresets.json"],
+  "include": [
+      "build/Debug/generators/CMakePresets.json"
+  ],
   "cmakeMinimumRequired": {
     "major": 3,
     "minor": 22,
@@ -9,13 +11,15 @@
   "configurePresets": [
     {
       "name": "default",
-      "binaryDir": "build",
-      "inherits": "conan-default"
+      "inherits": "conan-debug",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
     }
   ],
   "buildPresets": [
     {
-      "name": "default-debug",
+      "name": "default",
       "configurePreset": "default",
       "configuration": "Debug",
       "inherits": "conan-debug"
