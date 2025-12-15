@@ -9,11 +9,11 @@
 
 class WaveshaperComponent : public Component,
                             public ComboBox::Listener,
-                            public Label::Listener,
-                            public Slider::Listener {
+                            public Slider::Listener,
+                            private juce::Timer {
 public:
   WaveshaperComponent(
-      AudioProcessorValueTreeState& valueTreeState,
+      AudioProcessorValueTreeState&,
       std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer>
           transferFunction);
 
@@ -21,7 +21,6 @@ public:
   void resized() override;
 
   void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
-  void labelTextChanged(Label* labelThatHasChanged) override;
   void sliderValueChanged(Slider* slider) override;
 
 private:
@@ -39,6 +38,8 @@ private:
       float spread,
       unsigned long chebyshevPolynomialOrder);
 
+  void timerCallback() override;
+
   std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer>
       _transferFunction;
 
@@ -49,9 +50,11 @@ private:
   ComboBoxParameterAttachment _curveParameterAttachment;
 
   Label _chebyshevPolynomialOrderLabel{"orderLabel", "Degree: "};
-  Label _chebyshevPolynomialOrder{"order", "2"};
+  juce::Slider _chebyshevPolynomialOrder;
+  juce::AudioParameterInt* _chebyshevPolynomialOrderParameter;
 
   Label _spreadLabel{"spreadlabel", "Spread"};
   Slider _spread{Slider::SliderStyle::LinearVertical,
                  Slider::TextEntryBoxPosition::NoTextBox};
+  juce::AudioParameterFloat* _spreadValueParameter;
 };
