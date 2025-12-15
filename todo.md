@@ -77,3 +77,41 @@ JUCE Assertion failure in juce_LeakedObjectDetector.h:104
 *** Leaked objects detected: 1 instance(s) of class StringArray
 JUCE Assertion failure in juce_LeakedObjectDetector.h:104
 ```
+
+
+## New UI Design
+
+- [ ] Create a new (flat) design in Figma
+    - [ ] Light theme
+    - [ ] Dark theme
+    - [ ] Decide on the font
+- [ ] Implement the design using an LnF implementer + color theme
+    - [ ] Don't use images
+
+
+```cpp
+
+void getStateInformation() {
+	juce::MemoryOutputStream outStream{...};
+	serializer->serialize(outStream, parameters);
+}
+
+void setStateInformation() {
+	juce::MemoryInputStream inStream{...};
+	serializer->deserialize(inStream, parameters /* ref */);
+}
+
+//====
+
+void getStateInformation() {
+	const ?? rawParameterRepresentation = serializer->serialize(parameters);
+	// write rawParameterRepresentation
+}
+
+void setStateInformation() {
+	juce::MemoryInputStream inStream{...};
+	const auto parameterRepresentation = serializer->deserialize(inStream);
+	// map parameterRepresentation to parameters
+}
+
+```
