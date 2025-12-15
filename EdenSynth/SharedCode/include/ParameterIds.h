@@ -3,12 +3,12 @@
 namespace eden::plugin::parameter_id {
 #define EDEN_MACRO_MAKE_PARAMETER(variableName, parameterName) \
   constexpr auto variableName = parameterName;                 \
-  static const juce::ParameterID variableName##_PARAMETER{parameterName, 1};
+  static const juce::ParameterID variableName##Parameter{parameterName, 1};
 
-EDEN_MACRO_MAKE_PARAMETER(WAVESHAPER_SPREAD_VALUE, "waveshaper.spread.value")
-EDEN_MACRO_MAKE_PARAMETER(WAVESHAPER_SPREAD_SEED, "waveshaper.spread.seed")
-EDEN_MACRO_MAKE_PARAMETER(WAVESHAPER_CURVE, "waveshaper.curve")
-EDEN_MACRO_MAKE_PARAMETER(WAVESHAPER_CHEBYSHEV_POLYNOMIAL_ORDER,
+EDEN_MACRO_MAKE_PARAMETER(waveshaperSpreadValue, "waveshaper.spread.value")
+EDEN_MACRO_MAKE_PARAMETER(waveshaperSpreadSeed, "waveshaper.spread.seed")
+EDEN_MACRO_MAKE_PARAMETER(waveshaperCurve, "waveshaper.curve")
+EDEN_MACRO_MAKE_PARAMETER(waveshaperChebyshevPolynomialOrder,
                           "waveshaper.cheb.order")
 
 #undef EDEN_MAKE_PARAMETER

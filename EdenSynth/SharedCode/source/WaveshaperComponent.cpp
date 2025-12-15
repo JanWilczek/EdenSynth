@@ -15,7 +15,7 @@ WaveshaperComponent::WaveshaperComponent(
         transferFunction)
     : _transferFunction(std::move(transferFunction)),
       _curveParameterAttachment{
-          *vts.getParameter(eden::plugin::parameter_id::WAVESHAPER_CURVE),
+          *vts.getParameter(eden::plugin::parameter_id::waveshaperCurve),
           _curve} {
   _canvas.OnTransferFunctionChanged =
       [this](std::vector<float> newTransferFunction) {
@@ -27,7 +27,7 @@ WaveshaperComponent::WaveshaperComponent(
   addAndMakeVisible(_curveLabel);
 
   const auto* curveParameter = dynamic_cast<AudioParameterChoice*>(
-      vts.getParameter(eden::plugin::parameter_id::WAVESHAPER_CURVE));
+      vts.getParameter(eden::plugin::parameter_id::waveshaperCurve));
   jassert(curveParameter != nullptr);
 
   _curve.addItemList(curveParameter->choices, 1);
