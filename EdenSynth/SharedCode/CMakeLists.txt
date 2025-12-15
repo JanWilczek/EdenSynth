@@ -135,16 +135,3 @@ source_group(
   TREE ${CMAKE_CURRENT_SOURCE_DIR}
   PREFIX "Source Files"
   FILES ${SOURCES})
-
-# Copy assets upon build for every plugin target
-set(ASSETS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../assets)
-
-foreach(FORMAT IN LISTS FORMATS)
-  set(TARGET_NAME "EdenSynth_${FORMAT}")
-  get_target_property(TARGET_OUTPUT_DIR ${TARGET_NAME} LIBRARY_OUTPUT_DIRECTORY)
-  add_custom_command(
-    TARGET ${TARGET_NAME}
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${ASSETS_PATH}" "${TARGET_OUTPUT_DIR}/assets/"
-    COMMENT "Copy assets folder to the output")
-endforeach()
