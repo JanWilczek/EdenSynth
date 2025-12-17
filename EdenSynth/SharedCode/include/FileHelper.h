@@ -1,7 +1,7 @@
 #pragma once
 #include <filesystem>
 
-namespace eden_vst {
+namespace eden::plugin {
 class FileHelper {
 public:
   static std::filesystem::path assetsPath();
@@ -18,4 +18,4 @@ public:
   /// </summary>
   static std::filesystem::path userPresetsPath();
 };
-}  // namespace eden_vst
+}  // namespace eden::plugin

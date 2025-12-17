@@ -18,11 +18,12 @@ User presets folder:
 ## Fix saving presets
 
 - [x] Copy assets folder to '/Library/Application Support/WolfSound/EdenSynth'
-- [ ] **Change PresetSaver implementation to use get/set state on a PluginProcessor instance**
-    - [ ] Add an interface to PluginProcessor -> StateHolder
-    - [ ] The implementer should redirect to get/setStateInformation
-    - [ ] Pass StateHolder to PresetManager
-    - [ ] Refactor FileHelper.cpp
+- [x] **Change PresetSaver implementation to use get/set state on a PluginProcessor instance**
+    - [x] Add an interface to PluginProcessor -> StateHolder
+    - [x] The implementer should redirect to get/setStateInformation
+    - [x] Pass StateHolder to PresetManager
+    - [x] Refactor FileHelper.cpp
+- [ ] Combine system and user paths in the Presets class
 - [ ] Fix lack of *assets* folder disallowing OscillatorContainer to add necessary parameters!
   - [ ] Generate a placeholder wavetable
 - [ ] Save user presets in a user folder

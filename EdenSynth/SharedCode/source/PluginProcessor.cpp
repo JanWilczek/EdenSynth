@@ -27,11 +27,12 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
       _pluginParameters(*this, nullptr),
       _edenAdapter(_edenSynthesiser,
                    _pluginParameters,
-                   eden_vst::FileHelper::assetsPath()),
+                   eden::plugin::FileHelper::assetsPath()),
       _presetManager{std::make_unique<eden_vst::ProductionPresetManager>(
           eden_vst::ProductionPresetManager::Args{
-              .systemPresetsPath = eden_vst::FileHelper::systemPresetsPath(),
-              .userPresetsPath = eden_vst::FileHelper::userPresetsPath(),
+              .systemPresetsPath =
+                  eden::plugin::FileHelper::systemPresetsPath(),
+              .userPresetsPath = eden::plugin::FileHelper::userPresetsPath(),
               .getSerializedState =
                   [this]() {
                     juce::MemoryBlock result;
@@ -47,8 +48,8 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
   _edenAdapter.addEdenParameters(_pluginParameters);
   _pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));
 
-  DBG("System presets path: " << eden_vst::FileHelper::systemPresetsPath());
-  DBG("User presets path: " << eden_vst::FileHelper::userPresetsPath());
+  DBG("System presets path: " << eden::plugin::FileHelper::systemPresetsPath());
+  DBG("User presets path: " << eden::plugin::FileHelper::userPresetsPath());
 }
 
 //==============================================================================

@@ -2,7 +2,7 @@
 #include <filesystem>
 #include "JuceHeader.h"
 
-namespace eden_vst {
+namespace eden::plugin {
 namespace {
 constexpr auto presetsFolderName = "presets";
 
@@ -57,4 +57,4 @@ std::filesystem::path FileHelper::userPresetsPath() {
 
   return result;
 }
-}  // namespace eden_vst
+}  // namespace eden::plugin
