@@ -46,6 +46,9 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
           })} {
   _edenAdapter.addEdenParameters(_pluginParameters);
   _pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));
+
+  DBG("System presets path: " << eden_vst::FileHelper::systemPresetsPath());
+  DBG("User presets path: " << eden_vst::FileHelper::userPresetsPath());
 }
 
 //==============================================================================

@@ -14,14 +14,18 @@ void createDirectoryIfNotExists(const std::filesystem::path& directory) {
   }
 }
 
+std::filesystem::path pluginSubfolderIn(
+    const juce::File& systemOrUserDataFolder) {
+  return systemOrUserDataFolder.getChildFile(JucePlugin_Manufacturer)
+      .getChildFile(JucePlugin_Name)
+      .getFullPathName()
+      .toStdString();
+}
+
 std::filesystem::path userDataPath() {
-  static const auto directory = std::filesystem::path(
-      File::getSpecialLocation(
-          File::SpecialLocationType::userDocumentsDirectory)
-          .getChildFile(JucePlugin_Manufacturer)
-          .getChildFile(JucePlugin_Name)
-          .getFullPathName()
-          .toStdString());
+  static const auto directory =
+      pluginSubfolderIn(juce::File::getSpecialLocation(
+          juce::File::SpecialLocationType::userDocumentsDirectory));
 
   createDirectoryIfNotExists(directory);
 
@@ -30,13 +34,9 @@ std::filesystem::path userDataPath() {
 }  // namespace
 
 std::filesystem::path FileHelper::assetsPath() {
-  static const auto pluginDirectory = std::filesystem::path(
-      File::getSpecialLocation(
-          File::SpecialLocationType::commonApplicationDataDirectory)
-          .getChildFile(JucePlugin_Manufacturer)
-          .getChildFile(JucePlugin_Name)
-          .getFullPathName()
-          .toStdString());
+  static const auto pluginDirectory =
+      pluginSubfolderIn(juce::File::getSpecialLocation(
+          juce::File::SpecialLocationType::commonApplicationDataDirectory));
   jassert(std::filesystem::exists(pluginDirectory));
   return pluginDirectory;
 }
