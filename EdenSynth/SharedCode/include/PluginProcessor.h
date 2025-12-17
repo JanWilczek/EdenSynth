@@ -8,14 +8,8 @@
 
 class EdenSynthAudioProcessor : public AudioProcessor {
 public:
-  //==============================================================================
-  using PresetManagerFactoryFunction =
-      std::function<std::unique_ptr<eden_vst::PresetManager>(
-          AudioProcessorValueTreeState&)>;
+  explicit EdenSynthAudioProcessor();
 
-  explicit EdenSynthAudioProcessor(PresetManagerFactoryFunction);
-
-  //==============================================================================
   void prepareToPlay(double sampleRate, int samplesPerBlock) override;
   void releaseResources() override;
 

@@ -7,13 +7,13 @@
 User presets folder:
 '/Users/jawi/Documents/Native Instruments/User Content/Massive X/Presets'
 
-Plugin folder: /Library/Application Support/WolfSound/EdenSynth
+Plugin folder: /Library/WolfSound/EdenSynth
 Inside:
-    - Wavetables/
-    - Presets/
+    - wavetables/
+    - presets/
 
 User presets folder:
-/Users/jawi/Documents/WolfSound/EdenSynth/Presets
+/Users/jawi/Documents/WolfSound/EdenSynth/presets
 
 ## Fix saving presets
 
@@ -22,6 +22,7 @@ User presets folder:
     - [ ] Add an interface to PluginProcessor -> StateHolder
     - [ ] The implementer should redirect to get/setStateInformation
     - [ ] Pass StateHolder to PresetManager
+    - [ ] Refactor FileHelper.cpp
 - [ ] Fix lack of *assets* folder disallowing OscillatorContainer to add necessary parameters!
   - [ ] Generate a placeholder wavetable
 - [ ] Save user presets in a user folder

@@ -12,8 +12,7 @@
 #include <filesystem>
 
 //==============================================================================
-EdenSynthAudioProcessor::EdenSynthAudioProcessor(
-    PresetManagerFactoryFunction presetManagerFactoryFunction)
+EdenSynthAudioProcessor::EdenSynthAudioProcessor()
     :
 #ifndef JucePlugin_PreferredChannelConfigurations
       AudioProcessor(BusesProperties()
@@ -29,7 +28,22 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
       _edenAdapter(_edenSynthesiser,
                    _pluginParameters,
                    eden_vst::FileHelper::assetsPath()),
-      _presetManager{presetManagerFactoryFunction(_pluginParameters)} {
+      _presetManager{std::make_unique<eden_vst::ProductionPresetManager>(
+          eden_vst::ProductionPresetManager::Args{
+              .systemPresetsPath = eden_vst::FileHelper::systemPresetsPath(),
+              .userPresetsPath = eden_vst::FileHelper::userPresetsPath(),
+              .getSerializedState =
+                  [this]() {
+                    juce::MemoryBlock result;
+                    getStateInformation(result);
+                    return result;
+                  },
+              .setSerializedState =
+                  [this](const juce::MemoryBlock& state) {
+                    setStateInformation(state.getData(),
+                                        static_cast<int>(state.getSize()));
+                  },
+          })} {
   _edenAdapter.addEdenParameters(_pluginParameters);
   _pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));
 }
@@ -105,10 +119,11 @@ bool EdenSynthAudioProcessor::isBusesLayoutSupported(
   // This is the place where you check if the layout is supported.
   // In this template code we only support mono or stereo.
   if (layouts.getMainOutputChannelSet() != AudioChannelSet::mono() &&
-      layouts.getMainOutputChannelSet() != AudioChannelSet::stereo())
-    return false;
+      layouts.getMainOutputChannelSet() != AudioChannelSet::stereo()) {
+    return false;  // NOLINT
+  }
 
-    // This checks if the input layout matches the output layout
+  // This checks if the input layout matches the output layout
 #if !JucePlugin_IsSynth
   if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
     return false;
@@ -161,7 +176,7 @@ void EdenSynthAudioProcessor::setStateInformation(const void* data,
                                                   int sizeInBytes) {
   std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
 
-  if (xmlState.get()) {
+  if (xmlState) {
     if (xmlState->hasTagName(_pluginParameters.state.getType())) {
       _pluginParameters.replaceState(ValueTree::fromXml(*xmlState));
     }
@@ -171,10 +186,7 @@ void EdenSynthAudioProcessor::setStateInformation(const void* data,
 //==============================================================================
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-  return new EdenSynthAudioProcessor([](auto& pluginParameters) {
-    return std::make_unique<eden_vst::ProductionPresetManager>(
-        eden_vst::FileHelper::presetsPath(), pluginParameters);
-  });
+  return new EdenSynthAudioProcessor{};
 }
 
 [[nodiscard]] eden_vst::PresetManager&

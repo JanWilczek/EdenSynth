@@ -91,10 +91,8 @@ set(SOURCES
     include/OscillatorContainer.h
     include/PluginEditor.h
     include/PluginProcessor.h
-    include/PresetLoader.h
     include/PresetManager.h
     include/Presets.h
-    include/PresetSaver.h
     include/ProductionPresetManager.h
     include/WaveshapingTransferFunctionContainer.h
     include/WaveTablePathProvider.h
@@ -123,9 +121,7 @@ set(SOURCES
     source/OscillatorContainer.cpp
     source/PluginEditor.cpp
     source/PluginProcessor.cpp
-    source/PresetLoader.cpp
     source/Presets.cpp
-    source/PresetSaver.cpp
     source/WaveshapingTransferFunctionContainer.cpp
     source/WaveTablePathProvider.cpp)
 

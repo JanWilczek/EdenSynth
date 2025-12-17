@@ -1,6 +1,6 @@
 #include "viewmodels/PresetsViewModel.h"
+#include "PresetLoadingResult.h"
 #include "PresetManager.h"
-#include <ranges>
 #include <algorithm>
 #include <cassert>
 
@@ -75,9 +75,9 @@ void PresetsViewModel::handleSavingResult(PresetSavingResult result,
 
 void PresetsViewModel::refreshPresetList() {
   _presetList.clear();
-  constexpr auto REQUIRED_FIRST_ELEMENT_ID = 1;
+  constexpr auto requiredFirstElementId = 1;
   std::ranges::for_each(_presetManager.presets(),
-                        [this, i = REQUIRED_FIRST_ELEMENT_ID](
+                        [this, i = requiredFirstElementId](
                             const std::string& presetName) mutable {
                           _presetList[i++] = presetName;
                         });
@@ -99,9 +99,12 @@ void PresetsViewModel::handleLoadingResult(PresetLoadingResult result) {
       showErrorDialogWithMessage(
           "Failed to load preset: preset does not exist.");
       break;
-    case WrongTag:
+    case FailedToReadFile:
+      showErrorDialogWithMessage("Failed to read the preset file");
+      break;
+    case NoPermission:
       showErrorDialogWithMessage(
-          "Failed to load preset: preset does not come from the plugin.");
+          "Failed to load preset: no permission to read the preset file");
       break;
   }
 }

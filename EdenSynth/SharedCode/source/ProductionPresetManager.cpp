@@ -1,16 +1,12 @@
 #include "ProductionPresetManager.h"
-#include "PresetSaver.h"
-#include "PresetLoader.h"
+#include "PresetLoadingResult.h"
+#include "PresetSavingResult.h"
 
 namespace eden_vst {
-ProductionPresetManager::ProductionPresetManager(
-    const std::filesystem::path& presetsPath,
-    juce::AudioProcessorValueTreeState& vts)
-    : _presets{presetsPath},
-      _valueTreeState{vts},
-      _presetSaver{std::make_unique<PresetSaver>(_valueTreeState)} {}
-
-ProductionPresetManager::~ProductionPresetManager() = default;
+ProductionPresetManager::ProductionPresetManager(Args&& args)
+    : _presets{std::move(args.userPresetsPath)},
+      _getSerializedState{std::move(args.getSerializedState)},
+      _setSerializedState{std::move(args.setSerializedState)} {}
 
 PresetSavingResult ProductionPresetManager::saveCurrentPreset(
     const std::string& name) {
@@ -32,12 +28,44 @@ PresetSavingResult ProductionPresetManager::saveOrOverwriteCurrentPreset(
     return std::unexpected{PresetSavingError::InvalidPresetName};
   }
 
-  return _presetSaver->saveOrOverwriteCurrentPreset(presetOutputPath);
+  const auto presetData = _getSerializedState();
+  const auto presetFile = juce::File{presetOutputPath.c_str()};
+  jassert(presetFile.hasWriteAccess());
+  presetFile.deleteFile();
+  presetFile.appendData(presetData.getData(), presetData.getSize());
+
+  return PresetSavingSuccess::Ok;
 }
 
 PresetLoadingResult ProductionPresetManager::loadPreset(
     const std::string& presetName) {
-  return PresetLoader{_valueTreeState, _presets}(presetName);
+  // check if the preset exists
+  if (_presets.notContains(presetName)) {
+    return std::unexpected{PresetLoadingError::DoesNotExist};
+  }
+
+  // if yes, load from file
+  const auto presetPath = _presets.pathToExistingPreset(presetName);
+  const auto presetFile = juce::File{presetPath.c_str()};
+
+  if (!presetFile.existsAsFile()) {
+    return std::unexpected{PresetLoadingError::DoesNotExist};
+  }
+
+  if (!presetFile.hasReadAccess()) {
+    return std::unexpected{PresetLoadingError::NoPermission};
+  }
+
+  juce::MemoryBlock presetData;
+  const auto result = presetFile.loadFileAsData(presetData);
+
+  if (!result) {
+    return std::unexpected{PresetLoadingError::FailedToReadFile};
+  }
+
+  _setSerializedState(presetData);
+
+  return PresetLoadingSuccess::Ok;
 }
 
 std::vector<std::string> ProductionPresetManager::presets() const {

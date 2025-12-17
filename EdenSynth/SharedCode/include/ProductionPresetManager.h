@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
-#include <memory>
+#include <functional>
 #include "Presets.h"
 #include "PresetManager.h"
+#include <JuceHeader.h>
 
 namespace juce {
 class AudioProcessorValueTreeState;
@@ -11,9 +12,36 @@ class AudioProcessorValueTreeState;
 namespace eden_vst {
 class ProductionPresetManager : public PresetManager {
 public:
-  ProductionPresetManager(const std::filesystem::path& presetsPath,
-                          juce::AudioProcessorValueTreeState&);
-  ~ProductionPresetManager() override;
+  using GetSerializedState = std::function<juce::MemoryBlock()>;
+  using SetSerializedState = std::function<void(const juce::MemoryBlock&)>;
+
+  struct Args {
+    /// <summary>
+    /// Path to the folder with system-wide presets. This path is treated
+    /// as read-only.
+    /// </summary>
+    std::filesystem::path systemPresetsPath;
+
+    /// <summary>
+    /// Path to the folder with user presets. This is the path where new
+    /// presets will be saved.
+    /// </summary>
+    std::filesystem::path userPresetsPath;
+
+    /// <summary>
+    /// Retrieves the current state of the plugin as a binary block.
+    /// The block may contain XML, JSON, or something else.
+    /// </summary>
+    GetSerializedState getSerializedState;
+
+    /// <summary>
+    /// Sets the passed-in state on the plugin. The passed-in block is
+    /// one of the blocks that were earlier retrieved with getSerializedState.
+    /// </summary>
+    SetSerializedState setSerializedState;
+  };
+
+  explicit ProductionPresetManager(Args&&);
 
   [[nodiscard]] PresetSavingResult saveCurrentPreset(
       const std::string& name) override;
@@ -25,7 +53,7 @@ public:
 
 private:
   Presets _presets;
-  juce::AudioProcessorValueTreeState& _valueTreeState;
-  std::unique_ptr<class PresetSaver> _presetSaver;
+  GetSerializedState _getSerializedState;
+  SetSerializedState _setSerializedState;
 };
 }  // namespace eden_vst

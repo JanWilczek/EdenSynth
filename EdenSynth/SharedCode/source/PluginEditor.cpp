@@ -2,8 +2,6 @@
 #include "EdenAdapter.h"
 #include "FileHelper.h"
 #include "PluginProcessor.h"
-#include "PresetLoader.h"
-#include "PresetSaver.h"
 #include "viewmodels/PresetsViewModel.h"
 
 namespace {

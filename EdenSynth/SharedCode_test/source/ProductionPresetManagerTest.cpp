@@ -9,11 +9,7 @@ class ProductionPresetManagerTest : public ::testing::Test {
   juce::ScopedJuceInitialiser_GUI _guiInitializer;
 
 protected:
-  EdenSynthAudioProcessor audioProcessor{
-      [this](AudioProcessorValueTreeState& pluginParameters) {
-        return std::make_unique<eden_vst::ProductionPresetManager>(
-            testPresetsPath(), pluginParameters);
-      }};
+  EdenSynthAudioProcessor audioProcessor{};
 
   void SetUp() override {
     std::filesystem::create_directory(testPresetsPath());
@@ -34,7 +30,7 @@ private:
 
 TEST_F(ProductionPresetManagerTest, SaveAndLoadPreset) {
   // given an audio processor with a parameter
-  auto sampleParameter =
+  auto* sampleParameter =
       audioProcessor.getPluginParameters().getRawParameterValue(
           "frequencyOfA4");
   *sampleParameter = 440.f;
@@ -90,21 +86,6 @@ TEST_F(ProductionPresetManagerTest, CannotLoadNonexistingPreset) {
   ASSERT_EQ(eden_vst::PresetLoadingError::DoesNotExist, result.error());
 }
 
-TEST_F(ProductionPresetManagerTest, CannotLoadPresetWithDifferentTag) {
-  // given
-  auto& presetManager = audioProcessor.getPresetManager();
-  ASSERT_TRUE(presetManager.saveCurrentPreset("TestPreset"));
-  // a processor with a different root tag
-  audioProcessor.getPluginParameters().replaceState(juce::ValueTree{"Foo"});
-
-  // when
-  const auto result = presetManager.loadPreset("TestPreset");
-
-  // then
-  ASSERT_FALSE(result);
-  ASSERT_EQ(eden_vst::PresetLoadingError::WrongTag, result.error());
-}
-
 TEST_F(ProductionPresetManagerTest, CannotSavePresetWithEmptyName) {
   // when
   auto& presetManager = audioProcessor.getPresetManager();
@@ -119,14 +100,7 @@ TEST(ProductionPresetManager, CannotSaveToNonexistingFolder) {
   juce::ScopedJuceInitialiser_GUI _guiInitializer;
 
   // given
-  EdenSynthAudioProcessor audioProcessor{
-      [](AudioProcessorValueTreeState& pluginParameters) {
-        static const auto path = File::getSpecialLocation(
-            File::SpecialLocationType::currentExecutableFile);
-        return std::make_unique<eden_vst::ProductionPresetManager>(
-            path.getChildFile("foo").getFullPathName().toStdString(),
-            pluginParameters);
-      }};
+  EdenSynthAudioProcessor audioProcessor{};
 
   // when
   const auto result =
