@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <functional>
-#include "Presets.h"
+#include "../source/presets/Presets.h"
 #include "PresetManager.h"
 #include <JuceHeader.h>
 
@@ -10,6 +10,11 @@ class AudioProcessorValueTreeState;
 }
 
 namespace eden_vst {
+/// <summary>
+/// Transforms parameter objects into preset files and vice-versa.
+/// Saves and loads the files to the disk.
+/// Handles saving and loading logic.
+/// <summary>
 class ProductionPresetManager : public PresetManager {
 public:
   using GetSerializedState = std::function<juce::MemoryBlock()>;
@@ -48,11 +53,11 @@ public:
   [[nodiscard]] PresetSavingResult saveOrOverwriteCurrentPreset(
       const std::string& name) override;
   [[nodiscard]] PresetLoadingResult loadPreset(
-      const std::string& presetName) override;
-  [[nodiscard]] std::vector<std::string> presets() const override;
+      const eden::plugin::Preset& preset) override;
+  [[nodiscard]] const eden::plugin::Presets::Container& presets() override;
 
 private:
-  Presets _presets;
+  eden::plugin::Presets _presets;
   GetSerializedState _getSerializedState;
   SetSerializedState _setSerializedState;
 };

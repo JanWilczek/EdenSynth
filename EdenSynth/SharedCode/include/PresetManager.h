@@ -3,6 +3,7 @@
 #include <vector>
 #include "PresetLoadingResult.h"
 #include "PresetSavingResult.h"
+#include "../source/presets/Presets.h"
 
 namespace eden_vst {
 class PresetManager {
@@ -13,8 +14,8 @@ public:
   [[nodiscard]] virtual PresetSavingResult saveOrOverwriteCurrentPreset(
       const std::string& name) = 0;
   [[nodiscard]] virtual PresetLoadingResult loadPreset(
-      const std::string& presetName) = 0;
-  [[nodiscard]] virtual std::vector<std::string> presets() const = 0;
+      const eden::plugin::Preset& preset) = 0;
+  [[nodiscard]] virtual const eden::plugin::Presets::Container& presets() = 0;
 };
 
 inline PresetManager::~PresetManager() {}

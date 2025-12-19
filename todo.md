@@ -2,6 +2,8 @@
 ║    ✅ / 🧠  LOCAL TODO FILE 🧠 / ✅     ║
 ╚═════════════════════════════════════════╝
 
+'/Library/Arturia/Presets/Pigments/Factory/Pigments 6.0/Analog Reverie'
+/Library/Arturia/Presets/Pigments/User/jawi/Foo1
 /Library/Arturia/Pigments/resources/internal_presets
 /Library/Application Support/Native Instruments/Massive X/Presets
 User presets folder:

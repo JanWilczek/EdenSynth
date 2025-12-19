@@ -1,16 +1,18 @@
 #include "ProductionPresetManager.h"
 #include "PresetLoadingResult.h"
 #include "PresetSavingResult.h"
+#include <utility/EdenAssert.h>
 
 namespace eden_vst {
 ProductionPresetManager::ProductionPresetManager(Args&& args)
-    : _presets{std::move(args.userPresetsPath)},
+    : _presets{std::move(args.systemPresetsPath),
+               std::move(args.userPresetsPath)},
       _getSerializedState{std::move(args.getSerializedState)},
       _setSerializedState{std::move(args.setSerializedState)} {}
 
 PresetSavingResult ProductionPresetManager::saveCurrentPreset(
     const std::string& name) {
-  if (_presets.contains(name)) {
+  if (_presets.containsUserPreset(name)) {
     return std::unexpected{PresetSavingError::PresetWithNameExists};
   }
 
@@ -23,14 +25,10 @@ PresetSavingResult ProductionPresetManager::saveOrOverwriteCurrentPreset(
     return std::unexpected{PresetSavingError::InvalidPresetName};
   }
 
-  const auto presetOutputPath = _presets.pathToPreset(name);
-  if (presetOutputPath.empty()) {
-    return std::unexpected{PresetSavingError::InvalidPresetName};
-  }
-
+  const auto& newPreset = _presets.createPreset(name);
   const auto presetData = _getSerializedState();
-  const auto presetFile = juce::File{presetOutputPath.c_str()};
-  jassert(presetFile.hasWriteAccess());
+  const auto presetFile = juce::File{newPreset.absolutePath().c_str()};
+  EDEN_ASSERT(presetFile.hasWriteAccess());
   presetFile.deleteFile();
   presetFile.appendData(presetData.getData(), presetData.getSize());
 
@@ -38,17 +36,12 @@ PresetSavingResult ProductionPresetManager::saveOrOverwriteCurrentPreset(
 }
 
 PresetLoadingResult ProductionPresetManager::loadPreset(
-    const std::string& presetName) {
-  // check if the preset exists
-  if (_presets.notContains(presetName)) {
-    return std::unexpected{PresetLoadingError::DoesNotExist};
-  }
-
-  // if yes, load from file
-  const auto presetPath = _presets.pathToExistingPreset(presetName);
+    const eden::plugin::Preset& preset) {
+  const auto& presetPath = preset.absolutePath();
   const auto presetFile = juce::File{presetPath.c_str()};
 
   if (!presetFile.existsAsFile()) {
+    _presets.scanForPresets();
     return std::unexpected{PresetLoadingError::DoesNotExist};
   }
 
@@ -68,7 +61,7 @@ PresetLoadingResult ProductionPresetManager::loadPreset(
   return PresetLoadingSuccess::Ok;
 }
 
-std::vector<std::string> ProductionPresetManager::presets() const {
+const eden::plugin::Presets::Container& ProductionPresetManager::presets() {
   return _presets.presets();
 }
 }  // namespace eden_vst
