@@ -73,4 +73,58 @@ TEST(Parameters, CreateFromValueTree) {
   ASSERT_TRUE(serializedParameters.isArray());
   ASSERT_EQ(46, serializedParameters.getArray()->size());
 }
+
+namespace {
+class TestAudioProcessor : juce::AudioProcessor {
+public:
+  const String getName() const override { return "TestAudioProcessor"; }
+  void prepareToPlay(double, int) override {}
+  void releaseResources() override {}
+  void processBlock(AudioBuffer<float>&, MidiBuffer&) override {}
+  double getTailLengthSeconds() const override { return 0.0; }
+  bool acceptsMidi() const override { return false; }
+  bool producesMidi() const override { return false; }
+  AudioProcessorEditor* createEditor() override { return nullptr; }
+  bool hasEditor() const override { return false; }
+  int getNumPrograms() override { return 1; }
+  int getCurrentProgram() override { return 0; }
+  void setCurrentProgram(int) override {}
+  const String getProgramName(int) override { return ""; }
+  void changeProgramName(int, const String&) override {}
+  void getStateInformation(juce::MemoryBlock&) override {}
+  void setStateInformation(const void*, int) override {}
+
+  juce::AudioProcessorValueTreeState state{
+      *this,
+      nullptr,
+      "TestAudioProcessor",
+      {std::make_unique<juce::AudioParameterFloat>(
+          "floatParam",
+          "Float Param",
+          juce::NormalisableRange{1.f, 10.f},
+          5.f)}};
+};
+}  // namespace
+
+TEST(Parameters, CorrectlyUpdatesAPVTS) {
+  TestAudioProcessor processor;
+  ASSERT_FLOAT_EQ(5.f,
+                  processor.state.getRawParameterValue("floatParam")->load());
+
+  const auto parameters = Parameters::from(processor.state.copyState());
+  auto serializedParameters = parameters.toVar();
+  auto parametersArray = serializedParameters["parameters"].getArray();
+  ASSERT_NE(nullptr, parametersArray);
+  auto& floatParam = parametersArray->getReference(0);
+  ASSERT_FLOAT_EQ(5.f, float{floatParam["value"]});
+
+  floatParam.getDynamicObject()->setProperty("value", 8.);
+
+  const auto newParameters = Parameters::from(serializedParameters);
+
+  updateApvts(processor.state, newParameters);
+
+  EXPECT_FLOAT_EQ(8.f,
+                  processor.state.getRawParameterValue("floatParam")->load());
+}
 }  // namespace eden::plugin

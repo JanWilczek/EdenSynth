@@ -19,4 +19,10 @@ Parameters Parameters::from(juce::ValueTree vt) {
   root->setProperty("parameters", parameters);
   return Parameters{{root}};
 }
+
+Parameters Parameters::from(juce::var v) {
+  return Parameters{std::move(v)};
+}
+
+void updateApvts(juce::AudioProcessorValueTreeState&, const Parameters&) {}
 }  // namespace eden::plugin
