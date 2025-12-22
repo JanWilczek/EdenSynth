@@ -9,7 +9,7 @@ Parameters Parameters::from(juce::ValueTree vt) {
     if (child.hasType("PARAM")) {
       if (child.hasProperty("id") && child.hasProperty("value")) {
         juce::DynamicObject::Ptr parameter{new juce::DynamicObject};
-        parameter->setProperty("name", child["id"]);
+        parameter->setProperty("id", child["id"]);
         parameter->setProperty("value", double{child["value"]});
         parameters.add({parameter});
       }
@@ -32,7 +32,7 @@ void updateApvts(juce::AudioProcessorValueTreeState& state,
       serializedParameters["parameters"].getArray();
   EDEN_ASSERT(parameterArray);
   for (const auto& element : *parameterArray) {
-    const auto id = element["name"].toString();
+    const auto id = element["id"].toString();
     if (auto* parameter = state.getRawParameterValue(id)) {
       parameter->store(float{element["value"]});
     }
