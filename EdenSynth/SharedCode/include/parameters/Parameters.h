@@ -4,28 +4,13 @@
 namespace eden::plugin {
 class Parameters {
 public:
-  explicit Parameters(juce::ValueTree vt) : _valueTree{std::move(vt)} {}
+  static Parameters from(juce::ValueTree);
 
-  juce::var toVar() const {
-    juce::Array<juce::var> parameters{};
-
-    for (const auto child : _valueTree) {
-      if (child.hasType("PARAM")) {
-        if (child.hasProperty("id") && child.hasProperty("value")) {
-          juce::DynamicObject::Ptr parameter{new juce::DynamicObject};
-          parameter->setProperty("name", child["id"]);
-          parameter->setProperty("value", child["value"]);
-          parameters.add({parameter});
-        }
-      }
-    }
-
-    DynamicObject::Ptr root{new juce::DynamicObject};
-    root->setProperty("parameters", parameters);
-    return {root};
-  }
+  juce::var toVar() const { return _impl; }
 
 private:
-  juce::ValueTree _valueTree;
+  explicit Parameters(juce::var v) : _impl{std::move(v)} {}
+
+  juce::var _impl;
 };
 }  // namespace eden::plugin

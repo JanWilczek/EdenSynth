@@ -120,6 +120,7 @@ set(SOURCES
     source/OscillatorContainer.cpp
     source/PluginEditor.cpp
     source/PluginProcessor.cpp
+    source/parameters/Parameters.cpp
     source/presets/Preset.cpp
     source/presets/Preset.h
     source/presets/Presets.cpp

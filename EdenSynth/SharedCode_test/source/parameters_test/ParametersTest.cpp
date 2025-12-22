@@ -66,7 +66,7 @@ TEST(Parameters, CreateFromValueTree) {
   const auto parameterTree = juce::ValueTree::fromXml(juce::String{textXml});
   ASSERT_EQ(46, parameterTree.getNumChildren());
 
-  Parameters parameters{parameterTree};
+  const auto parameters = Parameters::from(parameterTree);
   const auto parametersVar = parameters.toVar();
 
   ASSERT_TRUE(parametersVar.isObject());
