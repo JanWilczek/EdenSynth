@@ -7,8 +7,11 @@ set(gtest_force_shared_crt
     CACHE BOOL "")
 find_package(GTest)
 
-set(SOURCES source/viewmodels_test/PresetsViewModelTest.cpp source/ProductionPresetManagerTest.cpp
-            source/PluginProcessorTest.cpp)
+set(SOURCES
+    source/viewmodels_test/PresetsViewModelTest.cpp
+    source/ProductionPresetManagerTest.cpp
+    source/PluginProcessorTest.cpp
+    source/parameters_test/ParametersTest.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
