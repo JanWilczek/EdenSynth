@@ -67,5 +67,8 @@ TEST(Parameters, CreateFromValueTree) {
   ASSERT_EQ(46, parameterTree.getNumChildren());
 
   Parameters parameters{parameterTree};
+  const auto parametersVar = parameters.toVar();
+
+  ASSERT_TRUE(parametersVar.isObject());
 }
 }  // namespace eden::plugin
