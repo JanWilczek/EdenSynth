@@ -107,6 +107,7 @@ public:
 }  // namespace
 
 TEST(Parameters, CorrectlyUpdatesAPVTS) {
+  juce::ScopedJuceInitialiser_GUI guiInitializer;
   TestAudioProcessor processor;
   ASSERT_FLOAT_EQ(5.f,
                   processor.state.getRawParameterValue("floatParam")->load());

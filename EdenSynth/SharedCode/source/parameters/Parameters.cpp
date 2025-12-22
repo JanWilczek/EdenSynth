@@ -1,4 +1,5 @@
 #include "parameters/Parameters.h"
+#include "utility/EdenAssert.h"
 
 namespace eden::plugin {
 Parameters Parameters::from(juce::ValueTree vt) {
@@ -24,5 +25,17 @@ Parameters Parameters::from(juce::var v) {
   return Parameters{std::move(v)};
 }
 
-void updateApvts(juce::AudioProcessorValueTreeState&, const Parameters&) {}
+void updateApvts(juce::AudioProcessorValueTreeState& state,
+                 const Parameters& p) {
+  const auto serializedParameters = p.toVar();
+  const auto* const parameterArray =
+      serializedParameters["parameters"].getArray();
+  EDEN_ASSERT(parameterArray);
+  for (const auto& element : *parameterArray) {
+    const auto id = element["name"].toString();
+    if (auto* parameter = state.getRawParameterValue(id)) {
+      parameter->store(float{element["value"]});
+    }
+  }
+}
 }  // namespace eden::plugin
