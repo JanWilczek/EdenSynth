@@ -70,5 +70,9 @@ TEST(Parameters, CreateFromValueTree) {
   const auto parametersVar = parameters.toVar();
 
   ASSERT_TRUE(parametersVar.isObject());
+
+  const auto serializedParameters = parametersVar["parameters"];
+  ASSERT_TRUE(serializedParameters.isArray());
+  ASSERT_EQ(46, serializedParameters.getArray()->size());
 }
 }  // namespace eden::plugin
