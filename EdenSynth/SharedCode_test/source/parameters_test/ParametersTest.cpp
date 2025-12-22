@@ -106,7 +106,7 @@ public:
 };
 }  // namespace
 
-TEST(Parameters, CorrectlyUpdatesAPVTS) {
+TEST(Parameters, CorrectlyUpdatesApvts) {
   juce::ScopedJuceInitialiser_GUI guiInitializer;
   TestAudioProcessor processor;
   ASSERT_FLOAT_EQ(5.f,
