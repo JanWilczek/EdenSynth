@@ -9,7 +9,7 @@ Parameters Parameters::from(juce::ValueTree vt) {
       if (child.hasProperty("id") && child.hasProperty("value")) {
         juce::DynamicObject::Ptr parameter{new juce::DynamicObject};
         parameter->setProperty("name", child["id"]);
-        parameter->setProperty("value", child["value"]);
+        parameter->setProperty("value", double{child["value"]});
         parameters.add({parameter});
       }
     }

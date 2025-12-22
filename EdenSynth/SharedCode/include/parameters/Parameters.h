@@ -4,9 +4,9 @@
 namespace eden::plugin {
 class Parameters {
 public:
-  static Parameters from(juce::ValueTree);
+  [[nodiscard]] static Parameters from(juce::ValueTree);
 
-  juce::var toVar() const { return _impl; }
+  [[nodiscard]] juce::var toVar() const { return _impl; }
 
 private:
   explicit Parameters(juce::var v) : _impl{std::move(v)} {}

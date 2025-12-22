@@ -5,8 +5,6 @@ namespace eden::plugin {
 /**
  * TODO TESTS:
  * - Update parameters
- * - toVar conversion
- * - construction from APVTS/ValueTree
  */
 
 constexpr auto textXml = R"(
@@ -71,7 +69,7 @@ TEST(Parameters, CreateFromValueTree) {
 
   ASSERT_TRUE(parametersVar.isObject());
 
-  const auto serializedParameters = parametersVar["parameters"];
+  const auto& serializedParameters = parametersVar["parameters"];
   ASSERT_TRUE(serializedParameters.isArray());
   ASSERT_EQ(46, serializedParameters.getArray()->size());
 }
