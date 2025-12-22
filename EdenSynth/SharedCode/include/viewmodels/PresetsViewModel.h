@@ -9,14 +9,20 @@
 #include "PresetSavingResult.h"
 #include "JuceHeader.h"
 #include "Visibility.h"
+#include "../source/presets/Preset.h"
 
 namespace eden_vst {
 class PresetManager;
 
 namespace viewmodels {
+/// <summary>
+/// ViewModel transforming preset-related Model data
+/// into View data and vice-versa.
+/// </summary>
 class PresetsViewModel : public ViewModel {
 public:
-  using PresetList = std::map<int, std::string>;
+  using PresetNameList = std::map<int, std::string>;
+  using PresetList = std::map<int, eden::plugin::Preset>;
   using PresetListChangedListener = std::function<void()>;
   using OnShouldOverridePresetDialogVisibilityChanged =
       std::function<void(Visibility, const std::string&)>;
@@ -30,7 +36,7 @@ public:
   void onSelectedPresetChanged(int selectedPresetIndex);
   void setOnPresetListChangedListener(PresetListChangedListener listener);
   int getDisplayedPresetId() const noexcept { return _displayedPresetId; }
-  const PresetList& getPresetList() const noexcept { return _presetList; }
+  PresetNameList getPresetList() const noexcept;
   void addErrorDialogListener(ErrorDialogListener*);
   void onShouldOverridePresetDialogVisibilityChanged(
       OnShouldOverridePresetDialogVisibilityChanged handler) {

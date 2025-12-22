@@ -1,11 +1,10 @@
+#pragma once
 #include <string>
 #include <filesystem>
 
 namespace eden::plugin {
 class Preset {
 public:
-  using Id = std::string;
-
   struct Args {
     std::string name;
     bool isFactory;

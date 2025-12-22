@@ -2,7 +2,9 @@
 #include "PresetLoadingResult.h"
 #include "PresetManager.h"
 #include <algorithm>
-#include <cassert>
+#include <iterator>
+#include <tuple>
+#include <utility/EdenAssert.h>
 
 namespace eden_vst::viewmodels {
 PresetsViewModel::PresetsViewModel(PresetManager& presetManager)
@@ -22,8 +24,8 @@ void PresetsViewModel::onPresetNameGiven(const std::string& presetName) {
 
 void PresetsViewModel::onSelectedPresetChanged(int selectedPresetIndex) {
   _displayedPresetId = selectedPresetIndex;
-  const auto& presetName = _presetList.at(getDisplayedPresetId());
-  const auto result = _presetManager.loadPreset(presetName);
+  const auto& preset = _presetList.at(getDisplayedPresetId());
+  const auto result = _presetManager.loadPreset(preset);
   handleLoadingResult(result);
 }
 
@@ -45,14 +47,14 @@ void PresetsViewModel::handleSavingResult(PresetSavingResult result,
     refreshPresetList();
     if (const auto it = std::ranges::find_if(_presetList,
                                              [&presetName](const auto& entry) {
-                                               return entry.second ==
+                                               return entry.second.name() ==
                                                       presetName;
                                              });
         it != _presetList.end()) {
       _displayedPresetId = it->first;
       presetListChangedEvent();
     } else {
-      assert(false);
+      EDEN_ASSERT(false);
     }
   } else {
     switch (result.error()) {
@@ -76,11 +78,12 @@ void PresetsViewModel::handleSavingResult(PresetSavingResult result,
 void PresetsViewModel::refreshPresetList() {
   _presetList.clear();
   constexpr auto requiredFirstElementId = 1;
-  std::ranges::for_each(_presetManager.presets(),
-                        [this, i = requiredFirstElementId](
-                            const std::string& presetName) mutable {
-                          _presetList[i++] = presetName;
-                        });
+  std::ranges::for_each(
+      _presetManager.presets(),
+      [this, i = requiredFirstElementId](const auto& preset) mutable {
+        _presetList.insert(std::make_pair(i, preset));
+        i++;
+      });
 }
 
 void PresetsViewModel::presetListChangedEvent() {
@@ -114,6 +117,14 @@ void PresetsViewModel::showErrorDialogWithMessage(std::string message) {
       [message = std::move(message)](ErrorDialogListener& l) {
         l.showErrorDialogWithMessage(message);
       });
+}
+
+auto PresetsViewModel::getPresetList() const noexcept -> PresetNameList {
+  PresetNameList result;
+  std::ranges::for_each(_presetList, [&](const auto& idAndPreset) {
+    result[idAndPreset.first] = idAndPreset.second.name();
+  });
+  return result;
 }
 
 void PresetsViewModel::addErrorDialogListener(ErrorDialogListener* listener) {

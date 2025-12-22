@@ -13,12 +13,15 @@ class FakePresetManager : public eden_vst::PresetManager {
   PresetSavingResult saveOrOverwriteCurrentPreset(const std::string&) override {
     return PresetSavingResult();
   }
-  PresetLoadingResult loadPreset(const std::string&) override {
+  PresetLoadingResult loadPreset(const eden::plugin::Preset&) override {
     return PresetLoadingResult();
   }
 
-  virtual std::vector<std::string> presets() const override {
-    return std::vector<std::string>();
+  const eden::plugin::Presets::Container& presets() override {
+    return _presets.presets();
   }
+
+private:
+  eden::plugin::Presets _presets;
 };
 }  // namespace eden_vst_test
