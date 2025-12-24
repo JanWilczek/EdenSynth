@@ -7,6 +7,7 @@
 #include "eden/MidiBuffer.h"
 #include "ProductionPresetManager.h"
 
+#include "parameters/Parameters.h"
 #include "utility/StopWatchPrinter.h"
 #include "utility/WaveFileReader.h"
 #include <filesystem>
@@ -35,14 +36,12 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
               .userPresetsPath = eden::plugin::FileHelper::userPresetsPath(),
               .getSerializedState =
                   [this]() {
-                    juce::MemoryBlock result;
-                    getStateInformation(result);
-                    return result;
+                    return eden::plugin::Parameters::from(
+                        _pluginParameters.copyState());
                   },
               .setSerializedState =
-                  [this](const juce::MemoryBlock& state) {
-                    setStateInformation(state.getData(),
-                                        static_cast<int>(state.getSize()));
+                  [this](const eden::plugin::Parameters& p) {
+                    eden::plugin::updateApvts(_pluginParameters, p);
                   },
           })} {
   _edenAdapter.addEdenParameters(_pluginParameters);

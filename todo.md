@@ -25,13 +25,14 @@ User presets folder:
     - [x] The implementer should redirect to get/setStateInformation
     - [x] Pass StateHolder to PresetManager
     - [x] Refactor FileHelper.cpp
-- [ ] Combine system and user paths in the Presets class
+- [x] Combine system and user paths in the Presets class
+- [ ] Fix parameters loaded as presets being treated as strings (?) -> the APVTS parameters are incorrectly updated.
 - [ ] Fix lack of *assets* folder disallowing OscillatorContainer to add necessary parameters!
   - [ ] Generate a placeholder wavetable
-- [ ] Save user presets in a user folder
+- [x] Save user presets in a user folder
 - [ ] Remove `create*OsccillatorSource()` calls from `updateOscillatorParameters()`!
 - [ ] (Write a unit test that changes the waveshaping curve and checks if it has been written)
-- [ ] Find a way to display the assets path error in the editor not in the processor
+- [x] Find a way to display the assets path error in the editor not in the processor
 - [ ] Bundle factory presets with the plugin as binary data and return them as "programs"
 - [ ] Use seed value from the parameter when generating the waveshaping curve
 

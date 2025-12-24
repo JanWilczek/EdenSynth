@@ -46,7 +46,7 @@ const Preset& Presets::createPreset(const std::string& name) {
   _presets.emplace_back(Preset::Args{
       .name = name,
       .isFactory = false,
-      .absolutePath = _userPresetsPath / name,
+      .absolutePath = (_userPresetsPath / name).replace_extension("json"),
   });
   return _presets.back();
 }

@@ -29,10 +29,18 @@ PresetSavingResult ProductionPresetManager::saveOrOverwriteCurrentPreset(
   const auto presetData = _getSerializedState();
   const auto presetFile = juce::File{newPreset.absolutePath().c_str()};
   EDEN_ASSERT(presetFile.hasWriteAccess());
-  presetFile.deleteFile();
-  presetFile.appendData(presetData.getData(), presetData.getSize());
-
-  return PresetSavingSuccess::Ok;
+  juce::FileOutputStream outputStream{presetFile};
+  if (outputStream.openedOk()) {
+    outputStream.setPosition(0);
+    outputStream.truncate();
+    juce::JSON::writeToStream(outputStream, presetData.toVar(),
+                              juce::JSON::FormatOptions{}
+                                  .withIndentLevel(2)
+                                  .withMaxDecimalPlaces(2)
+                                  .withSpacing(juce::JSON::Spacing::multiLine));
+    return PresetSavingSuccess::Ok;
+  }
+  return std::unexpected{PresetSavingError::FailedToWritePresetFile};
 }
 
 PresetLoadingResult ProductionPresetManager::loadPreset(
@@ -49,14 +57,14 @@ PresetLoadingResult ProductionPresetManager::loadPreset(
     return std::unexpected{PresetLoadingError::NoPermission};
   }
 
-  juce::MemoryBlock presetData;
-  const auto result = presetFile.loadFileAsData(presetData);
-
-  if (!result) {
+  juce::FileInputStream inputStream{presetFile};
+  if (!inputStream.openedOk()) {
     return std::unexpected{PresetLoadingError::FailedToReadFile};
   }
+  const auto presetData = juce::JSON::parse(inputStream);
+  // TODO: Validate correctness
 
-  _setSerializedState(presetData);
+  _setSerializedState(eden::plugin::Parameters::from(presetData));
 
   return PresetLoadingSuccess::Ok;
 }
