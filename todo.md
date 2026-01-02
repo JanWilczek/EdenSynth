@@ -27,6 +27,8 @@ User presets folder:
     - [x] Refactor FileHelper.cpp
 - [x] Combine system and user paths in the Presets class
 - [ ] Fix parameters loaded as presets being treated as strings (?) -> the APVTS parameters are incorrectly updated.
+    - [ ] Add an AudioParameterChoice to 2 parameter tests
+    - [ ] Add an AudioParameterInt to 2 parameter tests
 - [ ] Fix lack of *assets* folder disallowing OscillatorContainer to add necessary parameters!
   - [ ] Generate a placeholder wavetable
 - [x] Save user presets in a user folder

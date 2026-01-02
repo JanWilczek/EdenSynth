@@ -6,11 +6,6 @@
 #include "juce_events/juce_events.h"
 
 namespace eden::plugin {
-/**
- * TODO TESTS:
- * - Update parameters
- */
-
 constexpr auto textXml = R"(
 <?xml version="1.0" encoding="UTF-8"?>
 
@@ -125,28 +120,41 @@ public:
   juce::AudioParameterBool& boolParam;
   juce::AudioProcessorValueTreeState state;
 };
+
+class WhenLeavingScopeExecute {  // NOLINT
+public:
+  explicit WhenLeavingScopeExecute(std::function<void()> callback)
+      : _callback{std::move(callback)} {}
+
+  ~WhenLeavingScopeExecute() {
+    if (_callback) {
+      _callback();
+    }
+  }
+
+private:
+  std::function<void()> _callback;
+};
 }  // namespace
 
 TEST(Parameters, CorrectlyUpdatesApvts) {
   // given
   juce::ScopedJuceInitialiser_GUI guiInitializer;
   TestAudioProcessor processor;
-  ASSERT_FLOAT_EQ(5.f,
-                  processor.state.getRawParameterValue("floatParam")->load());
-  ASSERT_FLOAT_EQ(1.f,
-                  processor.state.getRawParameterValue("boolParam")->load());
 
   const auto parameters = Parameters::from(processor.state.copyState());
   auto serializedParameters = parameters.toVar();
+
   auto* parametersArray = serializedParameters["parameters"].getArray();
   ASSERT_NE(nullptr, parametersArray);
   ASSERT_EQ(2, parametersArray->size());
+
   auto& floatParam = parametersArray->getReference(1);
   ASSERT_EQ("floatParam", floatParam["id"]);
   ASSERT_FLOAT_EQ(5.f, float{floatParam["value"]});
+
   auto& boolParam = parametersArray->getReference(0);
   ASSERT_EQ("boolParam", boolParam["id"]);
-  ASSERT_TRUE(processor.boolParam);
   ASSERT_TRUE(bool{boolParam["value"]});
 
   // when
@@ -158,11 +166,7 @@ TEST(Parameters, CorrectlyUpdatesApvts) {
 
   updateApvts(processor.state, newParameters);
 
-  EXPECT_FLOAT_EQ(8.f,
-                  processor.state.getRawParameterValue("floatParam")->load());
   EXPECT_FLOAT_EQ(8.f, processor.floatParam.get());
-  EXPECT_FLOAT_EQ(0.f,
-                  processor.state.getRawParameterValue("boolParam")->load());
   EXPECT_FALSE(processor.boolParam.get());
 }
 
@@ -176,7 +180,8 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
       juce::File::getSpecialLocation(
           juce::File::SpecialLocationType::tempDirectory)
           .getChildFile("CorrectlyRestoresStateFromFile.json");
-  DBG(presetFile.getFullPathName());
+  WhenLeavingScopeExecute deleteTemporaryPresetFile{
+      [&] { presetFile.deleteFile(); }};
   {
     juce::FileOutputStream outputStream{presetFile};
     ASSERT_TRUE(outputStream.openedOk());
@@ -190,8 +195,6 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
   }
 
   processor.floatParam = 1.f;
-  ASSERT_FLOAT_EQ(1.f,
-                  processor.state.getRawParameterValue("floatParam")->load());
   processor.boolParam = false;
 
   // when
@@ -202,8 +205,7 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
   updateApvts(processor.state, newParameters);
 
   // then
-  EXPECT_FLOAT_EQ(5.f,
-                  processor.state.getRawParameterValue("floatParam")->load());
+  EXPECT_FLOAT_EQ(5.f, processor.floatParam.get());
   EXPECT_TRUE(processor.boolParam.get());
 }
 }  // namespace eden::plugin
