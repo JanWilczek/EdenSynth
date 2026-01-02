@@ -107,6 +107,7 @@ public:
 }  // namespace
 
 TEST(Parameters, CorrectlyUpdatesApvts) {
+  // given
   juce::ScopedJuceInitialiser_GUI guiInitializer;
   TestAudioProcessor processor;
   ASSERT_FLOAT_EQ(5.f,
@@ -114,13 +115,15 @@ TEST(Parameters, CorrectlyUpdatesApvts) {
 
   const auto parameters = Parameters::from(processor.state.copyState());
   auto serializedParameters = parameters.toVar();
-  auto parametersArray = serializedParameters["parameters"].getArray();
+  auto* parametersArray = serializedParameters["parameters"].getArray();
   ASSERT_NE(nullptr, parametersArray);
   auto& floatParam = parametersArray->getReference(0);
   ASSERT_FLOAT_EQ(5.f, float{floatParam["value"]});
 
+  // when
   floatParam.getDynamicObject()->setProperty("value", 8.);
 
+  // then
   const auto newParameters = Parameters::from(serializedParameters);
 
   updateApvts(processor.state, newParameters);
