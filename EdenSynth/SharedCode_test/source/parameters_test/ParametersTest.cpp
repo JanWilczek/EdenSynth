@@ -1,5 +1,8 @@
 #include <parameters/Parameters.h>
 #include <gtest/gtest.h>
+#include <memory>
+#include "juce_audio_processors/juce_audio_processors.h"
+#include "juce_core/juce_core.h"
 #include "juce_events/juce_events.h"
 
 namespace eden::plugin {
@@ -76,8 +79,31 @@ TEST(Parameters, CreateFromValueTree) {
 }
 
 namespace {
+using ParameterLayout = juce::AudioProcessorValueTreeState::ParameterLayout;
+
+template <typename Parameter, typename... Args>
+Parameter& addToLayout(ParameterLayout& layout, Args&&... args) {
+  auto param = std::make_unique<Parameter>(std::forward<Args>(args)...);
+  auto& ref = *param;
+  layout.add(std::move(param));
+  return ref;
+}
+
 class TestAudioProcessor : juce::AudioProcessor {
 public:
+  explicit TestAudioProcessor(ParameterLayout layout = {})
+      : floatParam{addToLayout<juce::AudioParameterFloat>(
+            layout,
+            "floatParam",
+            "Float Param",
+            juce::NormalisableRange{1.f, 10.f},
+            5.f)},
+        boolParam{addToLayout<juce::AudioParameterBool>(layout,
+                                                        "boolParam",
+                                                        "Bool Param",
+                                                        true)},
+        state{*this, nullptr, "TestAudioProcessor", std::move(layout)} {}
+
   const String getName() const override { return "TestAudioProcessor"; }
   void prepareToPlay(double, int) override {}
   void releaseResources() override {}
@@ -95,15 +121,9 @@ public:
   void getStateInformation(juce::MemoryBlock&) override {}
   void setStateInformation(const void*, int) override {}
 
-  juce::AudioProcessorValueTreeState state{
-      *this,
-      nullptr,
-      "TestAudioProcessor",
-      {std::make_unique<juce::AudioParameterFloat>(
-          "floatParam",
-          "Float Param",
-          juce::NormalisableRange{1.f, 10.f},
-          5.f)}};
+  juce::AudioParameterFloat& floatParam;
+  juce::AudioParameterBool& boolParam;
+  juce::AudioProcessorValueTreeState state;
 };
 }  // namespace
 
@@ -113,16 +133,25 @@ TEST(Parameters, CorrectlyUpdatesApvts) {
   TestAudioProcessor processor;
   ASSERT_FLOAT_EQ(5.f,
                   processor.state.getRawParameterValue("floatParam")->load());
+  ASSERT_FLOAT_EQ(1.f,
+                  processor.state.getRawParameterValue("boolParam")->load());
 
   const auto parameters = Parameters::from(processor.state.copyState());
   auto serializedParameters = parameters.toVar();
   auto* parametersArray = serializedParameters["parameters"].getArray();
   ASSERT_NE(nullptr, parametersArray);
-  auto& floatParam = parametersArray->getReference(0);
+  ASSERT_EQ(2, parametersArray->size());
+  auto& floatParam = parametersArray->getReference(1);
+  ASSERT_EQ("floatParam", floatParam["id"]);
   ASSERT_FLOAT_EQ(5.f, float{floatParam["value"]});
+  auto& boolParam = parametersArray->getReference(0);
+  ASSERT_EQ("boolParam", boolParam["id"]);
+  ASSERT_TRUE(processor.boolParam);
+  ASSERT_TRUE(bool{boolParam["value"]});
 
   // when
   floatParam.getDynamicObject()->setProperty("value", 8.);
+  boolParam.getDynamicObject()->setProperty("value", false);
 
   // then
   const auto newParameters = Parameters::from(serializedParameters);
@@ -131,6 +160,10 @@ TEST(Parameters, CorrectlyUpdatesApvts) {
 
   EXPECT_FLOAT_EQ(8.f,
                   processor.state.getRawParameterValue("floatParam")->load());
+  EXPECT_FLOAT_EQ(8.f, processor.floatParam.get());
+  EXPECT_FLOAT_EQ(0.f,
+                  processor.state.getRawParameterValue("boolParam")->load());
+  EXPECT_FALSE(processor.boolParam.get());
 }
 
 TEST(Parameters, CorrectlyRestoresStateFromFile) {
@@ -143,6 +176,7 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
       juce::File::getSpecialLocation(
           juce::File::SpecialLocationType::tempDirectory)
           .getChildFile("CorrectlyRestoresStateFromFile.json");
+  DBG(presetFile.getFullPathName());
   {
     juce::FileOutputStream outputStream{presetFile};
     ASSERT_TRUE(outputStream.openedOk());
@@ -155,9 +189,10 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
                                   .withSpacing(juce::JSON::Spacing::multiLine));
   }
 
-  processor.state.getParameter("floatParam")->setValueNotifyingHost(0.f);
+  processor.floatParam = 1.f;
   ASSERT_FLOAT_EQ(1.f,
                   processor.state.getRawParameterValue("floatParam")->load());
+  processor.boolParam = false;
 
   // when
   juce::FileInputStream inputStream{presetFile};
@@ -169,5 +204,6 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
   // then
   EXPECT_FLOAT_EQ(5.f,
                   processor.state.getRawParameterValue("floatParam")->load());
+  EXPECT_TRUE(processor.boolParam.get());
 }
 }  // namespace eden::plugin
