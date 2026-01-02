@@ -1,5 +1,6 @@
 #include <parameters/Parameters.h>
 #include <gtest/gtest.h>
+#include "juce_events/juce_events.h"
 
 namespace eden::plugin {
 /**
@@ -129,6 +130,44 @@ TEST(Parameters, CorrectlyUpdatesApvts) {
   updateApvts(processor.state, newParameters);
 
   EXPECT_FLOAT_EQ(8.f,
+                  processor.state.getRawParameterValue("floatParam")->load());
+}
+
+TEST(Parameters, CorrectlyRestoresStateFromFile) {
+  // given
+  juce::ScopedJuceInitialiser_GUI guiInitializer;
+  TestAudioProcessor processor;
+  const auto parameters = Parameters::from(processor.state.copyState());
+
+  const auto presetFile =
+      juce::File::getSpecialLocation(
+          juce::File::SpecialLocationType::tempDirectory)
+          .getChildFile("CorrectlyRestoresStateFromFile.json");
+  {
+    juce::FileOutputStream outputStream{presetFile};
+    ASSERT_TRUE(outputStream.openedOk());
+    outputStream.setPosition(0);
+    outputStream.truncate();
+    juce::JSON::writeToStream(outputStream, parameters.toVar(),
+                              juce::JSON::FormatOptions{}
+                                  .withIndentLevel(2)
+                                  .withMaxDecimalPlaces(2)
+                                  .withSpacing(juce::JSON::Spacing::multiLine));
+  }
+
+  processor.state.getParameter("floatParam")->setValueNotifyingHost(0.f);
+  ASSERT_FLOAT_EQ(1.f,
+                  processor.state.getRawParameterValue("floatParam")->load());
+
+  // when
+  juce::FileInputStream inputStream{presetFile};
+  ASSERT_TRUE(inputStream.openedOk());
+  const auto newParametersData = juce::JSON::parse(inputStream);
+  const auto newParameters = Parameters::from(newParametersData);
+  updateApvts(processor.state, newParameters);
+
+  // then
+  EXPECT_FLOAT_EQ(5.f,
                   processor.state.getRawParameterValue("floatParam")->load());
 }
 }  // namespace eden::plugin
