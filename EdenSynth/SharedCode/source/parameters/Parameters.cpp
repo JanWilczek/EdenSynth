@@ -33,8 +33,9 @@ void updateApvts(juce::AudioProcessorValueTreeState& state,
   EDEN_ASSERT(parameterArray);
   for (const auto& element : *parameterArray) {
     const auto id = element["id"].toString();
-    if (auto* parameter = state.getRawParameterValue(id)) {
-      parameter->store(float{element["value"]});
+    if (auto* parameter = state.getParameter(id)) {
+      parameter->setValueNotifyingHost(
+          parameter->convertTo0to1(float{element["value"]}));
     }
   }
 }
