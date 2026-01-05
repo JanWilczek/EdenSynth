@@ -259,4 +259,23 @@ TEST(ParameterHolder, CorrectlyAddsParameters) {
   ParameterHolderAudioProcessor processor;
   ASSERT_EQ(2u, processor.getParameters().size());
 }
+
+TEST(ParameterHolder, CorrectlyRestoresState) {
+  juce::MemoryBlock state;
+
+  {
+    ParameterHolderAudioProcessor processor;
+    processor.floatParam = 2.f;
+    processor.boolParam = false;
+    processor.getStateInformation(state);
+  }
+  {
+    ParameterHolderAudioProcessor processor;
+    processor.setStateInformation(state.getData(),
+                                  static_cast<int>(state.getSize()));
+
+    EXPECT_FLOAT_EQ(2.f, processor.floatParam.get());
+    EXPECT_FALSE(processor.boolParam.get());
+  }
+}
 }  // namespace eden::plugin
