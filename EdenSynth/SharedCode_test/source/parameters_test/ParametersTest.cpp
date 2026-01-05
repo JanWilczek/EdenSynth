@@ -279,20 +279,34 @@ public:
       : _parameters{parameters} {}
 
   void visit(juce::AudioParameterFloat& parameter) override {
+    visitImpl(parameter, [&](const auto& v) {
+      if (v.isDouble()) {
+        parameter = static_cast<float>(v);
+      }
+    });
+  }
+
+  void visit(juce::AudioParameterBool& parameter) override {
+    visitImpl(parameter, [&](const auto& v) {
+      if (v.isBool()) {
+        parameter = static_cast<bool>(v);
+      }
+    });
+  }
+
+private:
+  template <class P>
+  void visitImpl(P& parameter,
+                 std::function<void(const juce::var&)> assignment) {
     const auto it = std::ranges::find_if(_parameters, [&](const juce::var& p) {
       return p.hasProperty("id") && p["id"] == parameter.getParameterID();
     });
     if (it != _parameters.end() && it->hasProperty("value")) {
       const auto& value = (*it)["value"];
-      if (value.isDouble()) {
-        parameter = static_cast<float>(value);
-      }
+      assignment(value);
     }
   }
 
-  void visit(juce::AudioParameterBool&) override {}
-
-private:
   const juce::Array<juce::var>& _parameters;
 };
 
