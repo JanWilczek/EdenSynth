@@ -291,6 +291,9 @@ private:
 
 class ParameterHolder {
 public:
+  explicit ParameterHolder(std::vector<TypeErasedParameter> parameters)
+      : _parameters{std::move(parameters)} {}
+
   juce::Array<juce::var> toVarArray() {
     VarArrayVistior visitor;
     accept(visitor);
@@ -318,6 +321,7 @@ public:
   P& add(Args&&... args) {
     auto parameter = std::make_unique<P>(std::forward<Args>(args)...);
     auto& ref = *parameter;
+    _parametersForHolder.emplace_back(ref);
     _parameters.push_back(std::move(parameter));
     return ref;
   }
@@ -326,11 +330,12 @@ public:
     for (auto&& parameter : _parameters) {
       p.addParameter(parameter.release());
     }
-    return {};
+    return ParameterHolder{std::move(_parametersForHolder)};
   }
 
 private:
   std::vector<std::unique_ptr<juce::RangedAudioParameter>> _parameters;
+  std::vector<TypeErasedParameter> _parametersForHolder;
 };
 
 class ParameterHolderAudioProcessor : public TestAudioProcessor {
