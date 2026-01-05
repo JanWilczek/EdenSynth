@@ -252,17 +252,24 @@ private:
 class VarArrayVistior : public TypeErasedParameter::Visitor {
 public:
   void visit(juce::AudioParameterFloat& parameter) override {
+    visitImpl(parameter);
+  }
+
+  void visit(juce::AudioParameterBool& parameter) override {
+    visitImpl(parameter);
+  }
+
+  [[nodiscard]] juce::Array<juce::var> result() const { return _result; }
+
+private:
+  template <class P>
+  void visitImpl(P& parameter) {
     juce::DynamicObject::Ptr object{new juce::DynamicObject};
     object->setProperty("id", parameter.getParameterID());
     object->setProperty("value", parameter.get());
     _result.add(juce::var{object});
   }
 
-  void visit(juce::AudioParameterBool&) override {}
-
-  [[nodiscard]] juce::Array<juce::var> result() const { return _result; }
-
-private:
   juce::Array<juce::var> _result;
 };
 
