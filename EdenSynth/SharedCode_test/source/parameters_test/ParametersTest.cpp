@@ -84,21 +84,8 @@ Parameter& addToLayout(ParameterLayout& layout, Args&&... args) {
   return ref;
 }
 
-class TestAudioProcessor : juce::AudioProcessor {
+class TestAudioProcessor : public juce::AudioProcessor {
 public:
-  explicit TestAudioProcessor(ParameterLayout layout = {})
-      : floatParam{addToLayout<juce::AudioParameterFloat>(
-            layout,
-            "floatParam",
-            "Float Param",
-            juce::NormalisableRange{1.f, 10.f},
-            5.f)},
-        boolParam{addToLayout<juce::AudioParameterBool>(layout,
-                                                        "boolParam",
-                                                        "Bool Param",
-                                                        true)},
-        state{*this, nullptr, "TestAudioProcessor", std::move(layout)} {}
-
   const String getName() const override { return "TestAudioProcessor"; }
   void prepareToPlay(double, int) override {}
   void releaseResources() override {}
@@ -115,6 +102,22 @@ public:
   void changeProgramName(int, const String&) override {}
   void getStateInformation(juce::MemoryBlock&) override {}
   void setStateInformation(const void*, int) override {}
+};
+
+class ApvtsAudioProcessor : public TestAudioProcessor {
+public:
+  explicit ApvtsAudioProcessor(ParameterLayout layout = {})
+      : floatParam{addToLayout<juce::AudioParameterFloat>(
+            layout,
+            "floatParam",
+            "Float Param",
+            juce::NormalisableRange{1.f, 10.f},
+            5.f)},
+        boolParam{addToLayout<juce::AudioParameterBool>(layout,
+                                                        "boolParam",
+                                                        "Bool Param",
+                                                        true)},
+        state{*this, nullptr, "ApvtsAudioProcessor", std::move(layout)} {}
 
   juce::AudioParameterFloat& floatParam;
   juce::AudioParameterBool& boolParam;
@@ -140,7 +143,7 @@ private:
 TEST(Parameters, CorrectlyUpdatesApvts) {
   // given
   juce::ScopedJuceInitialiser_GUI guiInitializer;
-  TestAudioProcessor processor;
+  ApvtsAudioProcessor processor;
 
   const auto parameters = Parameters::from(processor.state.copyState());
   auto serializedParameters = parameters.toVar();
@@ -173,7 +176,7 @@ TEST(Parameters, CorrectlyUpdatesApvts) {
 TEST(Parameters, CorrectlyRestoresStateFromFile) {
   // given
   juce::ScopedJuceInitialiser_GUI guiInitializer;
-  TestAudioProcessor processor;
+  ApvtsAudioProcessor processor;
   const auto parameters = Parameters::from(processor.state.copyState());
 
   const auto presetFile =
