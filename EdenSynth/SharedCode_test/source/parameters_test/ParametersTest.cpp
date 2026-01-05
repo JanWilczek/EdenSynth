@@ -1,5 +1,6 @@
 #include <parameters/Parameters.h>
 #include <gtest/gtest.h>
+#include <functional>
 #include <memory>
 #include "juce_audio_processors/juce_audio_processors.h"
 #include "juce_core/juce_core.h"
@@ -213,7 +214,52 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
 }
 
 namespace {
-class ParameterHolder {};
+class TypeErasedParameter {
+public:
+  struct Visitor {  // NOLINT
+    virtual ~Visitor() = default;
+    virtual void visit(juce::AudioParameterBool&) = 0;
+    virtual void visit(juce::AudioParameterFloat&) = 0;
+  };
+
+  template <class Parameter>
+  explicit TypeErasedParameter(Parameter& p)
+      : _impl{std::make_unique<ParameterModel<Parameter>>(p)} {}
+
+  void accept(Visitor& v) { _impl->accept(v); }
+
+private:
+  class ParameterConcept {
+  public:
+    virtual ~ParameterConcept() = default;
+    virtual void accept(Visitor& v) = 0;
+  };
+
+  template <class Parameter>
+  class ParameterModel : public ParameterConcept {
+  public:
+    explicit ParameterModel(Parameter& p) : _p{p} {}
+
+    void accept(Visitor& v) override { v.visit(_p.get()); }
+
+  private:
+    std::reference_wrapper<Parameter> _p;
+  };
+
+  std::unique_ptr<ParameterConcept> _impl;
+};
+
+class ParameterHolder {
+public:
+  void accept(TypeErasedParameter::Visitor& v) {
+    for (auto& parameter : _parameters) {
+      parameter.accept(v);
+    }
+  }
+
+private:
+  std::vector<TypeErasedParameter> _parameters;
+};
 
 class ParameterHolderBuilder {
 public:
