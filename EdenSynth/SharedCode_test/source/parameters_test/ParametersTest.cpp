@@ -229,7 +229,7 @@ public:
   void accept(Visitor& v) { _impl->accept(v); }
 
 private:
-  class ParameterConcept {
+  class ParameterConcept {  // NOLINT
   public:
     virtual ~ParameterConcept() = default;
     virtual void accept(Visitor& v) = 0;
@@ -249,15 +249,66 @@ private:
   std::unique_ptr<ParameterConcept> _impl;
 };
 
+class VarArrayVistior : public TypeErasedParameter::Visitor {
+public:
+  void visit(juce::AudioParameterFloat& parameter) override {
+    juce::DynamicObject::Ptr object{new juce::DynamicObject};
+    object->setProperty("id", parameter.getParameterID());
+    object->setProperty("value", parameter.get());
+    _result.add(juce::var{object});
+  }
+
+  void visit(juce::AudioParameterBool&) override {}
+
+  [[nodiscard]] juce::Array<juce::var> result() const { return _result; }
+
+private:
+  juce::Array<juce::var> _result;
+};
+
+class UpdatingVisitor : public TypeErasedParameter::Visitor {
+public:
+  explicit UpdatingVisitor(const juce::Array<juce::var>& parameters)
+      : _parameters{parameters} {}
+
+  void visit(juce::AudioParameterFloat& parameter) override {
+    const auto it = std::ranges::find_if(_parameters, [&](const juce::var& p) {
+      return p.hasProperty("id") && p["id"] == parameter.getParameterID();
+    });
+    if (it != _parameters.end() && it->hasProperty("value")) {
+      const auto& value = (*it)["value"];
+      if (value.isDouble()) {
+        parameter = static_cast<float>(value);
+      }
+    }
+  }
+
+  void visit(juce::AudioParameterBool&) override {}
+
+private:
+  const juce::Array<juce::var>& _parameters;
+};
+
 class ParameterHolder {
 public:
+  juce::Array<juce::var> toVarArray() {
+    VarArrayVistior visitor;
+    accept(visitor);
+    return visitor.result();
+  }
+
+  void update(const juce::Array<juce::var>& parameters) {
+    UpdatingVisitor visitor{parameters};
+    accept(visitor);
+  }
+
+private:
   void accept(TypeErasedParameter::Visitor& v) {
     for (auto& parameter : _parameters) {
       parameter.accept(v);
     }
   }
 
-private:
   std::vector<TypeErasedParameter> _parameters;
 };
 
@@ -295,6 +346,19 @@ public:
                                                         true)},
         parameterHolder{builder.build(*this)} {}
 
+  void getStateInformation(juce::MemoryBlock& block) override {
+    const auto params = parameterHolder.toVarArray();
+    juce::MemoryOutputStream output{block, true};
+    juce::JSON::writeToStream(output, params);
+  }
+
+  void setStateInformation(const void* data, int size) override {
+    juce::MemoryInputStream input{data, static_cast<size_t>(size), false};
+    const auto parametersVar = juce::JSON::parse(input);
+    jassert(parametersVar.isArray());
+    parameterHolder.update(*parametersVar.getArray());
+  }
+
   juce::AudioParameterFloat& floatParam;
   juce::AudioParameterBool& boolParam;
   ParameterHolder parameterHolder;
@@ -315,6 +379,7 @@ TEST(ParameterHolder, CorrectlyRestoresState) {
     processor.boolParam = false;
     processor.getStateInformation(state);
   }
+  DBG(state.toString());
   {
     ParameterHolderAudioProcessor processor;
     processor.setStateInformation(state.getData(),
