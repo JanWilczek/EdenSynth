@@ -211,4 +211,52 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
   EXPECT_FLOAT_EQ(5.f, processor.floatParam.get());
   EXPECT_TRUE(processor.boolParam.get());
 }
+
+namespace {
+class ParameterHolder {};
+
+class ParameterHolderBuilder {
+public:
+  template <class P, class... Args>
+  P& add(Args&&... args) {
+    auto parameter = std::make_unique<P>(std::forward<Args>(args)...);
+    auto& ref = *parameter;
+    _parameters.push_back(std::move(parameter));
+    return ref;
+  }
+
+  ParameterHolder build(juce::AudioProcessor& p) {
+    for (auto&& parameter : _parameters) {
+      p.addParameter(parameter.release());
+    }
+    return {};
+  }
+
+private:
+  std::vector<std::unique_ptr<juce::RangedAudioParameter>> _parameters;
+};
+
+class ParameterHolderAudioProcessor : public TestAudioProcessor {
+public:
+  explicit ParameterHolderAudioProcessor(ParameterHolderBuilder builder = {})
+      : floatParam{builder.add<juce::AudioParameterFloat>(
+            "floatParam",
+            "Float Param",
+            juce::NormalisableRange{1.f, 10.f},
+            5.f)},
+        boolParam{builder.add<juce::AudioParameterBool>("boolParam",
+                                                        "Bool Param",
+                                                        true)},
+        parameterHolder{builder.build(*this)} {}
+
+  juce::AudioParameterFloat& floatParam;
+  juce::AudioParameterBool& boolParam;
+  ParameterHolder parameterHolder;
+};
+}  // namespace
+
+TEST(ParameterHolder, CorrectlyAddsParameters) {
+  ParameterHolderAudioProcessor processor;
+  ASSERT_EQ(2u, processor.getParameters().size());
+}
 }  // namespace eden::plugin
