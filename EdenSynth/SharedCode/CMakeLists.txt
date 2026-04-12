@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 project(EdenSynth VERSION 1.0.0)
 
-find_package(JUCE CONFIG REQUIRED)
+find_package(
+  JUCE
+  8.0.12
+  CONFIG
+  REQUIRED)
 
 if(MSVC)
   juce_set_aax_sdk_path(${CMAKE_CURRENT_SOURCE_DIR}/../SDKs/AAX)
