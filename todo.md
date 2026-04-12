@@ -17,6 +17,15 @@ Inside:
 User presets folder:
 /Users/jawi/Documents/WolfSound/EdenSynth/presets
 
+## Type-Erased Parameters
+
+- [x] Can we use `using TypeErasedParameter = std::variant<juce::AudioParameterFloat&, juce::AudioParameterBool&>`?
+    -> From the standard "A variant is not permitted to hold references, arrays, or the type void."
+    - So we are left with Visitor + Type Erasure (including External Polymorphism)
+    - We want to use Type Erasure to have a "reference" variant and to store strongly typed parameter classes in a vector
+    - We want to use Visitor because we want to iterate through the parameters preserving their strong types and we want to extend the set of operations in the future
+    - We need to use External Polymorphism to implement the Visitor pattern (we don't have access to JUCE's parameter classes)
+
 ## Fix saving presets
 
 - [x] Copy assets folder to '/Library/Application Support/WolfSound/EdenSynth'
