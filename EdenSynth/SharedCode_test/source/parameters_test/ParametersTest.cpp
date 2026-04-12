@@ -214,18 +214,23 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
 }
 
 namespace {
+template <class Visitor>
 class TypeErasedParameter {
 public:
-  struct Visitor {  // NOLINT
-    virtual ~Visitor() = default;
-    virtual void visit(juce::AudioParameterBool&) = 0;
-    virtual void visit(juce::AudioParameterFloat&) = 0;
-  };
-
   template <class Parameter>
   explicit TypeErasedParameter(Parameter& p)
       : _impl{std::make_unique<ParameterModel<Parameter>>(p)} {}
 
+  /**
+   * The Visitor class is expected to have a visit() member function
+   * for each supported parameter type, e.g.,
+   *
+   *   struct Visitor {
+   *     void visit(juce::AudioParameterBool&);
+   *     void visit(juce::AudioParameterFloat&);
+   *     //...
+   *   };
+   */
   void accept(Visitor& v) { _impl->accept(v); }
 
 private:
@@ -249,7 +254,53 @@ private:
   std::unique_ptr<ParameterConcept> _impl;
 };
 
-class VarArrayVistior : public TypeErasedParameter::Visitor {
+template <class Visitor>
+class ParameterHolder {
+public:
+  explicit ParameterHolder(std::vector<TypeErasedParameter<Visitor>> parameters)
+      : _parameters{std::move(parameters)} {}
+
+  void accept(Visitor& v) {
+    for (auto& parameter : _parameters) {
+      parameter.accept(v);
+    }
+  }
+
+private:
+  std::vector<TypeErasedParameter<Visitor>> _parameters;
+};
+
+template <class Visitor>
+class ParameterHolderBuilder {
+public:
+  template <class P, class... Args>
+  P& add(Args&&... args) {
+    auto parameter = std::make_unique<P>(std::forward<Args>(args)...);
+    auto& ref = *parameter;
+    _parametersForHolder.emplace_back(ref);
+    _parameters.push_back(std::move(parameter));
+    return ref;
+  }
+
+  ParameterHolder<Visitor> build(juce::AudioProcessor& p) {
+    for (auto&& parameter : _parameters) {
+      p.addParameter(parameter.release());
+    }
+    return ParameterHolder{std::move(_parametersForHolder)};
+  }
+
+private:
+  std::vector<std::unique_ptr<juce::RangedAudioParameter>> _parameters;
+  std::vector<TypeErasedParameter<Visitor>> _parametersForHolder;
+};
+
+struct VisitorBase {
+  virtual ~VisitorBase() = default;
+  virtual void visit(juce::AudioParameterBool&) = 0;
+  virtual void visit(juce::AudioParameterFloat&) = 0;
+};
+
+class VarArrayVistior : public VisitorBase {
 public:
   void visit(juce::AudioParameterFloat& parameter) override {
     visitImpl(parameter);
@@ -273,7 +324,7 @@ private:
   juce::Array<juce::var> _result;
 };
 
-class UpdatingVisitor : public TypeErasedParameter::Visitor {
+class UpdatingVisitor : public VisitorBase {
 public:
   explicit UpdatingVisitor(const juce::Array<juce::var>& parameters)
       : _parameters{parameters} {}
@@ -310,58 +361,22 @@ private:
   const juce::Array<juce::var>& _parameters;
 };
 
-class ParameterHolder {
-public:
-  explicit ParameterHolder(std::vector<TypeErasedParameter> parameters)
-      : _parameters{std::move(parameters)} {}
+juce::Array<juce::var> toVarArray(ParameterHolder<VisitorBase>& ph) {
+  VarArrayVistior visitor;
+  ph.accept(visitor);
+  return visitor.result();
+}
 
-  juce::Array<juce::var> toVarArray() {
-    VarArrayVistior visitor;
-    accept(visitor);
-    return visitor.result();
-  }
-
-  void update(const juce::Array<juce::var>& parameters) {
-    UpdatingVisitor visitor{parameters};
-    accept(visitor);
-  }
-
-private:
-  void accept(TypeErasedParameter::Visitor& v) {
-    for (auto& parameter : _parameters) {
-      parameter.accept(v);
-    }
-  }
-
-  std::vector<TypeErasedParameter> _parameters;
-};
-
-class ParameterHolderBuilder {
-public:
-  template <class P, class... Args>
-  P& add(Args&&... args) {
-    auto parameter = std::make_unique<P>(std::forward<Args>(args)...);
-    auto& ref = *parameter;
-    _parametersForHolder.emplace_back(ref);
-    _parameters.push_back(std::move(parameter));
-    return ref;
-  }
-
-  ParameterHolder build(juce::AudioProcessor& p) {
-    for (auto&& parameter : _parameters) {
-      p.addParameter(parameter.release());
-    }
-    return ParameterHolder{std::move(_parametersForHolder)};
-  }
-
-private:
-  std::vector<std::unique_ptr<juce::RangedAudioParameter>> _parameters;
-  std::vector<TypeErasedParameter> _parametersForHolder;
-};
+void update(ParameterHolder<VisitorBase>& ph,
+            const juce::Array<juce::var>& parameters) {
+  UpdatingVisitor visitor{parameters};
+  ph.accept(visitor);
+}
 
 class ParameterHolderAudioProcessor : public TestAudioProcessor {
 public:
-  explicit ParameterHolderAudioProcessor(ParameterHolderBuilder builder = {})
+  explicit ParameterHolderAudioProcessor(
+      ParameterHolderBuilder<VisitorBase> builder = {})
       : floatParam{builder.add<juce::AudioParameterFloat>(
             "floatParam",
             "Float Param",
@@ -373,7 +388,7 @@ public:
         parameterHolder{builder.build(*this)} {}
 
   void getStateInformation(juce::MemoryBlock& block) override {
-    const auto params = parameterHolder.toVarArray();
+    const auto params = toVarArray(parameterHolder);
     juce::MemoryOutputStream output{block, true};
     juce::JSON::writeToStream(output, params);
   }
@@ -382,12 +397,12 @@ public:
     juce::MemoryInputStream input{data, static_cast<size_t>(size), false};
     const auto parametersVar = juce::JSON::parse(input);
     jassert(parametersVar.isArray());
-    parameterHolder.update(*parametersVar.getArray());
+    update(parameterHolder, *parametersVar.getArray());
   }
 
   juce::AudioParameterFloat& floatParam;
   juce::AudioParameterBool& boolParam;
-  ParameterHolder parameterHolder;
+  ParameterHolder<VisitorBase> parameterHolder;
 };
 }  // namespace
 
