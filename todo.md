@@ -35,6 +35,8 @@ User presets folder:
     - [x] Pass StateHolder to PresetManager
     - [x] Refactor FileHelper.cpp
 - [x] Combine system and user paths in the Presets class
+- [x] Allow the plugin to compile again after compiler update...
+    - [x] Bump JUCE version
 - [ ] Fix parameters loaded as presets being treated as strings (?) -> the APVTS parameters are incorrectly updated.
     - [ ] Add an AudioParameterChoice to 2 parameter tests
     - [ ] Add an AudioParameterInt to 2 parameter tests
