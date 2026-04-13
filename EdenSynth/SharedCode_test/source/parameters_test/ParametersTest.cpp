@@ -118,10 +118,24 @@ public:
                                                         "boolParam",
                                                         "Bool Param",
                                                         true)},
+        intParam{addToLayout<juce::AudioParameterInt>(layout,
+                                                      "intParam",
+                                                      "Int Param",
+                                                      5,
+                                                      10,
+                                                      6)},
+        choiceParam{addToLayout<juce::AudioParameterChoice>(
+            layout,
+            "choiceParam",
+            "Choice Param",
+            juce::StringArray{"choice 0", "choice 1", "choice 2"},
+            1)},
         state{*this, nullptr, "ApvtsAudioProcessor", std::move(layout)} {}
 
   juce::AudioParameterFloat& floatParam;
   juce::AudioParameterBool& boolParam;
+  juce::AudioParameterInt& intParam;
+  juce::AudioParameterChoice& choiceParam;
   juce::AudioProcessorValueTreeState state;
 };
 
@@ -149,11 +163,17 @@ TEST(Parameters, CorrectlyUpdatesApvts) {
   const auto parameters = Parameters::from(processor.state.copyState());
   auto serializedParameters = parameters.toVar();
 
+  DBG(juce::JSON::toString(
+      serializedParameters,
+      juce::JSON::FormatOptions{}.withIndentLevel(2).withMaxDecimalPlaces(3)));
+
   auto* parametersArray = serializedParameters["parameters"].getArray();
   ASSERT_NE(nullptr, parametersArray);
-  ASSERT_EQ(2, parametersArray->size());
+  ASSERT_EQ(4, parametersArray->size());
 
-  auto& floatParam = parametersArray->getReference(1);
+  // APVTS sorts the parameters, thus, they appear in a different order than
+  // defined
+  auto& floatParam = parametersArray->getReference(2);
   ASSERT_EQ("floatParam", floatParam["id"]);
   ASSERT_FLOAT_EQ(5.f, float{floatParam["value"]});
 
@@ -161,9 +181,21 @@ TEST(Parameters, CorrectlyUpdatesApvts) {
   ASSERT_EQ("boolParam", boolParam["id"]);
   ASSERT_TRUE(bool{boolParam["value"]});
 
+  auto& intParam = parametersArray->getReference(3);
+  ASSERT_EQ("intParam", intParam["id"]);
+  ASSERT_EQ(6, int{intParam["value"]});
+
+  auto& choiceParam = parametersArray->getReference(1);
+  ASSERT_EQ("choiceParam", choiceParam["id"]);
+  // mind you that choice parameter is stored as a double (as all other
+  // parameters for that matter)
+  ASSERT_EQ(1, int{choiceParam["value"]});
+
   // when
   floatParam.getDynamicObject()->setProperty("value", 8.);
   boolParam.getDynamicObject()->setProperty("value", false);
+  intParam.getDynamicObject()->setProperty("value", 8);
+  choiceParam.getDynamicObject()->setProperty("value", 2);
 
   // then
   const auto newParameters = Parameters::from(serializedParameters);
@@ -172,6 +204,9 @@ TEST(Parameters, CorrectlyUpdatesApvts) {
 
   EXPECT_FLOAT_EQ(8.f, processor.floatParam.get());
   EXPECT_FALSE(processor.boolParam.get());
+  EXPECT_EQ(8, processor.intParam.get());
+  EXPECT_EQ("choice 2",
+            processor.choiceParam.getCurrentChoiceName().toStdString());
 }
 
 TEST(Parameters, CorrectlyRestoresStateFromFile) {
@@ -200,6 +235,8 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
 
   processor.floatParam = 1.f;
   processor.boolParam = false;
+  processor.intParam = 9;
+  processor.choiceParam = processor.choiceParam.choices.indexOf("choice 2");
 
   // when
   juce::FileInputStream inputStream{presetFile};
@@ -211,6 +248,9 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
   // then
   EXPECT_FLOAT_EQ(5.f, processor.floatParam.get());
   EXPECT_TRUE(processor.boolParam.get());
+  EXPECT_EQ(6, processor.intParam.get());
+  EXPECT_EQ("choice 1",
+            processor.choiceParam.getCurrentChoiceName().toStdString());
 }
 
 namespace {
