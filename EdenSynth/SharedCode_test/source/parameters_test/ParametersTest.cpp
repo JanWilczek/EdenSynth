@@ -316,7 +316,7 @@ public:
     }
 
   private:
-    std::vector<std::unique_ptr<juce::RangedAudioParameter>> _parameters;
+    std::vector<std::unique_ptr<juce::AudioProcessorParameter>> _parameters;
     std::vector<TypeErasedParameter> _parametersForHolder;
   };
 
