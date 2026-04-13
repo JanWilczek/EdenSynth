@@ -350,7 +350,8 @@ struct VisitorBase {
   virtual void visit(juce::AudioParameterChoice&) = 0;
 };
 
-class VarArrayVisitor : public VisitorBase {
+template <class Visitor>
+class VarArrayVisitor : public Visitor {
 public:
   void visit(juce::AudioParameterFloat& parameter) override {
     visitImpl(parameter, parameter.get());
@@ -382,7 +383,8 @@ private:
   juce::Array<juce::var> _result;
 };
 
-class UpdatingVisitor : public VisitorBase {
+template <class Visitor>
+class UpdatingVisitor : public Visitor {
 public:
   explicit UpdatingVisitor(const juce::Array<juce::var>& parameters)
       : _parameters{parameters} {}
@@ -440,15 +442,17 @@ private:
   const juce::Array<juce::var>& _parameters;
 };
 
-juce::Array<juce::var> toVarArray(ParameterHolder<VisitorBase>& ph) {
-  VarArrayVisitor visitor;
+template <class Visitor>
+juce::Array<juce::var> toVarArray(ParameterHolder<Visitor>& ph) {
+  VarArrayVisitor<Visitor> visitor;
   ph.accept(visitor);
   return visitor.result();
 }
 
-void update(ParameterHolder<VisitorBase>& ph,
+template <class Visitor>
+void update(ParameterHolder<Visitor>& ph,
             const juce::Array<juce::var>& parameters) {
-  UpdatingVisitor visitor{parameters};
+  UpdatingVisitor<Visitor> visitor{parameters};
   ph.accept(visitor);
 }
 
