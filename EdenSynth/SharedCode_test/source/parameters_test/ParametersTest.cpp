@@ -350,6 +350,8 @@ struct JuceParameterVisitor {
   virtual void visit(juce::AudioParameterChoice&) = 0;
 };
 
+using JuceParameterHolder = ParameterHolder<JuceParameterVisitor>;
+
 template <class Visitor>
 class VarArrayVisitor : public Visitor {
 public:
@@ -459,7 +461,7 @@ void update(ParameterHolder<Visitor>& ph,
 class ParameterHolderAudioProcessor : public TestAudioProcessor {
 public:
   explicit ParameterHolderAudioProcessor(
-      ParameterHolder<JuceParameterVisitor>::Builder builder = {})
+      JuceParameterHolder::Builder builder = {})
       : floatParam{builder.add<juce::AudioParameterFloat>(
             "floatParam",
             "Float Param",
@@ -497,7 +499,7 @@ public:
   juce::AudioParameterBool& boolParam;
   juce::AudioParameterInt& intParam;
   juce::AudioParameterChoice& choiceParam;
-  ParameterHolder<JuceParameterVisitor> parameterHolder;
+  JuceParameterHolder parameterHolder;
 };
 }  // namespace
 
