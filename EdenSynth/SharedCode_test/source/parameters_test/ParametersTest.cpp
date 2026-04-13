@@ -299,30 +299,35 @@ struct VisitorBase {
   virtual void visit(juce::AudioParameterBool&) = 0;
   virtual void visit(juce::AudioParameterFloat&) = 0;
   virtual void visit(juce::AudioParameterInt&) = 0;
+  virtual void visit(juce::AudioParameterChoice&) = 0;
 };
 
 class VarArrayVistior : public VisitorBase {
 public:
   void visit(juce::AudioParameterFloat& parameter) override {
-    visitImpl(parameter);
+    visitImpl(parameter, parameter.get());
   }
 
   void visit(juce::AudioParameterBool& parameter) override {
-    visitImpl(parameter);
+    visitImpl(parameter, parameter.get());
   }
 
   void visit(juce::AudioParameterInt& parameter) override {
-    visitImpl(parameter);
+    visitImpl(parameter, parameter.get());
+  }
+
+  void visit(juce::AudioParameterChoice& parameter) override {
+    visitImpl(parameter, parameter.getCurrentChoiceName());
   }
 
   [[nodiscard]] juce::Array<juce::var> result() const { return _result; }
 
 private:
-  template <class P>
-  void visitImpl(P& parameter) {
+  template <class P, class V>
+  void visitImpl(P& parameter, V value) {
     juce::DynamicObject::Ptr object{new juce::DynamicObject};
     object->setProperty("id", parameter.getParameterID());
-    object->setProperty("value", parameter.get());
+    object->setProperty("value", std::move(value));
     _result.add(juce::var{object});
   }
 
@@ -354,6 +359,19 @@ public:
     visitImpl(parameter, [&](const auto& v) {
       if (v.isInt()) {
         parameter = static_cast<int>(v);
+      }
+    });
+  }
+
+  void visit(juce::AudioParameterChoice& parameter) override {
+    visitImpl(parameter, [&](const auto& v) {
+      if (v.isString()) {
+        const auto choiceName = v.toString();
+        const auto choiceIndex = parameter.choices.indexOf(choiceName);
+        // don't "clamp" incorrect values, ignore them
+        if (0 <= choiceIndex && choiceIndex < parameter.choices.size()) {
+          parameter = choiceIndex;
+        }
       }
     });
   }
@@ -403,6 +421,11 @@ public:
                                                       5,
                                                       10,
                                                       6)},
+        choiceParam{builder.add<juce::AudioParameterChoice>(
+            "choiceParam",
+            "Choice Param",
+            juce::StringArray{"choice 0", "choice 1", "choice 2"},
+            1)},
         parameterHolder{builder.build(*this)} {}
 
   void getStateInformation(juce::MemoryBlock& block) override {
@@ -421,13 +444,14 @@ public:
   juce::AudioParameterFloat& floatParam;
   juce::AudioParameterBool& boolParam;
   juce::AudioParameterInt& intParam;
+  juce::AudioParameterChoice& choiceParam;
   ParameterHolder<VisitorBase> parameterHolder;
 };
 }  // namespace
 
 TEST(ParameterHolder, CorrectlyAddsParameters) {
   ParameterHolderAudioProcessor processor;
-  ASSERT_EQ(3u, processor.getParameters().size());
+  ASSERT_EQ(4u, processor.getParameters().size());
 }
 
 TEST(ParameterHolder, CorrectlyRestoresState) {
@@ -438,6 +462,7 @@ TEST(ParameterHolder, CorrectlyRestoresState) {
     processor.floatParam = 2.f;
     processor.boolParam = false;
     processor.intParam = 7;
+    processor.choiceParam = 2;
     processor.getStateInformation(state);
   }
   DBG(state.toString());
@@ -449,6 +474,8 @@ TEST(ParameterHolder, CorrectlyRestoresState) {
     EXPECT_FLOAT_EQ(2.f, processor.floatParam.get());
     EXPECT_FALSE(processor.boolParam.get());
     EXPECT_EQ(7, processor.intParam.get());
+    EXPECT_EQ("choice 2",
+              processor.choiceParam.getCurrentChoiceName().toStdString());
   }
 }
 }  // namespace eden::plugin
