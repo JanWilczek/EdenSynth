@@ -336,13 +336,13 @@ private:
   std::vector<TypeErasedParameter> _parameters;
 };
 
-struct VisitorBase {
-  VisitorBase() = default;
-  virtual ~VisitorBase() = default;
-  VisitorBase(const VisitorBase&) = delete;
-  VisitorBase& operator=(const VisitorBase&) = delete;
-  VisitorBase(VisitorBase&&) = delete;
-  VisitorBase& operator=(VisitorBase&&) = delete;
+struct JuceParameterVisitor {
+  JuceParameterVisitor() = default;
+  virtual ~JuceParameterVisitor() = default;
+  JuceParameterVisitor(const JuceParameterVisitor&) = delete;
+  JuceParameterVisitor& operator=(const JuceParameterVisitor&) = delete;
+  JuceParameterVisitor(JuceParameterVisitor&&) = delete;
+  JuceParameterVisitor& operator=(JuceParameterVisitor&&) = delete;
 
   virtual void visit(juce::AudioParameterBool&) = 0;
   virtual void visit(juce::AudioParameterFloat&) = 0;
@@ -459,7 +459,7 @@ void update(ParameterHolder<Visitor>& ph,
 class ParameterHolderAudioProcessor : public TestAudioProcessor {
 public:
   explicit ParameterHolderAudioProcessor(
-      ParameterHolder<VisitorBase>::Builder builder = {})
+      ParameterHolder<JuceParameterVisitor>::Builder builder = {})
       : floatParam{builder.add<juce::AudioParameterFloat>(
             "floatParam",
             "Float Param",
@@ -497,7 +497,7 @@ public:
   juce::AudioParameterBool& boolParam;
   juce::AudioParameterInt& intParam;
   juce::AudioParameterChoice& choiceParam;
-  ParameterHolder<VisitorBase> parameterHolder;
+  ParameterHolder<JuceParameterVisitor> parameterHolder;
 };
 }  // namespace
 
