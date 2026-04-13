@@ -13,7 +13,7 @@ class JuceConanfile(ConanFile):
     homepage = "https://juce.com/"
 
     # Project-wide configuration that cannot be defaulted in recipes.
-    # For pacakge-specific configuration that can be defaulted check out the `options` field.
+    # For package-specific configuration that can be defaulted check out the `options` field.
     settings = "os", "compiler", "arch", "build_type"
 
     # layout() should specify locations of source files and destination files generated during build.
