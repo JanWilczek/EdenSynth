@@ -28,7 +28,7 @@ private:
   }
 };
 
-TEST_F(ProductionPresetManagerTest, DISABLED_SaveAndLoadPreset) {
+TEST_F(ProductionPresetManagerTest, SaveAndLoadPreset) {
   // given an audio processor with a parameter
   auto* sampleParameter =
       audioProcessor.getPluginParameters().getRawParameterValue(
@@ -41,8 +41,9 @@ TEST_F(ProductionPresetManagerTest, DISABLED_SaveAndLoadPreset) {
   *sampleParameter = 450.f;
 
   // when we load a preset
-  // TODO: Implement loading preset by its name
-  // ASSERT_TRUE(presetManager.loadPreset(presetName));
+  const auto presetList = presetManager.presets();
+  ASSERT_EQ(1, presetList.size());
+  ASSERT_TRUE(presetManager.loadPreset(presetList.front()));
 
   // then plugin parameters get overwritten
   ASSERT_FLOAT_EQ(440.f, *sampleParameter);
