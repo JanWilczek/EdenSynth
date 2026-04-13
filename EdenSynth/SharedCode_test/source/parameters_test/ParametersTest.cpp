@@ -297,6 +297,29 @@ private:
 template <class Visitor>
 class ParameterHolder {
 public:
+  class Builder {
+  public:
+    template <class P, class... Args>
+    P& add(Args&&... args) {
+      auto parameter = std::make_unique<P>(std::forward<Args>(args)...);
+      auto& ref = *parameter;
+      _parametersForHolder.emplace_back(ref);
+      _parameters.push_back(std::move(parameter));
+      return ref;
+    }
+
+    ParameterHolder<Visitor> build(juce::AudioProcessor& p) {
+      for (auto&& parameter : _parameters) {
+        p.addParameter(parameter.release());
+      }
+      return ParameterHolder{std::move(_parametersForHolder)};
+    }
+
+  private:
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> _parameters;
+    std::vector<TypeErasedParameter<Visitor>> _parametersForHolder;
+  };
+
   explicit ParameterHolder(std::vector<TypeErasedParameter<Visitor>> parameters)
       : _parameters{std::move(parameters)} {}
 
@@ -308,30 +331,6 @@ public:
 
 private:
   std::vector<TypeErasedParameter<Visitor>> _parameters;
-};
-
-template <class Visitor>
-class ParameterHolderBuilder {
-public:
-  template <class P, class... Args>
-  P& add(Args&&... args) {
-    auto parameter = std::make_unique<P>(std::forward<Args>(args)...);
-    auto& ref = *parameter;
-    _parametersForHolder.emplace_back(ref);
-    _parameters.push_back(std::move(parameter));
-    return ref;
-  }
-
-  ParameterHolder<Visitor> build(juce::AudioProcessor& p) {
-    for (auto&& parameter : _parameters) {
-      p.addParameter(parameter.release());
-    }
-    return ParameterHolder{std::move(_parametersForHolder)};
-  }
-
-private:
-  std::vector<std::unique_ptr<juce::RangedAudioParameter>> _parameters;
-  std::vector<TypeErasedParameter<Visitor>> _parametersForHolder;
 };
 
 struct VisitorBase {
@@ -453,7 +452,7 @@ void update(ParameterHolder<VisitorBase>& ph,
 class ParameterHolderAudioProcessor : public TestAudioProcessor {
 public:
   explicit ParameterHolderAudioProcessor(
-      ParameterHolderBuilder<VisitorBase> builder = {})
+      ParameterHolder<VisitorBase>::Builder builder = {})
       : floatParam{builder.add<juce::AudioParameterFloat>(
             "floatParam",
             "Float Param",
