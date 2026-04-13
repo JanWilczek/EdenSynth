@@ -308,7 +308,10 @@ public:
       return ref;
     }
 
-    ParameterHolder<Visitor> build(juce::AudioProcessor& p) {
+    // one-time operations that destroy the object should be qualified with &&
+    // to make it explicit at the call site
+    // (see https://www.foonathan.net/2018/03/rvalue-references-api-guidelines/)
+    ParameterHolder<Visitor> build(juce::AudioProcessor& p) && {
       for (auto&& parameter : _parameters) {
         p.addParameter(parameter.release());
       }
@@ -471,7 +474,7 @@ public:
             "Choice Param",
             juce::StringArray{"choice 0", "choice 1", "choice 2"},
             1)},
-        parameterHolder{builder.build(*this)} {}
+        parameterHolder{std::move(builder).build(*this)} {}
 
   void getStateInformation(juce::MemoryBlock& block) override {
     const auto params = toVarArray(parameterHolder);
