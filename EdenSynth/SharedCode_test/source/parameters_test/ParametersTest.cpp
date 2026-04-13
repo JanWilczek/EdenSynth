@@ -254,48 +254,48 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
 }
 
 namespace {
-template <class Visitor>
-class TypeErasedParameter {
-public:
-  template <class Parameter>
-  explicit TypeErasedParameter(Parameter& p)
-      : _impl{std::make_unique<ParameterModel<Parameter>>(p)} {}
-
-  /**
-   * The Visitor class is expected to have a visit() member function
-   * for each supported parameter type, e.g.,
-   *
-   *   struct Visitor {
-   *     void visit(juce::AudioParameterBool&);
-   *     void visit(juce::AudioParameterFloat&);
-   *     //...
-   *   };
-   */
-  void accept(Visitor& v) { _impl->accept(v); }
-
-private:
-  class ParameterConcept {  // NOLINT
-  public:
-    virtual ~ParameterConcept() = default;
-    virtual void accept(Visitor& v) = 0;
-  };
-
-  template <class Parameter>
-  class ParameterModel : public ParameterConcept {
-  public:
-    explicit ParameterModel(Parameter& p) : _p{p} {}
-
-    void accept(Visitor& v) override { v.visit(_p.get()); }
-
-  private:
-    std::reference_wrapper<Parameter> _p;
-  };
-
-  std::unique_ptr<ParameterConcept> _impl;
-};
 
 template <class Visitor>
 class ParameterHolder {
+  class TypeErasedParameter {
+  public:
+    template <class Parameter>
+    explicit TypeErasedParameter(Parameter& p)
+        : _impl{std::make_unique<ParameterModel<Parameter>>(p)} {}
+
+    /**
+     * The Visitor class is expected to have a visit() member function
+     * for each supported parameter type, e.g.,
+     *
+     *   struct Visitor {
+     *     void visit(juce::AudioParameterBool&);
+     *     void visit(juce::AudioParameterFloat&);
+     *     //...
+     *   };
+     */
+    void accept(Visitor& v) { _impl->accept(v); }
+
+  private:
+    class ParameterConcept {  // NOLINT
+    public:
+      virtual ~ParameterConcept() = default;
+      virtual void accept(Visitor& v) = 0;
+    };
+
+    template <class Parameter>
+    class ParameterModel : public ParameterConcept {
+    public:
+      explicit ParameterModel(Parameter& p) : _p{p} {}
+
+      void accept(Visitor& v) override { v.visit(_p.get()); }
+
+    private:
+      std::reference_wrapper<Parameter> _p;
+    };
+
+    std::unique_ptr<ParameterConcept> _impl;
+  };
+
 public:
   class Builder {
   public:
@@ -317,10 +317,10 @@ public:
 
   private:
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> _parameters;
-    std::vector<TypeErasedParameter<Visitor>> _parametersForHolder;
+    std::vector<TypeErasedParameter> _parametersForHolder;
   };
 
-  explicit ParameterHolder(std::vector<TypeErasedParameter<Visitor>> parameters)
+  explicit ParameterHolder(std::vector<TypeErasedParameter> parameters)
       : _parameters{std::move(parameters)} {}
 
   void accept(Visitor& v) {
@@ -330,7 +330,7 @@ public:
   }
 
 private:
-  std::vector<TypeErasedParameter<Visitor>> _parameters;
+  std::vector<TypeErasedParameter> _parameters;
 };
 
 struct VisitorBase {
