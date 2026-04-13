@@ -9,6 +9,8 @@ Builds/
 build/
 JuceLibraryCode/
 EdenSynth/dependencies
+todo.md
+done.md
 
 # User-specific files
 *.suo
