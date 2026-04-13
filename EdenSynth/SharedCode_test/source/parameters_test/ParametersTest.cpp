@@ -143,7 +143,7 @@ private:
 
 TEST(Parameters, CorrectlyUpdatesApvts) {
   // given
-  juce::ScopedJuceInitialiser_GUI guiInitializer;
+  const juce::ScopedJuceInitialiser_GUI guiInitializer;
   ApvtsAudioProcessor processor;
 
   const auto parameters = Parameters::from(processor.state.copyState());
@@ -176,7 +176,7 @@ TEST(Parameters, CorrectlyUpdatesApvts) {
 
 TEST(Parameters, CorrectlyRestoresStateFromFile) {
   // given
-  juce::ScopedJuceInitialiser_GUI guiInitializer;
+  const juce::ScopedJuceInitialiser_GUI guiInitializer;
   ApvtsAudioProcessor processor;
   const auto parameters = Parameters::from(processor.state.copyState());
 
@@ -184,7 +184,7 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
       juce::File::getSpecialLocation(
           juce::File::SpecialLocationType::tempDirectory)
           .getChildFile("CorrectlyRestoresStateFromFile.json");
-  WhenLeavingScopeExecute deleteTemporaryPresetFile{
+  const WhenLeavingScopeExecute deleteTemporaryPresetFile{
       [&] { presetFile.deleteFile(); }};
   {
     juce::FileOutputStream outputStream{presetFile};
@@ -295,7 +295,13 @@ private:
 };
 
 struct VisitorBase {
+  VisitorBase() = default;
   virtual ~VisitorBase() = default;
+  VisitorBase(const VisitorBase&) = delete;
+  VisitorBase& operator=(const VisitorBase&) = delete;
+  VisitorBase(VisitorBase&&) = delete;
+  VisitorBase& operator=(VisitorBase&&) = delete;
+
   virtual void visit(juce::AudioParameterBool&) = 0;
   virtual void visit(juce::AudioParameterFloat&) = 0;
   virtual void visit(juce::AudioParameterInt&) = 0;
@@ -325,7 +331,7 @@ public:
 private:
   template <class P, class V>
   void visitImpl(P& parameter, V value) {
-    juce::DynamicObject::Ptr object{new juce::DynamicObject};
+    const juce::DynamicObject::Ptr object{new juce::DynamicObject};
     object->setProperty("id", parameter.getParameterID());
     object->setProperty("value", std::move(value));
     _result.add(juce::var{object});
@@ -450,7 +456,7 @@ public:
 }  // namespace
 
 TEST(ParameterHolder, CorrectlyAddsParameters) {
-  ParameterHolderAudioProcessor processor;
+  const ParameterHolderAudioProcessor processor;
   ASSERT_EQ(4u, processor.getParameters().size());
 }
 
