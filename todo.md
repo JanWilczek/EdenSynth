@@ -25,6 +25,7 @@ User presets folder:
     - We want to use Type Erasure to have a "reference" variant and to store strongly typed parameter classes in a vector
     - We want to use Visitor because we want to iterate through the parameters preserving their strong types and we want to extend the set of operations in the future
     - We need to use External Polymorphism to implement the Visitor pattern (we don't have access to JUCE's parameter classes)
+    - The Visitor must be a template argument so that we don't limit the set of parameter classes supported. The template argument is the base class with virtual methods for each supported type.
 
 ## Fix saving presets
 
@@ -37,6 +38,7 @@ User presets folder:
 - [x] Combine system and user paths in the Presets class
 - [x] Allow the plugin to compile again after compiler update...
     - [x] Bump JUCE version
+- [x] Change the type of Visitor to as template
 - [ ] Fix parameters loaded as presets being treated as strings (?) -> the APVTS parameters are incorrectly updated.
     - [ ] Add an AudioParameterChoice to 2 parameter tests
     - [ ] Add an AudioParameterInt to 2 parameter tests
