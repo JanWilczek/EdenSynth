@@ -350,7 +350,7 @@ struct VisitorBase {
   virtual void visit(juce::AudioParameterChoice&) = 0;
 };
 
-class VarArrayVistior : public VisitorBase {
+class VarArrayVisitor : public VisitorBase {
 public:
   void visit(juce::AudioParameterFloat& parameter) override {
     visitImpl(parameter, parameter.get());
@@ -441,7 +441,7 @@ private:
 };
 
 juce::Array<juce::var> toVarArray(ParameterHolder<VisitorBase>& ph) {
-  VarArrayVistior visitor;
+  VarArrayVisitor visitor;
   ph.accept(visitor);
   return visitor.result();
 }
