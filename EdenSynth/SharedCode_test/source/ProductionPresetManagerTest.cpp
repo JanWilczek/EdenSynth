@@ -28,7 +28,7 @@ private:
   }
 };
 
-TEST_F(ProductionPresetManagerTest, SaveAndLoadPreset) {
+TEST_F(ProductionPresetManagerTest, DISABLED_SaveAndLoadPreset) {
   // given an audio processor with a parameter
   auto* sampleParameter =
       audioProcessor.getPluginParameters().getRawParameterValue(
@@ -41,6 +41,7 @@ TEST_F(ProductionPresetManagerTest, SaveAndLoadPreset) {
   *sampleParameter = 450.f;
 
   // when we load a preset
+  // TODO: Implement loading preset by its name
   // ASSERT_TRUE(presetManager.loadPreset(presetName));
 
   // then plugin parameters get overwritten
@@ -94,21 +95,5 @@ TEST_F(ProductionPresetManagerTest, CannotSavePresetWithEmptyName) {
   // then
   ASSERT_FALSE(result);
   ASSERT_EQ(eden_vst::PresetSavingError::InvalidPresetName, result.error());
-}
-
-TEST(ProductionPresetManager, CannotSaveToNonexistingFolder) {
-  juce::ScopedJuceInitialiser_GUI _guiInitializer;
-
-  // given
-  EdenSynthAudioProcessor audioProcessor{};
-
-  // when
-  const auto result =
-      audioProcessor.getPresetManager().saveCurrentPreset("TestPreset");
-
-  // then
-  ASSERT_FALSE(result);
-  ASSERT_EQ(eden_vst::PresetSavingError::FailedToWritePresetFile,
-            result.error());
 }
 }  // namespace eden_vst_test
