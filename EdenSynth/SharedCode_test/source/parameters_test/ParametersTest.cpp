@@ -298,6 +298,7 @@ struct VisitorBase {
   virtual ~VisitorBase() = default;
   virtual void visit(juce::AudioParameterBool&) = 0;
   virtual void visit(juce::AudioParameterFloat&) = 0;
+  virtual void visit(juce::AudioParameterInt&) = 0;
 };
 
 class VarArrayVistior : public VisitorBase {
@@ -307,6 +308,10 @@ public:
   }
 
   void visit(juce::AudioParameterBool& parameter) override {
+    visitImpl(parameter);
+  }
+
+  void visit(juce::AudioParameterInt& parameter) override {
     visitImpl(parameter);
   }
 
@@ -341,6 +346,14 @@ public:
     visitImpl(parameter, [&](const auto& v) {
       if (v.isBool()) {
         parameter = static_cast<bool>(v);
+      }
+    });
+  }
+
+  void visit(juce::AudioParameterInt& parameter) override {
+    visitImpl(parameter, [&](const auto& v) {
+      if (v.isInt()) {
+        parameter = static_cast<int>(v);
       }
     });
   }
@@ -385,6 +398,11 @@ public:
         boolParam{builder.add<juce::AudioParameterBool>("boolParam",
                                                         "Bool Param",
                                                         true)},
+        intParam{builder.add<juce::AudioParameterInt>("intParam",
+                                                      "Int Param",
+                                                      5,
+                                                      10,
+                                                      6)},
         parameterHolder{builder.build(*this)} {}
 
   void getStateInformation(juce::MemoryBlock& block) override {
@@ -402,13 +420,14 @@ public:
 
   juce::AudioParameterFloat& floatParam;
   juce::AudioParameterBool& boolParam;
+  juce::AudioParameterInt& intParam;
   ParameterHolder<VisitorBase> parameterHolder;
 };
 }  // namespace
 
 TEST(ParameterHolder, CorrectlyAddsParameters) {
   ParameterHolderAudioProcessor processor;
-  ASSERT_EQ(2u, processor.getParameters().size());
+  ASSERT_EQ(3u, processor.getParameters().size());
 }
 
 TEST(ParameterHolder, CorrectlyRestoresState) {
@@ -418,6 +437,7 @@ TEST(ParameterHolder, CorrectlyRestoresState) {
     ParameterHolderAudioProcessor processor;
     processor.floatParam = 2.f;
     processor.boolParam = false;
+    processor.intParam = 7;
     processor.getStateInformation(state);
   }
   DBG(state.toString());
@@ -428,6 +448,7 @@ TEST(ParameterHolder, CorrectlyRestoresState) {
 
     EXPECT_FLOAT_EQ(2.f, processor.floatParam.get());
     EXPECT_FALSE(processor.boolParam.get());
+    EXPECT_EQ(7, processor.intParam.get());
   }
 }
 }  // namespace eden::plugin
