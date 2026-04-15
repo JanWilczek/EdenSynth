@@ -9,7 +9,7 @@
 #include "eden/WaveshapingFunctionGenerator.h"
 #include "ParameterIds.h"
 
-namespace eden_vst {
+namespace eden::plugin {
 EdenWaveshapingParameters::EdenWaveshapingParameters(
     eden::EdenSynthesiser& synthesiser,
     juce::AudioProcessorValueTreeState& apvts)
@@ -60,4 +60,4 @@ std::shared_ptr<WaveshapingTransferFunctionContainer>
 EdenWaveshapingParameters::getTransferFunctionContainer() const noexcept {
   return _transferFunction;
 }
-}  // namespace eden_vst
+}  // namespace eden::plugin

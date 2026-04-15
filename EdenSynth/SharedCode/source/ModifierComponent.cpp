@@ -6,7 +6,7 @@
 
 ModifierComponent::ModifierComponent(
     AudioProcessorValueTreeState& valueTreeState,
-    const eden_vst::EdenAdapter& adapter)
+    const eden::plugin::EdenAdapter& adapter)
     : _filterComponent(valueTreeState),
       _waveshaperComponent(valueTreeState,
                            adapter.getWaveshapingTransferFunction()) {

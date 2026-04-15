@@ -15,7 +15,7 @@ class EdenSynthesiser;
 class MidiBuffer;
 }  // namespace eden
 
-namespace eden_vst {
+namespace eden::plugin {
 /// <summary>
 /// Class containing utilities connecting JUCE with Eden.
 /// </summary>
@@ -49,4 +49,4 @@ private:
   std::shared_ptr<eden::ADBDRParameters> _envelopeParameters{
       std::make_shared<eden::ADBDRParameters>()};
 };
-}  // namespace eden_vst
+}  // namespace eden::plugin

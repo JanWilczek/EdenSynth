@@ -29,8 +29,8 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
       _edenAdapter(_edenSynthesiser,
                    _pluginParameters,
                    eden::plugin::FileHelper::assetsPath()),
-      _presetManager{std::make_unique<eden_vst::ProductionPresetManager>(
-          eden_vst::ProductionPresetManager::Args{
+      _presetManager{std::make_unique<eden::plugin::ProductionPresetManager>(
+          eden::plugin::ProductionPresetManager::Args{
               .systemPresetsPath =
                   eden::plugin::FileHelper::systemPresetsPath(),
               .userPresetsPath = eden::plugin::FileHelper::userPresetsPath(),
@@ -151,7 +151,7 @@ void EdenSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer,
       getTotalNumOutputChannels(),
       static_cast<unsigned>(buffer.getNumSamples()));
   eden::MidiBuffer edenMidiBuffer =
-      eden_vst::EdenAdapter::convertToEdenMidi(midiMessages);
+      eden::plugin::EdenAdapter::convertToEdenMidi(midiMessages);
 
   _edenSynthesiser.processInputBlock(edenAudioBuffer, edenMidiBuffer);
 }
@@ -192,7 +192,7 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
   return new EdenSynthAudioProcessor{};
 }
 
-[[nodiscard]] eden_vst::PresetManager&
+[[nodiscard]] eden::plugin::PresetManager&
 EdenSynthAudioProcessor::getPresetManager() noexcept {
   return *_presetManager;
 }

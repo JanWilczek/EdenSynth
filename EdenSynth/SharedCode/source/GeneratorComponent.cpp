@@ -7,7 +7,7 @@
 
 GeneratorComponent::GeneratorComponent(
     AudioProcessorValueTreeState& valueTreeState,
-    const eden_vst::WaveTablePathProvider& pathProvider)
+    const eden::plugin::WaveTablePathProvider& pathProvider)
     : _oscillators(valueTreeState, pathProvider),
       _envelopeComponent(valueTreeState) {
   addAndMakeVisible(_oscillators);

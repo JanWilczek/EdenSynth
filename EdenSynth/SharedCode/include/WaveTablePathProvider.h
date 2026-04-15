@@ -6,7 +6,7 @@
 #include <filesystem>
 #include <map>
 
-namespace eden_vst {
+namespace eden::plugin {
 class WaveTablePathProvider {
 public:
   typedef std::map<std::string, std::filesystem::path> path_container;
@@ -30,4 +30,4 @@ public:
 private:
   path_container _waveTablePaths;
 };
-}  // namespace eden_vst
+}  // namespace eden::plugin

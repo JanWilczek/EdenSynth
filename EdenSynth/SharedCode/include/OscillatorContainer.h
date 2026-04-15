@@ -9,7 +9,7 @@
 #include "eden/EdenSynthesiser.h"
 #include "eden/Oscillator.h"
 
-namespace eden_vst {
+namespace eden::plugin {
 class OscillatorContainer {
 public:
   OscillatorContainer(eden::EdenSynthesiser& synthesiser,
@@ -29,4 +29,4 @@ private:
   std::map<std::string, eden::WaveformGenerator> _generatorNames;
   std::map<std::string, bool> _isRealTime;
 };
-}  // namespace eden_vst
+}  // namespace eden::plugin

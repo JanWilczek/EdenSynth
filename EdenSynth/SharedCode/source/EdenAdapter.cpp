@@ -7,7 +7,7 @@
 #include "eden/EnvelopeParameters.h"
 #include "eden/MidiBuffer.h"
 
-namespace eden_vst {
+namespace eden::plugin {
 EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser,
                          juce::AudioProcessorValueTreeState& apvts,
                          std::filesystem::path assetsPath)
@@ -193,4 +193,4 @@ std::shared_ptr<WaveshapingTransferFunctionContainer>
 EdenAdapter::getWaveshapingTransferFunction() const noexcept {
   return _waveshapingParameters.getTransferFunctionContainer();
 }
-}  // namespace eden_vst
+}  // namespace eden::plugin

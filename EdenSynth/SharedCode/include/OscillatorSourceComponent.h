@@ -5,7 +5,7 @@
 ///
 #include <JuceHeader.h>
 
-namespace eden_vst {
+namespace eden::plugin {
 class WaveTablePathProvider;
 }
 
@@ -17,7 +17,7 @@ public:
   OscillatorSourceComponent(
       AudioProcessorValueTreeState& valueTreeState,
       String oscillatorName,
-      const eden_vst::WaveTablePathProvider& pathProvider);
+      const eden::plugin::WaveTablePathProvider& pathProvider);
 
   void resized() override;
 

@@ -4,7 +4,7 @@
 ///
 #include "WaveTablePathProvider.h"
 
-namespace eden_vst {
+namespace eden::plugin {
 WaveTablePathProvider::WaveTablePathProvider(std::filesystem::path assetsPath) {
   const auto path = assetsPath / "wavetables";
 
@@ -72,4 +72,4 @@ size_t WaveTablePathProvider::nameToIndex(std::string waveTableName) {
 
   return std::distance(begin(), it);
 }
-}  // namespace eden_vst
+}  // namespace eden::plugin

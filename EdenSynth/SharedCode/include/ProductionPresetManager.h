@@ -10,7 +10,7 @@ namespace juce {
 class AudioProcessorValueTreeState;
 }
 
-namespace eden_vst {
+namespace eden::plugin {
 /// <summary>
 /// Transforms parameter objects into preset files and vice-versa.
 /// Saves and loads the files to the disk.
@@ -63,4 +63,4 @@ private:
   GetSerializedState _getSerializedState;
   SetSerializedState _setSerializedState;
 };
-}  // namespace eden_vst
+}  // namespace eden::plugin

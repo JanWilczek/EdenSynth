@@ -5,7 +5,7 @@
 #include "WaveshapingTransferFunctionContainer.h"
 #include "eden/EdenSynthesiser.h"
 
-namespace eden_vst {
+namespace eden::plugin {
 WaveshapingTransferFunctionContainer::WaveshapingTransferFunctionContainer(
     std::vector<float> transferFunction)
     : _transferFunction(std::move(transferFunction)) {}
@@ -29,4 +29,4 @@ void WaveshapingTransferFunctionContainer::passTransferFunction(
     synthesiser.setWaveshapingTransferFunction(_transferFunction);
   }
 }
-}  // namespace eden_vst
+}  // namespace eden::plugin

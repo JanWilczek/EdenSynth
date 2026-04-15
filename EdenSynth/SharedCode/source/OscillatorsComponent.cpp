@@ -6,7 +6,7 @@
 
 OscillatorsComponent::OscillatorsComponent(
     AudioProcessorValueTreeState& valueTreeState,
-    const eden_vst::WaveTablePathProvider& pathProvider)
+    const eden::plugin::WaveTablePathProvider& pathProvider)
     : _oscillator1(valueTreeState, "osc1", pathProvider),
       _oscillator2(valueTreeState, "osc2", pathProvider),
       _oscillator3(valueTreeState, "osc3", pathProvider) {

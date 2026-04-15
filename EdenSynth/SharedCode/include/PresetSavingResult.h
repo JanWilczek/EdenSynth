@@ -1,7 +1,7 @@
 #pragma once
 #include <expected>
 
-namespace eden_vst {
+namespace eden::plugin {
 enum class PresetSavingSuccess { Ok };
 enum class PresetSavingError {
   PresetWithNameExists,
@@ -12,4 +12,4 @@ enum class PresetSavingError {
 
 using PresetSavingResult =
     std::expected<PresetSavingSuccess, PresetSavingError>;
-}  // namespace eden_vst
+}  // namespace eden::plugin

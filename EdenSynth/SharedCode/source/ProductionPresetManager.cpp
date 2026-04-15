@@ -3,7 +3,7 @@
 #include "PresetSavingResult.h"
 #include <utility/EdenAssert.h>
 
-namespace eden_vst {
+namespace eden::plugin {
 ProductionPresetManager::ProductionPresetManager(Args&& args)
     : _presets{std::move(args.systemPresetsPath),
                std::move(args.userPresetsPath)},
@@ -72,4 +72,4 @@ PresetLoadingResult ProductionPresetManager::loadPreset(
 const eden::plugin::Presets::Container& ProductionPresetManager::presets() {
   return _presets.presets();
 }
-}  // namespace eden_vst
+}  // namespace eden::plugin

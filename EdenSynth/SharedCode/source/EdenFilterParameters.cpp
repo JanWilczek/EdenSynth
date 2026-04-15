@@ -5,7 +5,7 @@
 #include "EdenFilterParameters.h"
 #include <eden/EdenSynthesiser.h>
 
-namespace eden_vst {
+namespace eden::plugin {
 EdenFilterParameters::EdenFilterParameters(eden::EdenSynthesiser& synthesiser)
     : _synthesiser(synthesiser) {}
 
@@ -92,4 +92,4 @@ void EdenFilterParameters::updateFilterParameters() {
 
   _synthesiser.setFilterEnvelopeParameters(filterEnvelopeParameters);
 }
-}  // namespace eden_vst
+}  // namespace eden::plugin

@@ -10,7 +10,7 @@ namespace eden {
 class EdenSynthesiser;
 }
 
-namespace eden_vst {
+namespace eden::plugin {
 class WaveshapingTransferFunctionContainer {
 public:
   WaveshapingTransferFunctionContainer(
@@ -25,4 +25,4 @@ private:
   std::atomic<bool> _hasChanged{false};
   std::vector<float> _transferFunction;
 };
-}  // namespace eden_vst
+}  // namespace eden::plugin

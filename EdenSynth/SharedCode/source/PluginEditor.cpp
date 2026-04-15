@@ -23,7 +23,7 @@ static_assert(EDITOR_WIDTH == 1040);
 EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(
     EdenSynthAudioProcessor& p,
     AudioProcessorValueTreeState& vts,
-    const eden_vst::EdenAdapter& adapter)
+    const eden::plugin::EdenAdapter& adapter)
     : AudioProcessorEditor(&p),
       _processor(p),
       _generalSettingsComponent(vts),
@@ -31,7 +31,7 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(
       _modifierComponent(vts, adapter),
       _outputSettingsComponent(vts),
       _presetsComponent{
-          std::make_unique<eden_vst::viewmodels::PresetsViewModel>(
+          std::make_unique<eden::plugin::viewmodels::PresetsViewModel>(
               p.getPresetManager())} {
   setSize(EDITOR_WIDTH, EDITOR_HEIGHT);
 

@@ -19,7 +19,7 @@ std::unique_ptr<AlertWindow> makePresetNameInputDialog() {
 }  // namespace
 
 PresetsComponent::PresetsComponent(
-    std::unique_ptr<eden_vst::viewmodels::PresetsViewModel> presetsViewModel)
+    std::unique_ptr<eden::plugin::viewmodels::PresetsViewModel> presetsViewModel)
     : _viewModel{std::move(presetsViewModel)} {
   _presetLabel.setJustificationType(Justification::right);
   addAndMakeVisible(_presetLabel);
@@ -47,9 +47,9 @@ PresetsComponent::PresetsComponent(
                 this, std::placeholders::_1));
 
   _viewModel->onShouldOverridePresetDialogVisibilityChanged(
-      [this](eden_vst::Visibility visibility,
+      [this](eden::plugin::Visibility visibility,
              const std::string& presetToOverwriteName) {
-        if (visibility == eden_vst::Visibility::Visible) {
+        if (visibility == eden::plugin::Visibility::Visible) {
           AlertWindow::showYesNoCancelBox(
               MessageBoxIconType::QuestionIcon, "Preset file exists",
               "A preset file with name " + presetToOverwriteName +
@@ -109,10 +109,10 @@ void PresetsComponent::showErrorDialogWithMessage(const std::string& message) {
 }
 
 void PresetsComponent::onPresetNameInputDialogVisibilityChanged(
-    eden_vst::Visibility visibility) {
-  if (visibility == eden_vst::Visibility::Visible) {
+    eden::plugin::Visibility visibility) {
+  if (visibility == eden::plugin::Visibility::Visible) {
     showPresetNameInputDialog();
-  } else if (visibility == eden_vst::Visibility::Gone) {
+  } else if (visibility == eden::plugin::Visibility::Gone) {
     hidePresetNameInputDialog();
   }
 }

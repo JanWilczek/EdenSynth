@@ -4,7 +4,7 @@
 #include "PluginProcessor.h"
 #include <future>
 
-namespace eden_vst_test {
+namespace eden::plugin_test {
 class ProductionPresetManagerTest : public ::testing::Test {
   juce::ScopedJuceInitialiser_GUI _guiInitializer;
 
@@ -60,7 +60,7 @@ TEST_F(ProductionPresetManagerTest, CannotOverwritePresetWithSave) {
 
   // then
   ASSERT_FALSE(result);
-  ASSERT_EQ(eden_vst::PresetSavingError::PresetWithNameExists, result.error());
+  ASSERT_EQ(eden::plugin::PresetSavingError::PresetWithNameExists, result.error());
 }
 
 TEST_F(ProductionPresetManagerTest, SavedPresetIsAccessible) {
@@ -85,7 +85,7 @@ TEST_F(ProductionPresetManagerTest, CannotLoadNonexistingPreset) {
 
   // then
   // ASSERT_FALSE(result);
-  // ASSERT_EQ(eden_vst::PresetLoadingError::DoesNotExist, result.error());
+  // ASSERT_EQ(eden::plugin::PresetLoadingError::DoesNotExist, result.error());
 }
 
 TEST_F(ProductionPresetManagerTest, CannotSavePresetWithEmptyName) {
@@ -95,6 +95,6 @@ TEST_F(ProductionPresetManagerTest, CannotSavePresetWithEmptyName) {
 
   // then
   ASSERT_FALSE(result);
-  ASSERT_EQ(eden_vst::PresetSavingError::InvalidPresetName, result.error());
+  ASSERT_EQ(eden::plugin::PresetSavingError::InvalidPresetName, result.error());
 }
-}  // namespace eden_vst_test
+}  // namespace eden::plugin_test

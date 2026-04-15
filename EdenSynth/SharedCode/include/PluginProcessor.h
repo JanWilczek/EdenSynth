@@ -44,7 +44,7 @@ public:
   void setStateInformation(const void* data, int sizeInBytes) override;
 
   //==============================================================================
-  [[nodiscard]] eden_vst::PresetManager& getPresetManager() noexcept;
+  [[nodiscard]] eden::plugin::PresetManager& getPresetManager() noexcept;
   [[nodiscard]] AudioProcessorValueTreeState& getPluginParameters() noexcept;
 
 private:
@@ -55,6 +55,6 @@ private:
   eden::EdenSynthesiser _edenSynthesiser;
   AudioProcessorValueTreeState _pluginParameters;
   wolfsound::JuceParameterHolder _pluginParametersV2{{}};
-  eden_vst::EdenAdapter _edenAdapter;
-  std::unique_ptr<eden_vst::PresetManager> _presetManager;
+  eden::plugin::EdenAdapter _edenAdapter;
+  std::unique_ptr<eden::plugin::PresetManager> _presetManager;
 };

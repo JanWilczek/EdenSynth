@@ -6,7 +6,7 @@
 #include <tuple>
 #include <utility/EdenAssert.h>
 
-namespace eden_vst::viewmodels {
+namespace eden::plugin::viewmodels {
 PresetsViewModel::PresetsViewModel(PresetManager& presetManager)
     : _presetManager{presetManager} {
   refreshPresetList();
@@ -134,4 +134,4 @@ void PresetsViewModel::addErrorDialogListener(ErrorDialogListener* listener) {
 void PresetsViewModel::onPresetNameInputDialogCancelClicked() {
   _onPresetNameInputDialogVisibilityChangedHandler(Visibility::Gone);
 }
-}  // namespace eden_vst::viewmodels
+}  // namespace eden::plugin::viewmodels

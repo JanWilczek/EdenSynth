@@ -8,7 +8,7 @@
 OscillatorComponent::OscillatorComponent(
     AudioProcessorValueTreeState& valueTreeState,
     String oscillatorName,
-    const eden_vst::WaveTablePathProvider& pathProvider)
+    const eden::plugin::WaveTablePathProvider& pathProvider)
     : _octaveTransposition(Slider::SliderStyle::Rotary,
                            Slider::TextEntryBoxPosition::NoTextBox),
       _semitoneTransposition(Slider::SliderStyle::Rotary,

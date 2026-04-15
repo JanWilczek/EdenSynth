@@ -4,15 +4,15 @@
 #include "ErrorDialogListener.h"
 #include "Visibility.h"
 
-namespace eden_vst::viewmodels {
+namespace eden::plugin::viewmodels {
 class PresetsViewModel;
 }
 
 class PresetsComponent : public juce::Component,
-                         public eden_vst::ErrorDialogListener {
+                         public eden::plugin::ErrorDialogListener {
 public:
   explicit PresetsComponent(
-      std::unique_ptr<eden_vst::viewmodels::PresetsViewModel> presetsViewModel);
+      std::unique_ptr<eden::plugin::viewmodels::PresetsViewModel> presetsViewModel);
 
   void paint(juce::Graphics&) override;
   void resized() override;
@@ -22,11 +22,11 @@ public:
 private:
   void refreshPresetList();
   void onPresetNameInputDialogVisibilityChanged(
-      eden_vst::Visibility visibility);
+      eden::plugin::Visibility visibility);
   void showPresetNameInputDialog();
   void hidePresetNameInputDialog();
 
-  std::unique_ptr<eden_vst::viewmodels::PresetsViewModel> _viewModel;
+  std::unique_ptr<eden::plugin::viewmodels::PresetsViewModel> _viewModel;
 
   Label _presetLabel{"presetLabel", "Preset: "};
   ComboBox _preset;

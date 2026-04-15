@@ -14,7 +14,7 @@ class WaveshaperComponent : public Component,
 public:
   WaveshaperComponent(
       AudioProcessorValueTreeState&,
-      std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer>
+      std::shared_ptr<eden::plugin::WaveshapingTransferFunctionContainer>
           transferFunction);
 
   void paint(Graphics& g) override;
@@ -40,7 +40,7 @@ private:
 
   void timerCallback() override;
 
-  std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer>
+  std::shared_ptr<eden::plugin::WaveshapingTransferFunctionContainer>
       _transferFunction;
 
   WaveshapingCanvas _canvas;

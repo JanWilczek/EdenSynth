@@ -2,11 +2,11 @@
 #include "viewmodels/PresetsViewModel.h"
 #include "PresetManager.h"
 
-namespace eden_vst_test {
-using eden_vst::PresetLoadingResult;
-using eden_vst::PresetSavingResult;
+namespace eden::plugin_test {
+using eden::plugin::PresetLoadingResult;
+using eden::plugin::PresetSavingResult;
 
-class FakePresetManager : public eden_vst::PresetManager {
+class FakePresetManager : public eden::plugin::PresetManager {
   PresetSavingResult saveCurrentPreset(const std::string&) override {
     return PresetSavingResult();
   }
@@ -24,4 +24,4 @@ class FakePresetManager : public eden_vst::PresetManager {
 private:
   eden::plugin::Presets _presets;
 };
-}  // namespace eden_vst_test
+}  // namespace eden::plugin_test

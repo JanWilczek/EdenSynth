@@ -5,7 +5,7 @@
 #include "PresetSavingResult.h"
 #include "../source/presets/Presets.h"
 
-namespace eden_vst {
+namespace eden::plugin {
 class PresetManager {
 public:
   virtual ~PresetManager();
@@ -19,4 +19,4 @@ public:
 };
 
 inline PresetManager::~PresetManager() {}
-}  // namespace eden_vst
+}  // namespace eden::plugin

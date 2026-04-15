@@ -10,7 +10,7 @@
 class GeneratorComponent : public Component {
 public:
   GeneratorComponent(AudioProcessorValueTreeState& valueTreeState,
-                     const eden_vst::WaveTablePathProvider& pathProvider);
+                     const eden::plugin::WaveTablePathProvider& pathProvider);
 
   void resized() override;
 

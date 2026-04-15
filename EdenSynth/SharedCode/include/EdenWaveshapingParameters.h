@@ -10,7 +10,7 @@ namespace eden {
 class EdenSynthesiser;
 }
 
-namespace eden_vst {
+namespace eden::plugin {
 class WaveshapingTransferFunctionContainer;
 
 class EdenWaveshapingParameters {
@@ -31,4 +31,4 @@ private:
   eden::plugin::util::ParameterWrapper<juce::AudioParameterChoice>
       _waveshaperCurve;
 };
-}  // namespace eden_vst
+}  // namespace eden::plugin

@@ -9,7 +9,7 @@ namespace eden {
 class EdenSynthesiser;
 }
 
-namespace eden_vst {
+namespace eden::plugin {
 class EdenFilterParameters {
 public:
   explicit EdenFilterParameters(eden::EdenSynthesiser& synthesiser);
@@ -29,4 +29,4 @@ private:
   std::atomic<float>* _sustainLevel = nullptr;
   std::atomic<float>* _releaseTime = nullptr;
 };
-}  // namespace eden_vst
+}  // namespace eden::plugin

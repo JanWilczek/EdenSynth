@@ -8,7 +8,7 @@
 OscillatorSourceComponent::OscillatorSourceComponent(
     AudioProcessorValueTreeState& valueTreeState,
     String oscillatorName,
-    const eden_vst::WaveTablePathProvider& pathProvider)
+    const eden::plugin::WaveTablePathProvider& pathProvider)
     : _waveform("Waveform"), _generator("Generator name") {
   const auto auxParameterName = "gen." + oscillatorName + ".";
 

@@ -6,7 +6,7 @@
 
 #include "synth/wavetable/SineWaveTable.h"
 
-namespace eden_vst {
+namespace eden::plugin {
 namespace {
 constexpr auto GENERATOR_SECTION_PARAMETER_PREFIX = "gen.";
 constexpr auto INVALID_WAVE_TABLE_INDEX = -1;
@@ -169,4 +169,4 @@ void OscillatorContainer::updateOscillatorParameters(
 const WaveTablePathProvider& OscillatorContainer::getPathProvider() const {
   return _pathProvider;
 }
-}  // namespace eden_vst
+}  // namespace eden::plugin

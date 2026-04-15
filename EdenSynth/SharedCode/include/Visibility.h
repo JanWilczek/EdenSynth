@@ -1,5 +1,5 @@
 #pragma once
 
-namespace eden_vst {
+namespace eden::plugin {
 enum class Visibility { Visible, Gone };
 }

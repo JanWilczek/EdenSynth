@@ -10,7 +10,7 @@
 
 WaveshaperComponent::WaveshaperComponent(
     AudioProcessorValueTreeState& vts,
-    std::shared_ptr<eden_vst::WaveshapingTransferFunctionContainer>
+    std::shared_ptr<eden::plugin::WaveshapingTransferFunctionContainer>
         transferFunction)
     : _transferFunction(std::move(transferFunction)),
       _curveParameterAttachment{

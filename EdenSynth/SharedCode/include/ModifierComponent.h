@@ -11,7 +11,7 @@
 class ModifierComponent : public Component {
 public:
   ModifierComponent(AudioProcessorValueTreeState& valueTreeState,
-                    const eden_vst::EdenAdapter& adapter);
+                    const eden::plugin::EdenAdapter& adapter);
 
   void resized() override;
 

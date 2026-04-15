@@ -11,7 +11,7 @@
 #include "Visibility.h"
 #include "../source/presets/Preset.h"
 
-namespace eden_vst {
+namespace eden::plugin {
 class PresetManager;
 
 namespace viewmodels {
@@ -68,4 +68,4 @@ private:
       _onPresetNameInputDialogVisibilityChangedHandler;
 };
 }  // namespace viewmodels
-}  // namespace eden_vst
+}  // namespace eden::plugin
