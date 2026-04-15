@@ -6,12 +6,8 @@
 #include <parameters/Parameters.h>
 
 namespace eden::plugin {
-class PresetMetadata {
-public:
-  PresetMetadata(std::string name) : _name{std::move(name)} {}
-
-private:
-  std::string _name;
+struct PresetMetadata {
+  std::string name;
   //  bool _isFactory;
 };
 
@@ -20,6 +16,7 @@ public:
   PresetV2(PresetMetadata metadata, Parameters parameters)
       : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
   Parameters parameters() const { return _parameters; }
+  const std::string& name() const { return _metadata.name; }
 
 private:
   PresetMetadata _metadata;
@@ -38,6 +35,7 @@ public:
 template <class VisitorBase>
 void update(wolfsound::ParameterHolder<VisitorBase>& parameterHolder,
             const Parameters& parameters) {
+  DBG(juce::JSON::toString(parameters.toVar()));
   update(parameterHolder, parameters.toVarArray());
 }
 
@@ -131,8 +129,15 @@ class FileUserPresetsDataSource : public UserPresetsDataSource {};
 class ProductionPresetsRepository : public PresetsRepository {
 public:
   std::optional<PresetV2> getPreset(std::string_view presetName) override {
-    // is factory? -> implies calling this with Preset not just the name
-    juce::ignoreUnused(presetName);
+    const auto presetIt =
+        std::ranges::find_if(_presets, [presetName](const auto& preset) {
+          return preset.name() == presetName;
+        });
+
+    if (presetIt != _presets.end()) {
+      return *presetIt;
+    }
+
     return {};
   }
 
