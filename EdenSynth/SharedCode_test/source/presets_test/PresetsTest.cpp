@@ -129,8 +129,8 @@ public:
 
   bool loadPreset(std::string_view name) {
     if (const auto preset = _presetsRepository->getPreset(name)) {
-      // TODO:
       const auto parameters = preset->parameters();
+      // TODO: Set all parameters to default values before updating
       update(_parameters, parameters);
       // _currentPresetName = preset.name();
       // _isPresetModified = false; // should add an asterisk in UI if true
