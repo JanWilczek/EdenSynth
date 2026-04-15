@@ -35,7 +35,6 @@ public:
 template <class VisitorBase>
 void update(wolfsound::ParameterHolder<VisitorBase>& parameterHolder,
             const Parameters& parameters) {
-  DBG(juce::JSON::toString(parameters.toVar()));
   update(parameterHolder, parameters.toVarArray());
 }
 
@@ -202,4 +201,15 @@ TEST(Presets, CannotLoadNonexistingPreset) {
   EXPECT_EQ("choice 0",
             processor.choiceParam.getCurrentChoiceName().toStdString());
 }
+
+// TEST(Presets, CannotUpdateFactoryPreset) {
+// TEST(Presets, CanLoadFactoryPresetUponStart) {
+// TEST(Presets, CanLoadExistingUserPresetUponStart) {
+// TEST(Presets, SavesNewPresetToDisk) {
+// TEST(Presets, CannotOverwriteExistingPreset) {
+// TEST(Presets, CanUpdateExistingPreset) {
+// TEST(Presets, CanDeleteUserPreset) {
+// TEST(Presets, CannotDeleteFactoryPreset) {
+// Tests related to AudioProcessor's "programs" (=factory presets)
+// ViewModel tests
 }  // namespace eden::plugin
