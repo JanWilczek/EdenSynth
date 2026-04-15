@@ -19,20 +19,18 @@ Parameters Parameters::from(juce::ValueTree vt) {
   return Parameters::from(std::move(parameters));
 }
 
-Parameters Parameters::from(juce::var v) {
-  // TODO: Change this so that proper JSON structure is validated before the
-  // object is created. Consider a different form of validation.
+Parameters Parameters::from(const juce::var& v) {
   EDEN_ASSERT(v.hasProperty("parameters") && v["parameters"].isArray());
   return Parameters{std::move(v)};
 }
 
-Parameters Parameters::from(juce::Array<juce::var> parameterArray) {
+Parameters Parameters::from(const juce::Array<juce::var>& parameterArray) {
   DynamicObject::Ptr root{new juce::DynamicObject};
   root->setProperty("parameters", parameterArray);
   return Parameters{{root}};
 }
 
-std::optional<Parameters> Parameters::fromChecked(juce::var v) {
+std::optional<Parameters> Parameters::fromChecked(const juce::var& v) {
   if (v.hasProperty("parameters") && v["parameters"].isArray()) {
     return Parameters::fromChecked(*v["parameters"].getArray());
   }
@@ -41,7 +39,7 @@ std::optional<Parameters> Parameters::fromChecked(juce::var v) {
 }
 
 std::optional<Parameters> Parameters::fromChecked(
-    juce::Array<juce::var> parameterArray) {
+    const juce::Array<juce::var>& parameterArray) {
   auto hasIdAndValue = [](const auto& var) {
     return var.hasProperty("id") && var["id"].isString() &&
            var.hasProperty("value");

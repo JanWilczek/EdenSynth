@@ -7,13 +7,13 @@ class Parameters {
 public:
   [[nodiscard]] static Parameters from(juce::ValueTree);
 
-  [[nodiscard]] static Parameters from(juce::var);
+  [[nodiscard]] static Parameters from(const juce::var&);
 
-  [[nodiscard]] static Parameters from(juce::Array<juce::var>);
+  [[nodiscard]] static Parameters from(const juce::Array<juce::var>&);
 
-  [[nodiscard]] static std::optional<Parameters> fromChecked(juce::var);
+  [[nodiscard]] static std::optional<Parameters> fromChecked(const juce::var&);
   [[nodiscard]] static std::optional<Parameters> fromChecked(
-      juce::Array<juce::var>);
+      const juce::Array<juce::var>&);
 
   [[nodiscard]] juce::var toVar() const { return _impl; }
   [[nodiscard]] juce::Array<juce::var> toVarArray() const {
