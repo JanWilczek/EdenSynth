@@ -16,13 +16,17 @@ Parameters Parameters::from(juce::ValueTree vt) {
     }
   }
 
-  DynamicObject::Ptr root{new juce::DynamicObject};
-  root->setProperty("parameters", parameters);
-  return Parameters{{root}};
+  return Parameters::from(std::move(parameters));
 }
 
 Parameters Parameters::from(juce::var v) {
   return Parameters{std::move(v)};
+}
+
+Parameters Parameters::from(juce::Array<juce::var> parameterArray) {
+  DynamicObject::Ptr root{new juce::DynamicObject};
+  root->setProperty("parameters", parameterArray);
+  return Parameters{{root}};
 }
 
 void updateApvts(juce::AudioProcessorValueTreeState& state,

@@ -6,6 +6,7 @@ class Parameters {
 public:
   [[nodiscard]] static Parameters from(juce::ValueTree);
   [[nodiscard]] static Parameters from(juce::var);
+  [[nodiscard]] static Parameters from(juce::Array<juce::var>);
 
   [[nodiscard]] juce::var toVar() const { return _impl; }
   [[nodiscard]] juce::Array<juce::var> toVarArray() const {
