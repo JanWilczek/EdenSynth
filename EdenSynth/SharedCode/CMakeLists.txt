@@ -6,6 +6,8 @@ find_package(
   CONFIG
   REQUIRED)
 
+find_package(WolfSoundDspUtils REQUIRED)
+
 if(MSVC)
   juce_set_aax_sdk_path(${CMAKE_CURRENT_SOURCE_DIR}/../SDKs/AAX)
 endif()
@@ -52,7 +54,7 @@ target_compile_definitions(EdenSynth PUBLIC JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 J
 
 target_link_libraries(
   EdenSynth
-  PRIVATE juce::juce_audio_utils
+  PRIVATE juce::juce_audio_utils wolfsound::wolfsound_dsp_utils
   PUBLIC libeden
          juce::juce_recommended_config_flags
          juce::juce_recommended_lto_flags

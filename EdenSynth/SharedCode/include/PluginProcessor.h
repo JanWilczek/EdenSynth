@@ -5,6 +5,7 @@
 #include "EdenAdapter.h"
 #include "WaveTablePathProvider.h"
 #include "PresetManager.h"
+#include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
 
 class EdenSynthAudioProcessor : public AudioProcessor {
 public:
@@ -53,6 +54,7 @@ private:
   std::filesystem::path _assetsPath;
   eden::EdenSynthesiser _edenSynthesiser;
   AudioProcessorValueTreeState _pluginParameters;
+  wolfsound::JuceParameterHolder _pluginParametersV2{{}};
   eden_vst::EdenAdapter _edenAdapter;
   std::unique_ptr<eden_vst::PresetManager> _presetManager;
 };

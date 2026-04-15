@@ -11,6 +11,7 @@ class EdenSynthRecipe(ConanFile):
 
     def requirements(self):
         self.requires("juce/8.0.12")
+        self.requires("wolfsound-dsp-utils/0.5.0")
         self.test_requires("gtest/1.14.0")
 
     def layout(self):
