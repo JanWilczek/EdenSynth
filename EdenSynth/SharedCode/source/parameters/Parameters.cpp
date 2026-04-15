@@ -33,8 +33,8 @@ Parameters Parameters::from(juce::Array<juce::var> parameterArray) {
 }
 
 std::optional<Parameters> Parameters::fromChecked(juce::var v) {
-  if (!v.hasProperty("parameters") || !v["parameters"].isArray()) {
-    return {};
+  if (v.hasProperty("parameters") && v["parameters"].isArray()) {
+    return Parameters::fromChecked(*v["parameters"].getArray());
   }
 
   return {};
@@ -49,6 +49,7 @@ std::optional<Parameters> Parameters::fromChecked(
   if (std::ranges::all_of(parameterArray, hasIdAndValue)) {
     return Parameters::from(parameterArray);
   }
+
   return {};
 }
 
