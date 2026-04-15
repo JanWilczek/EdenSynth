@@ -1,6 +1,7 @@
 #include <memory>
 #include <vector>
 #include <filesystem>
+#include <ranges>
 #include <gtest/gtest.h>
 #include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
 #include <wolfsound/test/wolfsound_TestAudioProcessorBase.hpp>
@@ -165,17 +166,24 @@ public:
     using namespace std::filesystem;
 
     auto scanDirectory = [&](const auto& directoryPath, bool isFactory) {
-      std::vector<PresetV2> result;
-      if (exists(directoryPath) && is_directory(directoryPath)) {
-        std::for_each(directory_iterator{directoryPath}, directory_iterator{},
-                      [&](const auto& path) {
-                        const auto maybePreset = presetFrom(path, isFactory);
-                        if (maybePreset) {
-                          result.push_back(maybePreset.value());
-                        }
-                      });
+      if (!exists(directoryPath) || !is_directory(directoryPath)) {
+        return std::vector<PresetV2>{};
       }
-      return result;
+
+      auto isJson = [](const auto& entry) {
+        return entry.is_regular_file() && entry.path().extension() == ".json";
+      };
+      auto toPreset = [=](const auto& entry) {
+        return presetFrom(entry.path(), isFactory);
+      };
+      auto hasValue = [](const auto& opt) { return opt.has_value(); };
+      auto toValue = [](const auto& opt) { return opt.value(); };
+
+      return std::ranges::subrange(directory_iterator{directoryPath},
+                                   directory_iterator{}) |
+             std::views::filter(isJson) | std::views::transform(toPreset) |
+             std::views::filter(hasValue) | std::views::transform(toValue) |
+             std::ranges::to<std::vector<PresetV2>>();
     };
 
     return scanDirectory(_factoryPresetsPath, true);
