@@ -25,7 +25,20 @@ private:
   PresetMetadata _metadata;
   Parameters _parameters;
 };
+}  // namespace eden::plugin
 
+// serialization
+template <>
+struct juce::SerialisationTraits<eden::plugin::PresetMetadata> {
+  static constexpr auto marshallingVersion = 1;
+
+  template <class Archive, class T>
+  static void serialise(Archive& archive, T& metadata) {
+    archive(named("name", metadata.name));
+  }
+};
+
+namespace eden::plugin {
 namespace {
 std::expected<PresetV2, PresetLoadingError> presetFrom(
     const std::filesystem::path& path,
@@ -45,6 +58,12 @@ std::expected<PresetV2, PresetLoadingError> presetFrom(
     return std::unexpected{PresetLoadingError::FailedToReadFile};
   }
   const auto presetData = juce::JSON::parse(inputStream);
+  auto presetMetadata = juce::FromVar::convert<PresetMetadata>(presetData);
+
+  if (!presetMetadata.has_value()) {
+    return std::unexpected{PresetLoadingError::InvalidFile};
+  }
+  presetMetadata->isFactory = isFactory;
 
   // TODO: Consider using juce::SerialisationTraits<>
   if (!presetData.hasProperty("parameters") ||
@@ -52,11 +71,7 @@ std::expected<PresetV2, PresetLoadingError> presetFrom(
     return std::unexpected{PresetLoadingError::InvalidFile};
   }
 
-  return PresetV2{PresetMetadata{
-                      .name = presetData["name"].toString().toStdString(),
-                      .isFactory = isFactory,
-                  },
-                  Parameters::from(presetData)};
+  return PresetV2{presetMetadata.value(), Parameters::from(presetData)};
 }
 }  // namespace
 
