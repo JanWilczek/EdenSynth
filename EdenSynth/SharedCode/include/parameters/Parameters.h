@@ -1,12 +1,17 @@
 #pragma once
+#include <optional>
 #include <JuceHeader.h>
 
 namespace eden::plugin {
 class Parameters {
 public:
   [[nodiscard]] static Parameters from(juce::ValueTree);
+
   [[nodiscard]] static Parameters from(juce::var);
+
   [[nodiscard]] static Parameters from(juce::Array<juce::var>);
+
+  [[nodiscard]] static std::optional<Parameters> fromChecked(juce::var);
 
   [[nodiscard]] juce::var toVar() const { return _impl; }
   [[nodiscard]] juce::Array<juce::var> toVarArray() const {

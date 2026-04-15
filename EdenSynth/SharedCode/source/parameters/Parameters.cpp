@@ -32,6 +32,14 @@ Parameters Parameters::from(juce::Array<juce::var> parameterArray) {
   return Parameters{{root}};
 }
 
+std::optional<Parameters> Parameters::fromChecked(juce::var v) {
+  if (!v.hasProperty("parameters") || !v["parameters"].isArray()) {
+    return {};
+  }
+
+  return {};
+}
+
 void updateApvts(juce::AudioProcessorValueTreeState& state,
                  const Parameters& p) {
   const auto serializedParameters = p.toVar();

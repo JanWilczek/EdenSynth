@@ -233,4 +233,32 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
   EXPECT_EQ("choice 1",
             processor.choiceParam.getCurrentChoiceName().toStdString());
 }
+
+TEST(Parameters, FromVarChecked) {
+  const auto result = Parameters::fromChecked(juce::JSON::parse(R"-(
+{
+  "name": "Min (Factory Preset)",
+  "parameters": [
+  {
+    "id": "floatParam",
+        "value": 1.0
+  },
+  {
+    "id": "boolParam",
+        "value": false
+  },
+  {
+    "id": "intParam",
+        "value": 5
+  },
+  {
+    "id": "choiceParam",
+        "value": "choice 0"
+  }
+  ]
+}
+)-"));
+
+  EXPECT_TRUE(result.has_value());
+}
 }  // namespace eden::plugin
