@@ -20,6 +20,7 @@ public:
       : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
   Parameters parameters() const { return _parameters; }
   const std::string& name() const { return _metadata.name; }
+  bool isFactory() const noexcept { return _metadata.isFactory; }
 
 private:
   PresetMetadata _metadata;
@@ -312,6 +313,7 @@ TEST(Presets, CanLoadFactoryPresetUponStart) {
           std::make_unique<FileFactoryPresetsDataSource>(factoryPresetsPath))};
 
   EXPECT_EQ(1u, processor.presets().size());
+  EXPECT_TRUE(processor.presets().front().isFactory());
   EXPECT_TRUE(processor.loadPreset("Min (Factory Preset)"));
 
   EXPECT_FLOAT_EQ(1.f, processor.floatParam.get());
