@@ -40,6 +40,18 @@ std::optional<Parameters> Parameters::fromChecked(juce::var v) {
   return {};
 }
 
+std::optional<Parameters> Parameters::fromChecked(
+    juce::Array<juce::var> parameterArray) {
+  auto hasIdAndValue = [](const auto& var) {
+    return var.hasProperty("id") && var["id"].isString() &&
+           var.hasProperty("value");
+  };
+  if (std::ranges::all_of(parameterArray, hasIdAndValue)) {
+    return Parameters::from(parameterArray);
+  }
+  return {};
+}
+
 void updateApvts(juce::AudioProcessorValueTreeState& state,
                  const Parameters& p) {
   const auto serializedParameters = p.toVar();
