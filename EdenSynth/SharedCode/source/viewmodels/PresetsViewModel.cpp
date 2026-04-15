@@ -108,6 +108,9 @@ void PresetsViewModel::handleLoadingResult(PresetLoadingResult result) {
     case NoPermission:
       showErrorDialogWithMessage(
           "Failed to load preset: no permission to read the preset file");
+    case InvalidFile:
+      showErrorDialogWithMessage(
+          "Failed to load preset: invalid file structure");
       break;
   }
 }
