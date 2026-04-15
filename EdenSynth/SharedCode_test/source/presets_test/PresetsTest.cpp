@@ -291,6 +291,12 @@ TEST(Presets, CanLoadFactoryPresetUponStart) {
 
   EXPECT_EQ(1u, processor.presets().size());
   EXPECT_TRUE(processor.loadPreset("Min (Factory Preset)"));
+
+  EXPECT_FLOAT_EQ(1.f, processor.floatParam.get());
+  EXPECT_FALSE(processor.boolParam.get());
+  EXPECT_EQ(5, processor.intParam.get());
+  EXPECT_EQ("choice 0",
+            processor.choiceParam.getCurrentChoiceName().toStdString());
 }
 
 // TEST(Presets, CannotUpdateFactoryPreset) {

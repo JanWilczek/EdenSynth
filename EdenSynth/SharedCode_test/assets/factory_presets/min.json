@@ -1,6 +1,21 @@
 {
   "name": "Min (Factory Preset)",
   "parameters": [
-
+    {
+      "id": "floatParam",
+      "value": 1.0
+    },
+    {
+      "id": "boolParam",
+      "value": false
+    },
+    {
+      "id": "intParam",
+      "value": 5
+    },
+    {
+      "id": "choiceParam",
+      "value": "choice 0"
+    }
   ]
 }
