@@ -261,4 +261,32 @@ TEST(Parameters, FromVarChecked) {
 
   EXPECT_TRUE(result.has_value());
 }
+
+TEST(Parameters, FromVarArrayChecked) {
+  const auto array = juce::JSON::parse(R"-(
+[
+  {
+    "id": "floatParam",
+        "value": 1.0
+  },
+  {
+    "id": "boolParam",
+        "value": false
+  },
+  {
+    "id": "intParam",
+        "value": 5
+  },
+  {
+    "id": "choiceParam",
+        "value": "choice 0"
+  }
+]
+)-");
+  ASSERT_TRUE(array.isArray());
+
+  const auto result = Parameters::fromChecked(*array.getArray());
+
+  EXPECT_TRUE(result.has_value());
+}
 }  // namespace eden::plugin
