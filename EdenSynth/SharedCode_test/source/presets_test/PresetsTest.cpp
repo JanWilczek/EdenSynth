@@ -202,8 +202,15 @@ TEST(Presets, CannotLoadNonexistingPreset) {
             processor.choiceParam.getCurrentChoiceName().toStdString());
 }
 
+TEST(Presets, CanLoadFactoryPresetUponStart) {
+  PluginProcessorWithPresets processor{
+      std::make_unique<ProductionPresetsRepository>()};
+
+  EXPECT_EQ(1u, processor.presets().size());
+  EXPECT_TRUE(processor.loadPreset("Min (Factory Preset)"));
+}
+
 // TEST(Presets, CannotUpdateFactoryPreset) {
-// TEST(Presets, CanLoadFactoryPresetUponStart) {
 // TEST(Presets, CanLoadExistingUserPresetUponStart) {
 // TEST(Presets, SavesNewPresetToDisk) {
 // TEST(Presets, CannotOverwriteExistingPreset) {
