@@ -37,7 +37,9 @@ public:
 
 template <class VisitorBase>
 void update(wolfsound::ParameterHolder<VisitorBase>& parameterHolder,
-            const Parameters& parameters);
+            const Parameters& parameters) {
+  update(parameterHolder, parameters.toVarArray());
+}
 
 class PluginProcessorWithPresets : public wolfsound::TestAudioProcessorBase {
 public:
@@ -144,7 +146,7 @@ private:
   std::vector<PresetV2> _presets;
 };
 
-TEST(Presets, DefaultPreset) {
+TEST(Presets, CanSavePreset) {
   PluginProcessorWithPresets processor{
       std::make_unique<ProductionPresetsRepository>()};
 
@@ -153,5 +155,29 @@ TEST(Presets, DefaultPreset) {
   const auto presets = processor.presets();
 
   EXPECT_EQ(1u, presets.size());
+}
+
+TEST(Presets, CanLoadPreset) {
+  PluginProcessorWithPresets processor{
+      std::make_unique<ProductionPresetsRepository>()};
+  processor.floatParam = 1.f;
+  processor.boolParam = false;
+  processor.intParam = 5;
+  processor.choiceParam = 0;
+
+  ASSERT_TRUE(processor.savePreset(PresetMetadata{"min"}));
+
+  processor.floatParam = 10.f;
+  processor.boolParam = true;
+  processor.intParam = 10;
+  processor.choiceParam = 2;
+
+  processor.loadPreset("min");
+
+  EXPECT_FLOAT_EQ(1.f, processor.floatParam.get());
+  EXPECT_FALSE(processor.boolParam.get());
+  EXPECT_EQ(5, processor.intParam.get());
+  EXPECT_EQ("choice 0",
+            processor.choiceParam.getCurrentChoiceName().toStdString());
 }
 }  // namespace eden::plugin
