@@ -20,6 +20,9 @@ Parameters Parameters::from(juce::ValueTree vt) {
 }
 
 Parameters Parameters::from(juce::var v) {
+  // TODO: Change this so that proper JSON structure is validated before the
+  // object is created. Consider a different form of validation.
+  EDEN_ASSERT(v.hasProperty("parameters") && v["parameters"].isArray());
   return Parameters{std::move(v)};
 }
 
