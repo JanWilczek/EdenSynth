@@ -172,7 +172,24 @@ TEST(Presets, CanLoadPreset) {
   processor.intParam = 10;
   processor.choiceParam = 2;
 
-  processor.loadPreset("min");
+  EXPECT_TRUE(processor.loadPreset("min"));
+
+  EXPECT_FLOAT_EQ(1.f, processor.floatParam.get());
+  EXPECT_FALSE(processor.boolParam.get());
+  EXPECT_EQ(5, processor.intParam.get());
+  EXPECT_EQ("choice 0",
+            processor.choiceParam.getCurrentChoiceName().toStdString());
+}
+
+TEST(Presets, CannotLoadNonexistingPreset) {
+  PluginProcessorWithPresets processor{
+      std::make_unique<ProductionPresetsRepository>()};
+  processor.floatParam = 1.f;
+  processor.boolParam = false;
+  processor.intParam = 5;
+  processor.choiceParam = 0;
+
+  EXPECT_FALSE(processor.loadPreset("min"));
 
   EXPECT_FLOAT_EQ(1.f, processor.floatParam.get());
   EXPECT_FALSE(processor.boolParam.get());
