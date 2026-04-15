@@ -1,0 +1,151 @@
+#include <gtest/gtest.h>
+#include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
+#include <wolfsound/test/wolfsound_TestAudioProcessorBase.hpp>
+#include <parameters/Parameters.h>
+
+namespace eden::plugin {
+class PresetMetadata {
+public:
+  PresetMetadata(std::string name) : _name{std::move(name)} {}
+
+private:
+  std::string _name;
+  //  bool _isFactory;
+};
+
+class Preset {
+public:
+  Preset(PresetMetadata metadata, Parameters parameters)
+      : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
+  Parameters parameters() const { return _parameters; }
+
+private:
+  PresetMetadata _metadata;
+  Parameters _parameters;
+};
+
+class PresetsRepository {
+public:
+  virtual ~PresetsRepository() = default;
+
+  virtual std::optional<Preset> getPreset(std::string_view presetName) = 0;
+  virtual void savePreset(Preset) = 0;
+};
+
+template <class VisitorBase>
+void update(wolfsound::ParameterHolder<VisitorBase>& parameterHolder,
+            const Parameters& parameters);
+
+class PluginProcessorWithPresets : public wolfsound::TestAudioProcessorBase {
+public:
+  explicit PluginProcessorWithPresets(
+      std::unique_ptr<PresetsRepository> presetRepository,
+      wolfsound::JuceParameterHolder::Builder builder = {})
+      : floatParam{builder.add<juce::AudioParameterFloat>(
+            "floatParam",
+            "Float Param",
+            juce::NormalisableRange{1.f, 10.f},
+            5.f)},
+        boolParam{builder.add<juce::AudioParameterBool>("boolParam",
+                                                        "Bool Param",
+                                                        true)},
+        intParam{builder.add<juce::AudioParameterInt>("intParam",
+                                                      "Int Param",
+                                                      5,
+                                                      10,
+                                                      6)},
+        choiceParam{builder.add<juce::AudioParameterChoice>(
+            "choiceParam",
+            "Choice Param",
+            juce::StringArray{"choice 0", "choice 1", "choice 2"},
+            1)},
+        _parameters{std::move(builder).build(*this)},
+        _presetsRepository{std::move(presetRepository)} {}
+
+  bool loadPreset(std::string_view name) {
+    if (const auto preset = _presetsRepository->getPreset(name)) {
+      // TODO:
+      const auto parameters = preset->parameters();
+      update(_parameters, parameters);
+      // _currentPresetName = preset.name();
+      // _isPresetModified = false; // should add an asterisk in UI if true
+      return true;
+    }
+
+    return false;
+  }
+
+  bool savePreset(PresetMetadata presetMetadata) {
+    // check if parameter with same name exists?
+
+    const auto parameters =
+        Parameters::from(wolfsound::toVarArray(_parameters));
+
+    // add some more metadata?
+
+    _presetsRepository->savePreset(Preset{presetMetadata, parameters});
+
+    return true;
+  }
+
+  std::vector<Preset> presets() { return {}; }
+
+  // parameters are public to enable observation (much like APVTS)
+  juce::AudioParameterFloat& floatParam;
+  juce::AudioParameterBool& boolParam;
+  juce::AudioParameterInt& intParam;
+  juce::AudioParameterChoice& choiceParam;
+
+private:
+  wolfsound::JuceParameterHolder _parameters;
+  std::unique_ptr<PresetsRepository> _presetsRepository;
+};
+
+// interfaces
+class UserPresetsDataSource {
+public:
+  void readPreset();
+  void createPreset();
+  void updatePreset();
+  void deletePreset();
+};
+
+class FactoryPresetsDataSource {
+public:
+  void readPreset();
+};
+
+// implementers
+class FileFactoryPresetsDataSource : public FactoryPresetsDataSource {};
+class FileUserPresetsDataSource : public UserPresetsDataSource {};
+
+// Which class should access the disk?
+// Which class should combine factory and user presets?
+// Or is the disk connection necessary? Maybe we can read the presets
+// on startup and that's it?
+class ProductionPresetsRepository : public PresetsRepository {
+public:
+  std::optional<Preset> getPreset(std::string_view presetName) override {
+    // is factory? -> implies calling this with Preset not just the name
+    juce::ignoreUnused(presetName);
+    return {};
+  }
+
+  void savePreset(Preset preset) override { juce::ignoreUnused(preset); }
+
+private:
+  std::unique_ptr<FactoryPresetsDataSource> _factoryPresetsDataSource;
+  std::unique_ptr<UserPresetsDataSource> _userPresetsDataSource;
+};
+
+TEST(Presets, DefaultPreset) {
+  PluginProcessorWithPresets processor{
+      std::make_unique<ProductionPresetsRepository>()};
+
+  ASSERT_TRUE(processor.savePreset(PresetMetadata{"default"}));
+
+  const auto presets = processor.presets();
+
+  EXPECT_EQ(1u, presets.size());
+}
+}  // namespace eden::plugin
