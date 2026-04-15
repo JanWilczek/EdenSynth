@@ -1,14 +1,16 @@
 #include <memory>
 #include <vector>
+#include <filesystem>
 #include <gtest/gtest.h>
 #include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
 #include <wolfsound/test/wolfsound_TestAudioProcessorBase.hpp>
 #include <parameters/Parameters.h>
+#include <PresetLoadingResult.h>
 
 namespace eden::plugin {
 struct PresetMetadata {
   std::string name;
-  //  bool _isFactory;
+  bool isFactory;
 };
 
 class PresetV2 {
@@ -22,6 +24,40 @@ private:
   PresetMetadata _metadata;
   Parameters _parameters;
 };
+
+namespace {
+std::expected<PresetV2, PresetLoadingError> presetFrom(
+    const std::filesystem::path& path,
+    bool isFactory) {
+  const auto presetFile = juce::File{path.c_str()};
+
+  if (!presetFile.existsAsFile()) {
+    return std::unexpected{PresetLoadingError::DoesNotExist};
+  }
+
+  if (!presetFile.hasReadAccess()) {
+    return std::unexpected{PresetLoadingError::NoPermission};
+  }
+
+  juce::FileInputStream inputStream{presetFile};
+  if (!inputStream.openedOk()) {
+    return std::unexpected{PresetLoadingError::FailedToReadFile};
+  }
+  const auto presetData = juce::JSON::parse(inputStream);
+
+  // TODO: Consider using juce::SerialisationTraits<>
+  if (!presetData.hasProperty("parameters") ||
+      !presetData["parameters"].isArray()) {
+    return std::unexpected{PresetLoadingError::InvalidFile};
+  }
+
+  return PresetV2{PresetMetadata{
+                      .name = presetData["name"].toString().toStdString(),
+                      .isFactory = isFactory,
+                  },
+                  Parameters::from(presetData)};
+}
+}  // namespace
 
 class PresetsRepository {
 public:
@@ -114,11 +150,41 @@ public:
 
 class FactoryPresetsDataSource {
 public:
-  void readPreset();
+  virtual ~FactoryPresetsDataSource() = default;
+  // factory presets can only be read, they cannot be modified
+  virtual std::vector<PresetV2> getPresets() = 0;
 };
 
 // implementers
-class FileFactoryPresetsDataSource : public FactoryPresetsDataSource {};
+class FileFactoryPresetsDataSource : public FactoryPresetsDataSource {
+public:
+  FileFactoryPresetsDataSource(std::filesystem::path factoryPresetsPath)
+      : _factoryPresetsPath{std::move(factoryPresetsPath)} {}
+
+  std::vector<PresetV2> getPresets() override {
+    using namespace std::filesystem;
+
+    auto scanDirectory = [&](const auto& directoryPath, bool isFactory) {
+      std::vector<PresetV2> result;
+      if (exists(directoryPath) && is_directory(directoryPath)) {
+        std::for_each(directory_iterator{directoryPath}, directory_iterator{},
+                      [&](const auto& path) {
+                        const auto maybePreset = presetFrom(path, isFactory);
+                        if (maybePreset) {
+                          result.push_back(maybePreset.value());
+                        }
+                      });
+      }
+      return result;
+    };
+
+    return scanDirectory(_factoryPresetsPath, true);
+  }
+
+private:
+  std::filesystem::path _factoryPresetsPath;
+};
+
 class FileUserPresetsDataSource : public UserPresetsDataSource {};
 
 // Which class should access the disk?
@@ -127,6 +193,12 @@ class FileUserPresetsDataSource : public UserPresetsDataSource {};
 // on startup and that's it?
 class ProductionPresetsRepository : public PresetsRepository {
 public:
+  explicit ProductionPresetsRepository(
+      std::unique_ptr<FactoryPresetsDataSource> factoryPresetsDataSource)
+      : _presets{factoryPresetsDataSource
+                     ? factoryPresetsDataSource->getPresets()
+                     : std::vector<PresetV2>{}} {}
+
   std::optional<PresetV2> getPreset(std::string_view presetName) override {
     const auto presetIt =
         std::ranges::find_if(_presets, [presetName](const auto& preset) {
@@ -152,9 +224,12 @@ private:
 
 TEST(Presets, CanSavePreset) {
   PluginProcessorWithPresets processor{
-      std::make_unique<ProductionPresetsRepository>()};
+      std::make_unique<ProductionPresetsRepository>(nullptr)};
 
-  ASSERT_TRUE(processor.savePreset(PresetMetadata{"default"}));
+  ASSERT_TRUE(processor.savePreset(PresetMetadata{
+      .name = "default",
+      .isFactory = false,
+  }));
 
   const auto presets = processor.presets();
 
@@ -163,13 +238,14 @@ TEST(Presets, CanSavePreset) {
 
 TEST(Presets, CanLoadPreset) {
   PluginProcessorWithPresets processor{
-      std::make_unique<ProductionPresetsRepository>()};
+      std::make_unique<ProductionPresetsRepository>(nullptr)};
   processor.floatParam = 1.f;
   processor.boolParam = false;
   processor.intParam = 5;
   processor.choiceParam = 0;
 
-  ASSERT_TRUE(processor.savePreset(PresetMetadata{"min"}));
+  ASSERT_TRUE(
+      processor.savePreset(PresetMetadata{.name = "min", .isFactory = false}));
 
   processor.floatParam = 10.f;
   processor.boolParam = true;
@@ -187,7 +263,7 @@ TEST(Presets, CanLoadPreset) {
 
 TEST(Presets, CannotLoadNonexistingPreset) {
   PluginProcessorWithPresets processor{
-      std::make_unique<ProductionPresetsRepository>()};
+      std::make_unique<ProductionPresetsRepository>(nullptr)};
   processor.floatParam = 1.f;
   processor.boolParam = false;
   processor.intParam = 5;
@@ -203,8 +279,15 @@ TEST(Presets, CannotLoadNonexistingPreset) {
 }
 
 TEST(Presets, CanLoadFactoryPresetUponStart) {
+  const auto factoryPresetsPath = std::filesystem::path(__FILE__)
+                                      .parent_path()
+                                      .parent_path()
+                                      .parent_path() /
+                                  "assets" / "factory_presets";
+
   PluginProcessorWithPresets processor{
-      std::make_unique<ProductionPresetsRepository>()};
+      std::make_unique<ProductionPresetsRepository>(
+          std::make_unique<FileFactoryPresetsDataSource>(factoryPresetsPath))};
 
   EXPECT_EQ(1u, processor.presets().size());
   EXPECT_TRUE(processor.loadPreset("Min (Factory Preset)"));
