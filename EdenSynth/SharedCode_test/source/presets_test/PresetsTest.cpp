@@ -65,13 +65,12 @@ std::expected<PresetV2, PresetLoadingError> presetFrom(
   }
   presetMetadata->isFactory = isFactory;
 
-  // TODO: Consider using juce::SerialisationTraits<>
-  if (!presetData.hasProperty("parameters") ||
-      !presetData["parameters"].isArray()) {
+  const auto parameters = Parameters::fromChecked(presetData);
+  if (!parameters.has_value()) {
     return std::unexpected{PresetLoadingError::InvalidFile};
   }
 
-  return PresetV2{presetMetadata.value(), Parameters::from(presetData)};
+  return PresetV2{presetMetadata.value(), parameters.value()};
 }
 }  // namespace
 
