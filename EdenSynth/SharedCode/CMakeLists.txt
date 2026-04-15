@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 project(EdenSynth VERSION 1.0.0)
 
 find_package(

@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
-
 project(SharedCode_test)
 
 set(gtest_force_shared_crt
