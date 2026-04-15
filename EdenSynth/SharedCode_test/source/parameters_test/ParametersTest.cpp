@@ -5,6 +5,7 @@
 #include "juce_audio_processors/juce_audio_processors.h"
 #include "juce_core/juce_core.h"
 #include "juce_events/juce_events.h"
+#include <wolfsound/test/wolfsound_TestAudioProcessorBase.hpp>
 
 namespace eden::plugin {
 constexpr auto textXml = R"(
@@ -85,27 +86,7 @@ Parameter& addToLayout(ParameterLayout& layout, Args&&... args) {
   return ref;
 }
 
-class TestAudioProcessor : public juce::AudioProcessor {
-public:
-  const String getName() const override { return "TestAudioProcessor"; }
-  void prepareToPlay(double, int) override {}
-  void releaseResources() override {}
-  void processBlock(AudioBuffer<float>&, MidiBuffer&) override {}
-  double getTailLengthSeconds() const override { return 0.0; }
-  bool acceptsMidi() const override { return false; }
-  bool producesMidi() const override { return false; }
-  AudioProcessorEditor* createEditor() override { return nullptr; }
-  bool hasEditor() const override { return false; }
-  int getNumPrograms() override { return 1; }
-  int getCurrentProgram() override { return 0; }
-  void setCurrentProgram(int) override {}
-  const String getProgramName(int) override { return ""; }
-  void changeProgramName(int, const String&) override {}
-  void getStateInformation(juce::MemoryBlock&) override {}
-  void setStateInformation(const void*, int) override {}
-};
-
-class ApvtsAudioProcessor : public TestAudioProcessor {
+class ApvtsAudioProcessor : public wolfsound::TestAudioProcessorBase {
 public:
   explicit ApvtsAudioProcessor(ParameterLayout layout = {})
       : floatParam{addToLayout<juce::AudioParameterFloat>(
