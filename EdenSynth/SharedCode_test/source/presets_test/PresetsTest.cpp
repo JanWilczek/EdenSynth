@@ -1,3 +1,5 @@
+#include <memory>
+#include <vector>
 #include <gtest/gtest.h>
 #include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
 #include <wolfsound/test/wolfsound_TestAudioProcessorBase.hpp>
@@ -13,9 +15,9 @@ private:
   //  bool _isFactory;
 };
 
-class Preset {
+class PresetV2 {
 public:
-  Preset(PresetMetadata metadata, Parameters parameters)
+  PresetV2(PresetMetadata metadata, Parameters parameters)
       : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
   Parameters parameters() const { return _parameters; }
 
@@ -28,8 +30,9 @@ class PresetsRepository {
 public:
   virtual ~PresetsRepository() = default;
 
-  virtual std::optional<Preset> getPreset(std::string_view presetName) = 0;
-  virtual void savePreset(Preset) = 0;
+  virtual std::optional<PresetV2> getPreset(std::string_view presetName) = 0;
+  virtual void savePreset(PresetV2) = 0;
+  virtual std::vector<PresetV2> presets() = 0;
 };
 
 template <class VisitorBase>
@@ -83,12 +86,12 @@ public:
 
     // add some more metadata?
 
-    _presetsRepository->savePreset(Preset{presetMetadata, parameters});
+    _presetsRepository->savePreset(PresetV2{presetMetadata, parameters});
 
     return true;
   }
 
-  std::vector<Preset> presets() { return {}; }
+  std::vector<PresetV2> presets() { return _presetsRepository->presets(); }
 
   // parameters are public to enable observation (much like APVTS)
   juce::AudioParameterFloat& floatParam;
@@ -125,17 +128,20 @@ class FileUserPresetsDataSource : public UserPresetsDataSource {};
 // on startup and that's it?
 class ProductionPresetsRepository : public PresetsRepository {
 public:
-  std::optional<Preset> getPreset(std::string_view presetName) override {
+  std::optional<PresetV2> getPreset(std::string_view presetName) override {
     // is factory? -> implies calling this with Preset not just the name
     juce::ignoreUnused(presetName);
     return {};
   }
 
-  void savePreset(Preset preset) override { juce::ignoreUnused(preset); }
+  void savePreset(PresetV2 preset) override {
+    _presets.push_back(std::move(preset));
+  }
+
+  std::vector<PresetV2> presets() override { return _presets; }
 
 private:
-  std::unique_ptr<FactoryPresetsDataSource> _factoryPresetsDataSource;
-  std::unique_ptr<UserPresetsDataSource> _userPresetsDataSource;
+  std::vector<PresetV2> _presets;
 };
 
 TEST(Presets, DefaultPreset) {
