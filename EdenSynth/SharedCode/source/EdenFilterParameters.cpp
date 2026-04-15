@@ -40,8 +40,7 @@ void EdenFilterParameters::addFilterParameters(
   _passbandAttenuation =
       pluginParameters.getRawParameterValue(passbandAttenuationParameterName);
 
-  const std::string attackTimeParameterName =
-      "filter.env.adsr.attack.time";
+  const std::string attackTimeParameterName = "filter.env.adsr.attack.time";
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       attackTimeParameterName, "Filter attack time",
       NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 50.f,
@@ -55,16 +54,14 @@ void EdenFilterParameters::addFilterParameters(
       AudioProcessorValueTreeStateParameterAttributes{}.withLabel("ms")));
   _decayTime = pluginParameters.getRawParameterValue(decayTimeParameterName);
 
-  const std::string sustainLevelParameterName =
-      "filter.env.adsr.sustain.level";
+  const std::string sustainLevelParameterName = "filter.env.adsr.sustain.level";
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       sustainLevelParameterName, "Filter sustain level",
       NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 0.9f));
   _sustainLevel =
       pluginParameters.getRawParameterValue(sustainLevelParameterName);
 
-  const std::string releaseTimeParameterName =
-      "filter.env.adsr.release.time";
+  const std::string releaseTimeParameterName = "filter.env.adsr.release.time";
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       releaseTimeParameterName, "Filter release time",
       NormalisableRange<float>(1.f, 40000.f, 1.f, 0.3f), 300.f,

@@ -19,7 +19,8 @@ std::unique_ptr<AlertWindow> makePresetNameInputDialog() {
 }  // namespace
 
 PresetsComponent::PresetsComponent(
-    std::unique_ptr<eden::plugin::viewmodels::PresetsViewModel> presetsViewModel)
+    std::unique_ptr<eden::plugin::viewmodels::PresetsViewModel>
+        presetsViewModel)
     : _viewModel{std::move(presetsViewModel)} {
   _presetLabel.setJustificationType(Justification::right);
   addAndMakeVisible(_presetLabel);

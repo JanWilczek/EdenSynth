@@ -60,7 +60,8 @@ TEST_F(ProductionPresetManagerTest, CannotOverwritePresetWithSave) {
 
   // then
   ASSERT_FALSE(result);
-  ASSERT_EQ(eden::plugin::PresetSavingError::PresetWithNameExists, result.error());
+  ASSERT_EQ(eden::plugin::PresetSavingError::PresetWithNameExists,
+            result.error());
 }
 
 TEST_F(ProductionPresetManagerTest, SavedPresetIsAccessible) {

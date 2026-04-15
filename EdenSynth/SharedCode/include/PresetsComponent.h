@@ -12,7 +12,8 @@ class PresetsComponent : public juce::Component,
                          public eden::plugin::ErrorDialogListener {
 public:
   explicit PresetsComponent(
-      std::unique_ptr<eden::plugin::viewmodels::PresetsViewModel> presetsViewModel);
+      std::unique_ptr<eden::plugin::viewmodels::PresetsViewModel>
+          presetsViewModel);
 
   void paint(juce::Graphics&) override;
   void resized() override;
