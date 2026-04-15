@@ -10,8 +10,11 @@
 
 namespace eden::plugin {
 struct PresetMetadata {
+  static constexpr auto currentPresetVersion = 1;
+
   std::string name;
   bool isFactory;
+  int presetVersion = currentPresetVersion;
 };
 
 class PresetV2 {
@@ -31,10 +34,18 @@ private:
 // serialization
 template <>
 struct juce::SerialisationTraits<eden::plugin::PresetMetadata> {
-  static constexpr auto marshallingVersion = 1;
+  static constexpr auto marshallingVersion =
+      eden::plugin::PresetMetadata::currentPresetVersion;
 
   template <class Archive, class T>
   static void serialise(Archive& archive, T& metadata) {
+    if (!archive.getVersion().has_value()) {
+      // fail parsing (a workaround since there's no archive.fail() function)
+      auto placeholder = 0;
+      archive(named("__version__", placeholder));
+      return;
+    }
+    metadata.presetVersion = archive.getVersion().value();
     archive(named("name", metadata.name));
   }
 };
