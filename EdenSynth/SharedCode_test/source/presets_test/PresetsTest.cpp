@@ -9,6 +9,8 @@
 #include <PresetLoadingResult.h>
 
 namespace eden::plugin {
+using PresetId = std::string;
+
 struct PresetMetadata {
   static constexpr auto currentPresetVersion = 1;
 
@@ -24,8 +26,10 @@ public:
   Parameters parameters() const { return _parameters; }
   const std::string& name() const { return _metadata.name; }
   bool isFactory() const noexcept { return _metadata.isFactory; }
+  const PresetId& id() const noexcept { return _id; }
 
 private:
+  PresetId _id;
   PresetMetadata _metadata;
   Parameters _parameters;
 };
@@ -286,7 +290,10 @@ TEST(Presets, CanLoadPreset) {
   processor.intParam = 10;
   processor.choiceParam = 2;
 
-  EXPECT_TRUE(processor.loadPreset("min"));
+  const auto presets = processor.presets();
+  ASSERT_EQ(1u, presets.size());
+  EXPECT_EQ("min", presets.front().name());
+  EXPECT_TRUE(processor.loadPreset(presets.front().id()));
 
   EXPECT_FLOAT_EQ(1.f, processor.floatParam.get());
   EXPECT_FALSE(processor.boolParam.get());
