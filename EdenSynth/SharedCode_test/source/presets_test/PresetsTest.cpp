@@ -194,7 +194,7 @@ class FactoryPresetsDataSource {
 public:
   virtual ~FactoryPresetsDataSource() = default;
   // factory presets can only be read, they cannot be modified
-  virtual std::vector<PresetV2> getPresets() = 0;
+  virtual std::vector<PresetV2> presets() = 0;
 };
 
 namespace {
@@ -229,7 +229,7 @@ public:
   FileFactoryPresetsDataSource(std::filesystem::path factoryPresetsPath)
       : _factoryPresetsPath{std::move(factoryPresetsPath)} {}
 
-  std::vector<PresetV2> getPresets() override {
+  std::vector<PresetV2> presets() override {
     return scanDirectoryForPresets(_factoryPresetsPath, true);
   }
 
@@ -333,7 +333,7 @@ public:
   explicit ProductionPresetsRepository(
       FactoryPresetsDataSource& factoryPresetsDataSource,
       std::unique_ptr<UserPresetsDataSource> userPresetsDataSource)
-      : _presets{factoryPresetsDataSource.getPresets()},
+      : _presets{factoryPresetsDataSource.presets()},
         _userPresetsDataSource{std::move(userPresetsDataSource)} {
     EDEN_ASSERT(_userPresetsDataSource != nullptr);
   }
@@ -368,7 +368,7 @@ private:
 namespace {
 class EmptyFactoryPresetsDataSource : public FactoryPresetsDataSource {
 public:
-  std::vector<PresetV2> getPresets() override { return {}; }
+  std::vector<PresetV2> presets() override { return {}; }
 };
 
 static EmptyFactoryPresetsDataSource emptyFactoryPresetsDataSource;
