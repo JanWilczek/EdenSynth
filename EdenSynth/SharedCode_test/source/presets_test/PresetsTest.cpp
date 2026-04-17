@@ -282,32 +282,45 @@ public:
       return;
     }
 
+    const auto maybeJson = presetToJson(preset);
+    if (!maybeJson.has_value()) {
+      return;
+    }
+    const auto& json = maybeJson.value();
+
     file.create();
     juce::FileOutputStream outputStream{file};
     if (outputStream.openedOk()) {
       outputStream.setPosition(0);
       outputStream.truncate();
-      auto maybeJson = juce::ToVar::convert(preset.metadata());
-      if (!maybeJson.has_value()) {
-        return;
-      }
-      auto& json = maybeJson.value();
-      const auto parametersVar = preset.parameters().toVar();
-      EDEN_ASSERT(json.isObject());
-      EDEN_ASSERT(parametersVar.isObject());
-      merge(*json.getDynamicObject(), *parametersVar.getDynamicObject());
-
       juce::JSON::writeToStream(
           outputStream, json,
           juce::JSON::FormatOptions{}
               .withIndentLevel(2)
               .withMaxDecimalPlaces(2)
               .withSpacing(juce::JSON::Spacing::multiLine));
+
       outputStream.flush();
     }
   }
 
 private:
+  static std::optional<juce::var> presetToJson(const PresetV2& preset) {
+    auto maybeJson = juce::ToVar::convert(preset.metadata());
+
+    if (!maybeJson.has_value()) {
+      return {};
+    }
+
+    auto& json = maybeJson.value();
+    const auto parametersVar = preset.parameters().toVar();
+    EDEN_ASSERT(json.isObject());
+    EDEN_ASSERT(parametersVar.isObject());
+    merge(*json.getDynamicObject(), *parametersVar.getDynamicObject());
+
+    return json;
+  }
+
   std::filesystem::path _userPresetsPath;
 };
 
