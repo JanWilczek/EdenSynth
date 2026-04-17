@@ -183,9 +183,9 @@ private:
 class UserPresetsDataSource {
 public:
   virtual ~UserPresetsDataSource() = default;
-  //  void readPreset();
   virtual std::vector<PresetV2> presets() = 0;
   virtual void createPreset(const PresetV2& preset) = 0;
+  //  void readPreset();
   //  void updatePreset();
   //  void deletePreset();
 };
@@ -331,7 +331,8 @@ private:
 class ProductionPresetsRepository : public PresetsRepository {
 public:
   explicit ProductionPresetsRepository(
-      std::unique_ptr<FactoryPresetsDataSource> factoryPresetsDataSource)
+      std::unique_ptr<FactoryPresetsDataSource> factoryPresetsDataSource,
+      std::unique_ptr<UserPresetsDataSource>)
       : _presets{factoryPresetsDataSource
                      ? factoryPresetsDataSource->getPresets()
                      : std::vector<PresetV2>{}} {}
@@ -359,7 +360,7 @@ private:
 
 TEST(Presets, CanSavePreset) {
   PluginProcessorWithPresets processor{
-      std::make_unique<ProductionPresetsRepository>(nullptr)};
+      std::make_unique<ProductionPresetsRepository>(nullptr, nullptr)};
 
   ASSERT_TRUE(processor.savePreset(PresetMetadata{
       .name = "default",
@@ -373,7 +374,7 @@ TEST(Presets, CanSavePreset) {
 
 TEST(Presets, CanLoadPreset) {
   PluginProcessorWithPresets processor{
-      std::make_unique<ProductionPresetsRepository>(nullptr)};
+      std::make_unique<ProductionPresetsRepository>(nullptr, nullptr)};
   processor.floatParam = 1.f;
   processor.boolParam = false;
   processor.intParam = 5;
@@ -402,7 +403,7 @@ TEST(Presets, CanLoadPreset) {
 
 TEST(Presets, CannotLoadNonexistingPreset) {
   PluginProcessorWithPresets processor{
-      std::make_unique<ProductionPresetsRepository>(nullptr)};
+      std::make_unique<ProductionPresetsRepository>(nullptr, nullptr)};
   processor.floatParam = 1.f;
   processor.boolParam = false;
   processor.intParam = 5;
@@ -417,12 +418,23 @@ TEST(Presets, CannotLoadNonexistingPreset) {
             processor.choiceParam.getCurrentChoiceName().toStdString());
 }
 
-TEST(Presets, CanLoadFactoryPresetUponStart) {
-  const auto factoryPresetsPath = testAssetsPath() / "factory_presets";
+namespace {
+const auto& factoryPresetsPath() {
+  static const auto result = testAssetsPath() / "factory_presets";
+  return result;
+}
 
+const auto& userPresetsPath() {
+  static const auto result = testAssetsPath() / "user_presets";
+  return result;
+}
+}  // namespace
+
+TEST(Presets, CanLoadFactoryPresetUponStart) {
   PluginProcessorWithPresets processor{
       std::make_unique<ProductionPresetsRepository>(
-          std::make_unique<FileFactoryPresetsDataSource>(factoryPresetsPath))};
+          std::make_unique<FileFactoryPresetsDataSource>(factoryPresetsPath()),
+          nullptr)};
 
   ASSERT_EQ(1u, processor.presets().size());
   EXPECT_TRUE(processor.presets().front().isFactory());
@@ -435,11 +447,46 @@ TEST(Presets, CanLoadFactoryPresetUponStart) {
             processor.choiceParam.getCurrentChoiceName().toStdString());
 }
 
-TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
-  const auto userPresetsPath = testAssetsPath() / "user_presets";
+namespace {
+class FakeUserPresetsDataSource : public UserPresetsDataSource {
+public:
+  std::vector<PresetV2> presets() override {
+    return {
+        PresetV2{PresetMetadata{
+                     .isFactory = false,
+                     .id = "user-preset-1",
+                 },
+                 Parameters::from(juce::Array<juce::var>{})},
+        PresetV2{PresetMetadata{.isFactory = false, .id = "user-preset-2"},
+                 Parameters::from(juce::Array<juce::var>{})},
+    };
+  }
 
+  void createPreset(const PresetV2& preset) override {
+    juce::ignoreUnused(preset);
+  }
+};
+}  // namespace
+
+TEST(ProductionPresetsRepository, ScansUserAndFactoryPresetsUponStart) {
+  ProductionPresetsRepository testee{
+      std::make_unique<FileFactoryPresetsDataSource>(factoryPresetsPath()),
+      std::make_unique<FakeUserPresetsDataSource>()};
+
+  const auto& presets = testee.presets();
+
+  EXPECT_EQ(3u, presets.size());
+  EXPECT_TRUE(
+      std::ranges::contains(presets, "user-preset-1",
+                            [](const auto& preset) { return preset.id(); }));
+  EXPECT_TRUE(
+      std::ranges::contains(presets, "user-preset-2",
+                            [](const auto& preset) { return preset.id(); }));
+}
+
+TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
   const wolfsound::WhenLeavingScopeExecute cleanup{[&] {
-    std::for_each(std::filesystem::directory_iterator{userPresetsPath},
+    std::for_each(std::filesystem::directory_iterator{userPresetsPath()},
                   std::filesystem::directory_iterator{}, [](const auto& entry) {
                     if (entry.path().extension() == ".json") {
                       std::filesystem::remove(entry.path());
@@ -456,11 +503,11 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
       Parameters::from(juce::Array{
           juce::JSON::fromString(R"({"id":"param1","value":10})")})};
   {
-    FileUserPresetsDataSource testee{userPresetsPath};
+    FileUserPresetsDataSource testee{userPresetsPath()};
     testee.createPreset(presetToSave);
   }
 
-  FileUserPresetsDataSource testee{userPresetsPath};
+  FileUserPresetsDataSource testee{userPresetsPath()};
   const auto presets = testee.presets();
 
   ASSERT_EQ(1u, presets.size());
