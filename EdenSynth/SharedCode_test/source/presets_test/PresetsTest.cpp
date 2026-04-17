@@ -94,7 +94,7 @@ class PresetsRepository {
 public:
   virtual ~PresetsRepository() = default;
 
-  virtual std::optional<PresetV2> getPreset(std::string_view presetName) = 0;
+  virtual std::optional<PresetV2> getPreset(const PresetId& presetId) = 0;
   virtual void savePreset(PresetV2) = 0;
   virtual std::vector<PresetV2> presets() = 0;
 };
@@ -131,8 +131,8 @@ public:
         _parameters{std::move(builder).build(*this)},
         _presetsRepository{std::move(presetRepository)} {}
 
-  bool loadPreset(std::string_view name) {
-    if (const auto preset = _presetsRepository->getPreset(name)) {
+  bool loadPreset(const PresetId& presetId) {
+    if (const auto preset = _presetsRepository->getPreset(presetId)) {
       const auto parameters = preset->parameters();
       // TODO: Set all parameters to default values before updating
       update(_parameters, parameters);
@@ -237,11 +237,9 @@ public:
                      ? factoryPresetsDataSource->getPresets()
                      : std::vector<PresetV2>{}} {}
 
-  std::optional<PresetV2> getPreset(std::string_view presetName) override {
-    const auto presetIt =
-        std::ranges::find_if(_presets, [presetName](const auto& preset) {
-          return preset.name() == presetName;
-        });
+  std::optional<PresetV2> getPreset(const PresetId& presetId) override {
+    const auto presetIt = std::ranges::find_if(
+        _presets, [&](const auto& preset) { return preset.id() == presetId; });
 
     if (presetIt != _presets.end()) {
       return *presetIt;
