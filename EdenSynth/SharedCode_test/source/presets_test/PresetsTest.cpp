@@ -191,6 +191,32 @@ public:
   virtual std::vector<PresetV2> getPresets() = 0;
 };
 
+namespace {
+std::vector<PresetV2> scanDirectoryForPresets(const auto& directoryPath,
+                                              bool isFactory) {
+  using namespace std::filesystem;
+
+  if (!exists(directoryPath) || !is_directory(directoryPath)) {
+    return std::vector<PresetV2>{};
+  }
+
+  auto isJson = [](const auto& entry) {
+    return entry.is_regular_file() && entry.path().extension() == ".json";
+  };
+  auto toPreset = [=](const auto& entry) {
+    return presetFrom(entry.path(), isFactory);
+  };
+  auto hasValue = [](const auto& opt) { return opt.has_value(); };
+  auto toValue = [](const auto& opt) { return opt.value(); };
+
+  return std::ranges::subrange(directory_iterator{directoryPath},
+                               directory_iterator{}) |
+         std::views::filter(isJson) | std::views::transform(toPreset) |
+         std::views::filter(hasValue) | std::views::transform(toValue) |
+         std::ranges::to<std::vector<PresetV2>>();
+}
+}  // namespace
+
 // implementers
 class FileFactoryPresetsDataSource : public FactoryPresetsDataSource {
 public:
@@ -198,30 +224,7 @@ public:
       : _factoryPresetsPath{std::move(factoryPresetsPath)} {}
 
   std::vector<PresetV2> getPresets() override {
-    using namespace std::filesystem;
-
-    auto scanDirectory = [&](const auto& directoryPath, bool isFactory) {
-      if (!exists(directoryPath) || !is_directory(directoryPath)) {
-        return std::vector<PresetV2>{};
-      }
-
-      auto isJson = [](const auto& entry) {
-        return entry.is_regular_file() && entry.path().extension() == ".json";
-      };
-      auto toPreset = [=](const auto& entry) {
-        return presetFrom(entry.path(), isFactory);
-      };
-      auto hasValue = [](const auto& opt) { return opt.has_value(); };
-      auto toValue = [](const auto& opt) { return opt.value(); };
-
-      return std::ranges::subrange(directory_iterator{directoryPath},
-                                   directory_iterator{}) |
-             std::views::filter(isJson) | std::views::transform(toPreset) |
-             std::views::filter(hasValue) | std::views::transform(toValue) |
-             std::ranges::to<std::vector<PresetV2>>();
-    };
-
-    return scanDirectory(_factoryPresetsPath, true);
+    return scanDirectoryForPresets(_factoryPresetsPath, true);
   }
 
 private:
@@ -233,7 +236,9 @@ public:
   explicit FileUserPresetsDataSource(std::filesystem::path userPresetsPath)
       : _userPresetsPath{std::move(userPresetsPath)} {}
 
-  std::vector<PresetV2> presets() override { return {}; }
+  std::vector<PresetV2> presets() override {
+    return scanDirectoryForPresets(_userPresetsPath, false);
+  }
 
   void createPreset(const PresetV2& preset) override {
     juce::ignoreUnused(preset);
