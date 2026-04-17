@@ -395,14 +395,4 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
   EXPECT_EQ(presetToSave.parameters().toVarArray(),
             savedPreset.parameters().toVarArray());
 }
-
-// TEST(Presets, CannotUpdateFactoryPreset) {
-// TEST(Presets, CanLoadExistingUserPresetUponStart) {
-// TEST(Presets, SavesNewPresetToDisk) {
-// TEST(Presets, CannotOverwriteExistingPreset) {
-// TEST(Presets, CanUpdateExistingPreset) {
-// TEST(Presets, CanDeleteUserPreset) {
-// TEST(Presets, CannotDeleteFactoryPreset) {
-// Tests related to AudioProcessor's "programs" (=factory presets)
-// ViewModel tests
 }  // namespace eden::plugin
