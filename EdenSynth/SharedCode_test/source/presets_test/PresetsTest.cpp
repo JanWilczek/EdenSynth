@@ -333,7 +333,7 @@ TEST(Presets, CanLoadFactoryPresetUponStart) {
 
   ASSERT_EQ(1u, processor.presets().size());
   EXPECT_TRUE(processor.presets().front().isFactory());
-  EXPECT_TRUE(processor.loadPreset("Min (Factory Preset)"));
+  EXPECT_TRUE(processor.loadPreset("min-preset-id"));
 
   EXPECT_FLOAT_EQ(1.f, processor.floatParam.get());
   EXPECT_FALSE(processor.boolParam.get());
