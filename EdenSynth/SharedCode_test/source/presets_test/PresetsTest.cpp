@@ -101,7 +101,7 @@ class PresetsRepository {
 public:
   virtual ~PresetsRepository() = default;
 
-  virtual std::optional<PresetV2> getPreset(const PresetId& presetId) = 0;
+  virtual std::optional<PresetV2> findPreset(const PresetId& presetId) = 0;
   virtual void savePreset(PresetV2) = 0;
   virtual std::vector<PresetV2> presets() = 0;
 };
@@ -139,7 +139,7 @@ public:
         _presetsRepository{std::move(presetRepository)} {}
 
   bool loadPreset(const PresetId& presetId) {
-    if (const auto preset = _presetsRepository->getPreset(presetId)) {
+    if (const auto preset = _presetsRepository->findPreset(presetId)) {
       const auto parameters = preset->parameters();
       // TODO: Set all parameters to default values before updating
       update(_parameters, parameters);
@@ -338,7 +338,7 @@ public:
     EDEN_ASSERT(_userPresetsDataSource != nullptr);
   }
 
-  std::optional<PresetV2> getPreset(const PresetId& presetId) override {
+  std::optional<PresetV2> findPreset(const PresetId& presetId) override {
     const auto presetIt = std::ranges::find_if(
         _presets, [&](const auto& preset) { return preset.id() == presetId; });
 
