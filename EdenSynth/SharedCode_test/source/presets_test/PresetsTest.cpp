@@ -28,7 +28,10 @@ public:
   [[nodiscard]] const Parameters& parameters() const { return _parameters; }
   [[nodiscard]] const std::string& name() const { return _metadata.name; }
   [[nodiscard]] bool isFactory() const noexcept { return _metadata.isFactory; }
-  const PresetId& id() const noexcept { return _metadata.id; }
+  [[nodiscard]] const PresetId& id() const noexcept { return _metadata.id; }
+  [[nodiscard]] const PresetMetadata& metadata() const noexcept {
+    return _metadata;
+  }
 
 private:
   PresetMetadata _metadata;
@@ -50,7 +53,9 @@ struct juce::SerialisationTraits<eden::plugin::PresetMetadata> {
       archive(named("__version__", placeholder));
       return;
     }
-    metadata.presetVersion = archive.getVersion().value();
+    if constexpr (!std::is_const_v<T>) {
+      metadata.presetVersion = archive.getVersion().value();
+    }
     archive(named("id", metadata.id), named("name", metadata.name));
   }
 };
@@ -242,6 +247,32 @@ public:
 
   void createPreset(const PresetV2& preset) override {
     juce::ignoreUnused(preset);
+    // const auto presetFilename = filenameFromPreset(preset);
+    // const auto safeFilename = findSafeFilename(safeFilename);
+    // write JSON to disk
+    const auto presetFilename = "foo.json";
+    juce::File file{(_userPresetsPath / presetFilename).string()};
+    file.create();
+    juce::FileOutputStream outputStream{file};
+    if (outputStream.openedOk()) {
+      outputStream.setPosition(0);
+      outputStream.truncate();
+      auto maybeJson = juce::ToVar::convert(preset.metadata());
+      if (!maybeJson.has_value()) {
+        return;
+      }
+      auto& json = maybeJson.value();
+      json.getDynamicObject()->setProperty("parameters",
+                                           preset.parameters().toVarArray());
+
+      juce::JSON::writeToStream(
+          outputStream, json,
+          juce::JSON::FormatOptions{}
+              .withIndentLevel(2)
+              .withMaxDecimalPlaces(2)
+              .withSpacing(juce::JSON::Spacing::multiLine));
+      outputStream.flush();
+    }
   }
 
 private:
@@ -378,7 +409,7 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
           .id = "user-preset-1",
       },
       Parameters::from(juce::Array{
-          juce::JSON::fromString(R"([{"id":"param1","value":10}])")})};
+          juce::JSON::fromString(R"({"id":"param1","value":10})")})};
   {
     FileUserPresetsDataSource testee{userPresetsPath};
     testee.createPreset(presetToSave);
@@ -392,7 +423,12 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
   EXPECT_EQ(presetToSave.id(), savedPreset.id());
   EXPECT_EQ(presetToSave.name(), savedPreset.name());
   EXPECT_FALSE(savedPreset.isFactory());
-  EXPECT_EQ(presetToSave.parameters().toVarArray(),
-            savedPreset.parameters().toVarArray());
+
+  const auto toSaveParameterArray = presetToSave.parameters().toVarArray();
+  const auto savedParameterArray = savedPreset.parameters().toVarArray();
+  // compare parameter arrays as strings, because DynamicObject comparison
+  // compares memory addresses
+  EXPECT_EQ(juce::JSON::toString(toSaveParameterArray),
+            juce::JSON::toString(savedParameterArray));
 }
 }  // namespace eden::plugin
