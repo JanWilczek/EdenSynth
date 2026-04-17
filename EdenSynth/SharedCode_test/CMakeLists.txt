@@ -10,7 +10,8 @@ set(SOURCES
     source/ProductionPresetManagerTest.cpp
     source/PluginProcessorTest.cpp
     source/parameters_test/ParametersTest.cpp
-    source/presets_test/PresetsTest.cpp)
+    source/presets_test/PresetsTest.cpp
+    source/TestUtils.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 

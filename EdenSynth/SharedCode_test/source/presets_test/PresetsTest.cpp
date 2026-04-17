@@ -1,12 +1,12 @@
 #include <memory>
 #include <vector>
-#include <filesystem>
 #include <ranges>
 #include <gtest/gtest.h>
 #include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
 #include <wolfsound/test/wolfsound_TestAudioProcessorBase.hpp>
 #include <parameters/Parameters.h>
 #include <PresetLoadingResult.h>
+#include "../TestUtils.h"
 
 namespace eden::plugin {
 using PresetId = std::string;
@@ -321,11 +321,7 @@ TEST(Presets, CannotLoadNonexistingPreset) {
 }
 
 TEST(Presets, CanLoadFactoryPresetUponStart) {
-  const auto factoryPresetsPath = std::filesystem::path(__FILE__)
-                                      .parent_path()
-                                      .parent_path()
-                                      .parent_path() /
-                                  "assets" / "factory_presets";
+  const auto factoryPresetsPath = testAssetsPath() / "factory_presets";
 
   PluginProcessorWithPresets processor{
       std::make_unique<ProductionPresetsRepository>(
