@@ -16,6 +16,7 @@ struct PresetMetadata {
 
   std::string name;
   bool isFactory;
+  PresetId id;
   int presetVersion = currentPresetVersion;
 };
 
@@ -23,13 +24,12 @@ class PresetV2 {
 public:
   PresetV2(PresetMetadata metadata, Parameters parameters)
       : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
-  Parameters parameters() const { return _parameters; }
-  const std::string& name() const { return _metadata.name; }
-  bool isFactory() const noexcept { return _metadata.isFactory; }
-  const PresetId& id() const noexcept { return _id; }
+  [[nodiscard]] const Parameters& parameters() const { return _parameters; }
+  [[nodiscard]] const std::string& name() const { return _metadata.name; }
+  [[nodiscard]] bool isFactory() const noexcept { return _metadata.isFactory; }
+  const PresetId& id() const noexcept { return _metadata.id; }
 
 private:
-  PresetId _id;
   PresetMetadata _metadata;
   Parameters _parameters;
 };
@@ -50,7 +50,7 @@ struct juce::SerialisationTraits<eden::plugin::PresetMetadata> {
       return;
     }
     metadata.presetVersion = archive.getVersion().value();
-    archive(named("name", metadata.name));
+    archive(named("id", metadata.id), named("name", metadata.name));
   }
 };
 
@@ -150,7 +150,9 @@ public:
     const auto parameters =
         Parameters::from(wolfsound::toVarArray(_parameters));
 
-    // add some more metadata?
+    // as this is a brand-new preset, create an ID for it
+    // to overwrite existing presets use updatePreset()
+    presetMetadata.id = juce::Uuid{}.toDashedString().toStdString();
 
     _presetsRepository->savePreset(PresetV2{presetMetadata, parameters});
 
