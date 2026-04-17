@@ -453,4 +453,11 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
   EXPECT_EQ(juce::JSON::toString(toSaveParameterArray),
             juce::JSON::toString(savedParameterArray));
 }
+
+TEST(FileUserPresetsDataSource, SanitizesFilename) {
+  EXPECT_EQ("user_preset_1_json",
+            FileUserPresetsDataSource::filenameFrom("User Preset 1"));
+  EXPECT_EQ("user_preset%!$_2.json",
+            FileUserPresetsDataSource::filenameFrom("User Preset%!@#$ 2"));
+}
 }  // namespace eden::plugin
