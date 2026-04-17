@@ -7,6 +7,7 @@
 #include <wolfsound/common/wolfsound_WhenLeavingScopeExecute.hpp>
 #include <parameters/Parameters.h>
 #include <PresetLoadingResult.h>
+#include <utility/EdenAssert.h>
 #include "../TestUtils.h"
 
 namespace eden::plugin {
@@ -236,6 +237,17 @@ private:
   std::filesystem::path _factoryPresetsPath;
 };
 
+namespace {
+/// <summary>
+/// Update o1 with all properties from o2
+/// </summary
+void merge(juce::DynamicObject& o1, const juce::DynamicObject& o2) {
+  for (const auto& property : o2.getProperties()) {
+    o1.setProperty(property.name, property.value);
+  }
+}
+}  // namespace
+
 class FileUserPresetsDataSource : public UserPresetsDataSource {
 public:
   explicit FileUserPresetsDataSource(std::filesystem::path userPresetsPath)
@@ -263,10 +275,9 @@ public:
       }
       auto& json = maybeJson.value();
       const auto parametersVar = preset.parameters().toVar();
-      for (const auto& property :
-           parametersVar.getDynamicObject()->getProperties()) {
-        json.getDynamicObject()->setProperty(property.name, property.value);
-      }
+      EDEN_ASSERT(json.isObject());
+      EDEN_ASSERT(parametersVar.isObject());
+      merge(*json.getDynamicObject(), *parametersVar.getDynamicObject());
 
       juce::JSON::writeToStream(
           outputStream, json,
