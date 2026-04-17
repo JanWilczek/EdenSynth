@@ -291,6 +291,7 @@ TEST(Presets, CanLoadPreset) {
   const auto presets = processor.presets();
   ASSERT_EQ(1u, presets.size());
   EXPECT_EQ("min", presets.front().name());
+  EXPECT_FALSE(presets.front().id().empty());
   EXPECT_TRUE(processor.loadPreset(presets.front().id()));
 
   EXPECT_FLOAT_EQ(1.f, processor.floatParam.get());
