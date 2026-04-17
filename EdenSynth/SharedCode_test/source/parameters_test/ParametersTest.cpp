@@ -129,10 +129,6 @@ TEST(Parameters, CorrectlyUpdatesApvts) {
   const auto parameters = Parameters::from(processor.state.copyState());
   auto serializedParameters = parameters.toVar();
 
-  DBG(juce::JSON::toString(
-      serializedParameters,
-      juce::JSON::FormatOptions{}.withIndentLevel(2).withMaxDecimalPlaces(3)));
-
   auto* parametersArray = serializedParameters["parameters"].getArray();
   ASSERT_NE(nullptr, parametersArray);
   ASSERT_EQ(4, parametersArray->size());
