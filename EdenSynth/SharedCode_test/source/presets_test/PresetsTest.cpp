@@ -250,6 +250,14 @@ void merge(juce::DynamicObject& o1, const juce::DynamicObject& o2) {
 
 class FileUserPresetsDataSource : public UserPresetsDataSource {
 public:
+  static std::string filenameFrom(const std::string& presetName) {
+    const auto presetFilename =
+        juce::File::createLegalFileName(presetName).toStdString() + ".json";
+    // TODO: Change spaces to underscores
+    // TODO: Make all letter lowercase
+    return presetFilename;
+  }
+
   explicit FileUserPresetsDataSource(std::filesystem::path userPresetsPath)
       : _userPresetsPath{std::move(userPresetsPath)} {}
 
@@ -257,13 +265,13 @@ public:
     return scanDirectoryForPresets(_userPresetsPath, false);
   }
 
+  /// <summary>
+  /// Write given preset a a JSON to disk
+  /// </summary>
   void createPreset(const PresetV2& preset) override {
-    juce::ignoreUnused(preset);
-    // const auto presetFilename = filenameFromPreset(preset);
     // const auto safeFilename = findSafeFilename(safeFilename);
-    // write JSON to disk
-    const auto presetFilename = "foo.json";
-    juce::File file{(_userPresetsPath / presetFilename).string()};
+    const juce::File file{
+        (_userPresetsPath / filenameFrom(preset.name())).string()};
     file.create();
     juce::FileOutputStream outputStream{file};
     if (outputStream.openedOk()) {
