@@ -8,7 +8,7 @@ Parameters Parameters::from(juce::ValueTree vt) {
   for (const auto child : vt) {
     if (child.hasType("PARAM")) {
       if (child.hasProperty("id") && child.hasProperty("value")) {
-        juce::DynamicObject::Ptr parameter{new juce::DynamicObject};
+        const juce::DynamicObject::Ptr parameter{new juce::DynamicObject};
         parameter->setProperty("id", child["id"]);
         parameter->setProperty("value", double{child["value"]});
         parameters.add({parameter});
@@ -16,16 +16,16 @@ Parameters Parameters::from(juce::ValueTree vt) {
     }
   }
 
-  return Parameters::from(std::move(parameters));
+  return Parameters::from(parameters);
 }
 
 Parameters Parameters::from(const juce::var& v) {
   EDEN_ASSERT(v.hasProperty("parameters") && v["parameters"].isArray());
-  return Parameters{std::move(v)};
+  return Parameters{v};
 }
 
 Parameters Parameters::from(const juce::Array<juce::var>& parameterArray) {
-  DynamicObject::Ptr root{new juce::DynamicObject};
+  const DynamicObject::Ptr root{new juce::DynamicObject};
   root->setProperty("parameters", parameterArray);
   return Parameters{{root}};
 }
