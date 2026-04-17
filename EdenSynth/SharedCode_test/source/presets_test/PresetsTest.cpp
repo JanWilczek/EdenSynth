@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
 #include <wolfsound/test/wolfsound_TestAudioProcessorBase.hpp>
+#include <wolfsound/common/wolfsound_WhenLeavingScopeExecute.hpp>
 #include <parameters/Parameters.h>
 #include <PresetLoadingResult.h>
 #include "../TestUtils.h"
@@ -175,10 +176,12 @@ private:
 // interfaces
 class UserPresetsDataSource {
 public:
-  void readPreset();
-  void createPreset();
-  void updatePreset();
-  void deletePreset();
+  virtual ~UserPresetsDataSource() = default;
+  //  void readPreset();
+  virtual std::vector<PresetV2> presets() = 0;
+  virtual void createPreset(const PresetV2& preset) = 0;
+  //  void updatePreset();
+  //  void deletePreset();
 };
 
 class FactoryPresetsDataSource {
@@ -225,7 +228,20 @@ private:
   std::filesystem::path _factoryPresetsPath;
 };
 
-class FileUserPresetsDataSource : public UserPresetsDataSource {};
+class FileUserPresetsDataSource : public UserPresetsDataSource {
+public:
+  explicit FileUserPresetsDataSource(std::filesystem::path userPresetsPath)
+      : _userPresetsPath{std::move(userPresetsPath)} {}
+
+  std::vector<PresetV2> presets() override { return {}; }
+
+  void createPreset(const PresetV2& preset) override {
+    juce::ignoreUnused(preset);
+  }
+
+private:
+  std::filesystem::path _userPresetsPath;
+};
 
 // Which class should access the disk?
 // Which class should combine factory and user presets?
@@ -336,6 +352,41 @@ TEST(Presets, CanLoadFactoryPresetUponStart) {
   EXPECT_EQ(5, processor.intParam.get());
   EXPECT_EQ("choice 0",
             processor.choiceParam.getCurrentChoiceName().toStdString());
+}
+
+TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
+  const auto userPresetsPath = testAssetsPath() / "user_presets";
+
+  const wolfsound::WhenLeavingScopeExecute cleanup{[&] {
+    std::for_each(std::filesystem::directory_iterator{userPresetsPath},
+                  std::filesystem::directory_iterator{}, [](const auto& entry) {
+                    std::filesystem::remove(entry.path());
+                  });
+  }};
+
+  const PresetV2 presetToSave{
+      PresetMetadata{
+          .name = "User Preset 1",
+          .isFactory = false,
+          .id = "user-preset-1",
+      },
+      Parameters::from(juce::Array{
+          juce::JSON::fromString(R"([{"id":"param1","value":10}])")})};
+  {
+    FileUserPresetsDataSource testee{userPresetsPath};
+    testee.createPreset(presetToSave);
+  }
+
+  FileUserPresetsDataSource testee{userPresetsPath};
+  const auto presets = testee.presets();
+
+  ASSERT_EQ(1u, presets.size());
+  const auto& savedPreset = presets.front();
+  EXPECT_EQ(presetToSave.id(), savedPreset.id());
+  EXPECT_EQ(presetToSave.name(), savedPreset.name());
+  EXPECT_FALSE(savedPreset.isFactory());
+  EXPECT_EQ(presetToSave.parameters().toVarArray(),
+            savedPreset.parameters().toVarArray());
 }
 
 // TEST(Presets, CannotUpdateFactoryPreset) {
