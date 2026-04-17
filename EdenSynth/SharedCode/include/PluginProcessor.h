@@ -51,7 +51,6 @@ private:
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EdenSynthAudioProcessor)
 
-  std::filesystem::path _assetsPath;
   eden::EdenSynthesiser _edenSynthesiser;
   AudioProcessorValueTreeState _pluginParameters;
   wolfsound::JuceParameterHolder _pluginParametersV2{{}};
