@@ -15,8 +15,8 @@ public:
   [[nodiscard]] static std::optional<Parameters> fromChecked(
       const juce::Array<juce::var>&);
 
-  [[nodiscard]] juce::var toVar() const { return _impl; }
-  [[nodiscard]] juce::Array<juce::var> toVarArray() const {
+  [[nodiscard]] const juce::var& toVar() const noexcept { return _impl; }
+  [[nodiscard]] const juce::Array<juce::var>& toVarArray() const noexcept {
     return *_impl.getProperty("parameters", juce::var{juce::Array<juce::var>{}})
                 .getArray();
   }
