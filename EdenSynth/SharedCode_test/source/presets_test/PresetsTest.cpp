@@ -331,7 +331,7 @@ TEST(Presets, CanLoadFactoryPresetUponStart) {
       std::make_unique<ProductionPresetsRepository>(
           std::make_unique<FileFactoryPresetsDataSource>(factoryPresetsPath))};
 
-  EXPECT_EQ(1u, processor.presets().size());
+  ASSERT_EQ(1u, processor.presets().size());
   EXPECT_TRUE(processor.presets().front().isFactory());
   EXPECT_TRUE(processor.loadPreset("Min (Factory Preset)"));
 
