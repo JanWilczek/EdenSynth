@@ -353,7 +353,12 @@ public:
     _presets.push_back(std::move(preset));
   }
 
-  std::vector<PresetV2> presets() override { return _presets; }
+  std::vector<PresetV2> presets() override {
+    auto presets = _userPresetsDataSource->presets();
+    presets.reserve(presets.size() + _presets.size());
+    presets.insert(presets.end(), _presets.begin(), _presets.end());
+    return presets;
+  }
 
 private:
   std::vector<PresetV2> _presets;
