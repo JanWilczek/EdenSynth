@@ -14,6 +14,7 @@ TEST(PluginProcessor, SetStateInformationRestoresStateCorrectly) {
   std::vector<float> parameterValues;
   parameterValues.reserve(static_cast<size_t>(parameters.size()));
   for (auto* parameter : parameters) {
+    ASSERT_FALSE(parameter->getName(100).isEmpty());
     parameter->setValue(random.nextFloat());
     parameterValues.push_back(parameter->getValue());
   }
