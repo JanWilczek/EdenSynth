@@ -275,6 +275,13 @@ public:
     // const auto safeFilename = findSafeFilename(safeFilename);
     const juce::File file{
         (_userPresetsPath / filenameFrom(preset.name())).string()};
+
+    if (file.existsAsFile()) {
+      // use updatePreset() to update an existing preset
+      EDEN_ASSERT(false);
+      return;
+    }
+
     file.create();
     juce::FileOutputStream outputStream{file};
     if (outputStream.openedOk()) {
