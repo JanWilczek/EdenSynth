@@ -251,10 +251,13 @@ void merge(juce::DynamicObject& o1, const juce::DynamicObject& o2) {
 class FileUserPresetsDataSource : public UserPresetsDataSource {
 public:
   static std::string filenameFrom(const std::string& presetName) {
-    const auto presetFilename =
+    auto presetFilename =
         juce::File::createLegalFileName(presetName).toStdString() + ".json";
-    // TODO: Change spaces to underscores
-    // TODO: Make all letter lowercase
+    auto toLower = [](char c) {
+      return static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    };
+    std::ranges::transform(presetFilename, presetFilename.begin(), toLower);
+    std::ranges::replace(presetFilename, ' ', '_');
     return presetFilename;
   }
 
@@ -455,7 +458,7 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
 }
 
 TEST(FileUserPresetsDataSource, SanitizesFilename) {
-  EXPECT_EQ("user_preset_1_json",
+  EXPECT_EQ("user_preset_1.json",
             FileUserPresetsDataSource::filenameFrom("User Preset 1"));
   EXPECT_EQ("user_preset%!$_2.json",
             FileUserPresetsDataSource::filenameFrom("User Preset%!@#$ 2"));
