@@ -1,11 +1,11 @@
 #include <parameters/Parameters.h>
 #include <gtest/gtest.h>
-#include <functional>
 #include <memory>
 #include "juce_audio_processors/juce_audio_processors.h"
 #include "juce_core/juce_core.h"
 #include "juce_events/juce_events.h"
 #include <wolfsound/test/wolfsound_TestAudioProcessorBase.hpp>
+#include <wolfsound/common/wolfsound_WhenLeavingScopeExecute.hpp>
 
 namespace eden::plugin {
 constexpr auto textXml = R"(
@@ -119,21 +119,6 @@ public:
   juce::AudioParameterChoice& choiceParam;
   juce::AudioProcessorValueTreeState state;
 };
-
-class WhenLeavingScopeExecute {  // NOLINT
-public:
-  explicit WhenLeavingScopeExecute(std::function<void()> callback)
-      : _callback{std::move(callback)} {}
-
-  ~WhenLeavingScopeExecute() {
-    if (_callback) {
-      _callback();
-    }
-  }
-
-private:
-  std::function<void()> _callback;
-};
 }  // namespace
 
 TEST(Parameters, CorrectlyUpdatesApvts) {
@@ -200,7 +185,7 @@ TEST(Parameters, CorrectlyRestoresStateFromFile) {
       juce::File::getSpecialLocation(
           juce::File::SpecialLocationType::tempDirectory)
           .getChildFile("CorrectlyRestoresStateFromFile.json");
-  const WhenLeavingScopeExecute deleteTemporaryPresetFile{
+  const wolfsound::WhenLeavingScopeExecute deleteTemporaryPresetFile{
       [&] { presetFile.deleteFile(); }};
   {
     juce::FileOutputStream outputStream{presetFile};
