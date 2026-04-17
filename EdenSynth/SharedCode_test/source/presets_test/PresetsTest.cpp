@@ -365,7 +365,9 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
   const wolfsound::WhenLeavingScopeExecute cleanup{[&] {
     std::for_each(std::filesystem::directory_iterator{userPresetsPath},
                   std::filesystem::directory_iterator{}, [](const auto& entry) {
-                    std::filesystem::remove(entry.path());
+                    if (entry.path().extension() == ".json") {
+                      std::filesystem::remove(entry.path());
+                    }
                   });
   }};
 
