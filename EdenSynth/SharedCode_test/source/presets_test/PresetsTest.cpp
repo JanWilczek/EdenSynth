@@ -331,11 +331,12 @@ private:
 class ProductionPresetsRepository : public PresetsRepository {
 public:
   explicit ProductionPresetsRepository(
-      std::unique_ptr<FactoryPresetsDataSource> factoryPresetsDataSource,
-      std::unique_ptr<UserPresetsDataSource>)
-      : _presets{factoryPresetsDataSource
-                     ? factoryPresetsDataSource->getPresets()
-                     : std::vector<PresetV2>{}} {}
+      FactoryPresetsDataSource& factoryPresetsDataSource,
+      std::unique_ptr<UserPresetsDataSource> userPresetsDataSource)
+      : _presets{factoryPresetsDataSource.getPresets()},
+        _userPresetsDataSource{std::move(userPresetsDataSource)} {
+    EDEN_ASSERT(_userPresetsDataSource != nullptr);
+  }
 
   std::optional<PresetV2> getPreset(const PresetId& presetId) override {
     const auto presetIt = std::ranges::find_if(
@@ -356,11 +357,42 @@ public:
 
 private:
   std::vector<PresetV2> _presets;
+  std::unique_ptr<UserPresetsDataSource> _userPresetsDataSource;
 };
+
+namespace {
+class EmptyFactoryPresetsDataSource : public FactoryPresetsDataSource {
+public:
+  std::vector<PresetV2> getPresets() override { return {}; }
+};
+
+static EmptyFactoryPresetsDataSource emptyFactoryPresetsDataSource;
+
+class FakeUserPresetsDataSource : public UserPresetsDataSource {
+public:
+  std::vector<PresetV2> presets() override {
+    return {
+        PresetV2{PresetMetadata{
+                     .isFactory = false,
+                     .id = "user-preset-1",
+                 },
+                 Parameters::from(juce::Array<juce::var>{})},
+        PresetV2{PresetMetadata{.isFactory = false, .id = "user-preset-2"},
+                 Parameters::from(juce::Array<juce::var>{})},
+    };
+  }
+
+  void createPreset(const PresetV2& preset) override {
+    juce::ignoreUnused(preset);
+  }
+};
+}  // namespace
 
 TEST(Presets, CanSavePreset) {
   PluginProcessorWithPresets processor{
-      std::make_unique<ProductionPresetsRepository>(nullptr, nullptr)};
+      std::make_unique<ProductionPresetsRepository>(
+          emptyFactoryPresetsDataSource,
+          std::make_unique<FakeUserPresetsDataSource>())};
 
   ASSERT_TRUE(processor.savePreset(PresetMetadata{
       .name = "default",
@@ -374,7 +406,9 @@ TEST(Presets, CanSavePreset) {
 
 TEST(Presets, CanLoadPreset) {
   PluginProcessorWithPresets processor{
-      std::make_unique<ProductionPresetsRepository>(nullptr, nullptr)};
+      std::make_unique<ProductionPresetsRepository>(
+          emptyFactoryPresetsDataSource,
+          std::make_unique<FakeUserPresetsDataSource>())};
   processor.floatParam = 1.f;
   processor.boolParam = false;
   processor.intParam = 5;
@@ -403,7 +437,9 @@ TEST(Presets, CanLoadPreset) {
 
 TEST(Presets, CannotLoadNonexistingPreset) {
   PluginProcessorWithPresets processor{
-      std::make_unique<ProductionPresetsRepository>(nullptr, nullptr)};
+      std::make_unique<ProductionPresetsRepository>(
+          emptyFactoryPresetsDataSource,
+          std::make_unique<FakeUserPresetsDataSource>())};
   processor.floatParam = 1.f;
   processor.boolParam = false;
   processor.intParam = 5;
@@ -431,10 +467,11 @@ const auto& userPresetsPath() {
 }  // namespace
 
 TEST(Presets, CanLoadFactoryPresetUponStart) {
+  FileFactoryPresetsDataSource factoryPresetsDataSource{factoryPresetsPath()};
   PluginProcessorWithPresets processor{
       std::make_unique<ProductionPresetsRepository>(
-          std::make_unique<FileFactoryPresetsDataSource>(factoryPresetsPath()),
-          nullptr)};
+          factoryPresetsDataSource,
+          std::make_unique<FakeUserPresetsDataSource>())};
 
   ASSERT_EQ(1u, processor.presets().size());
   EXPECT_TRUE(processor.presets().front().isFactory());
@@ -447,31 +484,10 @@ TEST(Presets, CanLoadFactoryPresetUponStart) {
             processor.choiceParam.getCurrentChoiceName().toStdString());
 }
 
-namespace {
-class FakeUserPresetsDataSource : public UserPresetsDataSource {
-public:
-  std::vector<PresetV2> presets() override {
-    return {
-        PresetV2{PresetMetadata{
-                     .isFactory = false,
-                     .id = "user-preset-1",
-                 },
-                 Parameters::from(juce::Array<juce::var>{})},
-        PresetV2{PresetMetadata{.isFactory = false, .id = "user-preset-2"},
-                 Parameters::from(juce::Array<juce::var>{})},
-    };
-  }
-
-  void createPreset(const PresetV2& preset) override {
-    juce::ignoreUnused(preset);
-  }
-};
-}  // namespace
-
 TEST(ProductionPresetsRepository, ScansUserAndFactoryPresetsUponStart) {
+  FileFactoryPresetsDataSource factoryPresetsDataSource{factoryPresetsPath()};
   ProductionPresetsRepository testee{
-      std::make_unique<FileFactoryPresetsDataSource>(factoryPresetsPath()),
-      std::make_unique<FakeUserPresetsDataSource>()};
+      factoryPresetsDataSource, std::make_unique<FakeUserPresetsDataSource>()};
 
   const auto& presets = testee.presets();
 
