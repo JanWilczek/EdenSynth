@@ -262,8 +262,11 @@ public:
         return;
       }
       auto& json = maybeJson.value();
-      json.getDynamicObject()->setProperty("parameters",
-                                           preset.parameters().toVarArray());
+      const auto parametersVar = preset.parameters().toVar();
+      for (const auto& property :
+           parametersVar.getDynamicObject()->getProperties()) {
+        json.getDynamicObject()->setProperty(property.name, property.value);
+      }
 
       juce::JSON::writeToStream(
           outputStream, json,
