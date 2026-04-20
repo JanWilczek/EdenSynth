@@ -5,7 +5,8 @@
 #include "GeneralSettingsComponent.h"
 
 GeneralSettingsComponent::GeneralSettingsComponent(
-    AudioProcessorValueTreeState& valueTreeState)
+    AudioProcessorValueTreeState& valueTreeState,
+    eden::plugin::EdenAdapter::GeneralParameterRefs& parameterRefs)
     : _pitchBendSemitonesUp(Slider::SliderStyle::Rotary,
                             Slider::TextEntryBoxPosition::NoTextBox),
       _pitchBendSemitonesDown(Slider::SliderStyle::Rotary,
@@ -25,8 +26,9 @@ GeneralSettingsComponent::GeneralSettingsComponent(
   addAndMakeVisible(_pitchBendSemitonesDownLabel);
   _pitchBendSemitonesDown.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_pitchBendSemitonesDown);
-  _pitchBendSemitonesDownAttachment = std::make_unique<SliderAttachment>(
-      valueTreeState, "pitchBend.semitonesDown", _pitchBendSemitonesDown);
+  _pitchBendSemitonesDownAttachment =
+      std::make_unique<juce::SliderParameterAttachment>(
+          parameterRefs.pitchBendSemitonesDown, _pitchBendSemitonesDown);
 
   _a4FrequencyLabel.setJustificationType(Justification::horizontallyCentred);
   addAndMakeVisible(_a4FrequencyLabel);

@@ -11,6 +11,7 @@
 #include "utility/StopWatchPrinter.h"
 #include "utility/WaveFileReader.h"
 #include <filesystem>
+#include <ranges>
 
 //==============================================================================
 EdenSynthAudioProcessor::EdenSynthAudioProcessor(
@@ -167,21 +168,64 @@ AudioProcessorEditor* EdenSynthAudioProcessor::createEditor() {
 }
 
 //==============================================================================
+namespace {
+constexpr auto stateSeparator = "%%%%%%%%%%%%%";
+}
+
 void EdenSynthAudioProcessor::getStateInformation(MemoryBlock& destData) {
   auto state = _pluginParameters.copyState();
 
   // TODO: Add waveshaping curve
   const std::unique_ptr<XmlElement> xml(state.createXml());
   copyXmlToBinary(*xml, destData);
+
+  destData.append(stateSeparator, strlen(stateSeparator));
+
+  const auto serializedParameters = eden::plugin::Parameters::fromChecked(
+      wolfsound::toVarArray(_pluginParametersV2));
+  if (serializedParameters.has_value()) {
+    juce::MemoryOutputStream memory{destData, true};
+    juce::JSON::writeToStream(memory, serializedParameters->toVar());
+  }
 }
 
 void EdenSynthAudioProcessor::setStateInformation(const void* data,
                                                   int sizeInBytes) {
-  std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+  static const auto stateSeparatorSize =
+      static_cast<int>(strlen(stateSeparator));
+  std::optional<int> separatorStartPos;
+  for (const auto pos : std::views::iota(0, sizeInBytes - stateSeparatorSize)) {
+    if (memcmp(
+            reinterpret_cast<const std::byte*>(data) + static_cast<size_t>(pos),
+            stateSeparator, strlen(stateSeparator)) == 0) {
+      separatorStartPos = pos;
+      break;
+    }
+  }
+
+  const auto xmlEndPos =
+      separatorStartPos.has_value() ? separatorStartPos.value() : sizeInBytes;
+
+  std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, xmlEndPos));
 
   if (xmlState) {
+    DBG(xmlState->toString());
     if (xmlState->hasTagName(_pluginParameters.state.getType())) {
       _pluginParameters.replaceState(ValueTree::fromXml(*xmlState));
+    }
+  }
+
+  if (separatorStartPos.has_value()) {
+    const auto v2StartPos = separatorStartPos.value() + stateSeparatorSize;
+    juce::MemoryInputStream inputStream{data, static_cast<size_t>(sizeInBytes),
+                                        false};
+    inputStream.skipNextBytes(v2StartPos);
+    const auto deserializedParameters = juce::JSON::parse(inputStream);
+    const auto parameters =
+        eden::plugin::Parameters::fromChecked(deserializedParameters);
+    if (parameters.has_value()) {
+      DBG(juce::JSON::toString(deserializedParameters));
+      wolfsound::update(_pluginParametersV2, parameters->toVarArray());
     }
   }
 }
@@ -200,4 +244,9 @@ EdenSynthAudioProcessor::getPresetManager() noexcept {
 [[nodiscard]] AudioProcessorValueTreeState&
 EdenSynthAudioProcessor::getPluginParameters() noexcept {
   return _pluginParameters;
+}
+
+eden::plugin::EdenAdapter::GeneralParameterRefs&
+EdenSynthAudioProcessor::pluginParametersV2() {
+  return _edenAdapter.parameterRefs();
 }

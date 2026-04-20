@@ -8,16 +8,23 @@
 #include "eden/MidiBuffer.h"
 
 namespace eden::plugin {
-EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser,
-                         juce::AudioProcessorValueTreeState& apvts,
-                         wolfsound::JuceParameterHolder::Builder& builder,
-                         std::filesystem::path assetsPath)
+EdenAdapter::EdenAdapter(
+    eden::EdenSynthesiser& synthesiser,
+    juce::AudioProcessorValueTreeState& apvts,
+    wolfsound::JuceParameterHolder::Builder& parameterBuilder,
+    std::filesystem::path assetsPath)
     : _synthesiser(synthesiser),
+      _parameters{
+          .pitchBendSemitonesDown{
+              parameterBuilder.add<juce::AudioParameterFloat>(
+                  "pitchBend.semitonesDown",
+                  "Pitch bend semitones down",
+                  NormalisableRange<float>(-24.f, 0.f, 1.f),
+                  -12.f)},
+      },
       _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u),
       _filterParameters(_synthesiser),
-      _waveshapingParameters(_synthesiser, apvts) {
-  juce::ignoreUnused(builder);
-}
+      _waveshapingParameters(_synthesiser, apvts) {}
 
 eden::MidiBuffer EdenAdapter::convertToEdenMidi(
     const juce::MidiBuffer& juceMidiBuffer) {
@@ -55,9 +62,6 @@ void EdenAdapter::addEdenParameters(
   using Parameter = juce::AudioProcessorValueTreeState::Parameter;
 
   // general parameters
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "pitchBend.semitonesDown", "Pitch bend semitones down",
-      NormalisableRange<float>(-24.f, 0.f, 1.f), -12.f));
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "pitchBend.semitonesUp", "Pitch bend semitones up",
       NormalisableRange<float>(0.f, 24.f, 1.f), 2.f));
@@ -122,8 +126,7 @@ void EdenAdapter::updateEdenParameters(
     const AudioProcessorValueTreeState& pluginParameters) {
   // general parameters
   _synthesiser.setPitchBendRange(
-      {static_cast<int>(
-           *pluginParameters.getRawParameterValue("pitchBend.semitonesDown")),
+      {static_cast<int>(_parameters.pitchBendSemitonesDown.get()),
        static_cast<int>(
            *pluginParameters.getRawParameterValue("pitchBend.semitonesUp"))});
   _synthesiser.setFrequencyOfA4(
@@ -186,6 +189,10 @@ void EdenAdapter::updateEdenParameters(
   // output parameters
   _synthesiser.setVolume(
       *pluginParameters.getRawParameterValue("output.volume"));
+}
+
+auto EdenAdapter::parameterRefs() -> GeneralParameterRefs& {
+  return _parameters;
 }
 
 const WaveTablePathProvider& EdenAdapter::getPathProvider() const {

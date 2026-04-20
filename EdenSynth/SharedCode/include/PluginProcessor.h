@@ -47,6 +47,8 @@ public:
   //==============================================================================
   [[nodiscard]] eden::plugin::PresetManager& getPresetManager() noexcept;
   [[nodiscard]] AudioProcessorValueTreeState& getPluginParameters() noexcept;
+  [[nodiscard]] eden::plugin::EdenAdapter::GeneralParameterRefs&
+  pluginParametersV2();
 
 private:
   //==============================================================================

@@ -23,10 +23,10 @@ static_assert(EDITOR_WIDTH == 1040);
 EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(
     EdenSynthAudioProcessor& p,
     AudioProcessorValueTreeState& vts,
-    const eden::plugin::EdenAdapter& adapter)
+    eden::plugin::EdenAdapter& adapter)
     : AudioProcessorEditor(&p),
       _processor(p),
-      _generalSettingsComponent(vts),
+      _generalSettingsComponent(vts, adapter.parameterRefs()),
       _generatorComponent(vts, adapter.getPathProvider()),
       _modifierComponent(vts, adapter),
       _outputSettingsComponent(vts),
