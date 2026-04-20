@@ -38,4 +38,17 @@ TEST(PluginProcessor, SetStateInformationRestoresStateCorrectly) {
     EXPECT_FLOAT_EQ(parameter->getValue(), value) << parameter->getName(100);
   }
 }
+
+TEST(PluginProcessor, CreateEditor) {
+  const juce::ScopedJuceInitialiser_GUI guiInitializer;
+  std::unique_ptr<juce::AudioProcessor> audioProcessor{createPluginFilter()};
+
+  ASSERT_TRUE(audioProcessor->hasEditor());
+  std::unique_ptr<juce::AudioProcessorEditor> editor{
+      audioProcessor->createEditor()};
+
+  // trigger resizing callbacks
+  editor->resized();
+  editor->setVisible(true);
+}
 }  // namespace eden::plugin
