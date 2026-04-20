@@ -10,9 +10,8 @@ class GeneralSettingsComponent : public Component {
 public:
   using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
 
-  GeneralSettingsComponent(
-      AudioProcessorValueTreeState&,
-      eden::plugin::EdenAdapter::GeneralParameterRefs& parameterRefs);
+  GeneralSettingsComponent(AudioProcessorValueTreeState&,
+                           const eden::plugin::ParameterRefs&);
 
   void resized() override;
   void paint(Graphics& g) override;

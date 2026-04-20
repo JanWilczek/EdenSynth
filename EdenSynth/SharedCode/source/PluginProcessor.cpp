@@ -246,7 +246,7 @@ EdenSynthAudioProcessor::getPluginParameters() noexcept {
   return _pluginParameters;
 }
 
-eden::plugin::EdenAdapter::GeneralParameterRefs&
+const eden::plugin::ParameterRefs&
 EdenSynthAudioProcessor::pluginParametersV2() {
   return _edenAdapter.parameterRefs();
 }

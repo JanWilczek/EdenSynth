@@ -191,7 +191,7 @@ void EdenAdapter::updateEdenParameters(
       *pluginParameters.getRawParameterValue("output.volume"));
 }
 
-auto EdenAdapter::parameterRefs() -> GeneralParameterRefs& {
+const ParameterRefs& EdenAdapter::parameterRefs() {
   return _parameters;
 }
 

@@ -11,7 +11,7 @@ class EdenSynthAudioProcessorEditor : public AudioProcessorEditor {
 public:
   EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor&,
                                 AudioProcessorValueTreeState&,
-                                eden::plugin::EdenAdapter&);
+                                const eden::plugin::EdenAdapter&);
 
   void paint(Graphics&) override;
   void resized() override;

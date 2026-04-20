@@ -10,6 +10,7 @@
 #include "OscillatorContainer.h"
 #include "WaveTablePathProvider.h"
 #include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
+#include "parameters/ParameterRefs.h"
 
 namespace eden {
 class EdenSynthesiser;
@@ -22,10 +23,6 @@ namespace eden::plugin {
 /// </summary>
 class EdenAdapter {
 public:
-  struct GeneralParameterRefs {
-    std::reference_wrapper<juce::AudioParameterFloat> pitchBendSemitonesDown;
-  };
-
   EdenAdapter(eden::EdenSynthesiser& synthesiser,
               juce::AudioProcessorValueTreeState&,
               wolfsound::JuceParameterHolder::Builder&,
@@ -42,7 +39,7 @@ public:
   void addEdenParameters(AudioProcessorValueTreeState& pluginParameters);
   void updateEdenParameters(
       const AudioProcessorValueTreeState& pluginParameters);
-  GeneralParameterRefs& parameterRefs();
+  const ParameterRefs& parameterRefs();
 
   const WaveTablePathProvider& getPathProvider() const;
   std::shared_ptr<WaveshapingTransferFunctionContainer>
@@ -50,7 +47,7 @@ public:
 
 private:
   eden::EdenSynthesiser& _synthesiser;
-  GeneralParameterRefs _parameters;
+  ParameterRefs _parameters;
   OscillatorContainer _oscillators;
   EdenFilterParameters _filterParameters;
   EdenWaveshapingParameters _waveshapingParameters;

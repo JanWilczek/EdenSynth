@@ -5,6 +5,7 @@
 #include "EdenAdapter.h"
 #include "WaveTablePathProvider.h"
 #include "PresetManager.h"
+#include "parameters/ParameterRefs.h"
 #include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
 
 class EdenSynthAudioProcessor : public AudioProcessor {
@@ -47,8 +48,7 @@ public:
   //==============================================================================
   [[nodiscard]] eden::plugin::PresetManager& getPresetManager() noexcept;
   [[nodiscard]] AudioProcessorValueTreeState& getPluginParameters() noexcept;
-  [[nodiscard]] eden::plugin::EdenAdapter::GeneralParameterRefs&
-  pluginParametersV2();
+  [[nodiscard]] const eden::plugin::ParameterRefs& pluginParametersV2();
 
 private:
   //==============================================================================

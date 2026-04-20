@@ -6,7 +6,7 @@
 
 GeneralSettingsComponent::GeneralSettingsComponent(
     AudioProcessorValueTreeState& valueTreeState,
-    eden::plugin::EdenAdapter::GeneralParameterRefs& parameterRefs)
+    const eden::plugin::ParameterRefs& parameterRefs)
     : _pitchBendSemitonesUp(Slider::SliderStyle::Rotary,
                             Slider::TextEntryBoxPosition::NoTextBox),
       _pitchBendSemitonesDown(Slider::SliderStyle::Rotary,
