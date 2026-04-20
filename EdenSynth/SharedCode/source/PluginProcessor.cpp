@@ -31,6 +31,7 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
                    _pluginParameters,
                    parameterBuilder,
                    eden::plugin::FileHelper::assetsPath()),
+      _pluginParametersV2{std::move(parameterBuilder).build(*this)},
       _presetManager{std::make_unique<eden::plugin::ProductionPresetManager>(
           eden::plugin::ProductionPresetManager::Args{
               .systemPresetsPath =
