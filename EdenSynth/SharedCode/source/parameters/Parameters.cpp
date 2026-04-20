@@ -53,7 +53,7 @@ std::optional<Parameters> Parameters::fromChecked(
 
 void updateApvts(juce::AudioProcessorValueTreeState& state,
                  const Parameters& p) {
-  const auto serializedParameters = p.toVar();
+  const auto& serializedParameters = p.toVar();
   const auto* const parameterArray =
       serializedParameters["parameters"].getArray();
   EDEN_ASSERT(parameterArray);
