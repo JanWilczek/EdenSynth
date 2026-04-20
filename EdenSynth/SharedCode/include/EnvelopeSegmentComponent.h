@@ -3,17 +3,19 @@
 /// \author Jan Wilczek
 /// \date 07.11.2018
 ///
-#include <../JuceLibraryCode/JuceHeader.h>
+#include <JuceHeader.h>
 
 class EnvelopeSegmentComponent : public Component {
 public:
-  using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
-  using ComboBoxAttachment = AudioProcessorValueTreeState::ComboBoxAttachment;
+  using SliderAttachment = juce::SliderParameterAttachment;
+  using ComboBoxAttachment = juce::ComboBoxParameterAttachment;
 
   EnvelopeSegmentComponent(AudioProcessorValueTreeState& valueTreeState,
                            String segmentLabel,
                            String timeParameterID,
-                           String curveParameterID);
+                           String curveParameterID,
+                           juce::AudioParameterFloat& timeParameter,
+                           juce::AudioParameterFloat& curveParameter);
 
   void resized() override;
 

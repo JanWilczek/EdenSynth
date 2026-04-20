@@ -9,7 +9,9 @@ EnvelopeSegmentComponent::EnvelopeSegmentComponent(
     AudioProcessorValueTreeState& valueTreeState,
     String segmentLabel,
     String timeParameterID,
-    String curveParameterID)
+    String curveParameterID,
+    juce::AudioParameterFloat& timeParameter,
+    juce::AudioParameterFloat& curveParameter)
     : _segmentName(segmentLabel.toLowerCase().removeCharacters(" "),
                    segmentLabel),
       _time(Slider::SliderStyle::LinearVertical,
@@ -20,14 +22,13 @@ EnvelopeSegmentComponent::EnvelopeSegmentComponent(
 
   _time.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_time);
-  _timeAttachment = std::make_unique<SliderAttachment>(valueTreeState,
-                                                       timeParameterID, _time);
+  _timeAttachment = std::make_unique<SliderAttachment>(timeParameter, _time);
 
   _curve.addItem("Linear", 1);
   _curve.addItem("Exponential", 2);
   addAndMakeVisible(_curve);
-  _curveAttachment = std::make_unique<ComboBoxAttachment>(
-      valueTreeState, curveParameterID, _curve);
+  _curveAttachment =
+      std::make_unique<ComboBoxAttachment>(curveParameter, _curve);
 }
 
 void EnvelopeSegmentComponent::resized() {

@@ -6,10 +6,12 @@
 #include <JuceHeader.h>
 #include "EnvelopeComponent.h"
 #include "OscillatorsComponent.h"
+#include "parameters/ParameterRefs.h"
 
 class GeneratorComponent : public Component {
 public:
   GeneratorComponent(AudioProcessorValueTreeState& valueTreeState,
+                     const eden::plugin::ParameterRefs& parameters,
                      const eden::plugin::WaveTablePathProvider& pathProvider);
 
   void resized() override;

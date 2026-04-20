@@ -32,6 +32,69 @@ EdenAdapter::EdenAdapter(
               NormalisableRange<float>(400.f, 500.f, 0.1f),
               440.f,
               juce::AudioParameterFloatAttributes{}.withLabel("Hz"))},
+          .envelopeAdbdrAttackTime{
+              parameterBuilder.add<juce::AudioParameterFloat>(
+                  "envelope.adbdr.attack.time",
+                  "Attack time",
+                  NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f),
+                  30.f,
+                  juce::AudioParameterFloatAttributes{}.withLabel("ms"))},
+          .envelopeAdbdrAttackCurve{
+              parameterBuilder.add<juce::AudioParameterFloat>(
+                  "envelope.adbdr.attack.curve",
+                  "Attack curve",
+                  NormalisableRange<float>(0.f, 1.f, 1.f),
+                  1.f)},
+          .envelopeAdbdrDecay1Time{
+              parameterBuilder.add<juce::AudioParameterFloat>(
+                  "envelope.adbdr.decay1.time",
+                  "Decay1 time",
+                  NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f),
+                  20.f,
+                  juce::AudioParameterFloatAttributes{}.withLabel("ms"))},
+          .envelopeAdbdrDecay1Curve{
+              parameterBuilder.add<juce::AudioParameterFloat>(
+                  "envelope.adbdr.decay1.curve",
+                  "Decay1 curve",
+                  NormalisableRange<float>(0.f, 1.f, 1.f),
+                  1.f)},
+          .envelopeAdbdrDecay2Time{
+              parameterBuilder.add<juce::AudioParameterFloat>(
+                  "envelope.adbdr.decay2.time",
+                  "Decay2 time",
+                  NormalisableRange<float>(1.f, 100000.f, 1.f, 0.3f),
+                  20000.f,
+                  juce::AudioParameterFloatAttributes{}.withLabel("ms"))},
+          .envelopeAdbdrDecay2Curve{
+              parameterBuilder.add<juce::AudioParameterFloat>(
+                  "envelope.adbdr.decay2.curve",
+                  "Decay2 curve",
+                  NormalisableRange<float>(0.f, 1.f, 1.f),
+                  1.f)},
+          .envelopeAdbdrReleaseTime{
+              parameterBuilder.add<juce::AudioParameterFloat>(
+                  "envelope.adbdr.release.time",
+                  "Release time",
+                  NormalisableRange<float>(1.f, 40000.f, 1.f, 0.3f),
+                  300.f,
+                  juce::AudioParameterFloatAttributes{}.withLabel("ms"))},
+          .envelopeAdbdrReleaseCurve{
+              parameterBuilder.add<juce::AudioParameterFloat>(
+                  "envelope.adbdr.release.curve",
+                  "Release curve",
+                  NormalisableRange<float>(0.f, 1.f, 1.f),
+                  1.f)},
+          .envelopeAdbdrBreakLevel{
+              parameterBuilder.add<juce::AudioParameterFloat>(
+                  "envelope.adbdr.breakLevel",
+                  "Break level",
+                  NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f),
+                  0.6f)},
+          .outputVolume{parameterBuilder.add<juce::AudioParameterFloat>(
+              "output.volume",
+              "Global volume",
+              NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f),
+              1.0f)},
       },
       _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u),
       _filterParameters(_synthesiser),
@@ -70,8 +133,6 @@ eden::MidiBuffer EdenAdapter::convertToEdenMidi(
 
 void EdenAdapter::addEdenParameters(
     AudioProcessorValueTreeState& pluginParameters) {
-  using Parameter = juce::AudioProcessorValueTreeState::Parameter;
-
   // oscillator parameters
   _oscillators.addOscillatorParameters(pluginParameters);
 
@@ -80,48 +141,6 @@ void EdenAdapter::addEdenParameters(
 
   // waveshaping parameters
   _waveshapingParameters.addWaveshapingParameters(pluginParameters);
-
-  // ADBDR envelope parameters
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "envelope.adbdr.attack.time", "Attack time",
-      NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 30.f,
-      AudioProcessorValueTreeStateParameterAttributes{}.withLabel("ms")));
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "envelope.adbdr.attack.curve", "Attack curve",
-      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f));
-
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "envelope.adbdr.decay1.time", "Decay1 time",
-      NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f), 20.f,
-      AudioProcessorValueTreeStateParameterAttributes{}.withLabel("ms")));
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "envelope.adbdr.decay1.curve", "Decay1 curve",
-      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f));
-
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "envelope.adbdr.decay2.time", "Decay2 time",
-      NormalisableRange<float>(1.f, 100000.f, 1.f, 0.3f), 20000.f,
-      AudioProcessorValueTreeStateParameterAttributes{}.withLabel("ms")));
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "envelope.adbdr.decay2.curve", "Decay2 curve",
-      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f));
-
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "envelope.adbdr.release.time", "Release time",
-      NormalisableRange<float>(1.f, 40000.f, 1.f, 0.3f), 300.f,
-      AudioProcessorValueTreeStateParameterAttributes{}.withLabel("ms")));
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "envelope.adbdr.release.curve", "Release curve",
-      NormalisableRange<float>(0.f, 1.f, 1.f), 1.f));
-
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "envelope.adbdr.breakLevel", "Break level",
-      NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 0.6f));
-
-  // output parameters
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "output.volume", "Global volume",
-      NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f), 1.0f));
 }
 
 void EdenAdapter::updateEdenParameters(
@@ -143,52 +162,36 @@ void EdenAdapter::updateEdenParameters(
 
   // ADBDR envelope parameters
   {
-    _envelopeParameters->attackTime =
-        std::chrono::milliseconds(static_cast<int>(
-            pluginParameters.getParameterAsValue("envelope.adbdr.attack.time")
-                .getValue()));
-    _envelopeParameters->attackCurve =
-        static_cast<eden::EnvelopeSegmentCurve>(static_cast<int>(
-            pluginParameters.getParameterAsValue("envelope.adbdr.attack.curve")
-                .getValue()));
+    _envelopeParameters->attackTime = std::chrono::milliseconds(
+        static_cast<int>(_parameters.envelopeAdbdrAttackTime.get()));
 
-    _envelopeParameters->decay1Time =
-        std::chrono::milliseconds(static_cast<int>(
-            pluginParameters.getParameterAsValue("envelope.adbdr.decay1.time")
-                .getValue()));
-    _envelopeParameters->decay1Curve =
-        static_cast<eden::EnvelopeSegmentCurve>(static_cast<int>(
-            pluginParameters.getParameterAsValue("envelope.adbdr.decay1.curve")
-                .getValue()));
+    _envelopeParameters->attackCurve = static_cast<eden::EnvelopeSegmentCurve>(
+        static_cast<int>(_parameters.envelopeAdbdrReleaseCurve.get()));
 
-    _envelopeParameters->decay2Time =
-        std::chrono::milliseconds(static_cast<int>(
-            pluginParameters.getParameterAsValue("envelope.adbdr.decay2.time")
-                .getValue()));
-    _envelopeParameters->decay2Curve =
-        static_cast<eden::EnvelopeSegmentCurve>(static_cast<int>(
-            pluginParameters.getParameterAsValue("envelope.adbdr.decay2.curve")
-                .getValue()));
+    _envelopeParameters->decay1Time = std::chrono::milliseconds(
+        static_cast<int>(_parameters.envelopeAdbdrDecay1Time.get()));
 
-    _envelopeParameters->releaseTime =
-        std::chrono::milliseconds(static_cast<int>(
-            pluginParameters.getParameterAsValue("envelope.adbdr.release.time")
-                .getValue()));
-    _envelopeParameters->releaseCurve =
-        static_cast<eden::EnvelopeSegmentCurve>(static_cast<int>(
-            pluginParameters.getParameterAsValue("envelope.adbdr.release.curve")
-                .getValue()));
+    _envelopeParameters->decay1Curve = static_cast<eden::EnvelopeSegmentCurve>(
+        static_cast<int>(_parameters.envelopeAdbdrDecay1Curve.get()));
 
-    _envelopeParameters->breakLevel =
-        pluginParameters.getParameterAsValue("envelope.adbdr.breakLevel")
-            .getValue();
+    _envelopeParameters->decay2Time = std::chrono::milliseconds(
+        static_cast<int>(_parameters.envelopeAdbdrDecay2Time.get()));
+    _envelopeParameters->decay2Curve = static_cast<eden::EnvelopeSegmentCurve>(
+        static_cast<int>(_parameters.envelopeAdbdrDecay2Curve.get()));
+
+    _envelopeParameters->releaseTime = std::chrono::milliseconds(
+        static_cast<int>(_parameters.envelopeAdbdrReleaseTime.get()));
+
+    _envelopeParameters->releaseCurve = static_cast<eden::EnvelopeSegmentCurve>(
+        static_cast<int>(_parameters.envelopeAdbdrReleaseCurve.get()));
+
+    _envelopeParameters->breakLevel = _parameters.envelopeAdbdrBreakLevel.get();
 
     _synthesiser.setEnvelopeParameters(_envelopeParameters);
   }
 
   // output parameters
-  _synthesiser.setVolume(
-      *pluginParameters.getRawParameterValue("output.volume"));
+  _synthesiser.setVolume(_parameters.outputVolume.get());
 }
 
 const ParameterRefs& EdenAdapter::parameterRefs() {

@@ -5,23 +5,32 @@
 #include "EnvelopeComponent.h"
 
 EnvelopeComponent::EnvelopeComponent(
-    AudioProcessorValueTreeState& valueTreeState)
+    AudioProcessorValueTreeState& valueTreeState,
+    const eden::plugin::ParameterRefs& parameters)
     : _attack(valueTreeState,
               "Attack",
               "envelope.adbdr.attack.time",
-              "envelope.adbdr.attack.curve"),
+              "envelope.adbdr.attack.curve",
+              parameters.envelopeAdbdrAttackTime,
+              parameters.envelopeAdbdrAttackCurve),
       _decay1(valueTreeState,
               "Decay 1",
               "envelope.adbdr.decay1.time",
-              "envelope.adbdr.decay1.curve"),
+              "envelope.adbdr.decay1.curve",
+              parameters.envelopeAdbdrDecay1Time,
+              parameters.envelopeAdbdrDecay1Curve),
       _decay2(valueTreeState,
               "Decay 2",
               "envelope.adbdr.decay2.time",
-              "envelope.adbdr.decay2.curve"),
+              "envelope.adbdr.decay2.curve",
+              parameters.envelopeAdbdrDecay2Time,
+              parameters.envelopeAdbdrDecay2Curve),
       _release(valueTreeState,
                "Release",
                "envelope.adbdr.release.time",
-               "envelope.adbdr.release.curve"),
+               "envelope.adbdr.release.curve",
+               parameters.envelopeAdbdrReleaseTime,
+               parameters.envelopeAdbdrReleaseCurve),
       _breakLevel(Slider::SliderStyle::LinearVertical,
                   Slider::TextEntryBoxPosition::NoTextBox) {
   addAndMakeVisible(_attack);
@@ -34,7 +43,7 @@ EnvelopeComponent::EnvelopeComponent(
   addAndMakeVisible(_breakLevel);
   _breakLevel.setPopupDisplayEnabled(true, false, this);
   _breakLevelAttachment = std::make_unique<SliderAttachment>(
-      valueTreeState, "envelope.adbdr.breakLevel", _breakLevel);
+      parameters.envelopeAdbdrBreakLevel, _breakLevel);
 }
 
 void EnvelopeComponent::paint(Graphics& g) {

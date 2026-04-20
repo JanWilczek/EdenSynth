@@ -5,12 +5,14 @@
 ///
 #include <JuceHeader.h>
 #include "EnvelopeSegmentComponent.h"
+#include "parameters/ParameterRefs.h"
 
 class EnvelopeComponent : public Component {
 public:
-  using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
+  using SliderAttachment = juce::SliderParameterAttachment;
 
-  EnvelopeComponent(AudioProcessorValueTreeState& valueTreeState);
+  EnvelopeComponent(AudioProcessorValueTreeState& valueTreeState,
+                    const eden::plugin::ParameterRefs& parameters);
 
   void paint(Graphics& g) override;
   void resized() override;

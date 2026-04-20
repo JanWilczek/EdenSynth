@@ -5,7 +5,7 @@
 #include "OutputSettingsComponent.h"
 
 OutputSettingsComponent::OutputSettingsComponent(
-    AudioProcessorValueTreeState& valueTreeState)
+    const eden::plugin::ParameterRefs& parameters)
     : _volume(Slider::SliderStyle::Rotary,
               Slider::TextEntryBoxPosition::NoTextBox) {
   _volumeLabel.setJustificationType(Justification::horizontallyCentred);
@@ -14,8 +14,8 @@ OutputSettingsComponent::OutputSettingsComponent(
   _volume.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_volume);
 
-  _volumeAttachment = std::make_unique<SliderAttachment>(
-      valueTreeState, "output.volume", _volume);
+  _volumeAttachment =
+      std::make_unique<SliderAttachment>(parameters.outputVolume, _volume);
 }
 
 void OutputSettingsComponent::resized() {

@@ -4,12 +4,13 @@
 /// \date 21.11.2018
 ///
 #include <JuceHeader.h>
+#include "parameters/ParameterRefs.h"
 
 class OutputSettingsComponent : public Component {
 public:
-  using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
+  using SliderAttachment = juce::SliderParameterAttachment;
 
-  OutputSettingsComponent(AudioProcessorValueTreeState&);
+  explicit OutputSettingsComponent(const eden::plugin::ParameterRefs&);
 
   void resized() override;
   void paint(Graphics& g) override;
