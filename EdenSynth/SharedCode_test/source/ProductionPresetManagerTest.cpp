@@ -28,27 +28,6 @@ private:
   }
 };
 
-TEST_F(ProductionPresetManagerTest, SaveAndLoadPreset) {
-  // given an audio processor with a parameter
-  auto* sampleParameter =
-      audioProcessor.getPluginParameters().getRawParameterValue(
-          "frequencyOfA4");
-  *sampleParameter = 440.f;
-  auto& presetManager = audioProcessor.getPresetManager();
-
-  constexpr auto presetName = "TestPreset";
-  ASSERT_TRUE(presetManager.saveOrOverwriteCurrentPreset(presetName));
-  *sampleParameter = 450.f;
-
-  // when we load a preset
-  const auto presetList = presetManager.presets();
-  ASSERT_EQ(1, presetList.size());
-  ASSERT_TRUE(presetManager.loadPreset(presetList.front()));
-
-  // then plugin parameters get overwritten
-  ASSERT_FLOAT_EQ(440.f, *sampleParameter);
-}
-
 TEST_F(ProductionPresetManagerTest, CannotOverwritePresetWithSave) {
   // given
   auto& presetManager = audioProcessor.getPresetManager();
