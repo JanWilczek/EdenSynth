@@ -9,6 +9,7 @@
 #include "EdenWaveshapingParameters.h"
 #include "OscillatorContainer.h"
 #include "WaveTablePathProvider.h"
+#include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
 
 namespace eden {
 class EdenSynthesiser;
@@ -23,6 +24,7 @@ class EdenAdapter {
 public:
   EdenAdapter(eden::EdenSynthesiser& synthesiser,
               juce::AudioProcessorValueTreeState&,
+              wolfsound::JuceParameterHolder::Builder&,
               std::filesystem::path assetsPath);
 
   /// <summary>

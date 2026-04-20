@@ -9,7 +9,8 @@
 
 class EdenSynthAudioProcessor : public AudioProcessor {
 public:
-  explicit EdenSynthAudioProcessor();
+  explicit EdenSynthAudioProcessor(
+      wolfsound::JuceParameterHolder::Builder parameterBuilder = {});
 
   void prepareToPlay(double sampleRate, int samplesPerBlock) override;
   void releaseResources() override;

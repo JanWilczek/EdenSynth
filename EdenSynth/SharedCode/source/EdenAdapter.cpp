@@ -10,11 +10,14 @@
 namespace eden::plugin {
 EdenAdapter::EdenAdapter(eden::EdenSynthesiser& synthesiser,
                          juce::AudioProcessorValueTreeState& apvts,
+                         wolfsound::JuceParameterHolder::Builder& builder,
                          std::filesystem::path assetsPath)
     : _synthesiser(synthesiser),
       _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u),
       _filterParameters(_synthesiser),
-      _waveshapingParameters(_synthesiser, apvts) {}
+      _waveshapingParameters(_synthesiser, apvts) {
+  juce::ignoreUnused(builder);
+}
 
 eden::MidiBuffer EdenAdapter::convertToEdenMidi(
     const juce::MidiBuffer& juceMidiBuffer) {

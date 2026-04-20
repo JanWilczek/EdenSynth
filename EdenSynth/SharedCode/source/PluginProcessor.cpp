@@ -13,7 +13,8 @@
 #include <filesystem>
 
 //==============================================================================
-EdenSynthAudioProcessor::EdenSynthAudioProcessor()
+EdenSynthAudioProcessor::EdenSynthAudioProcessor(
+    wolfsound::JuceParameterHolder::Builder parameterBuilder)
     :
 #ifndef JucePlugin_PreferredChannelConfigurations
       AudioProcessor(BusesProperties()
@@ -28,6 +29,7 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor()
       _pluginParameters(*this, nullptr),
       _edenAdapter(_edenSynthesiser,
                    _pluginParameters,
+                   parameterBuilder,
                    eden::plugin::FileHelper::assetsPath()),
       _presetManager{std::make_unique<eden::plugin::ProductionPresetManager>(
           eden::plugin::ProductionPresetManager::Args{
