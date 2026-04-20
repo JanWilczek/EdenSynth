@@ -8,6 +8,7 @@ TEST(PluginProcessor, SetStateInformationRestoresStateCorrectly) {
   const juce::ScopedJuceInitialiser_GUI guiInitializer;
   std::unique_ptr<juce::AudioProcessor> audioProcessor{createPluginFilter()};
   const auto& parameters = audioProcessor->getParameters();
+  EXPECT_EQ(50, parameters.size()) << "New parameters added?";
 
   // set parameters to random values and save them
   juce::Random random{42};
