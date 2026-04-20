@@ -26,6 +26,12 @@ EdenAdapter::EdenAdapter(
               "Pitch bend semitones up",
               NormalisableRange<float>(0.f, 24.f, 1.f),
               2.f)},
+          .frequencyOfA4{parameterBuilder.add<juce::AudioParameterFloat>(
+              "frequencyOfA4",
+              "Frequency of A4",
+              NormalisableRange<float>(400.f, 500.f, 0.1f),
+              440.f,
+              juce::AudioParameterFloatAttributes{}.withLabel("Hz"))},
       },
       _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u),
       _filterParameters(_synthesiser),
@@ -65,12 +71,6 @@ eden::MidiBuffer EdenAdapter::convertToEdenMidi(
 void EdenAdapter::addEdenParameters(
     AudioProcessorValueTreeState& pluginParameters) {
   using Parameter = juce::AudioProcessorValueTreeState::Parameter;
-
-  // general parameters
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "frequencyOfA4", "Frequency of A4",
-      NormalisableRange<float>(400.f, 500.f, 0.1f), 440.f,
-      AudioProcessorValueTreeStateParameterAttributes{}.withLabel("Hz")));
 
   // oscillator parameters
   _oscillators.addOscillatorParameters(pluginParameters);
@@ -130,8 +130,7 @@ void EdenAdapter::updateEdenParameters(
   _synthesiser.setPitchBendRange(
       {static_cast<int>(_parameters.pitchBendSemitonesDown.get()),
        static_cast<int>(_parameters.pitchBendSemitonesUp.get())});
-  _synthesiser.setFrequencyOfA4(
-      *pluginParameters.getRawParameterValue("frequencyOfA4"));
+  _synthesiser.setFrequencyOfA4(_parameters.frequencyOfA4.get());
 
   // oscillator parameters
   _oscillators.updateOscillatorParameters(pluginParameters);

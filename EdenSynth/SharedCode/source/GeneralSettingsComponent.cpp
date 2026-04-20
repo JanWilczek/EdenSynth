@@ -35,8 +35,8 @@ GeneralSettingsComponent::GeneralSettingsComponent(
   addAndMakeVisible(_a4FrequencyLabel);
   _a4Frequency.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_a4Frequency);
-  _a4FrequencyAttachment = std::make_unique<SliderAttachment>(
-      valueTreeState, "frequencyOfA4", _a4Frequency);
+  _a4FrequencyAttachment = std::make_unique<juce::SliderParameterAttachment>(
+      parameterRefs.frequencyOfA4, _a4Frequency);
 }
 
 void GeneralSettingsComponent::resized() {

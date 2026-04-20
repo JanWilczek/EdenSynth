@@ -8,8 +8,6 @@
 
 class GeneralSettingsComponent : public Component {
 public:
-  using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
-
   GeneralSettingsComponent(AudioProcessorValueTreeState&,
                            const eden::plugin::ParameterRefs&);
 
@@ -31,5 +29,5 @@ private:
 
   Label _a4FrequencyLabel{"a4FrequencyLabel", "A4 frequency"};
   Slider _a4Frequency;
-  std::unique_ptr<SliderAttachment> _a4FrequencyAttachment;
+  std::unique_ptr<juce::SliderParameterAttachment> _a4FrequencyAttachment;
 };
