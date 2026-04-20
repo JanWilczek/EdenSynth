@@ -10,7 +10,7 @@ GeneratorComponent::GeneratorComponent(
     const eden::plugin::ParameterRefs& parameters,
     const eden::plugin::WaveTablePathProvider& pathProvider)
     : _oscillators(valueTreeState, pathProvider),
-      _envelopeComponent(valueTreeState, parameters) {
+      _envelopeComponent(parameters) {
   addAndMakeVisible(_oscillators);
   addAndMakeVisible(_envelopeComponent);
 }

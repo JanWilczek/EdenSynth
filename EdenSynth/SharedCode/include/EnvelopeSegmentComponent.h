@@ -10,10 +10,7 @@ public:
   using SliderAttachment = juce::SliderParameterAttachment;
   using ComboBoxAttachment = juce::ComboBoxParameterAttachment;
 
-  EnvelopeSegmentComponent(AudioProcessorValueTreeState& valueTreeState,
-                           String segmentLabel,
-                           String timeParameterID,
-                           String curveParameterID,
+  EnvelopeSegmentComponent(String segmentLabel,
                            juce::AudioParameterFloat& timeParameter,
                            juce::AudioParameterFloat& curveParameter);
 

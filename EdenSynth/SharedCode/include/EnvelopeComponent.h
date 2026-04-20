@@ -11,8 +11,7 @@ class EnvelopeComponent : public Component {
 public:
   using SliderAttachment = juce::SliderParameterAttachment;
 
-  EnvelopeComponent(AudioProcessorValueTreeState& valueTreeState,
-                    const eden::plugin::ParameterRefs& parameters);
+  EnvelopeComponent(const eden::plugin::ParameterRefs& parameters);
 
   void paint(Graphics& g) override;
   void resized() override;

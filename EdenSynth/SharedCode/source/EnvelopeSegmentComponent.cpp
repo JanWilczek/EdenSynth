@@ -6,10 +6,7 @@
 #include "EnvelopeComponent.h"
 
 EnvelopeSegmentComponent::EnvelopeSegmentComponent(
-    AudioProcessorValueTreeState& valueTreeState,
     String segmentLabel,
-    String timeParameterID,
-    String curveParameterID,
     juce::AudioParameterFloat& timeParameter,
     juce::AudioParameterFloat& curveParameter)
     : _segmentName(segmentLabel.toLowerCase().removeCharacters(" "),
