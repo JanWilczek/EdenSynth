@@ -19,6 +19,9 @@ struct ParameterRefs {
   juce::AudioParameterFloat& envelopeAdbdrReleaseCurve;
   juce::AudioParameterFloat& envelopeAdbdrBreakLevel;
 
+  // waveshaping parameters
+  juce::AudioParameterFloat& autoMakeUpGain;
+
   // output parameters
   juce::AudioParameterFloat& outputVolume;
 };

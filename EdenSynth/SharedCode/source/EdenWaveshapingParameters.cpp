@@ -25,15 +25,6 @@ EdenWaveshapingParameters::EdenWaveshapingParameters(
 
 void EdenWaveshapingParameters::addWaveshapingParameters(
     AudioProcessorValueTreeState& valueTreeState) {
-  using Parameter = juce::AudioProcessorValueTreeState::Parameter;
-
-  const std::string autoMakeUpGainParameterName = "waveshaper.autoMakeUpGain";
-  valueTreeState.createAndAddParameter(std::make_unique<Parameter>(
-      autoMakeUpGainParameterName, "Auto make up gain",
-      NormalisableRange<float>(0.f, 1.f, 1.f), 0.f));
-  _autoMakeUpGain =
-      valueTreeState.getRawParameterValue(autoMakeUpGainParameterName);
-
   using namespace eden::plugin;
   valueTreeState.createAndAddParameter(std::make_unique<AudioParameterInt>(
       parameter_id::waveshaperChebyshevPolynomialOrderParameter,
@@ -50,9 +41,6 @@ void EdenWaveshapingParameters::addWaveshapingParameters(
 }
 
 void EdenWaveshapingParameters::updateWaveshapingParameters() {
-  _synthesiser.setWaveshapingAutoMakeUpGain(
-      static_cast<bool>(*_autoMakeUpGain));
-
   _transferFunction->passTransferFunction(_synthesiser);
 }
 

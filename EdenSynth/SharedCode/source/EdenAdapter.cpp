@@ -90,6 +90,11 @@ EdenAdapter::EdenAdapter(
                   "Break level",
                   NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f),
                   0.6f)},
+          .autoMakeUpGain{parameterBuilder.add<juce::AudioParameterFloat>(
+              "waveshaper.autoMakeUpGain",
+              "Auto make up gain",
+              NormalisableRange<float>(0.f, 1.f, 1.f),
+              0.f)},
           .outputVolume{parameterBuilder.add<juce::AudioParameterFloat>(
               "output.volume",
               "Global volume",
@@ -158,6 +163,8 @@ void EdenAdapter::updateEdenParameters(
   _filterParameters.updateFilterParameters();
 
   // waveshaping parameters
+  _synthesiser.setWaveshapingAutoMakeUpGain(
+      static_cast<bool>(_parameters.autoMakeUpGain.get()));
   _waveshapingParameters.updateWaveshapingParameters();
 
   // ADBDR envelope parameters
