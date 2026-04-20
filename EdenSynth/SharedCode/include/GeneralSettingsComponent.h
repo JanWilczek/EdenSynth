@@ -20,7 +20,8 @@ private:
   Label _pitchBendSemitonesUpLabel{"pitchBendSemitonesUpLabel",
                                    "Pitch bend up"};
   Slider _pitchBendSemitonesUp;
-  std::unique_ptr<SliderAttachment> _pitchBendSemitonesUpAttachment;
+  std::unique_ptr<juce::SliderParameterAttachment>
+      _pitchBendSemitonesUpAttachment;
 
   Label _pitchBendSemitonesDownLabel{"pitchBendSemitonesDownLabel",
                                      "Pitch bend down"};

@@ -21,6 +21,11 @@ EdenAdapter::EdenAdapter(
                   "Pitch bend semitones down",
                   NormalisableRange<float>(-24.f, 0.f, 1.f),
                   -12.f)},
+          .pitchBendSemitonesUp{parameterBuilder.add<juce::AudioParameterFloat>(
+              "pitchBend.semitonesUp",
+              "Pitch bend semitones up",
+              NormalisableRange<float>(0.f, 24.f, 1.f),
+              2.f)},
       },
       _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u),
       _filterParameters(_synthesiser),
@@ -62,9 +67,6 @@ void EdenAdapter::addEdenParameters(
   using Parameter = juce::AudioProcessorValueTreeState::Parameter;
 
   // general parameters
-  pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-      "pitchBend.semitonesUp", "Pitch bend semitones up",
-      NormalisableRange<float>(0.f, 24.f, 1.f), 2.f));
   pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
       "frequencyOfA4", "Frequency of A4",
       NormalisableRange<float>(400.f, 500.f, 0.1f), 440.f,
@@ -127,8 +129,7 @@ void EdenAdapter::updateEdenParameters(
   // general parameters
   _synthesiser.setPitchBendRange(
       {static_cast<int>(_parameters.pitchBendSemitonesDown.get()),
-       static_cast<int>(
-           *pluginParameters.getRawParameterValue("pitchBend.semitonesUp"))});
+       static_cast<int>(_parameters.pitchBendSemitonesUp.get())});
   _synthesiser.setFrequencyOfA4(
       *pluginParameters.getRawParameterValue("frequencyOfA4"));
 

@@ -18,8 +18,9 @@ GeneralSettingsComponent::GeneralSettingsComponent(
   addAndMakeVisible(_pitchBendSemitonesUpLabel);
   _pitchBendSemitonesUp.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_pitchBendSemitonesUp);
-  _pitchBendSemitonesUpAttachment = std::make_unique<SliderAttachment>(
-      valueTreeState, "pitchBend.semitonesUp", _pitchBendSemitonesUp);
+  _pitchBendSemitonesUpAttachment =
+      std::make_unique<juce::SliderParameterAttachment>(
+          parameterRefs.pitchBendSemitonesUp, _pitchBendSemitonesUp);
 
   _pitchBendSemitonesDownLabel.setJustificationType(
       Justification::horizontallyCentred);
