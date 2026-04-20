@@ -26,7 +26,7 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(
     const eden::plugin::EdenAdapter& adapter)
     : AudioProcessorEditor(&p),
       _processor(p),
-      _generalSettingsComponent(vts, p.pluginParametersV2()),
+      _generalSettingsComponent(p.pluginParametersV2()),
       _generatorComponent(vts, adapter.getPathProvider()),
       _modifierComponent(vts, adapter),
       _outputSettingsComponent(vts),

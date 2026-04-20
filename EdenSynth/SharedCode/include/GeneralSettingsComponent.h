@@ -8,8 +8,7 @@
 
 class GeneralSettingsComponent : public Component {
 public:
-  GeneralSettingsComponent(AudioProcessorValueTreeState&,
-                           const eden::plugin::ParameterRefs&);
+  explicit GeneralSettingsComponent(const eden::plugin::ParameterRefs&);
 
   void resized() override;
   void paint(Graphics& g) override;
