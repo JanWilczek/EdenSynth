@@ -43,9 +43,6 @@ void OscillatorContainer::addOscillatorParameters(
     const auto namePrefix = String(oscillator.first).toUpperCase();
 
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-        parameterPrefix + ".generatorName", namePrefix + " generator name",
-        NormalisableRange<float>(0.f, 4.f, 1.f), 0.f));
-    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".octaveTransposition",
         namePrefix + " octave transposition",
         NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f,
@@ -83,8 +80,7 @@ void OscillatorContainer::updateOscillatorParameters(
 
     const auto waveTableIndex = static_cast<int>(params.waveTable.get());
     const auto generatorName = static_cast<eden::WaveformGenerator>(
-        static_cast<int>(*pluginParameters.getRawParameterValue(
-            parameterPrefix + ".generatorName")));
+        static_cast<int>(params.generatorName.get()));
 
     // handle the source of the oscillator
     if (isRealTime) {

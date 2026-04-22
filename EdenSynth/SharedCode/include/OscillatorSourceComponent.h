@@ -12,8 +12,6 @@ class WaveTablePathProvider;
 
 class OscillatorSourceComponent : public Component, public Button::Listener {
 public:
-  using ComboBoxAttachment = AudioProcessorValueTreeState::ComboBoxAttachment;
-
   OscillatorSourceComponent(
       AudioProcessorValueTreeState& valueTreeState,
       String oscillatorName,
@@ -32,5 +30,5 @@ private:
   std::unique_ptr<juce::ComboBoxParameterAttachment> _waveformAttachment;
 
   ComboBox _generator;
-  std::unique_ptr<ComboBoxAttachment> _generatorAttachment;
+  std::unique_ptr<juce::ComboBoxParameterAttachment> _generatorAttachment;
 };

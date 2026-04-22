@@ -53,6 +53,9 @@ OscillatorParameters addOscillatorParameters(
                 return static_cast<float>(
                     pathProvider.nameToIndex(waveTableName.toStdString()));
               })),
+      .generatorName = builder.add<juce::AudioParameterFloat>(
+          parameterPrefix + ".generatorName", labelPrefix + " generator name",
+          NormalisableRange<float>(0.f, 4.f, 1.f), 0.f),
   };
 }
 

@@ -8,7 +8,7 @@ struct OscillatorParameters {
   std::string name;
   juce::AudioParameterFloat& isRealTime;
   juce::AudioParameterFloat& waveTable;
-  //  juce::AudioParameterFloat& generatorName;
+  juce::AudioParameterFloat& generatorName;
   //  juce::AudioParameterFloat& octaveTransposition;
   //  juce::AudioParameterFloat& semitoneTransposition;
   //  juce::AudioParameterFloat& centTransposition;

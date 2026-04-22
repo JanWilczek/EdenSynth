@@ -36,8 +36,8 @@ OscillatorSourceComponent::OscillatorSourceComponent(
   _generator.addItem("White Noise", 5);
 
   addAndMakeVisible(_generator);
-  _generatorAttachment = std::make_unique<ComboBoxAttachment>(
-      valueTreeState, auxParameterName + "generatorName", _generator);
+  _generatorAttachment = std::make_unique<juce::ComboBoxParameterAttachment>(
+      parameters.generatorName, _generator);
 
   _isRealTime.addListener(this);
 
