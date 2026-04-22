@@ -52,10 +52,10 @@ private:
 
   Label _chebyshevPolynomialOrderLabel{"orderLabel", "Degree: "};
   juce::Slider _chebyshevPolynomialOrder;
-  juce::AudioParameterInt* _chebyshevPolynomialOrderParameter;
+  juce::AudioParameterInt& _chebyshevPolynomialOrderParameter;
 
   Label _spreadLabel{"spreadlabel", "Spread"};
   Slider _spread{Slider::SliderStyle::LinearVertical,
                  Slider::TextEntryBoxPosition::NoTextBox};
-  juce::AudioParameterFloat* _spreadValueParameter;
+  juce::AudioParameterFloat& _spreadValueParameter;
 };

@@ -3,9 +3,6 @@
 /// \date 06.11.2018
 ///
 #include "WaveshaperComponent.h"
-
-#include "ParameterIds.h"
-
 #include "eden/WaveshapingFunctionGenerator.h"
 
 WaveshaperComponent::WaveshaperComponent(
@@ -15,15 +12,12 @@ WaveshaperComponent::WaveshaperComponent(
     : _transferFunction(std::move(transferFunction)),
       _curveParameterAttachment{parameters.waveshaperCurve, _curve},
       _chebyshevPolynomialOrderParameter{
-          &parameters.waveshaperChebyshevPolynomialOrder},
-      _spreadValueParameter{&parameters.waveshaperSpreadValue} {
+          parameters.waveshaperChebyshevPolynomialOrder},
+      _spreadValueParameter{parameters.waveshaperSpreadValue} {
   _canvas.OnTransferFunctionChanged =
       [this](std::vector<float> newTransferFunction) {
         _transferFunction->setTransferFunction(std::move(newTransferFunction));
       };
-  jassert(_chebyshevPolynomialOrderParameter);
-  jassert(_spreadValueParameter != nullptr);
-
   addAndMakeVisible(_canvas);
 
   addAndMakeVisible(_curveLabel);
@@ -37,20 +31,20 @@ WaveshaperComponent::WaveshaperComponent(
   _chebyshevPolynomialOrder.setSliderStyle(
       juce::Slider::SliderStyle::IncDecButtons);
   const auto polynomialOrderRange =
-      _chebyshevPolynomialOrderParameter->getNormalisableRange();
+      _chebyshevPolynomialOrderParameter.getNormalisableRange();
   _chebyshevPolynomialOrder.setRange(polynomialOrderRange.start,
                                      polynomialOrderRange.end,
                                      polynomialOrderRange.interval);
-  _chebyshevPolynomialOrder.setValue(_chebyshevPolynomialOrderParameter->get());
+  _chebyshevPolynomialOrder.setValue(_chebyshevPolynomialOrderParameter.get());
   _chebyshevPolynomialOrder.addListener(this);
   addAndMakeVisible(_chebyshevPolynomialOrder);
 
   _spreadLabel.setJustificationType(Justification::centred);
   addAndMakeVisible(_spreadLabel);
-  const auto spreadRange = _spreadValueParameter->getNormalisableRange();
+  const auto spreadRange = _spreadValueParameter.getNormalisableRange();
   _spread.setRange(spreadRange.start, spreadRange.end, spreadRange.interval);
   _spread.setPopupDisplayEnabled(true, false, this);
-  _spread.setValue(_spreadValueParameter->get());
+  _spread.setValue(_spreadValueParameter.get());
   _spread.addListener(this);
   addAndMakeVisible(_spread);
 
@@ -111,18 +105,18 @@ void WaveshaperComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged) {
 
 void WaveshaperComponent::sliderValueChanged(Slider* s) {
   if (s == &_chebyshevPolynomialOrder) {
-    *_chebyshevPolynomialOrderParameter =
+    _chebyshevPolynomialOrderParameter =
         static_cast<int>(_chebyshevPolynomialOrder.getValue());
   } else if (s == &_spread) {
-    *_spreadValueParameter = static_cast<float>(_spread.getValue());
+    _spreadValueParameter = static_cast<float>(_spread.getValue());
   }
   setTransferFunction();
 }
 
 void WaveshaperComponent::setTransferFunction() {
-  const auto spreadValue = _spreadValueParameter->get();
+  const auto spreadValue = _spreadValueParameter.get();
   const auto chebyshevPolynomialOrder =
-      static_cast<unsigned long>(_chebyshevPolynomialOrderParameter->get());
+      static_cast<unsigned long>(_chebyshevPolynomialOrderParameter.get());
 
   jassert(0 < _curve.getSelectedId());
   jassert(_curve.getSelectedId() < static_cast<int>(AvailableCurves::Count));
@@ -169,16 +163,16 @@ std::vector<float> WaveshaperComponent::generateCurve(
 void WaveshaperComponent::timerCallback() {
   auto performUpdate = false;
 
-  if (_chebyshevPolynomialOrderParameter->get() !=
+  if (_chebyshevPolynomialOrderParameter.get() !=
       static_cast<int>(_chebyshevPolynomialOrder.getValue())) {
-    _chebyshevPolynomialOrder.setValue(
-        _chebyshevPolynomialOrderParameter->get(), juce::dontSendNotification);
+    _chebyshevPolynomialOrder.setValue(_chebyshevPolynomialOrderParameter.get(),
+                                       juce::dontSendNotification);
     performUpdate = true;
   }
 
-  if (!juce::approximatelyEqual(_spreadValueParameter->get(),
+  if (!juce::approximatelyEqual(_spreadValueParameter.get(),
                                 static_cast<float>(_spread.getValue()))) {
-    _spread.setValue(_spreadValueParameter->get(), juce::dontSendNotification);
+    _spread.setValue(_spreadValueParameter.get(), juce::dontSendNotification);
     performUpdate = true;
   }
 
