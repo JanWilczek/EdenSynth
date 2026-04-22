@@ -25,8 +25,5 @@ public:
 private:
   eden::EdenSynthesiser& _synthesiser;
   std::shared_ptr<WaveshapingTransferFunctionContainer> _transferFunction;
-
-  eden::plugin::util::ParameterWrapper<juce::AudioParameterChoice>
-      _waveshaperCurve;
 };
 }  // namespace eden::plugin

@@ -14,9 +14,7 @@ WaveshaperComponent::WaveshaperComponent(
     std::shared_ptr<eden::plugin::WaveshapingTransferFunctionContainer>
         transferFunction)
     : _transferFunction(std::move(transferFunction)),
-      _curveParameterAttachment{
-          *vts.getParameter(eden::plugin::parameter_id::waveshaperCurve),
-          _curve},
+      _curveParameterAttachment{parameters.waveshaperCurve, _curve},
       _chebyshevPolynomialOrderParameter{
           &parameters.waveshaperChebyshevPolynomialOrder},
       _spreadValueParameter{&parameters.waveshaperSpreadValue} {
@@ -31,11 +29,7 @@ WaveshaperComponent::WaveshaperComponent(
 
   addAndMakeVisible(_curveLabel);
 
-  const auto* curveParameter = dynamic_cast<AudioParameterChoice*>(
-      vts.getParameter(eden::plugin::parameter_id::waveshaperCurve));
-  jassert(curveParameter != nullptr);
-
-  _curve.addItemList(curveParameter->choices, 1);
+  _curve.addItemList(parameters.waveshaperCurve.choices, 1);
   _curve.addListener(this);
   _curveParameterAttachment.sendInitialUpdate();
   addAndMakeVisible(_curve);

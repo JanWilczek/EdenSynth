@@ -96,6 +96,12 @@ EdenAdapter::EdenAdapter(
               "Auto make up gain",
               NormalisableRange<float>(0.f, 1.f, 1.f),
               0.f)},
+          .waveshaperCurve{parameterBuilder.add<juce::AudioParameterChoice>(
+              eden::plugin::parameter_id::waveshaperCurveParameter,
+              "Waveshaper curve",
+              juce::StringArray{"Identity", "Hyperbolic tangent",
+                                "Chebyshev polynomial"},
+              0)},
           .waveshaperChebyshevPolynomialOrder{
               parameterBuilder.add<AudioParameterInt>(
                   parameter_id::waveshaperChebyshevPolynomialOrderParameter,
