@@ -5,7 +5,7 @@
 #include "FilterControlsComponent.h"
 
 FilterControlsComponent::FilterControlsComponent(
-    AudioProcessorValueTreeState& valueTreeState)
+    const eden::plugin::ParameterRefs& parameters)
     : _cutoff(Slider::SliderStyle::Rotary,
               Slider::TextEntryBoxPosition::NoTextBox),
       _resonance(Slider::SliderStyle::Rotary,
@@ -16,22 +16,22 @@ FilterControlsComponent::FilterControlsComponent(
   addAndMakeVisible(_cutoffLabel);
   _cutoff.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_cutoff);
-  _cutoffAttachment = std::make_unique<SliderAttachment>(
-      valueTreeState, "filter.cutoff", _cutoff);
+  _cutoffAttachment =
+      std::make_unique<SliderAttachment>(parameters.filterCutoff, _cutoff);
 
   _resonanceLabel.setJustificationType(Justification::centred);
   addAndMakeVisible(_resonanceLabel);
   _resonance.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_resonance);
   _resonanceAttachment = std::make_unique<SliderAttachment>(
-      valueTreeState, "filter.resonance", _resonance);
+      parameters.filterResonance, _resonance);
 
   _contourAmountLabel.setJustificationType(Justification::centred);
   addAndMakeVisible(_contourAmountLabel);
   _contourAmount.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_contourAmount);
   _contourAmountAttachment = std::make_unique<SliderAttachment>(
-      valueTreeState, "filter.contourAmount", _contourAmount);
+      parameters.filterContourAmount, _contourAmount);
 
   _passbandAttenuationLabel.setJustificationType(Justification::centred);
   addAndMakeVisible(_passbandAttenuationLabel);
@@ -40,7 +40,7 @@ FilterControlsComponent::FilterControlsComponent(
   _passbandAttenuation.setSelectedId(1);
   addAndMakeVisible(_passbandAttenuation);
   _passbandAttenuationAttachment = std::make_unique<ComboBoxAttachment>(
-      valueTreeState, "filter.passbandAttenuation", _passbandAttenuation);
+      parameters.filterPassbandAttenuation, _passbandAttenuation);
 }
 
 void FilterControlsComponent::resized() {

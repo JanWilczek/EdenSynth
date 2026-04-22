@@ -4,8 +4,8 @@
 ///
 #include "FilterComponent.h"
 
-FilterComponent::FilterComponent(AudioProcessorValueTreeState& valueTreeState)
-    : _filterControls(valueTreeState), _filterEnvelope(valueTreeState) {
+FilterComponent::FilterComponent(const eden::plugin::ParameterRefs& parameters)
+    : _filterControls(parameters), _filterEnvelope(parameters) {
   addAndMakeVisible(_filterControls);
   addAndMakeVisible(_filterEnvelope);
 }

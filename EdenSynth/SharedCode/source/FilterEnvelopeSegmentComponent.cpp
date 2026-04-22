@@ -5,9 +5,8 @@
 #include "FilterEnvelopeSegmentComponent.h"
 
 FilterEnvelopeSegmentComponent::FilterEnvelopeSegmentComponent(
-    AudioProcessorValueTreeState& valueTreeState,
-    String labelContent,
-    String parameterID)
+    juce::AudioParameterFloat& parameterToControl,
+    String labelContent)
     : _label(labelContent.toLowerCase().removeCharacters(" "), labelContent),
       _slider(Slider::SliderStyle::Rotary,
               Slider::TextEntryBoxPosition::NoTextBox) {
@@ -16,8 +15,7 @@ FilterEnvelopeSegmentComponent::FilterEnvelopeSegmentComponent(
 
   _slider.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_slider);
-  _attachment =
-      std::make_unique<SliderAttachment>(valueTreeState, parameterID, _slider);
+  _attachment = std::make_unique<SliderAttachment>(parameterToControl, _slider);
 }
 
 void FilterEnvelopeSegmentComponent::resized() {

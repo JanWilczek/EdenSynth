@@ -5,10 +5,12 @@
 ///
 #include <JuceHeader.h>
 #include "FilterEnvelopeSegmentComponent.h"
+#include "parameters/ParameterRefs.h"
 
 class FilterEnvelopeComponent : public Component {
 public:
-  FilterEnvelopeComponent(AudioProcessorValueTreeState&);
+  explicit FilterEnvelopeComponent(
+      const eden::plugin::ParameterRefs& parameters);
 
   void resized() override;
 

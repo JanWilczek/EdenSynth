@@ -6,10 +6,11 @@
 #include <JuceHeader.h>
 #include "FilterControlsComponent.h"
 #include "FilterEnvelopeComponent.h"
+#include "parameters/ParameterRefs.h"
 
 class FilterComponent : public Component {
 public:
-  FilterComponent(AudioProcessorValueTreeState& valueTreeState);
+  explicit FilterComponent(const eden::plugin::ParameterRefs& parameters);
 
   void paint(Graphics& g) override;
   void resized() override;

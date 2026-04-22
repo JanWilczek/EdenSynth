@@ -5,11 +5,11 @@
 #include "FilterEnvelopeComponent.h"
 
 FilterEnvelopeComponent::FilterEnvelopeComponent(
-    AudioProcessorValueTreeState& valueTreeState)
-    : _attack(valueTreeState, "Attack", "filter.env.adsr.attack.time"),
-      _decay(valueTreeState, "Decay", "filter.env.adsr.decay.time"),
-      _sustain(valueTreeState, "Sustain", "filter.env.adsr.sustain.level"),
-      _release(valueTreeState, "Release", "filter.env.adsr.release.time") {
+    const eden::plugin::ParameterRefs& parameters)
+    : _attack{parameters.filterAttackTime, "Attack"},
+      _decay{parameters.filterDecayTime, "Decay"},
+      _sustain{parameters.filterSustainLevel, "Sustain"},
+      _release{parameters.filterReleaseTime, "Release"} {
   addAndMakeVisible(_attack);
   addAndMakeVisible(_decay);
   addAndMakeVisible(_sustain);

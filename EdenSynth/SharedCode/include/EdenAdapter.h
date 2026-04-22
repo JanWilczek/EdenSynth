@@ -5,7 +5,6 @@
 ///
 #include <filesystem>
 #include <JuceHeader.h>
-#include "EdenFilterParameters.h"
 #include "EdenWaveshapingParameters.h"
 #include "OscillatorContainer.h"
 #include "WaveTablePathProvider.h"
@@ -48,9 +47,10 @@ private:
   eden::EdenSynthesiser& _synthesiser;
   ParameterRefs _parameters;
   OscillatorContainer _oscillators;
-  EdenFilterParameters _filterParameters;
   EdenWaveshapingParameters _waveshapingParameters;
   std::shared_ptr<eden::ADBDRParameters> _envelopeParameters{
       std::make_shared<eden::ADBDRParameters>()};
+  std::shared_ptr<eden::ADSRParameters> _filterEnvelopeParameters =
+      std::make_shared<eden::ADSRParameters>();
 };
 }  // namespace eden::plugin

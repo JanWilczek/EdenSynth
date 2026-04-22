@@ -90,6 +90,50 @@ EdenAdapter::EdenAdapter(
                   "Break level",
                   NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f),
                   0.6f)},
+          .filterCutoff{parameterBuilder.add<juce::AudioParameterFloat>(
+              "filter.cutoff",
+              "Cutoff",
+              NormalisableRange<float>(0.1f, 75.f, 0.001f, 0.3f),
+              1.f)},
+          .filterResonance{parameterBuilder.add<juce::AudioParameterFloat>(
+              "filter.resonance",
+              "Resonance",
+              NormalisableRange<float>(0.f, 1.f, 0.0001f),
+              0.f)},
+          .filterContourAmount{parameterBuilder.add<juce::AudioParameterFloat>(
+              "filter.contourAmount",
+              "Contour amount",
+              NormalisableRange<float>(0.f, 1.0f, 0.001f, 1.6f),
+              1.0f)},
+          .filterPassbandAttenuation{
+              parameterBuilder.add<juce::AudioParameterFloat>(
+                  "filter.passbandAttenuation",
+                  "Passband attenuation",
+                  NormalisableRange(0.f, 1.f, 1.f),
+                  0.f)},
+          .filterAttackTime{parameterBuilder.add<juce::AudioParameterFloat>(
+              "filter.env.adsr.attack.time",
+              "Filter attack time",
+              NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f),
+              50.f,
+              juce::AudioParameterFloatAttributes{}.withLabel("ms"))},
+          .filterDecayTime{parameterBuilder.add<juce::AudioParameterFloat>(
+              "filter.env.adsr.decay.time",
+              "Filter decay time",
+              NormalisableRange<float>(1.f, 10000.f, 1.f, 0.3f),
+              20.f,
+              juce::AudioParameterFloatAttributes{}.withLabel("ms"))},
+          .filterSustainLevel{parameterBuilder.add<juce::AudioParameterFloat>(
+              "filter.env.adsr.sustain.level",
+              "Filter sustain level",
+              NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f),
+              0.9f)},
+          .filterReleaseTime{parameterBuilder.add<juce::AudioParameterFloat>(
+              "filter.env.adsr.release.time",
+              "Filter release time",
+              NormalisableRange<float>(1.f, 40000.f, 1.f, 0.3f),
+              300.f,
+              juce::AudioParameterFloatAttributes{}.withLabel("ms"))},
           .autoMakeUpGain{parameterBuilder.add<juce::AudioParameterFloat>(
               "waveshaper.autoMakeUpGain",
               "Auto make up gain",
@@ -128,7 +172,6 @@ EdenAdapter::EdenAdapter(
       _oscillators(_synthesiser,
                    WaveTablePathProvider(std::move(assetsPath)),
                    3u),
-      _filterParameters(_synthesiser),
       _waveshapingParameters(_synthesiser) {}
 
 eden::MidiBuffer EdenAdapter::convertToEdenMidi(
@@ -166,9 +209,6 @@ void EdenAdapter::addEdenParameters(
     AudioProcessorValueTreeState& pluginParameters) {
   // oscillator parameters
   _oscillators.addOscillatorParameters(pluginParameters);
-
-  // filter parameters
-  _filterParameters.addFilterParameters(pluginParameters);
 }
 
 void EdenAdapter::updateEdenParameters(
@@ -183,7 +223,21 @@ void EdenAdapter::updateEdenParameters(
   _oscillators.updateOscillatorParameters(pluginParameters);
 
   // filter parameters
-  _filterParameters.updateFilterParameters();
+  _synthesiser.setCutoff(_parameters.filterCutoff.get());
+  _synthesiser.setResonance(_parameters.filterResonance.get());
+  _synthesiser.setContourAmount(_parameters.filterContourAmount.get());
+  _synthesiser.setPassbandAttenuation(static_cast<eden::PassbandAttenuation>(
+      static_cast<int>(_parameters.filterPassbandAttenuation.get())));
+
+  _filterEnvelopeParameters->attackTime =
+      std::chrono::milliseconds(static_cast<int>(_parameters.filterAttackTime));
+  _filterEnvelopeParameters->decayTime =
+      std::chrono::milliseconds(static_cast<int>(_parameters.filterDecayTime));
+  _filterEnvelopeParameters->sustainLevel =
+      _parameters.filterSustainLevel.get();
+  _filterEnvelopeParameters->releaseTime = std::chrono::milliseconds(
+      static_cast<int>(_parameters.filterReleaseTime.get()));
+  _synthesiser.setFilterEnvelopeParameters(_filterEnvelopeParameters);
 
   // waveshaping parameters
   _synthesiser.setWaveshapingAutoMakeUpGain(
@@ -191,34 +245,32 @@ void EdenAdapter::updateEdenParameters(
   _waveshapingParameters.updateWaveshapingParameters();
 
   // ADBDR envelope parameters
-  {
-    _envelopeParameters->attackTime = std::chrono::milliseconds(
-        static_cast<int>(_parameters.envelopeAdbdrAttackTime.get()));
+  _envelopeParameters->attackTime = std::chrono::milliseconds(
+      static_cast<int>(_parameters.envelopeAdbdrAttackTime.get()));
 
-    _envelopeParameters->attackCurve = static_cast<eden::EnvelopeSegmentCurve>(
-        static_cast<int>(_parameters.envelopeAdbdrReleaseCurve.get()));
+  _envelopeParameters->attackCurve = static_cast<eden::EnvelopeSegmentCurve>(
+      static_cast<int>(_parameters.envelopeAdbdrReleaseCurve.get()));
 
-    _envelopeParameters->decay1Time = std::chrono::milliseconds(
-        static_cast<int>(_parameters.envelopeAdbdrDecay1Time.get()));
+  _envelopeParameters->decay1Time = std::chrono::milliseconds(
+      static_cast<int>(_parameters.envelopeAdbdrDecay1Time.get()));
 
-    _envelopeParameters->decay1Curve = static_cast<eden::EnvelopeSegmentCurve>(
-        static_cast<int>(_parameters.envelopeAdbdrDecay1Curve.get()));
+  _envelopeParameters->decay1Curve = static_cast<eden::EnvelopeSegmentCurve>(
+      static_cast<int>(_parameters.envelopeAdbdrDecay1Curve.get()));
 
-    _envelopeParameters->decay2Time = std::chrono::milliseconds(
-        static_cast<int>(_parameters.envelopeAdbdrDecay2Time.get()));
-    _envelopeParameters->decay2Curve = static_cast<eden::EnvelopeSegmentCurve>(
-        static_cast<int>(_parameters.envelopeAdbdrDecay2Curve.get()));
+  _envelopeParameters->decay2Time = std::chrono::milliseconds(
+      static_cast<int>(_parameters.envelopeAdbdrDecay2Time.get()));
+  _envelopeParameters->decay2Curve = static_cast<eden::EnvelopeSegmentCurve>(
+      static_cast<int>(_parameters.envelopeAdbdrDecay2Curve.get()));
 
-    _envelopeParameters->releaseTime = std::chrono::milliseconds(
-        static_cast<int>(_parameters.envelopeAdbdrReleaseTime.get()));
+  _envelopeParameters->releaseTime = std::chrono::milliseconds(
+      static_cast<int>(_parameters.envelopeAdbdrReleaseTime.get()));
 
-    _envelopeParameters->releaseCurve = static_cast<eden::EnvelopeSegmentCurve>(
-        static_cast<int>(_parameters.envelopeAdbdrReleaseCurve.get()));
+  _envelopeParameters->releaseCurve = static_cast<eden::EnvelopeSegmentCurve>(
+      static_cast<int>(_parameters.envelopeAdbdrReleaseCurve.get()));
 
-    _envelopeParameters->breakLevel = _parameters.envelopeAdbdrBreakLevel.get();
+  _envelopeParameters->breakLevel = _parameters.envelopeAdbdrBreakLevel.get();
 
-    _synthesiser.setEnvelopeParameters(_envelopeParameters);
-  }
+  _synthesiser.setEnvelopeParameters(_envelopeParameters);
 
   // output parameters
   _synthesiser.setVolume(_parameters.outputVolume.get());

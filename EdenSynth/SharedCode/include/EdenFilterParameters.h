@@ -13,7 +13,6 @@ namespace eden::plugin {
 class EdenFilterParameters {
 public:
   explicit EdenFilterParameters(eden::EdenSynthesiser& synthesiser);
-  void addFilterParameters(AudioProcessorValueTreeState& pluginParameters);
   void updateFilterParameters();
 
 private:

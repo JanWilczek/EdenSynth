@@ -4,13 +4,15 @@
 /// \date 02.12.2018
 ///
 #include <JuceHeader.h>
+#include "parameters/ParameterRefs.h"
 
 class FilterControlsComponent : public Component {
 public:
-  using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
-  using ComboBoxAttachment = AudioProcessorValueTreeState::ComboBoxAttachment;
+  using SliderAttachment = juce::SliderParameterAttachment;
+  using ComboBoxAttachment = juce::ComboBoxParameterAttachment;
 
-  FilterControlsComponent(AudioProcessorValueTreeState&);
+  explicit FilterControlsComponent(
+      const eden::plugin::ParameterRefs& parameters);
 
   void resized() override;
 

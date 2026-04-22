@@ -19,6 +19,16 @@ struct ParameterRefs {
   juce::AudioParameterFloat& envelopeAdbdrReleaseCurve;
   juce::AudioParameterFloat& envelopeAdbdrBreakLevel;
 
+  // filter parameters
+  juce::AudioParameterFloat& filterCutoff;
+  juce::AudioParameterFloat& filterResonance;
+  juce::AudioParameterFloat& filterContourAmount;
+  juce::AudioParameterFloat& filterPassbandAttenuation;
+  juce::AudioParameterFloat& filterAttackTime;
+  juce::AudioParameterFloat& filterDecayTime;
+  juce::AudioParameterFloat& filterSustainLevel;
+  juce::AudioParameterFloat& filterReleaseTime;
+
   // waveshaping parameters
   juce::AudioParameterFloat& autoMakeUpGain;
   juce::AudioParameterChoice& waveshaperCurve;

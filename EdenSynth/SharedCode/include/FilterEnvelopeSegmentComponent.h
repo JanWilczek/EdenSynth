@@ -7,11 +7,10 @@
 
 class FilterEnvelopeSegmentComponent : public Component {
 public:
-  using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
+  using SliderAttachment = juce::SliderParameterAttachment;
 
-  FilterEnvelopeSegmentComponent(AudioProcessorValueTreeState&,
-                                 String labelContent,
-                                 String parameterID);
+  FilterEnvelopeSegmentComponent(juce::AudioParameterFloat& parameterToControl,
+                                 String labelContent);
 
   void resized() override;
 
