@@ -14,7 +14,6 @@ class WaveshaperComponent : public Component,
                             private juce::Timer {
 public:
   WaveshaperComponent(
-      AudioProcessorValueTreeState&,
       const eden::plugin::ParameterRefs& parameters,
       std::shared_ptr<eden::plugin::WaveshapingTransferFunctionContainer>
           transferFunction);

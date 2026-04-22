@@ -6,12 +6,10 @@
 #include <eden/EdenSynthesiser.h>
 #include "WaveshapingTransferFunctionContainer.h"
 #include "eden/WaveshapingFunctionGenerator.h"
-#include "ParameterIds.h"
 
 namespace eden::plugin {
 EdenWaveshapingParameters::EdenWaveshapingParameters(
-    eden::EdenSynthesiser& synthesiser,
-    juce::AudioProcessorValueTreeState& apvts)
+    eden::EdenSynthesiser& synthesiser)
     : _synthesiser(synthesiser),
       _transferFunction(std::make_shared<WaveshapingTransferFunctionContainer>(
           eden::WaveshapingFunctionGenerator::generateIdentity(400))) {}

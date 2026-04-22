@@ -24,7 +24,6 @@ namespace eden::plugin {
 class EdenAdapter {
 public:
   EdenAdapter(eden::EdenSynthesiser& synthesiser,
-              juce::AudioProcessorValueTreeState&,
               wolfsound::JuceParameterHolder::Builder&,
               std::filesystem::path assetsPath);
 

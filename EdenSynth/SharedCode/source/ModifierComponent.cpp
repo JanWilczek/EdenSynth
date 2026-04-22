@@ -9,8 +9,7 @@ ModifierComponent::ModifierComponent(
     const eden::plugin::ParameterRefs& parameters,
     const eden::plugin::EdenAdapter& adapter)
     : _filterComponent(valueTreeState),
-      _waveshaperComponent(valueTreeState,
-                           parameters,
+      _waveshaperComponent(parameters,
                            adapter.getWaveshapingTransferFunction()) {
   addAndMakeVisible(_filterComponent);
   addAndMakeVisible(_waveshaperComponent);

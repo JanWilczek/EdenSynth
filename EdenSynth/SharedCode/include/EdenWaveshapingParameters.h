@@ -4,7 +4,6 @@
 /// \date 04.12.2018
 ///
 #include <JuceHeader.h>
-#include "util/ParameterWrapper.h"
 
 namespace eden {
 class EdenSynthesiser;
@@ -15,8 +14,7 @@ class WaveshapingTransferFunctionContainer;
 
 class EdenWaveshapingParameters {
 public:
-  EdenWaveshapingParameters(eden::EdenSynthesiser&,
-                            juce::AudioProcessorValueTreeState&);
+  explicit EdenWaveshapingParameters(eden::EdenSynthesiser&);
 
   void updateWaveshapingParameters();
   std::shared_ptr<WaveshapingTransferFunctionContainer>

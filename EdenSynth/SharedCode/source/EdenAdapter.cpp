@@ -11,7 +11,6 @@
 namespace eden::plugin {
 EdenAdapter::EdenAdapter(
     eden::EdenSynthesiser& synthesiser,
-    juce::AudioProcessorValueTreeState& apvts,
     wolfsound::JuceParameterHolder::Builder& parameterBuilder,
     std::filesystem::path assetsPath)
     : _synthesiser(synthesiser),
@@ -126,9 +125,11 @@ EdenAdapter::EdenAdapter(
               NormalisableRange<float>(0.f, 1.f, 0.001f, 0.4f),
               1.0f)},
       },
-      _oscillators(_synthesiser, WaveTablePathProvider(assetsPath), 3u),
+      _oscillators(_synthesiser,
+                   WaveTablePathProvider(std::move(assetsPath)),
+                   3u),
       _filterParameters(_synthesiser),
-      _waveshapingParameters(_synthesiser, apvts) {}
+      _waveshapingParameters(_synthesiser) {}
 
 eden::MidiBuffer EdenAdapter::convertToEdenMidi(
     const juce::MidiBuffer& juceMidiBuffer) {

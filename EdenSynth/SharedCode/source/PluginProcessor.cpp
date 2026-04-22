@@ -29,7 +29,6 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
 #endif
       _pluginParameters(*this, nullptr),
       _edenAdapter(_edenSynthesiser,
-                   _pluginParameters,
                    parameterBuilder,
                    eden::plugin::FileHelper::assetsPath()),
       _pluginParametersV2{std::move(parameterBuilder).build(*this)},

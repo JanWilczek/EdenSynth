@@ -9,7 +9,6 @@
 #include "eden/WaveshapingFunctionGenerator.h"
 
 WaveshaperComponent::WaveshaperComponent(
-    AudioProcessorValueTreeState& vts,
     const eden::plugin::ParameterRefs& parameters,
     std::shared_ptr<eden::plugin::WaveshapingTransferFunctionContainer>
         transferFunction)
