@@ -10,6 +10,7 @@
 
 WaveshaperComponent::WaveshaperComponent(
     AudioProcessorValueTreeState& vts,
+    const eden::plugin::ParameterRefs& parameters,
     std::shared_ptr<eden::plugin::WaveshapingTransferFunctionContainer>
         transferFunction)
     : _transferFunction(std::move(transferFunction)),
@@ -17,11 +18,8 @@ WaveshaperComponent::WaveshaperComponent(
           *vts.getParameter(eden::plugin::parameter_id::waveshaperCurve),
           _curve},
       _chebyshevPolynomialOrderParameter{
-          dynamic_cast<juce::AudioParameterInt*>(vts.getParameter(
-              eden::plugin::parameter_id::waveshaperChebyshevPolynomialOrder))},
-      _spreadValueParameter{
-          dynamic_cast<juce::AudioParameterFloat*>(vts.getParameter(
-              eden::plugin::parameter_id::waveshaperSpreadValue))} {
+          &parameters.waveshaperChebyshevPolynomialOrder},
+      _spreadValueParameter{&parameters.waveshaperSpreadValue} {
   _canvas.OnTransferFunctionChanged =
       [this](std::vector<float> newTransferFunction) {
         _transferFunction->setTransferFunction(std::move(newTransferFunction));

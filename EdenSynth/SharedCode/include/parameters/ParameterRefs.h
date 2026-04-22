@@ -21,6 +21,9 @@ struct ParameterRefs {
 
   // waveshaping parameters
   juce::AudioParameterFloat& autoMakeUpGain;
+  juce::AudioParameterInt& waveshaperChebyshevPolynomialOrder;
+  juce::AudioParameterInt& waveshaperSpreadSeed;
+  juce::AudioParameterFloat& waveshaperSpreadValue;
 
   // output parameters
   juce::AudioParameterFloat& outputVolume;

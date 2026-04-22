@@ -30,7 +30,7 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(
       _generatorComponent(vts,
                           p.pluginParametersV2(),
                           adapter.getPathProvider()),
-      _modifierComponent(vts, adapter),
+      _modifierComponent(vts, p.pluginParametersV2(), adapter),
       _outputSettingsComponent(p.pluginParametersV2()),
       _presetsComponent{
           std::make_unique<eden::plugin::viewmodels::PresetsViewModel>(

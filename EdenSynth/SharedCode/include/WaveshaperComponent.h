@@ -6,6 +6,7 @@
 #include <JuceHeader.h>
 #include "WaveshapingCanvas.h"
 #include "WaveshapingTransferFunctionContainer.h"
+#include "parameters/ParameterRefs.h"
 
 class WaveshaperComponent : public Component,
                             public ComboBox::Listener,
@@ -14,6 +15,7 @@ class WaveshaperComponent : public Component,
 public:
   WaveshaperComponent(
       AudioProcessorValueTreeState&,
+      const eden::plugin::ParameterRefs& parameters,
       std::shared_ptr<eden::plugin::WaveshapingTransferFunctionContainer>
           transferFunction);
 

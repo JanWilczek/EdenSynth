@@ -6,6 +6,7 @@
 #include "eden/EdenSynthesiser.h"
 #include "eden/EnvelopeParameters.h"
 #include "eden/MidiBuffer.h"
+#include "ParameterIds.h"
 
 namespace eden::plugin {
 EdenAdapter::EdenAdapter(
@@ -95,6 +96,24 @@ EdenAdapter::EdenAdapter(
               "Auto make up gain",
               NormalisableRange<float>(0.f, 1.f, 1.f),
               0.f)},
+          .waveshaperChebyshevPolynomialOrder{
+              parameterBuilder.add<AudioParameterInt>(
+                  parameter_id::waveshaperChebyshevPolynomialOrderParameter,
+                  "Chebyshev polynomial order",
+                  2,
+                  10,
+                  2)},
+          .waveshaperSpreadSeed{parameterBuilder.add<AudioParameterInt>(
+              parameter_id::waveshaperSpreadSeedParameter,
+              "Waveshaper spread seed",
+              0,
+              std::numeric_limits<int32_t>::max(),
+              0)},
+          .waveshaperSpreadValue{parameterBuilder.add<AudioParameterFloat>(
+              parameter_id::waveshaperSpreadValueParameter,
+              "Waveshaper spread value",
+              juce::NormalisableRange{0.f, 1.f, 0.0001f},
+              0.f)},
           .outputVolume{parameterBuilder.add<juce::AudioParameterFloat>(
               "output.volume",
               "Global volume",
@@ -143,9 +162,6 @@ void EdenAdapter::addEdenParameters(
 
   // filter parameters
   _filterParameters.addFilterParameters(pluginParameters);
-
-  // waveshaping parameters
-  _waveshapingParameters.addWaveshapingParameters(pluginParameters);
 }
 
 void EdenAdapter::updateEdenParameters(
