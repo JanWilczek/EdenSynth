@@ -18,7 +18,6 @@ public:
   EdenWaveshapingParameters(eden::EdenSynthesiser&,
                             juce::AudioProcessorValueTreeState&);
 
-  void addWaveshapingParameters(AudioProcessorValueTreeState&);
   void updateWaveshapingParameters();
   std::shared_ptr<WaveshapingTransferFunctionContainer>
   getTransferFunctionContainer() const noexcept;

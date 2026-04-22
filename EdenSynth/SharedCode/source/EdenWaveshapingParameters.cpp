@@ -4,7 +4,6 @@
 ///
 #include "EdenWaveshapingParameters.h"
 #include <eden/EdenSynthesiser.h>
-#include <limits>
 #include "WaveshapingTransferFunctionContainer.h"
 #include "eden/WaveshapingFunctionGenerator.h"
 #include "ParameterIds.h"
