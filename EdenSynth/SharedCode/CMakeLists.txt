@@ -90,7 +90,6 @@ set(SOURCES
     include/OscillatorsComponent.h
     include/EnvelopeComponent.h
     include/EdenAdapter.h
-    include/EdenFilterParameters.h
     include/EdenWaveshapingParameters.h
     include/FileHelper.h
     include/OscillatorContainer.h
@@ -119,7 +118,6 @@ set(SOURCES
     source/GeneratorComponent.cpp
     source/ModifierComponent.cpp
     source/EdenAdapter.cpp
-    source/EdenFilterParameters.cpp
     source/EdenWaveshapingParameters.cpp
     source/FileHelper.cpp
     source/OscillatorContainer.cpp
