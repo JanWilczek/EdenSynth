@@ -9,7 +9,7 @@ GeneratorComponent::GeneratorComponent(
     AudioProcessorValueTreeState& valueTreeState,
     const eden::plugin::ParameterRefs& parameters,
     const eden::plugin::WaveTablePathProvider& pathProvider)
-    : _oscillators(valueTreeState, pathProvider),
+    : _oscillators(valueTreeState, parameters.oscillators, pathProvider),
       _envelopeComponent(parameters) {
   addAndMakeVisible(_oscillators);
   addAndMakeVisible(_envelopeComponent);

@@ -8,6 +8,7 @@
 #include "WaveTablePathProvider.h"
 #include "eden/EdenSynthesiser.h"
 #include "eden/Oscillator.h"
+#include "parameters/ParameterRefs.h"
 
 namespace eden::plugin {
 class OscillatorContainer {
@@ -18,7 +19,8 @@ public:
 
   void addOscillatorParameters(AudioProcessorValueTreeState& pluginParameters);
   void updateOscillatorParameters(
-      const AudioProcessorValueTreeState& pluginParameters);
+      const AudioProcessorValueTreeState& pluginParameters,
+      const eden::plugin::OscillatorParametersContainer& parameters);
   const WaveTablePathProvider& getPathProvider() const;
 
 private:

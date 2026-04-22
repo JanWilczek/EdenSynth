@@ -5,6 +5,7 @@
 #include "OscillatorContainer.h"
 
 #include "synth/wavetable/SineWaveTable.h"
+#include <ranges>
 
 namespace eden::plugin {
 namespace {
@@ -42,9 +43,6 @@ void OscillatorContainer::addOscillatorParameters(
         GENERATOR_SECTION_PARAMETER_PREFIX + oscillator.first;
     const auto namePrefix = String(oscillator.first).toUpperCase();
 
-    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-        parameterPrefix + ".isRealTime", namePrefix + " is real time",
-        NormalisableRange<float>(0.f, 1.f, 1.f), 0.f));
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".waveTable", namePrefix + " wave table",
         NormalisableRange<float>(static_cast<float>(INVALID_WAVE_TABLE_INDEX),
@@ -96,16 +94,17 @@ void OscillatorContainer::addOscillatorParameters(
 }
 
 void OscillatorContainer::updateOscillatorParameters(
-    const AudioProcessorValueTreeState& pluginParameters) {
-  for (auto& oscillator : _oscillators) {
+    const AudioProcessorValueTreeState& pluginParameters,
+    const eden::plugin::OscillatorParametersContainer& parameters) {
+  for (const auto& [oscillator, params] :
+       std::views::zip(_oscillators, parameters)) {
     const auto& oscillatorName = oscillator.first;
 
     const auto parameterPrefix =
         GENERATOR_SECTION_PARAMETER_PREFIX + oscillatorName;
 
-    const auto isRealTime =
-        static_cast<bool>(*pluginParameters.getRawParameterValue(
-            parameterPrefix + ".isRealTime"));
+    const auto isRealTime = static_cast<bool>(params.isRealTime.get());
+
     const auto waveTableIndex = static_cast<int>(
         *pluginParameters.getRawParameterValue(parameterPrefix + ".waveTable"));
     const auto generatorName = static_cast<eden::WaveformGenerator>(

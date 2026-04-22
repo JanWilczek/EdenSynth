@@ -8,6 +8,35 @@
 #include "eden/MidiBuffer.h"
 #include "ParameterIds.h"
 
+namespace {
+template <int index>
+eden::plugin::OscillatorParameters addOscillatorParameters(
+    wolfsound::JuceParameterHolder::Builder& builder) {
+  constexpr auto namePrefix = "osc";
+  constexpr auto humanReadableIndex = index + 1;
+  const auto name = namePrefix + std::to_string(humanReadableIndex);
+  constexpr auto generatorSectionParameterPrefix = "gen.";
+  const auto parameterPrefix = generatorSectionParameterPrefix + name;
+  const auto labelPrefix = juce::String{name}.toUpperCase();
+
+  return {
+      .name = name,
+      .isRealTime = builder.add<juce::AudioParameterFloat>(
+          parameterPrefix + ".isRealTime", labelPrefix + " is real time",
+          NormalisableRange<float>(0.f, 1.f, 1.f), 0.f),
+  };
+}
+
+auto addOscillatorsParameters(
+    wolfsound::JuceParameterHolder::Builder& builder) {
+  return std::array{
+      addOscillatorParameters<0>(builder),
+      addOscillatorParameters<1>(builder),
+      addOscillatorParameters<2>(builder),
+  };
+}
+}  // namespace
+
 namespace eden::plugin {
 EdenAdapter::EdenAdapter(
     eden::EdenSynthesiser& synthesiser,
@@ -32,6 +61,7 @@ EdenAdapter::EdenAdapter(
               NormalisableRange<float>(400.f, 500.f, 0.1f),
               440.f,
               juce::AudioParameterFloatAttributes{}.withLabel("Hz"))},
+          .oscillators{addOscillatorsParameters(parameterBuilder)},
           .envelopeAdbdrAttackTime{
               parameterBuilder.add<juce::AudioParameterFloat>(
                   "envelope.adbdr.attack.time",
@@ -171,7 +201,7 @@ EdenAdapter::EdenAdapter(
       },
       _oscillators(_synthesiser,
                    WaveTablePathProvider(std::move(assetsPath)),
-                   3u),
+                   std::tuple_size<OscillatorParametersContainer>::value),
       _waveshapingParameters(_synthesiser) {}
 
 eden::MidiBuffer EdenAdapter::convertToEdenMidi(
@@ -220,7 +250,8 @@ void EdenAdapter::updateEdenParameters(
   _synthesiser.setFrequencyOfA4(_parameters.frequencyOfA4.get());
 
   // oscillator parameters
-  _oscillators.updateOscillatorParameters(pluginParameters);
+  _oscillators.updateOscillatorParameters(pluginParameters,
+                                          _parameters.oscillators);
 
   // filter parameters
   _synthesiser.setCutoff(_parameters.filterCutoff.get());

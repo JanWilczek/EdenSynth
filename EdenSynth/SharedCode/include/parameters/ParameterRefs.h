@@ -1,12 +1,31 @@
 #pragma once
 #include <JuceHeader.h>
+#include <array>
 
 namespace eden::plugin {
+struct OscillatorParameters {
+  // refs? pointers? reference_wrappers?
+  std::string name;
+  juce::AudioParameterFloat& isRealTime;
+  //  juce::AudioParameterFloat& waveTable;
+  //  juce::AudioParameterFloat& generatorName;
+  //  juce::AudioParameterFloat& octaveTransposition;
+  //  juce::AudioParameterFloat& semitoneTransposition;
+  //  juce::AudioParameterFloat& centTransposition;
+  //  juce::AudioParameterFloat& volume;
+  //  juce::AudioParameterFloat& on;
+};
+
+using OscillatorParametersContainer = std::array<OscillatorParameters, 3>;
+
 struct ParameterRefs {
   // general parameters
   juce::AudioParameterFloat& pitchBendSemitonesDown;
   juce::AudioParameterFloat& pitchBendSemitonesUp;
   juce::AudioParameterFloat& frequencyOfA4;
+
+  // oscillator parameters
+  OscillatorParametersContainer oscillators;
 
   // ADBDR envelope parameters
   juce::AudioParameterFloat& envelopeAdbdrAttackTime;

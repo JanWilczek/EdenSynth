@@ -8,13 +8,14 @@
 OscillatorSourceComponent::OscillatorSourceComponent(
     AudioProcessorValueTreeState& valueTreeState,
     String oscillatorName,
+    const eden::plugin::OscillatorParameters& parameters,
     const eden::plugin::WaveTablePathProvider& pathProvider)
     : _waveform("Waveform"), _generator("Generator name") {
   const auto auxParameterName = "gen." + oscillatorName + ".";
 
   addAndMakeVisible(_isRealTime);
-  _isRealTimeAttachment = std::make_unique<ButtonAttachment>(
-      valueTreeState, auxParameterName + "isRealTime", _isRealTime);
+  _isRealTimeAttachment = std::make_unique<juce::ButtonParameterAttachment>(
+      parameters.isRealTime, _isRealTime);
 
   auto it = pathProvider.cbegin();
   auto i = 1;

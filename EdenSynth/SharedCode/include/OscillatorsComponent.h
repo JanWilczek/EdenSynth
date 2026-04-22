@@ -5,6 +5,7 @@
 ///
 #include <JuceHeader.h>
 #include "OscillatorComponent.h"
+#include "parameters/ParameterRefs.h"
 
 namespace eden::plugin {
 class WaveTablePathProvider;
@@ -12,8 +13,10 @@ class WaveTablePathProvider;
 
 class OscillatorsComponent : public Component {
 public:
-  OscillatorsComponent(AudioProcessorValueTreeState& valueTreeState,
-                       const eden::plugin::WaveTablePathProvider& pathProvider);
+  OscillatorsComponent(
+      AudioProcessorValueTreeState& valueTreeState,
+      const eden::plugin::OscillatorParametersContainer& parameters,
+      const eden::plugin::WaveTablePathProvider& pathProvider);
 
   void paint(Graphics& g) override;
   void resized() override;

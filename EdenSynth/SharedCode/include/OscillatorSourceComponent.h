@@ -4,6 +4,7 @@
 /// \date 11.02.2019
 ///
 #include <JuceHeader.h>
+#include "parameters/ParameterRefs.h"
 
 namespace eden::plugin {
 class WaveTablePathProvider;
@@ -12,11 +13,11 @@ class WaveTablePathProvider;
 class OscillatorSourceComponent : public Component, public Button::Listener {
 public:
   using ComboBoxAttachment = AudioProcessorValueTreeState::ComboBoxAttachment;
-  using ButtonAttachment = AudioProcessorValueTreeState::ButtonAttachment;
 
   OscillatorSourceComponent(
       AudioProcessorValueTreeState& valueTreeState,
       String oscillatorName,
+      const eden::plugin::OscillatorParameters& parameters,
       const eden::plugin::WaveTablePathProvider& pathProvider);
 
   void resized() override;
@@ -25,7 +26,7 @@ public:
 
 private:
   ToggleButton _isRealTime;
-  std::unique_ptr<ButtonAttachment> _isRealTimeAttachment;
+  std::unique_ptr<juce::ButtonParameterAttachment> _isRealTimeAttachment;
 
   ComboBox _waveform;
   std::unique_ptr<ComboBoxAttachment> _waveformAttachment;
