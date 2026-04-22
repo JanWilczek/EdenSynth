@@ -24,8 +24,8 @@ public:
   std::filesystem::path getPath(std::string waveTableName);
   std::filesystem::path getPath(size_t index);
 
-  std::string indexToName(size_t waveTableIndex);
-  size_t nameToIndex(std::string waveTableName);
+  std::string indexToName(size_t waveTableIndex) const;
+  size_t nameToIndex(std::string waveTableName) const;
 
 private:
   path_container _waveTablePaths;

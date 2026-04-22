@@ -52,24 +52,24 @@ std::filesystem::path WaveTablePathProvider::getPath(size_t index) {
   return getPath(indexToName(index));
 }
 
-std::string WaveTablePathProvider::indexToName(size_t waveTableIndex) {
+std::string WaveTablePathProvider::indexToName(size_t waveTableIndex) const {
   if (waveTableIndex >= _waveTablePaths.size()) {
     throw std::runtime_error("Invalid wave table index.");
   }
 
-  auto it = begin();
+  auto it = cbegin();
   std::advance(it, waveTableIndex);
 
   return it->first;
 }
 
-size_t WaveTablePathProvider::nameToIndex(std::string waveTableName) {
+size_t WaveTablePathProvider::nameToIndex(std::string waveTableName) const {
   const auto it = _waveTablePaths.find(waveTableName);
 
-  if (it == end()) {
+  if (it == cend()) {
     throw std::runtime_error("Invalid wave table name.");
   }
 
-  return std::distance(begin(), it);
+  return std::distance(cbegin(), it);
 }
 }  // namespace eden::plugin
