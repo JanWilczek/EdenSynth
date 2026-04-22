@@ -47,7 +47,6 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
                     eden::plugin::updateApvts(_pluginParameters, p);
                   },
           })} {
-  _edenAdapter.addEdenParameters(_pluginParameters);
   _pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));
 }
 

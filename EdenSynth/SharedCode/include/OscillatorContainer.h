@@ -17,10 +17,10 @@ public:
                       WaveTablePathProvider pathProvider,
                       unsigned numOscillators);
 
-  void addOscillatorParameters(AudioProcessorValueTreeState& pluginParameters);
   void updateOscillatorParameters(
       const AudioProcessorValueTreeState& pluginParameters,
       const eden::plugin::OscillatorParametersContainer& parameters);
+
   const WaveTablePathProvider& getPathProvider() const;
 
 private:

@@ -4,16 +4,15 @@
 
 namespace eden::plugin {
 struct OscillatorParameters {
-  // refs? pointers? reference_wrappers?
   std::string name;
   juce::AudioParameterFloat& isRealTime;
   juce::AudioParameterFloat& waveTable;
   juce::AudioParameterFloat& generatorName;
-  //  juce::AudioParameterFloat& octaveTransposition;
-  //  juce::AudioParameterFloat& semitoneTransposition;
-  //  juce::AudioParameterFloat& centTransposition;
-  //  juce::AudioParameterFloat& volume;
-  //  juce::AudioParameterFloat& on;
+  juce::AudioParameterFloat& octaveTransposition;
+  juce::AudioParameterFloat& semitoneTransposition;
+  juce::AudioParameterFloat& centTransposition;
+  juce::AudioParameterFloat& volume;
+  juce::AudioParameterFloat& on;
 };
 
 using OscillatorParametersContainer = std::array<OscillatorParameters, 3>;

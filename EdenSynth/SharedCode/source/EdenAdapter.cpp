@@ -56,6 +56,27 @@ OscillatorParameters addOscillatorParameters(
       .generatorName = builder.add<juce::AudioParameterFloat>(
           parameterPrefix + ".generatorName", labelPrefix + " generator name",
           NormalisableRange<float>(0.f, 4.f, 1.f), 0.f),
+      .octaveTransposition = builder.add<juce::AudioParameterFloat>(
+          parameterPrefix + ".octaveTransposition",
+          labelPrefix + " octave transposition",
+          NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f,
+          AudioParameterFloatAttributes{}.withLabel("oct.")),
+      .semitoneTransposition = builder.add<juce::AudioParameterFloat>(
+          parameterPrefix + ".semitoneTransposition",
+          labelPrefix + " semitone transposition",
+          NormalisableRange<float>(-6.0f, 6.0f, 1.0f), 0.f,
+          AudioParameterFloatAttributes{}.withLabel("semit.")),
+      .centTransposition = builder.add<juce::AudioParameterFloat>(
+          parameterPrefix + ".centTransposition",
+          labelPrefix + " cent transposition",
+          NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f,
+          AudioParameterFloatAttributes{}.withLabel("ct.")),
+      .volume = builder.add<juce::AudioParameterFloat>(
+          parameterPrefix + ".volume", labelPrefix + " volume",
+          NormalisableRange<float>(0.f, 1.0f, 0.0001f, 0.4f), 1.f),
+      .on = builder.add<juce::AudioParameterFloat>(
+          parameterPrefix + ".on", labelPrefix + " on/off",
+          NormalisableRange<float>(0.f, 1.f, 1.f), 1.f),
   };
 }
 
@@ -266,12 +287,6 @@ eden::MidiBuffer EdenAdapter::convertToEdenMidi(
   }
 
   return edenMidiBuffer;
-}
-
-void EdenAdapter::addEdenParameters(
-    AudioProcessorValueTreeState& pluginParameters) {
-  // oscillator parameters
-  _oscillators.addOscillatorParameters(pluginParameters);
 }
 
 void EdenAdapter::updateEdenParameters(

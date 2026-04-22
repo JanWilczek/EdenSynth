@@ -13,9 +13,8 @@ class WaveTablePathProvider;
 
 class OscillatorComponent : public Component {
 public:
-  using SliderAttachment = AudioProcessorValueTreeState::SliderAttachment;
-  using ComboBoxAttachment = AudioProcessorValueTreeState::ComboBoxAttachment;
-  using ButtonAttachment = AudioProcessorValueTreeState::ButtonAttachment;
+  using SliderAttachment = juce::SliderParameterAttachment;
+  using ButtonAttachment = juce::ButtonParameterAttachment;
 
   OscillatorComponent(AudioProcessorValueTreeState& valueTreeState,
                       String oscillatorName,

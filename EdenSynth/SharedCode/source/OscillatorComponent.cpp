@@ -28,16 +28,14 @@ OscillatorComponent::OscillatorComponent(
   _octaveTransposition.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_octaveTransposition);
   _octaveTranspositionAttachment = std::make_unique<SliderAttachment>(
-      valueTreeState, _auxParameterName + "octaveTransposition",
-      _octaveTransposition);
+      parameters.octaveTransposition, _octaveTransposition);
 
   _transposeLabel.setJustificationType(Justification::centred);
   addAndMakeVisible(_transposeLabel);
   _semitoneTransposition.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_semitoneTransposition);
   _semitoneTranspositionAttachment = std::make_unique<SliderAttachment>(
-      valueTreeState, _auxParameterName + "semitoneTransposition",
-      _semitoneTransposition);
+      parameters.semitoneTransposition, _semitoneTransposition);
 
   const auto oscillator1Name = "osc1";
   if (oscillatorName != oscillator1Name) {
@@ -46,24 +44,22 @@ OscillatorComponent::OscillatorComponent(
     _centTransposition.setPopupDisplayEnabled(true, false, this);
     addAndMakeVisible(_centTransposition);
     _centTranspositionAttachment = std::make_unique<SliderAttachment>(
-        valueTreeState, _auxParameterName + "centTransposition",
-        _centTransposition);
+        parameters.centTransposition, _centTransposition);
   }
 
   addAndMakeVisible(_sourceComponent);
 
   if (oscillatorName != oscillator1Name) {
     addAndMakeVisible(_on);
-    _onAttachment = std::make_unique<ButtonAttachment>(
-        valueTreeState, _auxParameterName + "on", _on);
+    _onAttachment = std::make_unique<ButtonAttachment>(parameters.on, _on);
   }
 
   _volumeLabel.setJustificationType(Justification::centred);
   addAndMakeVisible(_volumeLabel);
   _volume.setPopupDisplayEnabled(true, false, this);
   addAndMakeVisible(_volume);
-  _volumeAttachment = std::make_unique<SliderAttachment>(
-      valueTreeState, _auxParameterName + "volume", _volume);
+  _volumeAttachment =
+      std::make_unique<SliderAttachment>(parameters.volume, _volume);
 }
 
 void OscillatorComponent::resized() {

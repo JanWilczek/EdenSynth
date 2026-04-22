@@ -9,7 +9,6 @@
 
 namespace eden::plugin {
 namespace {
-constexpr auto GENERATOR_SECTION_PARAMETER_PREFIX = "gen.";
 constexpr auto INVALID_WAVE_TABLE_INDEX = -1;
 }  // namespace
 OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
@@ -33,48 +32,12 @@ OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
   }
 }
 
-void OscillatorContainer::addOscillatorParameters(
-    AudioProcessorValueTreeState& pluginParameters) {
-  using Parameter = juce::AudioProcessorValueTreeState::Parameter;
-
-  for (auto& oscillator : _oscillators) {
-    const auto parameterPrefix =
-        GENERATOR_SECTION_PARAMETER_PREFIX + oscillator.first;
-    const auto namePrefix = String(oscillator.first).toUpperCase();
-
-    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-        parameterPrefix + ".octaveTransposition",
-        namePrefix + " octave transposition",
-        NormalisableRange<float>(-3.0f, 3.0f, 1.0f), 0.f,
-        AudioProcessorValueTreeStateParameterAttributes{}.withLabel("oct.")));
-    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-        parameterPrefix + ".semitoneTransposition",
-        namePrefix + " semitone transposition",
-        NormalisableRange<float>(-6.0f, 6.0f, 1.0f), 0.f,
-        AudioProcessorValueTreeStateParameterAttributes{}.withLabel("semit.")));
-    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-        parameterPrefix + ".centTransposition",
-        namePrefix + " cent transposition",
-        NormalisableRange<float>(-50.0f, 50.0f, 1.0f), 0.f,
-        AudioProcessorValueTreeStateParameterAttributes{}.withLabel("ct.")));
-    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-        parameterPrefix + ".volume", namePrefix + " volume",
-        NormalisableRange<float>(0.f, 1.0f, 0.0001f, 0.4f), 1.f));
-    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-        parameterPrefix + ".on", namePrefix + " on/off",
-        NormalisableRange<float>(0.f, 1.f, 1.f), 1.f));
-  }
-}
-
 void OscillatorContainer::updateOscillatorParameters(
     const AudioProcessorValueTreeState& pluginParameters,
     const eden::plugin::OscillatorParametersContainer& parameters) {
   for (const auto& [oscillator, params] :
        std::views::zip(_oscillators, parameters)) {
     const auto& oscillatorName = oscillator.first;
-
-    const auto parameterPrefix =
-        GENERATOR_SECTION_PARAMETER_PREFIX + oscillatorName;
 
     const auto isRealTime = static_cast<bool>(params.isRealTime.get());
 
@@ -121,18 +84,13 @@ void OscillatorContainer::updateOscillatorParameters(
     }
 
     oscillator.second->setOctaveTransposition(
-        static_cast<int>(*pluginParameters.getRawParameterValue(
-            parameterPrefix + ".octaveTransposition")));
+        static_cast<int>(params.octaveTransposition));
     oscillator.second->setSemitoneTransposition(
-        static_cast<int>(*pluginParameters.getRawParameterValue(
-            parameterPrefix + ".semitoneTransposition")));
+        static_cast<int>(params.semitoneTransposition));
     oscillator.second->setCentTransposition(
-        static_cast<int>(*pluginParameters.getRawParameterValue(
-            parameterPrefix + ".centTransposition")));
-    oscillator.second->setVolume(
-        *pluginParameters.getRawParameterValue(parameterPrefix + ".volume"));
-    oscillator.second->setOn(static_cast<bool>(
-        *pluginParameters.getRawParameterValue(parameterPrefix + ".on")));
+        static_cast<int>(params.centTransposition));
+    oscillator.second->setVolume(params.volume);
+    oscillator.second->setOn(static_cast<bool>(params.on));
   }
 }
 
