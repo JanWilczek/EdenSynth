@@ -26,8 +26,8 @@ OscillatorSourceComponent::OscillatorSourceComponent(
   }
 
   addAndMakeVisible(_waveform);
-  _waveformAttachment = std::make_unique<ComboBoxAttachment>(
-      valueTreeState, auxParameterName + "waveTable", _waveform);
+  _waveformAttachment = std::make_unique<juce::ComboBoxParameterAttachment>(
+      parameters.waveTable, _waveform);
 
   _generator.addItem("Sawtooth Ramp Up", 1);
   _generator.addItem("Square", 2);

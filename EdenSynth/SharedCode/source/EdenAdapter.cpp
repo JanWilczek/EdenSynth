@@ -8,10 +8,15 @@
 #include "eden/MidiBuffer.h"
 #include "ParameterIds.h"
 
+namespace eden::plugin {
 namespace {
+constexpr auto INVALID_WAVE_TABLE_INDEX = -1;
+constexpr auto INVALID_WAVE_TABLE_NAME = "no wave table";
+
 template <int index>
-eden::plugin::OscillatorParameters addOscillatorParameters(
-    wolfsound::JuceParameterHolder::Builder& builder) {
+OscillatorParameters addOscillatorParameters(
+    wolfsound::JuceParameterHolder::Builder& builder,
+    const WaveTablePathProvider& pathProvider) {
   constexpr auto namePrefix = "osc";
   constexpr auto humanReadableIndex = index + 1;
   const auto name = namePrefix + std::to_string(humanReadableIndex);
@@ -24,20 +29,43 @@ eden::plugin::OscillatorParameters addOscillatorParameters(
       .isRealTime = builder.add<juce::AudioParameterFloat>(
           parameterPrefix + ".isRealTime", labelPrefix + " is real time",
           NormalisableRange<float>(0.f, 1.f, 1.f), 0.f),
+      .waveTable = builder.add<juce::AudioParameterFloat>(
+          parameterPrefix + ".waveTable", labelPrefix + " wave table",
+          NormalisableRange<float>(static_cast<float>(INVALID_WAVE_TABLE_INDEX),
+                                   static_cast<float>(pathProvider.size() - 1u),
+                                   1.0f),
+          static_cast<float>(INVALID_WAVE_TABLE_INDEX),
+          juce::AudioParameterFloatAttributes{}
+              .withStringFromValueFunction(
+                  [=](float waveTableIndex, int maximumLength) -> juce::String {
+                    if (static_cast<int>(waveTableIndex) ==
+                        INVALID_WAVE_TABLE_INDEX) {
+                      return "no wave table";
+                    }
+                    return String(pathProvider.indexToName(
+                                      static_cast<size_t>(waveTableIndex)))
+                        .substring(0, maximumLength);
+                  })
+              .withValueFromStringFunction([=](const String& waveTableName) {
+                if (waveTableName == INVALID_WAVE_TABLE_NAME) {
+                  return static_cast<float>(INVALID_WAVE_TABLE_INDEX);
+                }
+                return static_cast<float>(
+                    pathProvider.nameToIndex(waveTableName.toStdString()));
+              })),
   };
 }
 
-auto addOscillatorsParameters(
-    wolfsound::JuceParameterHolder::Builder& builder) {
+auto addOscillatorsParameters(wolfsound::JuceParameterHolder::Builder& builder,
+                              const WaveTablePathProvider& pathProvider) {
   return std::array{
-      addOscillatorParameters<0>(builder),
-      addOscillatorParameters<1>(builder),
-      addOscillatorParameters<2>(builder),
+      addOscillatorParameters<0>(builder, pathProvider),
+      addOscillatorParameters<1>(builder, pathProvider),
+      addOscillatorParameters<2>(builder, pathProvider),
   };
 }
 }  // namespace
 
-namespace eden::plugin {
 EdenAdapter::EdenAdapter(
     eden::EdenSynthesiser& synthesiser,
     wolfsound::JuceParameterHolder::Builder& parameterBuilder,
@@ -61,7 +89,9 @@ EdenAdapter::EdenAdapter(
               NormalisableRange<float>(400.f, 500.f, 0.1f),
               440.f,
               juce::AudioParameterFloatAttributes{}.withLabel("Hz"))},
-          .oscillators{addOscillatorsParameters(parameterBuilder)},
+          .oscillators{
+              addOscillatorsParameters(parameterBuilder,
+                                       WaveTablePathProvider{assetsPath})},
           .envelopeAdbdrAttackTime{
               parameterBuilder.add<juce::AudioParameterFloat>(
                   "envelope.adbdr.attack.time",

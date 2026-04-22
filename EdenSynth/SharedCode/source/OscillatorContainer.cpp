@@ -11,7 +11,6 @@ namespace eden::plugin {
 namespace {
 constexpr auto GENERATOR_SECTION_PARAMETER_PREFIX = "gen.";
 constexpr auto INVALID_WAVE_TABLE_INDEX = -1;
-constexpr auto INVALID_WAVE_TABLE_NAME = "no wave table";
 }  // namespace
 OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
                                          WaveTablePathProvider pathProvider,
@@ -43,29 +42,6 @@ void OscillatorContainer::addOscillatorParameters(
         GENERATOR_SECTION_PARAMETER_PREFIX + oscillator.first;
     const auto namePrefix = String(oscillator.first).toUpperCase();
 
-    pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
-        parameterPrefix + ".waveTable", namePrefix + " wave table",
-        NormalisableRange<float>(static_cast<float>(INVALID_WAVE_TABLE_INDEX),
-                                 static_cast<float>(_pathProvider.size() - 1u),
-                                 1.0f),
-        static_cast<float>(_waveTableIndices[oscillator.first]),
-        AudioProcessorValueTreeStateParameterAttributes{}
-            .withStringFromValueFunction(
-                [this](float index, int maximumLength) -> juce::String {
-                  if (static_cast<int>(index) == INVALID_WAVE_TABLE_INDEX) {
-                    return "no wave table";
-                  }
-                  return String(_pathProvider.indexToName(
-                                    static_cast<size_t>(index)))
-                      .substring(0, maximumLength);
-                })
-            .withValueFromStringFunction([this](const String& name) {
-              if (name == INVALID_WAVE_TABLE_NAME) {
-                return static_cast<float>(INVALID_WAVE_TABLE_INDEX);
-              }
-              return static_cast<float>(
-                  _pathProvider.nameToIndex(name.toStdString()));
-            })));
     pluginParameters.createAndAddParameter(std::make_unique<Parameter>(
         parameterPrefix + ".generatorName", namePrefix + " generator name",
         NormalisableRange<float>(0.f, 4.f, 1.f), 0.f));
@@ -105,8 +81,7 @@ void OscillatorContainer::updateOscillatorParameters(
 
     const auto isRealTime = static_cast<bool>(params.isRealTime.get());
 
-    const auto waveTableIndex = static_cast<int>(
-        *pluginParameters.getRawParameterValue(parameterPrefix + ".waveTable"));
+    const auto waveTableIndex = static_cast<int>(params.waveTable.get());
     const auto generatorName = static_cast<eden::WaveformGenerator>(
         static_cast<int>(*pluginParameters.getRawParameterValue(
             parameterPrefix + ".generatorName")));

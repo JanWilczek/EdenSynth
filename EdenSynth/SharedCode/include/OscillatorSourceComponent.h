@@ -29,7 +29,7 @@ private:
   std::unique_ptr<juce::ButtonParameterAttachment> _isRealTimeAttachment;
 
   ComboBox _waveform;
-  std::unique_ptr<ComboBoxAttachment> _waveformAttachment;
+  std::unique_ptr<juce::ComboBoxParameterAttachment> _waveformAttachment;
 
   ComboBox _generator;
   std::unique_ptr<ComboBoxAttachment> _generatorAttachment;
