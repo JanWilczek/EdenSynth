@@ -6,10 +6,9 @@
 #include "WaveTablePathProvider.h"
 
 GeneratorComponent::GeneratorComponent(
-    AudioProcessorValueTreeState& valueTreeState,
     const eden::plugin::ParameterRefs& parameters,
     const eden::plugin::WaveTablePathProvider& pathProvider)
-    : _oscillators(valueTreeState, parameters.oscillators, pathProvider),
+    : _oscillators(parameters.oscillators, pathProvider),
       _envelopeComponent(parameters) {
   addAndMakeVisible(_oscillators);
   addAndMakeVisible(_envelopeComponent);

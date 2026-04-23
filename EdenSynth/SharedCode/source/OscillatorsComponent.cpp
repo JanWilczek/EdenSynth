@@ -5,21 +5,11 @@
 #include "OscillatorsComponent.h"
 
 OscillatorsComponent::OscillatorsComponent(
-    AudioProcessorValueTreeState& valueTreeState,
     const eden::plugin::OscillatorParametersContainer& parameters,
     const eden::plugin::WaveTablePathProvider& pathProvider)
-    : _oscillator1(valueTreeState,
-                   "osc1",
-                   std::get<0>(parameters),
-                   pathProvider),
-      _oscillator2(valueTreeState,
-                   "osc2",
-                   std::get<1>(parameters),
-                   pathProvider),
-      _oscillator3(valueTreeState,
-                   "osc3",
-                   std::get<2>(parameters),
-                   pathProvider) {
+    : _oscillator1("osc1", std::get<0>(parameters), pathProvider),
+      _oscillator2("osc2", std::get<1>(parameters), pathProvider),
+      _oscillator3("osc3", std::get<2>(parameters), pathProvider) {
   addAndMakeVisible(_oscillator1);
   addAndMakeVisible(_oscillator2);
   addAndMakeVisible(_oscillator3);

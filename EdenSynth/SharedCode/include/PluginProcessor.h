@@ -47,7 +47,6 @@ public:
 
   //==============================================================================
   [[nodiscard]] eden::plugin::PresetManager& getPresetManager() noexcept;
-  [[nodiscard]] AudioProcessorValueTreeState& getPluginParameters() noexcept;
   [[nodiscard]] const eden::plugin::ParameterRefs& pluginParametersV2();
 
 private:
@@ -55,8 +54,7 @@ private:
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EdenSynthAudioProcessor)
 
   eden::EdenSynthesiser _edenSynthesiser;
-  AudioProcessorValueTreeState _pluginParameters;
   eden::plugin::EdenAdapter _edenAdapter;
-  wolfsound::JuceParameterHolder _pluginParametersV2{{}};
+  wolfsound::JuceParameterHolder _pluginParametersV2;
   std::unique_ptr<eden::plugin::PresetManager> _presetManager;
 };

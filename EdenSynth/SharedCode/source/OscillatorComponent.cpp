@@ -6,7 +6,6 @@
 #include "WaveTablePathProvider.h"
 
 OscillatorComponent::OscillatorComponent(
-    AudioProcessorValueTreeState& valueTreeState,
     String oscillatorName,
     const eden::plugin::OscillatorParameters& parameters,
     const eden::plugin::WaveTablePathProvider& pathProvider)
@@ -16,10 +15,7 @@ OscillatorComponent::OscillatorComponent(
                              Slider::TextEntryBoxPosition::NoTextBox),
       _centTransposition(Slider::SliderStyle::LinearVertical,
                          Slider::TextEntryBoxPosition::NoTextBox),
-      _sourceComponent(valueTreeState,
-                       oscillatorName,
-                       parameters,
-                       pathProvider),
+      _sourceComponent(oscillatorName, parameters, pathProvider),
       _volume(Slider::SliderStyle::Rotary,
               Slider::TextEntryBoxPosition::NoTextBox),
       _auxParameterName("gen." + oscillatorName + ".") {

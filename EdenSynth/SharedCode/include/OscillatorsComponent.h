@@ -14,7 +14,6 @@ class WaveTablePathProvider;
 class OscillatorsComponent : public Component {
 public:
   OscillatorsComponent(
-      AudioProcessorValueTreeState& valueTreeState,
       const eden::plugin::OscillatorParametersContainer& parameters,
       const eden::plugin::WaveTablePathProvider& pathProvider);
 

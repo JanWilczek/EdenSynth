@@ -13,7 +13,6 @@ class WaveTablePathProvider;
 class OscillatorSourceComponent : public Component, public Button::Listener {
 public:
   OscillatorSourceComponent(
-      AudioProcessorValueTreeState& valueTreeState,
       String oscillatorName,
       const eden::plugin::OscillatorParameters& parameters,
       const eden::plugin::WaveTablePathProvider& pathProvider);

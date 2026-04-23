@@ -33,7 +33,6 @@ OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
 }
 
 void OscillatorContainer::updateOscillatorParameters(
-    const AudioProcessorValueTreeState& pluginParameters,
     const eden::plugin::OscillatorParametersContainer& parameters) {
   for (const auto& [oscillator, params] :
        std::views::zip(_oscillators, parameters)) {

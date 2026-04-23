@@ -34,8 +34,7 @@ public:
   static eden::MidiBuffer convertToEdenMidi(
       const juce::MidiBuffer& juceMidiBuffer);
 
-  void updateEdenParameters(
-      const AudioProcessorValueTreeState& pluginParameters);
+  void updateEdenParameters();
   const ParameterRefs& parameterRefs();
 
   const WaveTablePathProvider& getPathProvider() const;

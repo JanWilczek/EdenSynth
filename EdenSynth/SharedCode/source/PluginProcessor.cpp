@@ -8,9 +8,6 @@
 #include "ProductionPresetManager.h"
 
 #include "parameters/Parameters.h"
-#include "utility/StopWatchPrinter.h"
-#include "utility/WaveFileReader.h"
-#include <filesystem>
 #include <ranges>
 
 //==============================================================================
@@ -27,7 +24,6 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
 #endif
                          ),
 #endif
-      _pluginParameters(*this, nullptr),
       _edenAdapter(_edenSynthesiser,
                    parameterBuilder,
                    eden::plugin::FileHelper::assetsPath()),
@@ -40,14 +36,13 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
               .getSerializedState =
                   [this]() {
                     return eden::plugin::Parameters::from(
-                        _pluginParameters.copyState());
+                        wolfsound::toVarArray(_pluginParametersV2));
                   },
               .setSerializedState =
                   [this](const eden::plugin::Parameters& p) {
-                    eden::plugin::updateApvts(_pluginParameters, p);
+                    wolfsound::update(_pluginParametersV2, p.toVarArray());
                   },
           })} {
-  _pluginParameters.state = ValueTree(Identifier("EdenSynthParameters"));
 }
 
 //==============================================================================
@@ -143,7 +138,7 @@ void EdenSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer,
 
   ScopedNoDenormals noDenormals;
 
-  _edenAdapter.updateEdenParameters(_pluginParameters);
+  _edenAdapter.updateEdenParameters();
 
   eden::AudioBuffer edenAudioBuffer(
       const_cast<float**>(buffer.getArrayOfWritePointers()),
@@ -161,8 +156,7 @@ bool EdenSynthAudioProcessor::hasEditor() const {
 }
 
 AudioProcessorEditor* EdenSynthAudioProcessor::createEditor() {
-  return new EdenSynthAudioProcessorEditor(*this, _pluginParameters,
-                                           _edenAdapter);
+  return new EdenSynthAudioProcessorEditor(*this, _edenAdapter);
 }
 
 //==============================================================================
@@ -193,14 +187,9 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
   return new EdenSynthAudioProcessor{};
 }
 
-[[nodiscard]] eden::plugin::PresetManager&
+eden::plugin::PresetManager&
 EdenSynthAudioProcessor::getPresetManager() noexcept {
   return *_presetManager;
-}
-
-[[nodiscard]] AudioProcessorValueTreeState&
-EdenSynthAudioProcessor::getPluginParameters() noexcept {
-  return _pluginParameters;
 }
 
 const eden::plugin::ParameterRefs&

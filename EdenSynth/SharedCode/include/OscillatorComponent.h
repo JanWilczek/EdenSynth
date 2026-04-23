@@ -16,8 +16,7 @@ public:
   using SliderAttachment = juce::SliderParameterAttachment;
   using ButtonAttachment = juce::ButtonParameterAttachment;
 
-  OscillatorComponent(AudioProcessorValueTreeState& valueTreeState,
-                      String oscillatorName,
+  OscillatorComponent(String oscillatorName,
                       const eden::plugin::OscillatorParameters& parameters,
                       const eden::plugin::WaveTablePathProvider& pathProvider);
 

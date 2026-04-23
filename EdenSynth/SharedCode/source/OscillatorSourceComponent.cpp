@@ -6,7 +6,6 @@
 #include "WaveTablePathProvider.h"
 
 OscillatorSourceComponent::OscillatorSourceComponent(
-    AudioProcessorValueTreeState& valueTreeState,
     String oscillatorName,
     const eden::plugin::OscillatorParameters& parameters,
     const eden::plugin::WaveTablePathProvider& pathProvider)

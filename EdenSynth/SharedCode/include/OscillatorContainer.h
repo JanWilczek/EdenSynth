@@ -18,7 +18,6 @@ public:
                       unsigned numOscillators);
 
   void updateOscillatorParameters(
-      const AudioProcessorValueTreeState& pluginParameters,
       const eden::plugin::OscillatorParametersContainer& parameters);
 
   const WaveTablePathProvider& getPathProvider() const;

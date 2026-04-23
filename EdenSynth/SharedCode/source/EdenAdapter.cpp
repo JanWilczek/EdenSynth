@@ -289,8 +289,7 @@ eden::MidiBuffer EdenAdapter::convertToEdenMidi(
   return edenMidiBuffer;
 }
 
-void EdenAdapter::updateEdenParameters(
-    const AudioProcessorValueTreeState& pluginParameters) {
+void EdenAdapter::updateEdenParameters() {
   // general parameters
   _synthesiser.setPitchBendRange(
       {static_cast<int>(_parameters.pitchBendSemitonesDown.get()),
@@ -298,8 +297,7 @@ void EdenAdapter::updateEdenParameters(
   _synthesiser.setFrequencyOfA4(_parameters.frequencyOfA4.get());
 
   // oscillator parameters
-  _oscillators.updateOscillatorParameters(pluginParameters,
-                                          _parameters.oscillators);
+  _oscillators.updateOscillatorParameters(_parameters.oscillators);
 
   // filter parameters
   _synthesiser.setCutoff(_parameters.filterCutoff.get());
