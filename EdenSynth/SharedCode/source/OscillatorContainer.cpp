@@ -9,7 +9,7 @@
 
 namespace eden::plugin {
 namespace {
-constexpr auto INVALID_WAVE_TABLE_INDEX = -1;
+constexpr auto invalidWaveTableIndex = -1;
 }  // namespace
 OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
                                          WaveTablePathProvider pathProvider,
@@ -24,7 +24,7 @@ OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
 
   for (auto i = 1u; i <= numOscillators; ++i) {
     const auto name = prefix + std::to_string(i);
-    _waveTableIndices[name] = INVALID_WAVE_TABLE_INDEX;
+    _waveTableIndices[name] = invalidWaveTableIndex;
     _generatorNames[name] = eden::WaveformGenerator::Sine;
     _isRealTime[name] = true;
     _oscillators[name] = _synthesiser.createAndAddOscillator(
@@ -68,7 +68,7 @@ void OscillatorContainer::updateOscillatorParameters(
         _waveTableIndices[oscillatorName] = waveTableIndex;
 
         if (_pathProvider.size() > 0u &&
-            waveTableIndex != INVALID_WAVE_TABLE_INDEX) {
+            waveTableIndex != invalidWaveTableIndex) {
           oscillator.second->setSource(
               _synthesiser.createWaveTableOscillatorSource(
                   _pathProvider.getPath(

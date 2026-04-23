@@ -10,8 +10,8 @@
 
 namespace eden::plugin {
 namespace {
-constexpr auto INVALID_WAVE_TABLE_INDEX = -1;
-constexpr auto INVALID_WAVE_TABLE_NAME = "no wave table";
+constexpr auto invalidWaveTableIndex = -1;
+constexpr auto invalidWaveTableName = "no wave table";
 
 template <int index>
 OscillatorParameters addOscillatorParameters(
@@ -31,15 +31,15 @@ OscillatorParameters addOscillatorParameters(
           NormalisableRange<float>(0.f, 1.f, 1.f), 0.f),
       .waveTable = builder.add<juce::AudioParameterFloat>(
           parameterPrefix + ".waveTable", labelPrefix + " wave table",
-          NormalisableRange<float>(static_cast<float>(INVALID_WAVE_TABLE_INDEX),
+          NormalisableRange<float>(static_cast<float>(invalidWaveTableIndex),
                                    static_cast<float>(pathProvider.size() - 1u),
                                    1.0f),
-          static_cast<float>(INVALID_WAVE_TABLE_INDEX),
+          static_cast<float>(invalidWaveTableIndex),
           juce::AudioParameterFloatAttributes{}
               .withStringFromValueFunction(
                   [=](float waveTableIndex, int maximumLength) -> juce::String {
                     if (static_cast<int>(waveTableIndex) ==
-                        INVALID_WAVE_TABLE_INDEX) {
+                        invalidWaveTableIndex) {
                       return "no wave table";
                     }
                     return String(pathProvider.indexToName(
@@ -47,8 +47,8 @@ OscillatorParameters addOscillatorParameters(
                         .substring(0, maximumLength);
                   })
               .withValueFromStringFunction([=](const String& waveTableName) {
-                if (waveTableName == INVALID_WAVE_TABLE_NAME) {
-                  return static_cast<float>(INVALID_WAVE_TABLE_INDEX);
+                if (waveTableName == invalidWaveTableName) {
+                  return static_cast<float>(invalidWaveTableIndex);
                 }
                 return static_cast<float>(
                     pathProvider.nameToIndex(waveTableName.toStdString()));
