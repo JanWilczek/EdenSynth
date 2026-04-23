@@ -27,7 +27,7 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
       _edenAdapter(_edenSynthesiser,
                    parameterBuilder,
                    eden::plugin::FileHelper::assetsPath()),
-      _pluginParametersV2{std::move(parameterBuilder).build(*this)},
+      _pluginParameters{std::move(parameterBuilder).build(*this)},
       _presetManager{std::make_unique<eden::plugin::ProductionPresetManager>(
           eden::plugin::ProductionPresetManager::Args{
               .systemPresetsPath =
@@ -36,11 +36,11 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
               .getSerializedState =
                   [this]() {
                     return eden::plugin::Parameters::from(
-                        wolfsound::toVarArray(_pluginParametersV2));
+                        wolfsound::toVarArray(_pluginParameters));
                   },
               .setSerializedState =
                   [this](const eden::plugin::Parameters& p) {
-                    wolfsound::update(_pluginParametersV2, p.toVarArray());
+                    wolfsound::update(_pluginParameters, p.toVarArray());
                   },
           })} {
 }
@@ -162,7 +162,7 @@ AudioProcessorEditor* EdenSynthAudioProcessor::createEditor() {
 //==============================================================================
 void EdenSynthAudioProcessor::getStateInformation(MemoryBlock& destData) {
   const auto serializedParameters = eden::plugin::Parameters::fromChecked(
-      wolfsound::toVarArray(_pluginParametersV2));
+      wolfsound::toVarArray(_pluginParameters));
   if (serializedParameters.has_value()) {
     juce::MemoryOutputStream memory{destData, true};
     juce::JSON::writeToStream(memory, serializedParameters->toVar());
@@ -177,7 +177,7 @@ void EdenSynthAudioProcessor::setStateInformation(const void* data,
   const auto parameters =
       eden::plugin::Parameters::fromChecked(deserializedParameters);
   if (parameters.has_value()) {
-    wolfsound::update(_pluginParametersV2, parameters->toVarArray());
+    wolfsound::update(_pluginParameters, parameters->toVarArray());
   }
 }
 

@@ -55,6 +55,6 @@ private:
 
   eden::EdenSynthesiser _edenSynthesiser;
   eden::plugin::EdenAdapter _edenAdapter;
-  wolfsound::JuceParameterHolder _pluginParametersV2;
+  wolfsound::JuceParameterHolder _pluginParameters;
   std::unique_ptr<eden::plugin::PresetManager> _presetManager;
 };
