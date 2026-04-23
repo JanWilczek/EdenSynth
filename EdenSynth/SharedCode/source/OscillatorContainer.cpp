@@ -8,9 +8,6 @@
 #include <ranges>
 
 namespace eden::plugin {
-namespace {
-constexpr auto invalidWaveTableIndex = -1;
-}  // namespace
 OscillatorContainer::OscillatorContainer(eden::EdenSynthesiser& synthesiser,
                                          WaveTablePathProvider pathProvider,
                                          unsigned numOscillators)

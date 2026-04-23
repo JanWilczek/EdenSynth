@@ -10,7 +10,6 @@
 
 namespace eden::plugin {
 namespace {
-constexpr auto invalidWaveTableIndex = -1;
 constexpr auto invalidWaveTableName = "no wave table";
 
 template <int index>
@@ -31,15 +30,15 @@ OscillatorParameters addOscillatorParameters(
           NormalisableRange<float>(0.f, 1.f, 1.f), 0.f),
       .waveTable = builder.add<juce::AudioParameterFloat>(
           parameterPrefix + ".waveTable", labelPrefix + " wave table",
-          NormalisableRange<float>(static_cast<float>(invalidWaveTableIndex),
-                                   static_cast<float>(pathProvider.size() - 1u),
-                                   1.0f),
-          static_cast<float>(invalidWaveTableIndex),
+          NormalisableRange<float>(
+              static_cast<float>(OscillatorContainer::invalidWaveTableIndex),
+              static_cast<float>(pathProvider.size() - 1u), 1.0f),
+          static_cast<float>(OscillatorContainer::invalidWaveTableIndex),
           juce::AudioParameterFloatAttributes{}
               .withStringFromValueFunction(
                   [=](float waveTableIndex, int maximumLength) -> juce::String {
                     if (static_cast<int>(waveTableIndex) ==
-                        invalidWaveTableIndex) {
+                        OscillatorContainer::invalidWaveTableIndex) {
                       return "no wave table";
                     }
                     return String(pathProvider.indexToName(
@@ -48,7 +47,8 @@ OscillatorParameters addOscillatorParameters(
                   })
               .withValueFromStringFunction([=](const String& waveTableName) {
                 if (waveTableName == invalidWaveTableName) {
-                  return static_cast<float>(invalidWaveTableIndex);
+                  return static_cast<float>(
+                      OscillatorContainer::invalidWaveTableIndex);
                 }
                 return static_cast<float>(
                     pathProvider.nameToIndex(waveTableName.toStdString()));

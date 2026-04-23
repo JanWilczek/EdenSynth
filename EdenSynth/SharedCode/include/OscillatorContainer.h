@@ -13,6 +13,8 @@
 namespace eden::plugin {
 class OscillatorContainer {
 public:
+  static constexpr auto invalidWaveTableIndex = -1;
+
   OscillatorContainer(eden::EdenSynthesiser& synthesiser,
                       WaveTablePathProvider pathProvider,
                       unsigned numOscillators);
