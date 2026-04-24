@@ -67,9 +67,9 @@ std::expected<PresetV2, PresetLoadingError> presetFrom(
 }
 }  // namespace
 
-class PresetsRepository {
+class PresetRepository {
 public:
-  virtual ~PresetsRepository() = default;
+  virtual ~PresetRepository() = default;
 
   virtual std::optional<PresetV2> findPreset(const PresetId& presetId) = 0;
   virtual void savePreset(PresetV2) = 0;
@@ -79,7 +79,7 @@ public:
 class PluginProcessorWithPresets : public wolfsound::TestAudioProcessorBase {
 public:
   explicit PluginProcessorWithPresets(
-      std::unique_ptr<PresetsRepository> presetRepository,
+      std::unique_ptr<PresetRepository> presetRepository,
       wolfsound::JuceParameterHolder::Builder builder = {})
       : floatParam{builder.add<juce::AudioParameterFloat>(
             "floatParam",
@@ -146,7 +146,7 @@ public:
 
 private:
   wolfsound::JuceParameterHolder _parameters;
-  std::unique_ptr<PresetsRepository> _presetsRepository;
+  std::unique_ptr<PresetRepository> _presetsRepository;
 };
 
 // interfaces
@@ -298,7 +298,7 @@ private:
 // Which class should combine factory and user presets?
 // Or is the disk connection necessary? Maybe we can read the presets
 // on startup and that's it?
-class ProductionPresetsRepository : public PresetsRepository {
+class ProductionPresetsRepository : public PresetRepository {
 public:
   explicit ProductionPresetsRepository(
       FactoryPresetsDataSource& factoryPresetsDataSource,
