@@ -4,7 +4,7 @@
 #include "PluginProcessor.h"
 #include <future>
 
-namespace eden::plugin_test {
+namespace eden::plugin {
 class ProductionPresetManagerTest : public ::testing::Test {
   juce::ScopedJuceInitialiser_GUI _guiInitializer;
 
@@ -77,4 +77,4 @@ TEST_F(ProductionPresetManagerTest, CannotSavePresetWithEmptyName) {
   ASSERT_FALSE(result);
   ASSERT_EQ(eden::plugin::PresetSavingError::InvalidPresetName, result.error());
 }
-}  // namespace eden::plugin_test
+}  // namespace eden::plugin

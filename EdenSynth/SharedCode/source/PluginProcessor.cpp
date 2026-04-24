@@ -11,7 +11,7 @@
 #include <ranges>
 #include <utility/EdenAssert.h>
 
-//==============================================================================
+namespace eden::plugin {
 EdenSynthAudioProcessor::EdenSynthAudioProcessor(
     wolfsound::JuceParameterHolder::Builder parameterBuilder)
     :
@@ -27,13 +27,12 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
 #endif
       _edenAdapter(_edenSynthesiser,
                    parameterBuilder,
-                   eden::plugin::FileHelper::assetsPath()),
+                   FileHelper::assetsPath()),
       _pluginParameters{std::move(parameterBuilder).build(*this)},
-      _presetManager{std::make_unique<eden::plugin::ProductionPresetManager>(
-          eden::plugin::ProductionPresetManager::Args{
-              .systemPresetsPath =
-                  eden::plugin::FileHelper::systemPresetsPath(),
-              .userPresetsPath = eden::plugin::FileHelper::userPresetsPath(),
+      _presetManager{std::make_unique<ProductionPresetManager>(
+          ProductionPresetManager::Args{
+              .systemPresetsPath = FileHelper::systemPresetsPath(),
+              .userPresetsPath = FileHelper::userPresetsPath(),
               .getSerializedState =
                   [this]() {
                     const auto parameters =
@@ -135,8 +134,8 @@ bool EdenSynthAudioProcessor::isBusesLayoutSupported(
 }
 #endif
 
-void EdenSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer,
-                                           MidiBuffer& midiMessages) {
+void EdenSynthAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
+                                           juce::MidiBuffer& midiMessages) {
   ScopedNoDenormals noDenormals;
 
   _edenAdapter.updateEdenParameters();
@@ -146,7 +145,7 @@ void EdenSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer,
       getTotalNumOutputChannels(),
       static_cast<unsigned>(buffer.getNumSamples()));
   eden::MidiBuffer edenMidiBuffer =
-      eden::plugin::EdenAdapter::convertToEdenMidi(midiMessages);
+      EdenAdapter::convertToEdenMidi(midiMessages);
 
   _edenSynthesiser.processInputBlock(edenAudioBuffer, edenMidiBuffer);
 }
@@ -157,7 +156,7 @@ bool EdenSynthAudioProcessor::hasEditor() const {
 }
 
 AudioProcessorEditor* EdenSynthAudioProcessor::createEditor() {
-  return new eden::plugin::EdenSynthAudioProcessorEditor(*this, _edenAdapter);
+  return new EdenSynthAudioProcessorEditor(*this, _edenAdapter);
 }
 
 //==============================================================================
@@ -182,18 +181,15 @@ void EdenSynthAudioProcessor::setStateInformation(const void* data,
   }
 }
 
-//==============================================================================
-// This creates new instances of the plugin..
-AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-  return new EdenSynthAudioProcessor{};
-}
-
-eden::plugin::PresetManager&
-EdenSynthAudioProcessor::getPresetManager() noexcept {
+PresetManager& EdenSynthAudioProcessor::getPresetManager() noexcept {
   return *_presetManager;
 }
 
-const eden::plugin::ParameterRefs&
-EdenSynthAudioProcessor::pluginParametersV2() {
+const ParameterRefs& EdenSynthAudioProcessor::pluginParametersV2() {
   return _edenAdapter.parameterRefs();
+}
+}  // namespace eden::plugin
+
+AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
+  return new eden::plugin::EdenSynthAudioProcessor{};
 }

@@ -8,7 +8,8 @@
 #include "parameters/ParameterRefs.h"
 #include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
 
-class EdenSynthAudioProcessor : public AudioProcessor {
+namespace eden::plugin {
+class EdenSynthAudioProcessor : public juce::AudioProcessor {
 public:
   explicit EdenSynthAudioProcessor(
       wolfsound::JuceParameterHolder::Builder parameterBuilder = {});
@@ -20,14 +21,14 @@ public:
   bool isBusesLayoutSupported(const BusesLayout& layouts) const override;
 #endif
 
-  void processBlock(AudioBuffer<float>&, MidiBuffer&) override;
+  void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
 
   //==============================================================================
   AudioProcessorEditor* createEditor() override;
   bool hasEditor() const override;
 
   //==============================================================================
-  const String getName() const override;
+  const juce::String getName() const override;
 
   bool acceptsMidi() const override;
   bool producesMidi() const override;
@@ -38,23 +39,24 @@ public:
   int getNumPrograms() override;
   int getCurrentProgram() override;
   void setCurrentProgram(int index) override;
-  const String getProgramName(int index) override;
-  void changeProgramName(int index, const String& newName) override;
+  const juce::String getProgramName(int index) override;
+  void changeProgramName(int index, const juce::String& newName) override;
 
   //==============================================================================
-  void getStateInformation(MemoryBlock& destData) override;
+  void getStateInformation(juce::MemoryBlock& destData) override;
   void setStateInformation(const void* data, int sizeInBytes) override;
 
   //==============================================================================
-  [[nodiscard]] eden::plugin::PresetManager& getPresetManager() noexcept;
-  [[nodiscard]] const eden::plugin::ParameterRefs& pluginParametersV2();
+  [[nodiscard]] PresetManager& getPresetManager() noexcept;
+  [[nodiscard]] const ParameterRefs& pluginParametersV2();
 
 private:
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EdenSynthAudioProcessor)
 
-  eden::EdenSynthesiser _edenSynthesiser;
-  eden::plugin::EdenAdapter _edenAdapter;
+  EdenSynthesiser _edenSynthesiser;
+  EdenAdapter _edenAdapter;
   wolfsound::JuceParameterHolder _pluginParameters;
-  std::unique_ptr<eden::plugin::PresetManager> _presetManager;
+  std::unique_ptr<PresetManager> _presetManager;
 };
+}  // namespace eden::plugin
