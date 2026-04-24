@@ -127,6 +127,7 @@ set(SOURCES
     source/presets/Preset.h
     source/presets/Presets.cpp
     source/presets/Presets.h
+    source/use_cases/GetPresetsUseCase.cpp
     source/WaveshapingTransferFunctionContainer.cpp
     source/WaveTablePathProvider.cpp)
 
