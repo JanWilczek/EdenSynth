@@ -90,7 +90,7 @@ std::expected<PresetV2, PresetLoadingError> presetFrom(
   }
   presetMetadata->isFactory = isFactory;
 
-  const auto parameters = SerializedParameters::fromChecked(presetData);
+  const auto parameters = SerializedParameters::from(presetData);
   if (!parameters.has_value()) {
     return std::unexpected{PresetLoadingError::InvalidFile};
   }
@@ -157,7 +157,7 @@ public:
     // check if parameter with same name exists?
 
     const auto parameters =
-        SerializedParameters::fromChecked(wolfsound::toVarArray(_parameters));
+        SerializedParameters::from(wolfsound::toVarArray(_parameters));
 
     if (!parameters.has_value()) {
       EDEN_ASSERT(false);
@@ -497,13 +497,13 @@ TEST(ProductionPresetsRepository, ScansUserAndFactoryPresetsUponStart) {
           .isFactory = false,
           .id = "user-preset-1",
       },
-      SerializedParameters::fromChecked(juce::Array<juce::var>{}).value());
+      SerializedParameters::from(juce::Array<juce::var>{}).value());
   userPresetsDataSource->presetsToReturn.emplace_back(
       PresetMetadata{
           .isFactory = false,
           .id = "user-preset-2",
       },
-      SerializedParameters::fromChecked(juce::Array<juce::var>{}).value());
+      SerializedParameters::from(juce::Array<juce::var>{}).value());
   ProductionPresetsRepository testee{factoryPresetsDataSource,
                                      std::move(userPresetsDataSource)};
 
@@ -534,7 +534,7 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
           .isFactory = false,
           .id = "user-preset-1",
       },
-      SerializedParameters::fromChecked(
+      SerializedParameters::from(
           juce::Array{juce::JSON::fromString(R"({"id":"param1","value":10})")})
           .value()};
   {

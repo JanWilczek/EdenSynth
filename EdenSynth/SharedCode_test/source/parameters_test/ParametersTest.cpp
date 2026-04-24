@@ -5,7 +5,7 @@
 
 namespace eden::plugin {
 TEST(SerializedParameters, FromVarChecked) {
-  const auto result = SerializedParameters::fromChecked(juce::JSON::parse(R"-(
+  const auto result = SerializedParameters::from(juce::JSON::parse(R"-(
 {
   "name": "Min (Factory Preset)",
   "parameters": [
@@ -55,7 +55,7 @@ TEST(SerializedParameters, FromVarArrayChecked) {
 )-");
   ASSERT_TRUE(array.isArray());
 
-  const auto result = SerializedParameters::fromChecked(*array.getArray());
+  const auto result = SerializedParameters::from(*array.getArray());
 
   EXPECT_TRUE(result.has_value());
 }

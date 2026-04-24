@@ -5,9 +5,9 @@
 namespace eden::plugin {
 class SerializedParameters {
 public:
-  [[nodiscard]] static std::optional<SerializedParameters> fromChecked(
+  [[nodiscard]] static std::optional<SerializedParameters> from(
       const juce::var&);
-  [[nodiscard]] static std::optional<SerializedParameters> fromChecked(
+  [[nodiscard]] static std::optional<SerializedParameters> from(
       const juce::Array<juce::var>&);
 
   [[nodiscard]] const juce::var& toVar() const noexcept { return _impl; }

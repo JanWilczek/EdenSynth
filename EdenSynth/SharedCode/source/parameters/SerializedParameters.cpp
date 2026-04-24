@@ -8,16 +8,16 @@ SerializedParameters SerializedParameters::fromCorrect(
   return SerializedParameters{{root}};
 }
 
-std::optional<SerializedParameters> SerializedParameters::fromChecked(
+std::optional<SerializedParameters> SerializedParameters::from(
     const juce::var& v) {
   if (v.hasProperty("parameters") && v["parameters"].isArray()) {
-    return SerializedParameters::fromChecked(*v["parameters"].getArray());
+    return SerializedParameters::from(*v["parameters"].getArray());
   }
 
   return {};
 }
 
-std::optional<SerializedParameters> SerializedParameters::fromChecked(
+std::optional<SerializedParameters> SerializedParameters::from(
     const juce::Array<juce::var>& parameterArray) {
   auto hasIdAndValue = [](const auto& var) {
     return var.hasProperty("id") && var["id"].isString() &&
