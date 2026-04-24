@@ -6,6 +6,7 @@
 #include <wolfsound/test/wolfsound_TestAudioProcessorBase.hpp>
 #include <wolfsound/common/wolfsound_WhenLeavingScopeExecute.hpp>
 #include "presets/Preset.h"
+#include "presets/PresetRepository.h"
 #include <PresetLoadingResult.h>
 #include <utility/EdenAssert.h>
 #include "../TestUtils.h"
@@ -66,15 +67,6 @@ std::expected<PresetV2, PresetLoadingError> presetFrom(
   return PresetV2{presetMetadata.value(), parameters.value()};
 }
 }  // namespace
-
-class PresetRepository {
-public:
-  virtual ~PresetRepository() = default;
-
-  virtual std::optional<PresetV2> findPreset(const PresetId& presetId) = 0;
-  virtual void savePreset(PresetV2) = 0;
-  virtual std::vector<PresetV2> presets() = 0;
-};
 
 class PluginProcessorWithPresets : public wolfsound::TestAudioProcessorBase {
 public:
