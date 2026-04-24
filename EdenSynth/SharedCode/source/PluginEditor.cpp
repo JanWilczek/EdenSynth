@@ -3,6 +3,7 @@
 #include "FileHelper.h"
 #include "PluginProcessor.h"
 #include "viewmodels/PresetsViewModel.h"
+#include "use_cases/GetPresetsUseCase.h"
 
 namespace {
 constexpr auto PRESETS_COMPONENT_HEIGHT = 50;
@@ -31,7 +32,10 @@ EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(
       _outputSettingsComponent(p.pluginParametersV2()),
       _presetsComponent{
           std::make_unique<eden::plugin::viewmodels::PresetsViewModel>(
-              p.getPresetManager())} {
+              eden::plugin::viewmodels::PresetsViewModel::Args{
+                  .getPresetsUseCase = eden::plugin::GetPresetsUseCase{nullptr},
+                  .presetManager = p.getPresetManager(),
+              })} {
   setSize(EDITOR_WIDTH, EDITOR_HEIGHT);
 
   addAndMakeVisible(_generalSettingsComponent);

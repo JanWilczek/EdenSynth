@@ -7,8 +7,9 @@
 #include <utility/EdenAssert.h>
 
 namespace eden::plugin::viewmodels {
-PresetsViewModel::PresetsViewModel(PresetManager& presetManager)
-    : _presetManager{presetManager} {
+PresetsViewModel::PresetsViewModel(Args&& args)
+    : _presetManager{args.presetManager},
+      _getPresetsUseCase{std::move(args.getPresetsUseCase)} {
   refreshPresetList();
 }
 

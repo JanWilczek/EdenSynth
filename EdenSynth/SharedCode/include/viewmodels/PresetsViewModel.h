@@ -10,6 +10,7 @@
 #include "JuceHeader.h"
 #include "Visibility.h"
 #include "../source/presets/Preset.h"
+#include "presets/Preset.h"
 
 namespace eden::plugin {
 class PresetManager;
@@ -29,7 +30,12 @@ public:
   using OnPresetNameInputDialogVisibilityChanged =
       std::function<void(Visibility)>;
 
-  explicit PresetsViewModel(PresetManager&);
+  struct Args {
+    std::function<std::vector<PresetV2>()> getPresetsUseCase;
+    PresetManager& presetManager;
+  };
+
+  explicit PresetsViewModel(Args&&);
 
   void onSavePresetClicked();
   void onPresetNameGiven(const std::string& presetName);
@@ -58,6 +64,7 @@ private:
   void showErrorDialogWithMessage(std::string message);
 
   PresetManager& _presetManager;
+  std::function<std::vector<PresetV2>()> _getPresetsUseCase;
   PresetList _presetList;
   int _displayedPresetId{0};
   PresetListChangedListener _presetListChangedListener;
