@@ -7,10 +7,10 @@
 #include "PluginProcessor.h"
 #include "PresetsComponent.h"
 
+namespace eden::plugin {
 class EdenSynthAudioProcessorEditor : public AudioProcessorEditor {
 public:
-  EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor&,
-                                const eden::plugin::EdenAdapter&);
+  EdenSynthAudioProcessorEditor(EdenSynthAudioProcessor&, const EdenAdapter&);
 
   void paint(Graphics&) override;
   void resized() override;
@@ -26,3 +26,4 @@ private:
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EdenSynthAudioProcessorEditor)
 };
+}  // namespace eden::plugin

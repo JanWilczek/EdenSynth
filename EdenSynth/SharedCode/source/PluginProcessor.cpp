@@ -157,7 +157,7 @@ bool EdenSynthAudioProcessor::hasEditor() const {
 }
 
 AudioProcessorEditor* EdenSynthAudioProcessor::createEditor() {
-  return new EdenSynthAudioProcessorEditor(*this, _edenAdapter);
+  return new eden::plugin::EdenSynthAudioProcessorEditor(*this, _edenAdapter);
 }
 
 //==============================================================================

@@ -5,6 +5,7 @@
 #include "viewmodels/PresetsViewModel.h"
 #include "use_cases/GetPresetsUseCase.h"
 
+namespace eden::plugin {
 namespace {
 constexpr auto PRESETS_COMPONENT_HEIGHT = 50;
 constexpr auto SYNTHESIZER_CONTROLS_COMPONENTS_HEIGHT = 500;
@@ -23,19 +24,18 @@ static_assert(EDITOR_WIDTH == 1040);
 
 EdenSynthAudioProcessorEditor::EdenSynthAudioProcessorEditor(
     EdenSynthAudioProcessor& p,
-    const eden::plugin::EdenAdapter& adapter)
+    const EdenAdapter& adapter)
     : AudioProcessorEditor(&p),
       _processor(p),
       _generalSettingsComponent(p.pluginParametersV2()),
       _generatorComponent(p.pluginParametersV2(), adapter.getPathProvider()),
       _modifierComponent(p.pluginParametersV2(), adapter),
       _outputSettingsComponent(p.pluginParametersV2()),
-      _presetsComponent{
-          std::make_unique<eden::plugin::viewmodels::PresetsViewModel>(
-              eden::plugin::viewmodels::PresetsViewModel::Args{
-                  .getPresetsUseCase = eden::plugin::GetPresetsUseCase{nullptr},
-                  .presetManager = p.getPresetManager(),
-              })} {
+      _presetsComponent{std::make_unique<viewmodels::PresetsViewModel>(
+          viewmodels::PresetsViewModel::Args{
+              .getPresetsUseCase = GetPresetsUseCase{nullptr},
+              .presetManager = p.getPresetManager(),
+          })} {
   setSize(EDITOR_WIDTH, EDITOR_HEIGHT);
 
   addAndMakeVisible(_generalSettingsComponent);
@@ -68,3 +68,4 @@ void EdenSynthAudioProcessorEditor::resized() {
       _modifierComponent.getY(), OUTPUT_SETTINGS_COMPONENT_WIDTH,
       SYNTHESIZER_CONTROLS_COMPONENTS_HEIGHT);
 }
+}  // namespace eden::plugin
