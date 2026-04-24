@@ -1,13 +1,7 @@
 #include "parameters/SerializedParameters.h"
-#include "utility/EdenAssert.h"
 
 namespace eden::plugin {
-SerializedParameters SerializedParameters::from(const juce::var& v) {
-  EDEN_ASSERT(v.hasProperty("parameters") && v["parameters"].isArray());
-  return SerializedParameters{v};
-}
-
-SerializedParameters SerializedParameters::from(
+SerializedParameters SerializedParameters::fromCorrect(
     const juce::Array<juce::var>& parameterArray) {
   const DynamicObject::Ptr root{new juce::DynamicObject};
   root->setProperty("parameters", parameterArray);
@@ -30,7 +24,7 @@ std::optional<SerializedParameters> SerializedParameters::fromChecked(
            var.hasProperty("value");
   };
   if (std::ranges::all_of(parameterArray, hasIdAndValue)) {
-    return SerializedParameters::from(parameterArray);
+    return SerializedParameters::fromCorrect(parameterArray);
   }
 
   return {};

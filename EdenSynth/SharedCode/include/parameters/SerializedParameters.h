@@ -17,8 +17,8 @@ public:
   }
 
 private:
-  [[nodiscard]] static SerializedParameters from(const juce::var&);
-  [[nodiscard]] static SerializedParameters from(const juce::Array<juce::var>&);
+  [[nodiscard]] static SerializedParameters fromCorrect(
+      const juce::Array<juce::var>&);
 
   explicit SerializedParameters(juce::var v) : _impl{std::move(v)} {}
 
