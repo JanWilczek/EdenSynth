@@ -5,42 +5,10 @@
 #include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
 #include <wolfsound/test/wolfsound_TestAudioProcessorBase.hpp>
 #include <wolfsound/common/wolfsound_WhenLeavingScopeExecute.hpp>
-#include <wolfsound/juce/wolfsound_SerializedParameters.hpp>
+#include "presets/Preset.h"
 #include <PresetLoadingResult.h>
 #include <utility/EdenAssert.h>
 #include "../TestUtils.h"
-
-namespace eden::plugin {
-using PresetId = std::string;
-
-struct PresetMetadata {
-  static constexpr auto currentPresetVersion = 1;
-
-  std::string name;
-  bool isFactory;
-  PresetId id;
-  int presetVersion = currentPresetVersion;
-};
-
-class PresetV2 {
-public:
-  PresetV2(PresetMetadata metadata, wolfsound::SerializedParameters parameters)
-      : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
-  [[nodiscard]] const wolfsound::SerializedParameters& parameters() const {
-    return _parameters;
-  }
-  [[nodiscard]] const std::string& name() const { return _metadata.name; }
-  [[nodiscard]] bool isFactory() const noexcept { return _metadata.isFactory; }
-  [[nodiscard]] const PresetId& id() const noexcept { return _metadata.id; }
-  [[nodiscard]] const PresetMetadata& metadata() const noexcept {
-    return _metadata;
-  }
-
-private:
-  PresetMetadata _metadata;
-  wolfsound::SerializedParameters _parameters;
-};
-}  // namespace eden::plugin
 
 // serialization
 template <>
