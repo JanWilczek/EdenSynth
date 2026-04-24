@@ -137,9 +137,6 @@ bool EdenSynthAudioProcessor::isBusesLayoutSupported(
 
 void EdenSynthAudioProcessor::processBlock(AudioBuffer<float>& buffer,
                                            MidiBuffer& midiMessages) {
-  // time measurement
-  // eden::utility::StopWatchPrinter stopWatch;
-
   ScopedNoDenormals noDenormals;
 
   _edenAdapter.updateEdenParameters();
