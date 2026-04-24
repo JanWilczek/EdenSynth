@@ -7,7 +7,7 @@
 #include "eden/MidiBuffer.h"
 #include "ProductionPresetManager.h"
 
-#include "parameters/Parameters.h"
+#include "parameters/SerializedParameters.h"
 #include <ranges>
 #include <utility/EdenAssert.h>
 
@@ -37,13 +37,13 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
               .getSerializedState =
                   [this]() {
                     const auto parameters =
-                        eden::plugin::Parameters::fromChecked(
+                        eden::plugin::SerializedParameters::fromChecked(
                             wolfsound::toVarArray(_pluginParameters));
                     EDEN_ASSERT(parameters.has_value());
                     return parameters.value();
                   },
               .setSerializedState =
-                  [this](const eden::plugin::Parameters& p) {
+                  [this](const eden::plugin::SerializedParameters& p) {
                     wolfsound::update(_pluginParameters, p.toVarArray());
                   },
           })} {
@@ -165,8 +165,9 @@ AudioProcessorEditor* EdenSynthAudioProcessor::createEditor() {
 
 //==============================================================================
 void EdenSynthAudioProcessor::getStateInformation(MemoryBlock& destData) {
-  const auto serializedParameters = eden::plugin::Parameters::fromChecked(
-      wolfsound::toVarArray(_pluginParameters));
+  const auto serializedParameters =
+      eden::plugin::SerializedParameters::fromChecked(
+          wolfsound::toVarArray(_pluginParameters));
   if (serializedParameters.has_value()) {
     juce::MemoryOutputStream memory{destData, true};
     juce::JSON::writeToStream(memory, serializedParameters->toVar());
@@ -179,7 +180,7 @@ void EdenSynthAudioProcessor::setStateInformation(const void* data,
                                       false};
   const auto deserializedParameters = juce::JSON::parse(inputStream);
   const auto parameters =
-      eden::plugin::Parameters::fromChecked(deserializedParameters);
+      eden::plugin::SerializedParameters::fromChecked(deserializedParameters);
   if (parameters.has_value()) {
     wolfsound::update(_pluginParameters, parameters->toVarArray());
   }

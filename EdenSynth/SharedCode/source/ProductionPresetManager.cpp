@@ -64,7 +64,8 @@ PresetLoadingResult ProductionPresetManager::loadPreset(
   const auto presetData = juce::JSON::parse(inputStream);
   // TODO: Validate correctness
 
-  const auto parameters = eden::plugin::Parameters::fromChecked(presetData);
+  const auto parameters =
+      eden::plugin::SerializedParameters::fromChecked(presetData);
   EDEN_ASSERT(parameters.has_value());
   _setSerializedState(parameters.value());
 

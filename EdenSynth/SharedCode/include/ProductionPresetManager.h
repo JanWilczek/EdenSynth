@@ -3,7 +3,7 @@
 #include <functional>
 #include "../source/presets/Presets.h"
 #include "PresetManager.h"
-#include "parameters/Parameters.h"
+#include "parameters/SerializedParameters.h"
 #include <JuceHeader.h>
 
 namespace juce {
@@ -18,9 +18,10 @@ namespace eden::plugin {
 /// <summary>
 class ProductionPresetManager : public PresetManager {
 public:
-  using GetSerializedState = std::function<eden::plugin::Parameters()>;
+  using GetSerializedState =
+      std::function<eden::plugin::SerializedParameters()>;
   using SetSerializedState =
-      std::function<void(const eden::plugin::Parameters&)>;
+      std::function<void(const eden::plugin::SerializedParameters&)>;
 
   struct Args {
     /// <summary>

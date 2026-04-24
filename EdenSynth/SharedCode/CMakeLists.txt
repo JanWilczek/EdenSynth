@@ -93,6 +93,7 @@ set(SOURCES
     include/EdenWaveshapingParameters.h
     include/FileHelper.h
     include/OscillatorContainer.h
+    include/parameters/SerializedParameters.h
     include/PluginEditor.h
     include/PluginProcessor.h
     include/PresetManager.h
@@ -123,7 +124,7 @@ set(SOURCES
     source/OscillatorContainer.cpp
     source/PluginEditor.cpp
     source/PluginProcessor.cpp
-    source/parameters/Parameters.cpp
+    source/parameters/SerializedParameters.cpp
     source/presets/Preset.cpp
     source/presets/Preset.h
     source/presets/Presets.cpp

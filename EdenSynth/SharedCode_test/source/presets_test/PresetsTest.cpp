@@ -5,7 +5,7 @@
 #include <wolfsound/juce/wolfsound_ParameterHolder.hpp>
 #include <wolfsound/test/wolfsound_TestAudioProcessorBase.hpp>
 #include <wolfsound/common/wolfsound_WhenLeavingScopeExecute.hpp>
-#include <parameters/Parameters.h>
+#include "parameters/SerializedParameters.h"
 #include <PresetLoadingResult.h>
 #include <utility/EdenAssert.h>
 #include "../TestUtils.h"
@@ -24,9 +24,11 @@ struct PresetMetadata {
 
 class PresetV2 {
 public:
-  PresetV2(PresetMetadata metadata, Parameters parameters)
+  PresetV2(PresetMetadata metadata, SerializedParameters parameters)
       : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
-  [[nodiscard]] const Parameters& parameters() const { return _parameters; }
+  [[nodiscard]] const SerializedParameters& parameters() const {
+    return _parameters;
+  }
   [[nodiscard]] const std::string& name() const { return _metadata.name; }
   [[nodiscard]] bool isFactory() const noexcept { return _metadata.isFactory; }
   [[nodiscard]] const PresetId& id() const noexcept { return _metadata.id; }
@@ -36,7 +38,7 @@ public:
 
 private:
   PresetMetadata _metadata;
-  Parameters _parameters;
+  SerializedParameters _parameters;
 };
 }  // namespace eden::plugin
 
@@ -88,7 +90,7 @@ std::expected<PresetV2, PresetLoadingError> presetFrom(
   }
   presetMetadata->isFactory = isFactory;
 
-  const auto parameters = Parameters::fromChecked(presetData);
+  const auto parameters = SerializedParameters::fromChecked(presetData);
   if (!parameters.has_value()) {
     return std::unexpected{PresetLoadingError::InvalidFile};
   }
@@ -108,7 +110,7 @@ public:
 
 template <class VisitorBase>
 void update(wolfsound::ParameterHolder<VisitorBase>& parameterHolder,
-            const Parameters& parameters) {
+            const SerializedParameters& parameters) {
   update(parameterHolder, parameters.toVarArray());
 }
 
@@ -155,7 +157,7 @@ public:
     // check if parameter with same name exists?
 
     const auto parameters =
-        Parameters::fromChecked(wolfsound::toVarArray(_parameters));
+        SerializedParameters::fromChecked(wolfsound::toVarArray(_parameters));
 
     if (!parameters.has_value()) {
       EDEN_ASSERT(false);
@@ -495,13 +497,13 @@ TEST(ProductionPresetsRepository, ScansUserAndFactoryPresetsUponStart) {
           .isFactory = false,
           .id = "user-preset-1",
       },
-      Parameters::fromChecked(juce::Array<juce::var>{}).value());
+      SerializedParameters::fromChecked(juce::Array<juce::var>{}).value());
   userPresetsDataSource->presetsToReturn.emplace_back(
       PresetMetadata{
           .isFactory = false,
           .id = "user-preset-2",
       },
-      Parameters::fromChecked(juce::Array<juce::var>{}).value());
+      SerializedParameters::fromChecked(juce::Array<juce::var>{}).value());
   ProductionPresetsRepository testee{factoryPresetsDataSource,
                                      std::move(userPresetsDataSource)};
 
@@ -532,7 +534,7 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
           .isFactory = false,
           .id = "user-preset-1",
       },
-      Parameters::fromChecked(
+      SerializedParameters::fromChecked(
           juce::Array{juce::JSON::fromString(R"({"id":"param1","value":10})")})
           .value()};
   {

@@ -3,10 +3,11 @@
 #include <JuceHeader.h>
 
 namespace eden::plugin {
-class Parameters {
+class SerializedParameters {
 public:
-  [[nodiscard]] static std::optional<Parameters> fromChecked(const juce::var&);
-  [[nodiscard]] static std::optional<Parameters> fromChecked(
+  [[nodiscard]] static std::optional<SerializedParameters> fromChecked(
+      const juce::var&);
+  [[nodiscard]] static std::optional<SerializedParameters> fromChecked(
       const juce::Array<juce::var>&);
 
   [[nodiscard]] const juce::var& toVar() const noexcept { return _impl; }
@@ -16,10 +17,10 @@ public:
   }
 
 private:
-  [[nodiscard]] static Parameters from(const juce::var&);
-  [[nodiscard]] static Parameters from(const juce::Array<juce::var>&);
+  [[nodiscard]] static SerializedParameters from(const juce::var&);
+  [[nodiscard]] static SerializedParameters from(const juce::Array<juce::var>&);
 
-  explicit Parameters(juce::var v) : _impl{std::move(v)} {}
+  explicit SerializedParameters(juce::var v) : _impl{std::move(v)} {}
 
   juce::var _impl;
 };

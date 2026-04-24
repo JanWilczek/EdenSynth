@@ -1,11 +1,11 @@
-#include <parameters/Parameters.h>
+#include "parameters/SerializedParameters.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <juce_core/juce_core.h>
 
 namespace eden::plugin {
-TEST(Parameters, FromVarChecked) {
-  const auto result = Parameters::fromChecked(juce::JSON::parse(R"-(
+TEST(SerializedParameters, FromVarChecked) {
+  const auto result = SerializedParameters::fromChecked(juce::JSON::parse(R"-(
 {
   "name": "Min (Factory Preset)",
   "parameters": [
@@ -32,7 +32,7 @@ TEST(Parameters, FromVarChecked) {
   EXPECT_TRUE(result.has_value());
 }
 
-TEST(Parameters, FromVarArrayChecked) {
+TEST(SerializedParameters, FromVarArrayChecked) {
   const auto array = juce::JSON::parse(R"-(
 [
   {
@@ -55,7 +55,7 @@ TEST(Parameters, FromVarArrayChecked) {
 )-");
   ASSERT_TRUE(array.isArray());
 
-  const auto result = Parameters::fromChecked(*array.getArray());
+  const auto result = SerializedParameters::fromChecked(*array.getArray());
 
   EXPECT_TRUE(result.has_value());
 }
