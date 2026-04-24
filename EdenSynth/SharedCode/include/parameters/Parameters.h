@@ -5,10 +5,6 @@
 namespace eden::plugin {
 class Parameters {
 public:
-  [[nodiscard]] static Parameters from(const juce::var&);
-
-  [[nodiscard]] static Parameters from(const juce::Array<juce::var>&);
-
   [[nodiscard]] static std::optional<Parameters> fromChecked(const juce::var&);
   [[nodiscard]] static std::optional<Parameters> fromChecked(
       const juce::Array<juce::var>&);
@@ -20,6 +16,9 @@ public:
   }
 
 private:
+  [[nodiscard]] static Parameters from(const juce::var&);
+  [[nodiscard]] static Parameters from(const juce::Array<juce::var>&);
+
   explicit Parameters(juce::var v) : _impl{std::move(v)} {}
 
   juce::var _impl;

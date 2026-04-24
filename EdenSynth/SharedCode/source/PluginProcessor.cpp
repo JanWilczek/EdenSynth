@@ -9,6 +9,7 @@
 
 #include "parameters/Parameters.h"
 #include <ranges>
+#include <utility/EdenAssert.h>
 
 //==============================================================================
 EdenSynthAudioProcessor::EdenSynthAudioProcessor(
@@ -35,8 +36,11 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
               .userPresetsPath = eden::plugin::FileHelper::userPresetsPath(),
               .getSerializedState =
                   [this]() {
-                    return eden::plugin::Parameters::from(
-                        wolfsound::toVarArray(_pluginParameters));
+                    const auto parameters =
+                        eden::plugin::Parameters::fromChecked(
+                            wolfsound::toVarArray(_pluginParameters));
+                    EDEN_ASSERT(parameters.has_value());
+                    return parameters.value();
                   },
               .setSerializedState =
                   [this](const eden::plugin::Parameters& p) {

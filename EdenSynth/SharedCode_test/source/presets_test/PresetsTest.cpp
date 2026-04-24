@@ -155,13 +155,19 @@ public:
     // check if parameter with same name exists?
 
     const auto parameters =
-        Parameters::from(wolfsound::toVarArray(_parameters));
+        Parameters::fromChecked(wolfsound::toVarArray(_parameters));
+
+    if (!parameters.has_value()) {
+      EDEN_ASSERT(false);
+      return false;
+    }
 
     // as this is a brand-new preset, create an ID for it
     // to overwrite existing presets use updatePreset()
     presetMetadata.id = juce::Uuid{}.toDashedString().toStdString();
 
-    _presetsRepository->savePreset(PresetV2{presetMetadata, parameters});
+    _presetsRepository->savePreset(
+        PresetV2{presetMetadata, parameters.value()});
 
     return true;
   }
@@ -489,13 +495,13 @@ TEST(ProductionPresetsRepository, ScansUserAndFactoryPresetsUponStart) {
           .isFactory = false,
           .id = "user-preset-1",
       },
-      Parameters::from(juce::Array<juce::var>{}));
+      Parameters::fromChecked(juce::Array<juce::var>{}).value());
   userPresetsDataSource->presetsToReturn.emplace_back(
       PresetMetadata{
           .isFactory = false,
           .id = "user-preset-2",
       },
-      Parameters::from(juce::Array<juce::var>{}));
+      Parameters::fromChecked(juce::Array<juce::var>{}).value());
   ProductionPresetsRepository testee{factoryPresetsDataSource,
                                      std::move(userPresetsDataSource)};
 
@@ -526,8 +532,9 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
           .isFactory = false,
           .id = "user-preset-1",
       },
-      Parameters::from(juce::Array{
-          juce::JSON::fromString(R"({"id":"param1","value":10})")})};
+      Parameters::fromChecked(
+          juce::Array{juce::JSON::fromString(R"({"id":"param1","value":10})")})
+          .value()};
   {
     FileUserPresetsDataSource testee{userPresetsPath()};
     testee.createPreset(presetToSave);
