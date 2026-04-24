@@ -3,7 +3,7 @@
 #include <functional>
 #include "../source/presets/Presets.h"
 #include "PresetManager.h"
-#include "parameters/SerializedParameters.h"
+#include <wolfsound/juce/wolfsound_SerializedParameters.hpp>
 #include <JuceHeader.h>
 
 namespace juce {
@@ -18,10 +18,9 @@ namespace eden::plugin {
 /// <summary>
 class ProductionPresetManager : public PresetManager {
 public:
-  using GetSerializedState =
-      std::function<eden::plugin::SerializedParameters()>;
+  using GetSerializedState = std::function<wolfsound::SerializedParameters()>;
   using SetSerializedState =
-      std::function<void(const eden::plugin::SerializedParameters&)>;
+      std::function<void(const wolfsound::SerializedParameters&)>;
 
   struct Args {
     /// <summary>

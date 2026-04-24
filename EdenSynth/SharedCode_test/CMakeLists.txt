@@ -9,7 +9,6 @@ set(SOURCES
     source/viewmodels_test/PresetsViewModelTest.cpp
     source/ProductionPresetManagerTest.cpp
     source/PluginProcessorTest.cpp
-    source/parameters_test/ParametersTest.cpp
     source/presets_test/PresetsTest.cpp
     source/TestUtils.cpp)
 

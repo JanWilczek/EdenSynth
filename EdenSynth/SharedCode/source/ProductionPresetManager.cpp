@@ -64,7 +64,7 @@ PresetLoadingResult ProductionPresetManager::loadPreset(
   const auto presetData = juce::JSON::parse(inputStream);
   // TODO: Validate correctness
 
-  const auto parameters = eden::plugin::SerializedParameters::from(presetData);
+  const auto parameters = wolfsound::SerializedParameters::from(presetData);
   EDEN_ASSERT(parameters.has_value());
   _setSerializedState(parameters.value());
 

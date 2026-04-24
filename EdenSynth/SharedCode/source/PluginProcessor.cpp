@@ -7,7 +7,7 @@
 #include "eden/MidiBuffer.h"
 #include "ProductionPresetManager.h"
 
-#include "parameters/SerializedParameters.h"
+#include <wolfsound/juce/wolfsound_SerializedParameters.hpp>
 #include <ranges>
 #include <utility/EdenAssert.h>
 
@@ -37,13 +37,13 @@ EdenSynthAudioProcessor::EdenSynthAudioProcessor(
               .getSerializedState =
                   [this]() {
                     const auto parameters =
-                        eden::plugin::SerializedParameters::from(
+                        wolfsound::SerializedParameters::from(
                             wolfsound::toVarArray(_pluginParameters));
                     EDEN_ASSERT(parameters.has_value());
                     return parameters.value();
                   },
               .setSerializedState =
-                  [this](const eden::plugin::SerializedParameters& p) {
+                  [this](const wolfsound::SerializedParameters& p) {
                     wolfsound::update(_pluginParameters, p.toVarArray());
                   },
           })} {
@@ -165,7 +165,7 @@ AudioProcessorEditor* EdenSynthAudioProcessor::createEditor() {
 
 //==============================================================================
 void EdenSynthAudioProcessor::getStateInformation(MemoryBlock& destData) {
-  const auto serializedParameters = eden::plugin::SerializedParameters::from(
+  const auto serializedParameters = wolfsound::SerializedParameters::from(
       wolfsound::toVarArray(_pluginParameters));
   if (serializedParameters.has_value()) {
     juce::MemoryOutputStream memory{destData, true};
@@ -179,7 +179,7 @@ void EdenSynthAudioProcessor::setStateInformation(const void* data,
                                       false};
   const auto deserializedParameters = juce::JSON::parse(inputStream);
   const auto parameters =
-      eden::plugin::SerializedParameters::from(deserializedParameters);
+      wolfsound::SerializedParameters::from(deserializedParameters);
   if (parameters.has_value()) {
     wolfsound::update(_pluginParameters, parameters->toVarArray());
   }
