@@ -76,12 +76,6 @@ public:
   virtual std::vector<PresetV2> presets() = 0;
 };
 
-template <class VisitorBase>
-void update(wolfsound::ParameterHolder<VisitorBase>& parameterHolder,
-            const wolfsound::SerializedParameters& parameters) {
-  update(parameterHolder, parameters.toVarArray());
-}
-
 class PluginProcessorWithPresets : public wolfsound::TestAudioProcessorBase {
 public:
   explicit PluginProcessorWithPresets(
@@ -112,7 +106,7 @@ public:
     if (const auto preset = _presetsRepository->findPreset(presetId)) {
       const auto parameters = preset->parameters();
       // TODO: Set all parameters to default values before updating
-      update(_parameters, parameters);
+      wolfsound::update(_parameters, parameters.toVarArray());
       // _currentPresetName = preset.name();
       // _isPresetModified = false; // should add an asterisk in UI if true
       return true;
