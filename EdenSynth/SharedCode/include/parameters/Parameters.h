@@ -5,8 +5,6 @@
 namespace eden::plugin {
 class Parameters {
 public:
-  [[nodiscard]] static Parameters from(juce::ValueTree);
-
   [[nodiscard]] static Parameters from(const juce::var&);
 
   [[nodiscard]] static Parameters from(const juce::Array<juce::var>&);
@@ -26,6 +24,4 @@ private:
 
   juce::var _impl;
 };
-
-void updateApvts(juce::AudioProcessorValueTreeState&, const Parameters&);
 }  // namespace eden::plugin
