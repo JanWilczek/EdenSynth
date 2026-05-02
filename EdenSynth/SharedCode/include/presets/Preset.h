@@ -20,6 +20,8 @@ using ParameterValue = std::variant<float, int, bool, std::string>;
 struct ParameterIdAndValue {
   std::string id;
   ParameterValue value;
+
+  auto operator<=>(const ParameterIdAndValue&) const = default;
 };
 
 using ParameterValues = std::vector<ParameterIdAndValue>;
@@ -115,11 +117,14 @@ public:
             juce::FromVar::convert<ParameterValues>(parameters.toVarArray())
                 .value()} {}
 
-  [[nodiscard]] wolfsound::SerializedParameters parameters() const {
-    return wolfsound::SerializedParameters::from(
-               *juce::ToVar::convert(_parameters).value().getArray())
-        .value();
+  [[nodiscard]] PresetData data() const noexcept {
+    return {.metadata = _metadata, .parameters = _parameters};
   }
+
+  [[nodiscard]] const ParameterValues& parameters() const noexcept {
+    return _parameters;
+  }
+
   [[nodiscard]] const std::string& name() const { return _metadata.name; }
   [[nodiscard]] bool isFactory() const noexcept { return _metadata.isFactory; }
   [[nodiscard]] const PresetId& id() const noexcept { return _metadata.id; }

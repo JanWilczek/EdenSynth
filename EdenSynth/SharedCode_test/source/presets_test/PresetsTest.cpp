@@ -7,6 +7,7 @@
 #include <wolfsound/common/wolfsound_WhenLeavingScopeExecute.hpp>
 #include "presets/Preset.h"
 #include "presets/PresetRepository.h"
+#include "parameters/ParameterHolderUtils.h"
 #include <PresetLoadingResult.h>
 #include <utility/EdenAssert.h>
 #include "../TestUtils.h"
@@ -72,7 +73,7 @@ public:
     if (const auto preset = _presetsRepository->findPreset(presetId)) {
       const auto parameters = preset->parameters();
       // TODO: Set all parameters to default values before updating
-      wolfsound::update(_parameters, parameters.toVarArray());
+      update(_parameters, parameters);
       // _currentPresetName = preset.name();
       // _isPresetModified = false; // should add an asterisk in UI if true
       return true;
@@ -173,17 +174,6 @@ private:
   std::filesystem::path _factoryPresetsPath;
 };
 
-namespace {
-/// <summary>
-/// Update o1 with all properties from o2
-/// </summary
-void merge(juce::DynamicObject& o1, const juce::DynamicObject& o2) {
-  for (const auto& property : o2.getProperties()) {
-    o1.setProperty(property.name, property.value);
-  }
-}
-}  // namespace
-
 class FileUserPresetsDataSource : public UserPresetsDataSource {
 public:
   static std::string filenameFrom(const std::string& presetName) {
@@ -242,19 +232,7 @@ public:
 
 private:
   static std::optional<juce::var> presetToJson(const PresetV2& preset) {
-    auto maybeJson = juce::ToVar::convert(preset.metadata());
-
-    if (!maybeJson.has_value()) {
-      return {};
-    }
-
-    auto& json = maybeJson.value();
-    const auto parametersVar = preset.parameters().toVar();
-    EDEN_ASSERT(json.isObject());
-    EDEN_ASSERT(parametersVar.isObject());
-    merge(*json.getDynamicObject(), *parametersVar.getDynamicObject());
-
-    return json;
+    return juce::ToVar::convert(preset.data());
   }
 
   std::filesystem::path _userPresetsPath;
@@ -479,12 +457,7 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
   EXPECT_EQ(presetToSave.name(), savedPreset.name());
   EXPECT_FALSE(savedPreset.isFactory());
 
-  const auto toSaveParameterArray = presetToSave.parameters().toVarArray();
-  const auto savedParameterArray = savedPreset.parameters().toVarArray();
-  // compare parameter arrays as strings, because DynamicObject comparison
-  // compares memory addresses
-  EXPECT_EQ(juce::JSON::toString(toSaveParameterArray),
-            juce::JSON::toString(savedParameterArray));
+  EXPECT_EQ(presetToSave.parameters(), savedPreset.parameters());
 }
 
 TEST(FileUserPresetsDataSource, SanitizesFilename) {
