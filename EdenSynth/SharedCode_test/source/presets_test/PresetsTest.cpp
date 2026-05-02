@@ -11,6 +11,20 @@
 #include <utility/EdenAssert.h>
 #include "../TestUtils.h"
 
+namespace eden::plugin {
+using ParameterValue = std::variant<float, int, bool, std::string>;
+
+struct ParameterIdAndValue {
+  std::string id;
+  ParameterValue value;
+};
+
+struct PresetData {
+  PresetMetadata metadata;
+  std::vector<ParameterIdAndValue> parameters;
+};
+}  // namespace eden::plugin
+
 // serialization
 template <>
 struct juce::SerialisationTraits<eden::plugin::PresetMetadata> {
@@ -29,6 +43,57 @@ struct juce::SerialisationTraits<eden::plugin::PresetMetadata> {
       metadata.presetVersion = archive.getVersion().value();
     }
     archive(named("id", metadata.id), named("name", metadata.name));
+  }
+};
+
+template <>
+struct juce::SerialisationTraits<eden::plugin::ParameterValue> {
+  static constexpr auto marshallingVersion = std::nullopt;
+
+  template <class Archive>
+  static void save(Archive& archive, const eden::plugin::ParameterValue& t) {
+    std::visit([&archive](auto&& value) { archive(value); }, t);
+  }
+
+  template <class Archive>
+  static void load(Archive& archive, eden::plugin::ParameterValue& t) {
+    juce::var v;
+    archive(v);
+    if (v.isString()) {
+      t = v.toString().toStdString();
+    } else if (v.isInt()) {
+      t = static_cast<int>(v);
+    } else if (v.isDouble()) {
+      t = static_cast<float>(v);
+    } else if (v.isBool()) {
+      t = static_cast<bool>(v);
+    }
+  }
+};
+
+template <>
+struct juce::SerialisationTraits<eden::plugin::ParameterIdAndValue> {
+  static constexpr auto marshallingVersion = std::nullopt;
+
+  template <class Archive, class T>
+  static void serialise(Archive& archive, T& t) {
+    archive(named("id", t.id), named("value", t.value));
+  }
+};
+
+template <>
+struct juce::SerialisationTraits<eden::plugin::PresetData> {
+  static constexpr auto marshallingVersion =
+      eden::plugin::PresetMetadata::currentPresetVersion;
+
+  template <class Archive, class T>
+  static void serialise(Archive& archive, T& t) {
+    if (!archive.getVersion().has_value()) {
+      return;
+    }
+
+    archive(t.metadata);
+    archive(named("parameters", t.parameters));
   }
 };
 
@@ -63,7 +128,6 @@ std::expected<PresetV2, PresetLoadingError> presetFrom(
   if (!parameters.has_value()) {
     return std::unexpected{PresetLoadingError::InvalidFile};
   }
-
   return PresetV2{presetMetadata.value(), parameters.value()};
 }
 }  // namespace
@@ -518,5 +582,18 @@ TEST(FileUserPresetsDataSource, SanitizesFilename) {
             FileUserPresetsDataSource::filenameFrom("User Preset 1"));
   EXPECT_EQ("user_preset%!$_2.json",
             FileUserPresetsDataSource::filenameFrom("User Preset%!@#$ 2"));
+}
+
+TEST(PresetSerialization, CanDeserializeJsonToPresetData) {
+  const auto presetData = juce::FromVar::convert<PresetData>(juce::JSON::parse(
+      juce::File{(factoryPresetsPath() / "min.json").string()}));
+  ASSERT_TRUE(presetData.has_value());
+  EXPECT_EQ("min-preset-id", presetData->metadata.id);
+  EXPECT_EQ("Min (Factory Preset)", presetData->metadata.name);
+  EXPECT_EQ(1, presetData->metadata.presetVersion);
+  const auto& parameters = presetData->parameters;
+  EXPECT_EQ(4u, parameters.size());
+  EXPECT_EQ("floatParam", parameters[0].id);
+  EXPECT_EQ(1.f, std::get<float>(parameters[0].value));
 }
 }  // namespace eden::plugin
