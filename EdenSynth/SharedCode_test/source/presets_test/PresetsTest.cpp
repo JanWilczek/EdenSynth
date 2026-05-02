@@ -208,8 +208,6 @@ public:
     file.create();
     juce::FileOutputStream outputStream{file};
     if (outputStream.openedOk()) {
-      outputStream.setPosition(0);
-      outputStream.truncate();
       juce::JSON::writeToStream(
           outputStream, json,
           juce::JSON::FormatOptions{}
