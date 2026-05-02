@@ -32,6 +32,13 @@ class PresetV2 {
 public:
   PresetV2(PresetMetadata metadata, wolfsound::SerializedParameters parameters)
       : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
+
+  PresetV2(PresetMetadata metadata, [[maybe_unused]] ParameterValues parameters)
+      : _metadata{std::move(metadata)},
+        _parameters{
+            wolfsound::SerializedParameters::from(juce::Array<juce::var>{})
+                .value()} {}
+
   [[nodiscard]] const wolfsound::SerializedParameters& parameters() const {
     return _parameters;
   }

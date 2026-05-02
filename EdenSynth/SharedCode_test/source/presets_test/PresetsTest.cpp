@@ -38,7 +38,7 @@ struct juce::SerialisationTraits<eden::plugin::ParameterValue> {
 
   template <class Archive>
   static void save(Archive& archive, const eden::plugin::ParameterValue& t) {
-    std::visit([&archive](auto&& value) { archive(value); }, t);
+    std::visit([&archive](const auto& value) { archive(value); }, t);
   }
 
   template <class Archive>
@@ -69,15 +69,11 @@ struct juce::SerialisationTraits<eden::plugin::ParameterIdAndValue> {
 
 template <>
 struct juce::SerialisationTraits<eden::plugin::PresetData> {
-  static constexpr auto marshallingVersion =
-      eden::plugin::PresetMetadata::currentPresetVersion;
+  // PresetMetadata handles preset version
+  static constexpr auto marshallingVersion = std::nullopt;
 
   template <class Archive, class T>
   static void serialise(Archive& archive, T& t) {
-    if (!archive.getVersion().has_value()) {
-      return;
-    }
-
     archive(t.metadata);
     archive(named("parameters", t.parameters));
   }
@@ -102,19 +98,15 @@ std::expected<PresetV2, PresetLoadingError> presetFrom(
   if (!inputStream.openedOk()) {
     return std::unexpected{PresetLoadingError::FailedToReadFile};
   }
-  const auto presetData = juce::JSON::parse(inputStream);
-  auto presetMetadata = juce::FromVar::convert<PresetMetadata>(presetData);
+  const auto presetJson = juce::JSON::parse(inputStream);
+  auto presetData = juce::FromVar::convert<PresetData>(presetJson);
 
-  if (!presetMetadata.has_value()) {
+  if (!presetData.has_value()) {
     return std::unexpected{PresetLoadingError::InvalidFile};
   }
-  presetMetadata->isFactory = isFactory;
+  presetData->metadata.isFactory = isFactory;
 
-  const auto parameters = wolfsound::SerializedParameters::from(presetData);
-  if (!parameters.has_value()) {
-    return std::unexpected{PresetLoadingError::InvalidFile};
-  }
-  return PresetV2{presetMetadata.value(), parameters.value()};
+  return PresetV2{presetData->metadata, presetData->parameters};
 }
 }  // namespace
 
