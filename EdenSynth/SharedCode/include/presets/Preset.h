@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <wolfsound/juce/wolfsound_SerializedParameters.hpp>
 #include <JuceHeader.h>
 
 namespace eden::plugin {
@@ -111,13 +110,7 @@ public:
   PresetV2(PresetMetadata metadata, ParameterValues parameters)
       : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
 
-  PresetV2(PresetMetadata metadata, wolfsound::SerializedParameters parameters)
-      : _metadata{std::move(metadata)},
-        _parameters{
-            juce::FromVar::convert<ParameterValues>(parameters.toVarArray())
-                .value()} {}
-
-  [[nodiscard]] PresetData data() const noexcept {
+  [[nodiscard]] PresetData data() const {
     return {.metadata = _metadata, .parameters = _parameters};
   }
 

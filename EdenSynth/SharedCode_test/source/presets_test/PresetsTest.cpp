@@ -82,25 +82,16 @@ public:
     return false;
   }
 
-  bool savePreset(PresetMetadata presetMetadata) {
+  void savePreset(PresetMetadata presetMetadata) {
     // check if parameter with same name exists?
 
-    const auto parameters = wolfsound::SerializedParameters::from(
-        wolfsound::toVarArray(_parameters));
-
-    if (!parameters.has_value()) {
-      EDEN_ASSERT(false);
-      return false;
-    }
+    const auto parameters = parameterIdsAndValues(_parameters);
 
     // as this is a brand-new preset, create an ID for it
     // to overwrite existing presets use updatePreset()
     presetMetadata.id = juce::Uuid{}.toDashedString().toStdString();
 
-    _presetsRepository->savePreset(
-        PresetV2{presetMetadata, parameters.value()});
-
-    return true;
+    _presetsRepository->savePreset(PresetV2{presetMetadata, parameters});
   }
 
   std::vector<PresetV2> presets() { return _presetsRepository->presets(); }
@@ -305,10 +296,10 @@ TEST(Presets, CanSavePreset) {
           emptyFactoryPresetsDataSource,
           std::make_unique<FakeUserPresetsDataSource>())};
 
-  ASSERT_TRUE(processor.savePreset(PresetMetadata{
+  processor.savePreset(PresetMetadata{
       .name = "default",
       .isFactory = false,
-  }));
+  });
 
   const auto presets = processor.presets();
 
@@ -325,8 +316,7 @@ TEST(Presets, CanLoadPreset) {
   processor.intParam = 5;
   processor.choiceParam = 0;
 
-  ASSERT_TRUE(
-      processor.savePreset(PresetMetadata{.name = "min", .isFactory = false}));
+  processor.savePreset(PresetMetadata{.name = "min", .isFactory = false});
 
   processor.floatParam = 10.f;
   processor.boolParam = true;
@@ -403,13 +393,13 @@ TEST(ProductionPresetsRepository, ScansUserAndFactoryPresetsUponStart) {
           .isFactory = false,
           .id = "user-preset-1",
       },
-      wolfsound::SerializedParameters::from(juce::Array<juce::var>{}).value());
+      ParameterValues{});
   userPresetsDataSource->presetsToReturn.emplace_back(
       PresetMetadata{
           .isFactory = false,
           .id = "user-preset-2",
       },
-      wolfsound::SerializedParameters::from(juce::Array<juce::var>{}).value());
+      ParameterValues{});
   ProductionPresetsRepository testee{factoryPresetsDataSource,
                                      std::move(userPresetsDataSource)};
 
@@ -434,15 +424,12 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
                   });
   }};
 
-  const PresetV2 presetToSave{
-      PresetMetadata{
-          .name = "User Preset 1",
-          .isFactory = false,
-          .id = "user-preset-1",
-      },
-      wolfsound::SerializedParameters::from(
-          juce::Array{juce::JSON::fromString(R"({"id":"param1","value":10})")})
-          .value()};
+  const PresetV2 presetToSave{PresetMetadata{
+                                  .name = "User Preset 1",
+                                  .isFactory = false,
+                                  .id = "user-preset-1",
+                              },
+                              {{.id = "param1", .value = 10}}};
   {
     FileUserPresetsDataSource testee{userPresetsPath()};
     testee.createPreset(presetToSave);
