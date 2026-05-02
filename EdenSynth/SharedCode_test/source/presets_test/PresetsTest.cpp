@@ -11,20 +11,6 @@
 #include <utility/EdenAssert.h>
 #include "../TestUtils.h"
 
-namespace eden::plugin {
-using ParameterValue = std::variant<float, int, bool, std::string>;
-
-struct ParameterIdAndValue {
-  std::string id;
-  ParameterValue value;
-};
-
-struct PresetData {
-  PresetMetadata metadata;
-  std::vector<ParameterIdAndValue> parameters;
-};
-}  // namespace eden::plugin
-
 // serialization
 template <>
 struct juce::SerialisationTraits<eden::plugin::PresetMetadata> {

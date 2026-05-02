@@ -14,6 +14,20 @@ struct PresetMetadata {
   int presetVersion = currentPresetVersion;
 };
 
+using ParameterValue = std::variant<float, int, bool, std::string>;
+
+struct ParameterIdAndValue {
+  std::string id;
+  ParameterValue value;
+};
+
+using ParameterValues = std::vector<ParameterIdAndValue>;
+
+struct PresetData {
+  PresetMetadata metadata;
+  ParameterValues parameters;
+};
+
 class PresetV2 {
 public:
   PresetV2(PresetMetadata metadata, wolfsound::SerializedParameters parameters)
