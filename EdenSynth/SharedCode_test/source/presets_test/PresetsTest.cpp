@@ -38,7 +38,7 @@ std::expected<PresetV2, PresetLoadingError> presetFrom(
   }
   presetData->metadata.isFactory = isFactory;
 
-  return PresetV2{presetData->metadata, presetData->parameters};
+  return PresetV2{std::move(presetData.value())};
 }
 }  // namespace
 

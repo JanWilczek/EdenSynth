@@ -101,6 +101,10 @@ struct juce::SerialisationTraits<eden::plugin::PresetData> {
 namespace eden::plugin {
 class PresetV2 {
 public:
+  explicit PresetV2(PresetData data)
+      : _metadata{std::move(data.metadata)},
+        _parameters{std::move(data.parameters)} {}
+
   PresetV2(PresetMetadata metadata, ParameterValues parameters)
       : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
 
