@@ -15,13 +15,14 @@
 namespace eden::plugin {
 namespace {
 class UpdatingParameterVisitor : public wolfsound::JuceParameterVisitor {
-  decltype(auto) findParameterWithId(const std::string& id) const noexcept {
+  [[nodiscard]] decltype(auto) findParameterWithId(
+      const std::string& id) const noexcept {
     return std::ranges::find_if(
         _parameters, [&](const ParameterIdAndValue& p) { return p.id == id; });
   }
 
 public:
-  UpdatingParameterVisitor(const ParameterValues& parameters)
+  explicit UpdatingParameterVisitor(const ParameterValues& parameters)
       : _parameters{parameters} {}
 
   void visit(AudioParameterBool& p) override { visitImpl<bool>(p); }
