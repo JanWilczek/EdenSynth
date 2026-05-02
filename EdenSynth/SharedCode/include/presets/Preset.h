@@ -10,7 +10,7 @@ struct PresetMetadata {
   static constexpr auto currentPresetVersion = 1;
 
   std::string name;
-  bool isFactory;
+  bool isFactory = false;
   PresetId id;
   int presetVersion = currentPresetVersion;
 };
