@@ -592,8 +592,14 @@ TEST(PresetSerialization, CanDeserializeJsonToPresetData) {
   EXPECT_EQ("Min (Factory Preset)", presetData->metadata.name);
   EXPECT_EQ(1, presetData->metadata.presetVersion);
   const auto& parameters = presetData->parameters;
-  EXPECT_EQ(4u, parameters.size());
+  ASSERT_EQ(4u, parameters.size());
   EXPECT_EQ("floatParam", parameters[0].id);
   EXPECT_EQ(1.f, std::get<float>(parameters[0].value));
+  EXPECT_EQ("boolParam", parameters[1].id);
+  EXPECT_FALSE(get<bool>(parameters[1].value));
+  EXPECT_EQ("intParam", parameters[2].id);
+  EXPECT_EQ(5, get<int>(parameters[2].value));
+  EXPECT_EQ("choiceParam", parameters[3].id);
+  EXPECT_EQ("choice 0", get<std::string>(parameters[3].value));
 }
 }  // namespace eden::plugin
