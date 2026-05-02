@@ -99,6 +99,7 @@ struct juce::SerialisationTraits<eden::plugin::PresetData> {
 };
 
 namespace eden::plugin {
+/** @brief Class representing an immutable preset */
 class PresetV2 {
 public:
   explicit PresetV2(PresetData data)
