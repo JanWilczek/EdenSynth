@@ -9,7 +9,7 @@
 #include "PresetSavingResult.h"
 #include "JuceHeader.h"
 #include "Visibility.h"
-#include "../source/presets/Preset.h"
+#include "../source/presets/PresetV1.h"
 #include "presets/Preset.h"
 
 namespace eden::plugin {

@@ -123,8 +123,8 @@ set(SOURCES
     source/OscillatorContainer.cpp
     source/PluginEditor.cpp
     source/PluginProcessor.cpp
-    source/presets/Preset.cpp
-    source/presets/Preset.h
+    source/presets/PresetV1.cpp
+    source/presets/PresetV1.h
     source/presets/Presets.cpp
     source/presets/Presets.h
     source/use_cases/GetPresetsUseCase.cpp
