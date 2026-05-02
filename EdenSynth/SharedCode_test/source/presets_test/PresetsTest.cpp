@@ -393,13 +393,13 @@ TEST(ProductionPresetsRepository, ScansUserAndFactoryPresetsUponStart) {
           .isFactory = false,
           .id = "user-preset-1",
       },
-      ParameterValues{});
+      ParameterIdAndValueContainer{});
   userPresetsDataSource->presetsToReturn.emplace_back(
       PresetMetadata{
           .isFactory = false,
           .id = "user-preset-2",
       },
-      ParameterValues{});
+      ParameterIdAndValueContainer{});
   ProductionPresetsRepository testee{factoryPresetsDataSource,
                                      std::move(userPresetsDataSource)};
 

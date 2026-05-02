@@ -23,11 +23,11 @@ struct ParameterIdAndValue {
   auto operator<=>(const ParameterIdAndValue&) const = default;
 };
 
-using ParameterValues = std::vector<ParameterIdAndValue>;
+using ParameterIdAndValueContainer = std::vector<ParameterIdAndValue>;
 
 struct PresetData {
   PresetMetadata metadata;
-  ParameterValues parameters;
+  ParameterIdAndValueContainer parameters;
 };
 }  // namespace eden::plugin
 
@@ -107,14 +107,15 @@ public:
       : _metadata{std::move(data.metadata)},
         _parameters{std::move(data.parameters)} {}
 
-  PresetV2(PresetMetadata metadata, ParameterValues parameters)
+  PresetV2(PresetMetadata metadata, ParameterIdAndValueContainer parameters)
       : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
 
   [[nodiscard]] PresetData data() const {
     return {.metadata = _metadata, .parameters = _parameters};
   }
 
-  [[nodiscard]] const ParameterValues& parameters() const noexcept {
+  [[nodiscard]] const ParameterIdAndValueContainer& parameters()
+      const noexcept {
     return _parameters;
   }
 
@@ -127,6 +128,6 @@ public:
 
 private:
   PresetMetadata _metadata;
-  ParameterValues _parameters;
+  ParameterIdAndValueContainer _parameters;
 };
 }  // namespace eden::plugin

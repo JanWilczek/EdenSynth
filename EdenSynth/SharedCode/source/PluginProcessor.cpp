@@ -176,7 +176,7 @@ void EdenSynthAudioProcessor::setStateInformation(const void* data,
   juce::MemoryInputStream inputStream{data, static_cast<size_t>(sizeInBytes),
                                       false};
   const auto deserializedParameters = juce::JSON::parse(inputStream);
-  const auto parameters = juce::FromVar::convert<ParameterValues>(
+  const auto parameters = juce::FromVar::convert<ParameterIdAndValueContainer>(
       deserializedParameters.hasProperty("parameters")
           ? deserializedParameters["parameters"]
           : deserializedParameters);

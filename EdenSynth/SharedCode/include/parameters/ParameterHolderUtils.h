@@ -11,7 +11,8 @@ class UpdatingParameterVisitor : public wolfsound::JuceParameterVisitor {
   }
 
 public:
-  explicit UpdatingParameterVisitor(const ParameterValues& parameters)
+  explicit UpdatingParameterVisitor(
+      const ParameterIdAndValueContainer& parameters)
       : _parameters{parameters} {}
 
   void visit(AudioParameterBool& p) override { visitImpl<bool>(p); }
@@ -46,13 +47,13 @@ private:
     }
   }
 
-  const ParameterValues& _parameters;
+  const ParameterIdAndValueContainer& _parameters;
 
   JUCE_DECLARE_NON_MOVEABLE(UpdatingParameterVisitor)
 };
 
 inline void update(wolfsound::JuceParameterHolder& ph,
-                   const ParameterValues& parameters) {
+                   const ParameterIdAndValueContainer& parameters) {
   UpdatingParameterVisitor visitor{parameters};
   ph.accept(visitor);
 }
@@ -77,7 +78,7 @@ public:
     visitImpl(parameter, parameter.getCurrentChoiceName().toStdString());
   }
 
-  [[nodiscard]] ParameterValues result() const { return _result; }
+  [[nodiscard]] ParameterIdAndValueContainer result() const { return _result; }
 
 private:
   template <class P, class V>
@@ -86,12 +87,12 @@ private:
                          std::forward<V>(value));
   }
 
-  ParameterValues _result;
+  ParameterIdAndValueContainer _result;
 
   JUCE_DECLARE_NON_MOVEABLE(ParameterValuesExtractor)
 };
 
-inline ParameterValues parameterIdsAndValues(
+inline ParameterIdAndValueContainer parameterIdsAndValues(
     wolfsound::JuceParameterHolder& ph) {
   ParameterValuesExtractor visitor;
   ph.accept(visitor);
