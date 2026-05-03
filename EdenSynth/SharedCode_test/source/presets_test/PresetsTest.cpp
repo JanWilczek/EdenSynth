@@ -165,6 +165,36 @@ private:
   std::filesystem::path _factoryPresetsPath;
 };
 
+template <class T>
+concept PresetSerializerType =
+    requires(const std::string& fileContent,
+             const PresetData& data,
+             const std::string& extension) {
+      { T::serialize(data) } -> std::convertible_to<std::string>;
+      {
+        T::deserialize(fileContent)
+      } -> std::convertible_to<std::optional<PresetData>>;
+    } &&
+    std::same_as<const std::string, decltype(T::extension)> &&
+    *std::begin(T::extension) == '.';
+
+struct JsonPresetSerializer {
+  static constexpr std::string extension = ".json";
+
+  static std::string serialize(const PresetData& data) {
+    juce::ignoreUnused(data);
+    return {};
+  }
+
+  static std::optional<PresetData> deserialize(const std::string& fileContent) {
+    juce::ignoreUnused(fileContent);
+    return {};
+  }
+};
+
+static_assert(PresetSerializerType<JsonPresetSerializer>);
+
+// template <PresetSerializerType PresetSerializer>
 class FileUserPresetsDataSource : public UserPresetsDataSource {
 public:
   static std::string filenameFrom(const std::string& presetName) {
