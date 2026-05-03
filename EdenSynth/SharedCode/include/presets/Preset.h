@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <concepts>
 #include <JuceHeader.h>
 
 namespace eden::plugin {
@@ -22,6 +23,8 @@ struct ParameterIdAndValue {
 
   auto operator<=>(const ParameterIdAndValue&) const = default;
 };
+
+static_assert(std::regular<ParameterIdAndValue>);
 
 using ParameterIdAndValueContainer = std::vector<ParameterIdAndValue>;
 
