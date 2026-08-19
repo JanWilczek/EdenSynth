@@ -158,7 +158,7 @@ bool EdenSynthAudioProcessor::hasEditor() const {
 }
 
 AudioProcessorEditor* EdenSynthAudioProcessor::createEditor() {
-  return new EdenSynthAudioProcessorEditor(*this, _edenAdapter);
+  return new EdenSynthAudioProcessorEditor(*this, _edenAdapter);  // NOLINT
 }
 
 //==============================================================================
@@ -195,5 +195,5 @@ const ParameterRefs& EdenSynthAudioProcessor::pluginParametersV2() {
 }  // namespace eden::plugin
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-  return new eden::plugin::EdenSynthAudioProcessor{};
+  return new eden::plugin::EdenSynthAudioProcessor{};  // NOLINT
 }
