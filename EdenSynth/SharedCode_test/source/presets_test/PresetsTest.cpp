@@ -112,10 +112,11 @@ class UserPresetsDataSource {
 public:
   virtual ~UserPresetsDataSource() = default;
   virtual std::vector<PresetV2> presets() = 0;
-  virtual void createPreset(const PresetV2& preset) = 0;
+  virtual void createPreset(const PresetV2&) = 0;
   //  void readPreset();
-  //  void updatePreset();
+  virtual void updatePreset(const PresetV2&) = 0;
   //  void deletePreset();
+  virtual bool contains(const PresetId&) = 0;
 };
 
 class FactoryPresetsDataSource {
@@ -249,6 +250,15 @@ public:
     }
   }
 
+  void updatePreset(const PresetV2&) override {
+    // TODO: Implement
+  }
+
+  bool contains(const PresetId&) override {
+    // TODO: Implement
+    return false;
+  }
+
 private:
   static std::optional<juce::var> presetToJson(const PresetV2& preset) {
     return juce::ToVar::convert(preset.data());
@@ -272,10 +282,12 @@ public:
   }
 
   std::optional<PresetV2> findPreset(const PresetId& presetId) override {
+    const auto currentPresets = presets();
     const auto presetIt = std::ranges::find_if(
-        _presets, [&](const auto& preset) { return preset.id() == presetId; });
+        currentPresets,
+        [&](const auto& preset) { return preset.id() == presetId; });
 
-    if (presetIt != _presets.end()) {
+    if (presetIt != currentPresets.end()) {
       return *presetIt;
     }
 
@@ -283,7 +295,15 @@ public:
   }
 
   void savePreset(PresetV2 preset) override {
-    _presets.push_back(std::move(preset));
+    if (_userPresetsDataSource->contains(preset.id())) {
+      // overwrite
+      _userPresetsDataSource->updatePreset(preset);
+    } else {
+      // optimistic update
+      _presets.push_back(std::move(preset));
+
+      _userPresetsDataSource->createPreset(_presets.back());
+    }
   }
 
   std::vector<PresetV2> presets() override {
@@ -312,6 +332,21 @@ public:
 
   void createPreset(const PresetV2& preset) override {
     juce::ignoreUnused(preset);
+  }
+
+  void updatePreset(const PresetV2& preset) override {
+    EDEN_ASSERT(contains(preset.id()));
+
+    const auto it = std::ranges::find_if(
+        presetsToReturn,
+        [&preset](const auto& p) { return preset.id() == p.id(); });
+
+    *it = preset;
+  }
+
+  bool contains(const PresetId& id) override {
+    return std::ranges::contains(
+        presetsToReturn, id, [](auto const& preset) { return preset.id(); });
   }
 
   std::vector<PresetV2> presetsToReturn;
@@ -440,6 +475,32 @@ TEST(ProductionPresetsRepository, ScansUserAndFactoryPresetsUponStart) {
   EXPECT_TRUE(
       std::ranges::contains(presets, "user-preset-2",
                             [](const auto& preset) { return preset.id(); }));
+}
+
+TEST(ProductionPresetsRepository, SavesAndLoadsNewPreset) {}
+
+TEST(ProductionPresetsRepository, UpdatesAndLoadsExistingPreset) {
+  FileFactoryPresetsDataSource factoryPresetsDataSource{factoryPresetsPath()};
+  auto userPresetsDataSource = std::make_unique<FakeUserPresetsDataSource>();
+  auto userPreset =
+      PresetV2{PresetMetadata{
+                   .isFactory = false,
+                   .id = "user-preset-1",
+               },
+               ParameterIdAndValueContainer{{.id = "parameter1", .value = 0}}};
+  userPresetsDataSource->presetsToReturn.push_back(userPreset);
+  ProductionPresetsRepository testee{factoryPresetsDataSource,
+                                     std::move(userPresetsDataSource)};
+
+  testee.savePreset(PresetV2{userPreset.metadata(),
+                             ParameterIdAndValueContainer{{
+                                 .id = userPreset.parameters().front().id,
+                                 .value = 1,
+                             }}});
+
+  const auto maybePreset = testee.findPreset("user-preset-1");
+  ASSERT_TRUE(maybePreset.has_value());
+  ASSERT_EQ(1, std::get<int>(maybePreset->parameters().front().value));
 }
 
 TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
