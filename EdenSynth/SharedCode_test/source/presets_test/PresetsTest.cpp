@@ -147,7 +147,7 @@ std::vector<PresetV2> scanDirectoryForPresets(const auto& directoryPath,
                                directory_iterator{}) |
          std::views::filter(isJson) | std::views::transform(toPreset) |
          std::views::filter(hasValue) | std::views::transform(toValue) |
-         std::ranges::to<std::vector<PresetV2>>();
+         std::ranges::to<std::vector>();
 }
 }  // namespace
 
