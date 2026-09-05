@@ -480,7 +480,6 @@ TEST(ProductionPresetsRepository, ScansUserAndFactoryPresetsUponStart) {
 TEST(ProductionPresetsRepository, SavesAndLoadsNewPreset) {}
 
 TEST(ProductionPresetsRepository, UpdatesAndLoadsExistingPreset) {
-  FileFactoryPresetsDataSource factoryPresetsDataSource{factoryPresetsPath()};
   auto userPresetsDataSource = std::make_unique<FakeUserPresetsDataSource>();
   auto userPreset =
       PresetV2{PresetMetadata{
@@ -489,7 +488,7 @@ TEST(ProductionPresetsRepository, UpdatesAndLoadsExistingPreset) {
                },
                ParameterIdAndValueContainer{{.id = "parameter1", .value = 0}}};
   userPresetsDataSource->presetsToReturn.push_back(userPreset);
-  ProductionPresetsRepository testee{factoryPresetsDataSource,
+  ProductionPresetsRepository testee{emptyFactoryPresetsDataSource,
                                      std::move(userPresetsDataSource)};
 
   testee.savePreset(PresetV2{userPreset.metadata(),
@@ -498,6 +497,7 @@ TEST(ProductionPresetsRepository, UpdatesAndLoadsExistingPreset) {
                                  .value = 1,
                              }}});
 
+  ASSERT_EQ(1u, testee.presets().size());
   const auto maybePreset = testee.findPreset("user-preset-1");
   ASSERT_TRUE(maybePreset.has_value());
   ASSERT_EQ(1, std::get<int>(maybePreset->parameters().front().value));
