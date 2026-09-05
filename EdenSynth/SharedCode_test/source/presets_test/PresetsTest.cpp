@@ -477,7 +477,23 @@ TEST(ProductionPresetsRepository, ScansUserAndFactoryPresetsUponStart) {
                             [](const auto& preset) { return preset.id(); }));
 }
 
-TEST(ProductionPresetsRepository, SavesAndLoadsNewPreset) {}
+TEST(ProductionPresetsRepository, SavesAndLoadsNewPreset) {
+  auto userPresetsDataSource = std::make_unique<FakeUserPresetsDataSource>();
+  ProductionPresetsRepository testee{emptyFactoryPresetsDataSource,
+                                     std::move(userPresetsDataSource)};
+
+  testee.savePreset(
+      PresetV2{PresetMetadata{
+                   .isFactory = false,
+                   .id = "user-preset-1",
+               },
+               ParameterIdAndValueContainer{{.id = "parameter1", .value = 0}}});
+
+  ASSERT_EQ(1u, testee.presets().size());
+  const auto maybePreset = testee.findPreset("user-preset-1");
+  ASSERT_TRUE(maybePreset.has_value());
+  ASSERT_EQ(0, std::get<int>(maybePreset->parameters().front().value));
+}
 
 TEST(ProductionPresetsRepository, UpdatesAndLoadsExistingPreset) {
   auto userPresetsDataSource = std::make_unique<FakeUserPresetsDataSource>();
