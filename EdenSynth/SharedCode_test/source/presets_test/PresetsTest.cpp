@@ -113,9 +113,8 @@ public:
   virtual ~UserPresetsDataSource() = default;
   virtual std::vector<PresetV2> presets() = 0;
   virtual void createPreset(const PresetV2&) = 0;
-  //  void readPreset();
   virtual void updatePreset(const PresetV2&) = 0;
-  //  void deletePreset();
+  virtual void deletePreset(const std::string& name) noexcept = 0;
   virtual bool contains(const PresetId&) = 0;
 };
 
@@ -246,6 +245,18 @@ public:
     saveOrOverwrite(preset, file);
   }
 
+  void deletePreset(const std::string& name) noexcept override {
+    EDEN_ASSERT(
+        std::filesystem::directory_iterator{} !=
+        std::ranges::find(std::filesystem::directory_iterator{_userPresetsPath},
+                          filenameFrom(name), [](const auto& dirEntry) {
+                            return dirEntry.path().filename().string();
+                          }));
+    std::error_code errorCode;
+    std::filesystem::remove(_userPresetsPath / filenameFrom(name), errorCode);
+    EDEN_ASSERT(!errorCode);
+  }
+
   [[nodiscard]] bool contains(const PresetId& presetId) noexcept override {
     return std::ranges::contains(
         presets() | std::views::transform(&PresetV2::id), presetId);
@@ -357,6 +368,8 @@ public:
     return std::ranges::contains(
         presetsToReturn, id, [](auto const& preset) { return preset.id(); });
   }
+
+  void deletePreset(const std::string&) noexcept override {}
 
   std::vector<PresetV2> presetsToReturn;
 };
@@ -560,6 +573,33 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
   EXPECT_FALSE(savedPreset.isFactory());
 
   EXPECT_EQ(presetToSave.parameters(), savedPreset.parameters());
+}
+
+TEST(FileUserPresetsDataSource, DeletesExistingPresetFromDisk) {
+  const wolfsound::WhenLeavingScopeExecute cleanup{[&] {
+    std::for_each(std::filesystem::directory_iterator{userPresetsPath()},
+                  std::filesystem::directory_iterator{}, [](const auto& entry) {
+                    if (entry.path().extension() == ".json") {
+                      EXPECT_TRUE(false);  // failure to remove the preset file
+                      std::filesystem::remove(entry.path());
+                    }
+                  });
+  }};
+
+  const PresetV2 presetToSave{PresetMetadata{
+                                  .name = "User Preset 1",
+                                  .isFactory = false,
+                                  .id = "user-preset-1",
+                              },
+                              {{.id = "param1", .value = 10}}};
+  {
+    FileUserPresetsDataSource testee{userPresetsPath()};
+    testee.createPreset(presetToSave);
+  }
+  FileUserPresetsDataSource testee{userPresetsPath()};
+  EXPECT_TRUE(testee.contains("user-preset-1"));
+
+  testee.deletePreset("User Preset 1");
 }
 
 TEST(FileUserPresetsDataSource, SanitizesFilename) {
