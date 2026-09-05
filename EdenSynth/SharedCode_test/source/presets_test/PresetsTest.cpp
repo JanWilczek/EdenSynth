@@ -254,7 +254,7 @@ public:
     // TODO: Implement
   }
 
-  bool contains(const PresetId& presetId) override {
+  [[nodiscard]] bool contains(const PresetId& presetId) noexcept override {
     return std::ranges::contains(
         presets() | std::views::transform(&PresetV2::id), presetId);
   }
