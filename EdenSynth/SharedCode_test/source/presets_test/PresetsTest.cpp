@@ -303,6 +303,10 @@ public:
     return presets;
   }
 
+  void deletePreset(const std::string& name) noexcept override {
+    _userPresetsDataSource->deletePreset(name);
+  }
+
 private:
   std::vector<PresetV2> _presets;
   std::unique_ptr<UserPresetsDataSource> _userPresetsDataSource;
