@@ -195,6 +195,11 @@ struct JsonPresetSerializer {
 
 static_assert(PresetSerializerType<JsonPresetSerializer>);
 
+///< summary>
+/// Preset file names are derived from preset names and must be unique.
+/// If the user tries to save a preset with a name that already exists,
+/// it should be rejected (ideally in the ViewModel).
+///</summary>
 // template <PresetSerializerType PresetSerializer>
 class FileUserPresetsDataSource : public UserPresetsDataSource {
 public:
@@ -220,7 +225,6 @@ public:
   /// Write given preset a a JSON to disk
   /// </summary>
   void createPreset(const PresetV2& preset) override {
-    // const auto safeFilename = findSafeFilename(safeFilename);
     const juce::File file{
         (_userPresetsPath / filenameFrom(preset.name())).string()};
 
@@ -230,6 +234,29 @@ public:
       return;
     }
 
+    saveOrOverwrite(preset, file);
+  }
+
+  void updatePreset(const PresetV2& preset) override {
+    const juce::File file{
+        (_userPresetsPath / filenameFrom(preset.name())).string()};
+
+    EDEN_ASSERT(file.existsAsFile());
+
+    saveOrOverwrite(preset, file);
+  }
+
+  [[nodiscard]] bool contains(const PresetId& presetId) noexcept override {
+    return std::ranges::contains(
+        presets() | std::views::transform(&PresetV2::id), presetId);
+  }
+
+private:
+  static std::optional<juce::var> presetToJson(const PresetV2& preset) {
+    return juce::ToVar::convert(preset.data());
+  }
+
+  static void saveOrOverwrite(const PresetV2& preset, const juce::File& file) {
     const auto maybeJson = presetToJson(preset);
     if (!maybeJson.has_value()) {
       return;
@@ -250,27 +277,9 @@ public:
     }
   }
 
-  void updatePreset(const PresetV2&) override {
-    // TODO: Implement
-  }
-
-  [[nodiscard]] bool contains(const PresetId& presetId) noexcept override {
-    return std::ranges::contains(
-        presets() | std::views::transform(&PresetV2::id), presetId);
-  }
-
-private:
-  static std::optional<juce::var> presetToJson(const PresetV2& preset) {
-    return juce::ToVar::convert(preset.data());
-  }
-
   std::filesystem::path _userPresetsPath;
 };
 
-// Which class should access the disk?
-// Which class should combine factory and user presets?
-// Or is the disk connection necessary? Maybe we can read the presets
-// on startup and that's it?
 class ProductionPresetsRepository : public PresetRepository {
 public:
   explicit ProductionPresetsRepository(
