@@ -113,6 +113,8 @@ public:
   PresetV2(PresetMetadata metadata, ParameterIdAndValueContainer parameters)
       : _metadata{std::move(metadata)}, _parameters{std::move(parameters)} {}
 
+  [[nodiscard]] int version() const noexcept { return _metadata.presetVersion; }
+
   [[nodiscard]] PresetData data() const {
     return {.metadata = _metadata, .parameters = _parameters};
   }

@@ -69,17 +69,14 @@ public:
         _parameters{std::move(builder).build(*this)},
         _presetsRepository{std::move(presetRepository)} {}
 
-  bool loadPreset(const PresetId& presetId) {
-    if (const auto preset = _presetsRepository->findPreset(presetId)) {
-      const auto parameters = preset->parameters();
-      // TODO: Set all parameters to default values before updating
-      update(_parameters, parameters);
-      // _currentPresetName = preset.name();
-      // _isPresetModified = false; // should add an asterisk in UI if true
-      return true;
-    }
+  void loadPreset(const PresetV2& preset) {
+    const auto& parameters = preset.parameters();
 
-    return false;
+    EDEN_ASSERT(1 == preset.version());  // no migrations needed
+    update(_parameters, parameters);
+
+    // _currentPresetName = preset.name();
+    // _isPresetModified = false; // should add an asterisk in UI if true
   }
 
   void savePreset(PresetMetadata presetMetadata) {
@@ -386,7 +383,7 @@ TEST(Presets, CanLoadPreset) {
   ASSERT_EQ(1u, presets.size());
   EXPECT_EQ("min", presets.front().name());
   EXPECT_FALSE(presets.front().id().empty());
-  EXPECT_TRUE(processor.loadPreset(presets.front().id()));
+  processor.loadPreset(presets.front());
 
   EXPECT_FLOAT_EQ(1.f, processor.floatParam.get());
   EXPECT_FALSE(processor.boolParam.get());
@@ -405,7 +402,7 @@ TEST(Presets, CannotLoadNonexistingPreset) {
   processor.intParam = 5;
   processor.choiceParam = 0;
 
-  EXPECT_FALSE(processor.loadPreset("min"));
+  processor.loadPreset(PresetV2{PresetMetadata{}, {}});
 
   EXPECT_FLOAT_EQ(1.f, processor.floatParam.get());
   EXPECT_FALSE(processor.boolParam.get());
@@ -435,7 +432,7 @@ TEST(Presets, CanLoadFactoryPresetUponStart) {
 
   ASSERT_EQ(1u, processor.presets().size());
   EXPECT_TRUE(processor.presets().front().isFactory());
-  EXPECT_TRUE(processor.loadPreset("min-preset-id"));
+  processor.loadPreset(processor.presets().front());
 
   EXPECT_FLOAT_EQ(1.f, processor.floatParam.get());
   EXPECT_FALSE(processor.boolParam.get());
