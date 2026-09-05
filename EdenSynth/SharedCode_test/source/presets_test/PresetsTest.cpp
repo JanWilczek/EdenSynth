@@ -254,9 +254,9 @@ public:
     // TODO: Implement
   }
 
-  bool contains(const PresetId&) override {
-    // TODO: Implement
-    return false;
+  bool contains(const PresetId& presetId) override {
+    return std::ranges::contains(
+        presets() | std::views::transform(&PresetV2::id), presetId);
   }
 
 private:
@@ -541,6 +541,7 @@ TEST(FileUserPresetsDataSource, SavesAndLoadsPresetsToDisk) {
   }
 
   FileUserPresetsDataSource testee{userPresetsPath()};
+  ASSERT_TRUE(testee.contains("user-preset-1"));
   const auto presets = testee.presets();
 
   ASSERT_EQ(1u, presets.size());
