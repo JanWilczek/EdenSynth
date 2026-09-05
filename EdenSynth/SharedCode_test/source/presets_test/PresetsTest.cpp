@@ -87,8 +87,18 @@ public:
     // as this is a brand-new preset, create an ID for it
     // to overwrite existing presets use updatePreset()
     presetMetadata.id = juce::Uuid{}.toDashedString().toStdString();
+    presetMetadata.isFactory = false;
 
     _presetsRepository->savePreset(PresetV2{presetMetadata, parameters});
+  }
+
+  void updatePreset(PresetMetadata presetMetadata) {
+    _presetsRepository->updatePreset(PresetV2{
+        std::move(presetMetadata), parameterIdsAndValues(_parameters)});
+  }
+
+  void renamePreset(const std::string& oldName, const std::string& newName) {
+    _presetsRepository->renamePreset(oldName, newName);
   }
 
   std::vector<PresetV2> presets() { return _presetsRepository->presets(); }
@@ -113,6 +123,9 @@ public:
   virtual void updatePreset(const PresetV2&) = 0;
   virtual void deletePreset(const std::string& name) noexcept = 0;
   virtual bool contains(const PresetId&) = 0;
+  virtual bool containsWithName(const std::string& name) noexcept = 0;
+  virtual void renamePreset(const std::string& oldName,
+                            const std::string& newName) noexcept = 0;
 };
 
 class FactoryPresetsDataSource {
@@ -213,12 +226,7 @@ public:
   }
 
   void deletePreset(const std::string& name) noexcept override {
-    EDEN_ASSERT(
-        std::filesystem::directory_iterator{} !=
-        std::ranges::find(std::filesystem::directory_iterator{_userPresetsPath},
-                          filenameFrom(name), [](const auto& dirEntry) {
-                            return dirEntry.path().filename().string();
-                          }));
+    EDEN_ASSERT(containsWithName(name));
     std::error_code errorCode;
     std::filesystem::remove(_userPresetsPath / filenameFrom(name), errorCode);
     EDEN_ASSERT(!errorCode);
@@ -227,6 +235,24 @@ public:
   [[nodiscard]] bool contains(const PresetId& presetId) noexcept override {
     return std::ranges::contains(
         presets() | std::views::transform(&PresetV2::id), presetId);
+  }
+
+  [[nodiscard]] bool containsWithName(
+      const std::string& name) noexcept override {
+    return std::filesystem::directory_iterator{} !=
+           std::ranges::find(
+               std::filesystem::directory_iterator{_userPresetsPath},
+               filenameFrom(name), [](const auto& dirEntry) {
+                 return dirEntry.path().filename().string();
+               });
+  }
+
+  void renamePreset(const std::string& oldName,
+                    const std::string& newName) noexcept override {
+    std::error_code errorCode;
+    std::filesystem::rename(_userPresetsPath / oldName,
+                            _userPresetsPath / newName, errorCode);
+    EDEN_ASSERT(!errorCode);
   }
 
 private:
@@ -263,7 +289,7 @@ public:
   explicit ProductionPresetsRepository(
       FactoryPresetsDataSource& factoryPresetsDataSource,
       std::unique_ptr<UserPresetsDataSource> userPresetsDataSource)
-      : _presets{factoryPresetsDataSource.presets()},
+      : _factoryPresets{factoryPresetsDataSource.presets()},
         _userPresetsDataSource{std::move(userPresetsDataSource)} {
     EDEN_ASSERT(_userPresetsDataSource != nullptr);
   }
@@ -282,21 +308,22 @@ public:
   }
 
   void savePreset(PresetV2 preset) override {
-    if (_userPresetsDataSource->contains(preset.id())) {
-      // overwrite
-      _userPresetsDataSource->updatePreset(preset);
-    } else {
-      // optimistic update
-      _presets.push_back(std::move(preset));
+    EDEN_ASSERT(!_userPresetsDataSource->contains(preset.id()));
 
-      _userPresetsDataSource->createPreset(_presets.back());
+    _userPresetsDataSource->createPreset(_factoryPresets.back());
+  }
+
+  void updatePreset(PresetV2 preset) override {
+    if (_userPresetsDataSource->containsWithName(preset.name())) {
+      _userPresetsDataSource->updatePreset(preset);
     }
   }
 
   std::vector<PresetV2> presets() override {
     auto presets = _userPresetsDataSource->presets();
-    presets.reserve(presets.size() + _presets.size());
-    presets.insert(presets.end(), _presets.begin(), _presets.end());
+    presets.reserve(presets.size() + _factoryPresets.size());
+    presets.insert(presets.end(), _factoryPresets.begin(),
+                   _factoryPresets.end());
     return presets;
   }
 
@@ -304,8 +331,13 @@ public:
     _userPresetsDataSource->deletePreset(name);
   }
 
+  void renamePreset(const std::string& oldName,
+                    const std::string& newName) noexcept override {
+    _userPresetsDataSource->renamePreset(oldName, newName);
+  }
+
 private:
-  std::vector<PresetV2> _presets;
+  std::vector<PresetV2> _factoryPresets;
   std::unique_ptr<UserPresetsDataSource> _userPresetsDataSource;
 };
 
@@ -340,7 +372,11 @@ public:
         presetsToReturn, id, [](auto const& preset) { return preset.id(); });
   }
 
+  bool containsWithName(const std::string&) noexcept override { return false; }
+
   void deletePreset(const std::string&) noexcept override {}
+
+  void renamePreset(const std::string&, const std::string&) noexcept override {}
 
   std::vector<PresetV2> presetsToReturn;
 };

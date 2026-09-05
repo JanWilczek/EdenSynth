@@ -15,7 +15,10 @@ public:
 
   virtual std::optional<PresetV2> findPreset(const PresetId& presetId) = 0;
   virtual void savePreset(PresetV2) = 0;
+  virtual void updatePreset(PresetV2) = 0;
   virtual std::vector<PresetV2> presets() = 0;
   virtual void deletePreset(const std::string& name) = 0;
+  virtual void renamePreset(const std::string& oldName,
+                            const std::string& newName) noexcept = 0;
 };
 }  // namespace eden::plugin
